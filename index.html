@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VecturaDB</title>
+<meta name="description" content="VecturaDB is an open-source vector database, compatible with the Chroma API.">
+<style>
+  :root { --fg: #1b1f24; --muted: #57606a; --bg: #ffffff; --code: #f3f4f6; --link: #0b5cad; }
+  @media (prefers-color-scheme: dark) {
+    :root { --fg: #e6e8eb; --muted: #9aa3ad; --bg: #111418; --code: #1c2128; --link: #6cb6ff; }
+  }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 2rem; margin: 0 0 4px; }
+  h2 { font-size: 1.25rem; margin: 32px 0 8px; }
+  p { margin: 8px 0; }
+  .lead { color: var(--muted); margin-bottom: 24px; }
+  a { color: var(--link); }
+  pre { background: var(--code); padding: 12px 14px; border-radius: 6px; overflow-x: auto; font-size: 14px; }
+  code { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; }
+  footer { margin-top: 48px; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>VecturaDB</h1>
+  <p class="lead">An open-source vector database, compatible with the Chroma API.</p>
+
+  <p>VecturaDB runs on a single node and serves the HTTP API of Chroma, so the Chroma clients connect to it.</p>
+  <p>VecturaDB is not affiliated with Chroma. It is built on <a href="https://github.com/chroma-core/chroma">Chroma</a>, the open-source database by Chroma and its contributors. The <a href="https://github.com/VecturaDB/VecturaDB">VecturaDB repository</a> keeps the full git history of Chroma and its Apache 2.0 license.</p>
+
+  <h2>Python</h2>
+  <pre><code>pip uninstall -y chromadb
+pip install VecturaDB</code></pre>
+  <p>The <code>VecturaDB</code> package replaces <code>chromadb</code>. The import name stays <code>chromadb</code>, so existing code runs as it is. The two packages install the same modules, so they cannot be installed side by side.</p>
+  <pre><code>import chromadb
+
+client = chromadb.HttpClient(host="localhost", port=8000)</code></pre>
+
+  <h2>Docker</h2>
+  <pre><code>docker run -p 8000:8000 -v ./data:/data ghcr.io/vecturadb/vecturadb</code></pre>
+  <p>Images for amd64 and arm64. The data lives in <code>/data</code>.</p>
+
+  <h2>Binaries</h2>
+  <p>Linux (x86_64 and arm64), macOS (x64 and arm64) and Windows (x64):</p>
+  <pre><code>curl -sSL https://raw.githubusercontent.com/VecturaDB/VecturaDB/main/rust/cli/install/install.sh | bash
+chroma run --path ./data</code></pre>
+  <p>On Windows, in PowerShell:</p>
+  <pre><code>iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/VecturaDB/VecturaDB/main/rust/cli/install/install.ps1'))</code></pre>
+  <p>Every binary is also in the <a href="https://github.com/VecturaDB/VecturaDB/releases">releases</a>.</p>
+
+  <h2>Telemetry</h2>
+  <p>Off by default. <code>ANONYMIZED_TELEMETRY=TRUE</code> turns on the anonymized telemetry inherited from Chroma, in the Python package only. The server binary sends none.</p>
+
+  <h2>License</h2>
+  <p>Apache License 2.0. The changes of VecturaDB are copyright of the VecturaDB contributors. Chroma's notices stay as they are: see <a href="https://github.com/VecturaDB/VecturaDB/blob/main/LICENSE">LICENSE</a> and <a href="https://github.com/VecturaDB/VecturaDB/blob/main/NOTICE">NOTICE</a>.</p>
+
+  <footer>
+    <a href="https://github.com/VecturaDB/VecturaDB">github.com/VecturaDB/VecturaDB</a>
+  </footer>
+</main>
+</body>
+</html>
