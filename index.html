@@ -14,7 +14,8 @@
   main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
   h1 { font-size: 2rem; margin: 0 0 4px; }
   h2 { font-size: 1.25rem; margin: 32px 0 8px; }
-  p { margin: 8px 0; }
+  h3 { font-size: 1.05rem; margin: 20px 0 6px; }
+  p, li { margin: 8px 0; }
   .lead { color: var(--muted); margin-bottom: 24px; }
   a { color: var(--link); }
   pre { background: var(--code); padding: 12px 14px; border-radius: 6px; overflow-x: auto; font-size: 14px; }
@@ -27,28 +28,51 @@
   <h1>VecturaDB</h1>
   <p class="lead">An open-source vector database, compatible with the Chroma API.</p>
 
-  <p>VecturaDB runs on a single node and serves the HTTP API of Chroma, so the Chroma clients connect to it.</p>
-  <p>VecturaDB is not affiliated with Chroma. It is built on <a href="https://github.com/chroma-core/chroma">Chroma</a>, the open-source database by Chroma and its contributors. The <a href="https://github.com/VecturaDB/VecturaDB">VecturaDB repository</a> keeps the full git history of Chroma and its Apache 2.0 license.</p>
+  <p>VecturaDB was forked from the open-source <a href="https://github.com/chroma-core/chroma">Chroma</a> project. It is not affiliated with Chroma.</p>
+  <p>VecturaDB is an open-source vector database, compatible with the Chroma API. The <a href="https://github.com/VecturaDB/VecturaDB">VecturaDB repository</a> keeps the full git history of Chroma and its Apache 2.0 license.</p>
+
+  <h2>Why VecturaDB</h2>
+  <p>Chroma Cloud is winding down: it stops accepting writes on 22 November 2026 and stops serving reads on 22 December 2026. Some features of Chroma exist only in Chroma Cloud and in its distributed version: sparse vectors, the BM25 index and hybrid search. VecturaDB brings them to the single-node database, the one that runs with Docker, as a server, or inside a Python application, so that they stay available to everyone, as open source.</p>
+  <p>Since 1.0.0-preview.1, sparse vectors, BM25 and the Search API, hybrid search included, work on the single node.</p>
+  <p>The releases are previews, <code>1.0.0-preview.N</code>, until VecturaDB has been proven in use; then comes <code>1.0.0</code>.</p>
 
   <h2>Python</h2>
   <pre><code>pip uninstall -y chromadb
 pip install VecturaDB</code></pre>
-  <p>The <code>VecturaDB</code> package replaces <code>chromadb</code>. The import name stays <code>chromadb</code>, so existing code runs as it is. The two packages install the same modules, so they cannot be installed side by side.</p>
+  <p>The <code>VecturaDB</code> package replaces <code>chromadb</code>. The import name stays <code>chromadb</code>, so existing code runs as it is.</p>
   <pre><code>import chromadb
 
 client = chromadb.HttpClient(host="localhost", port=8000)</code></pre>
+  <p>While only previews exist, <code>pip install VecturaDB</code> installs the newest preview. Once <code>1.0.0</code> is out, a preview needs <code>pip install --pre VecturaDB</code>.</p>
+
+  <h3>Packages that depend on chromadb</h3>
+  <p><code>VecturaDB</code> and <code>chromadb</code> install the same modules, so they cannot be installed side by side. Packages that declare a dependency on <code>chromadb</code>, such as <code>langchain-chroma</code>, make pip install <code>chromadb</code> too, and its files replace those of VecturaDB. Install those packages first and VecturaDB last:</p>
+  <pre><code>pip install langchain-chroma
+pip install --force-reinstall --no-deps VecturaDB</code></pre>
+  <ul>
+    <li>Run the last line again after any command that installs or upgrades <code>chromadb</code>.</li>
+    <li>Do not uninstall <code>chromadb</code> afterwards: it removes files that VecturaDB uses.</li>
+  </ul>
 
   <h2>Docker</h2>
-  <pre><code>docker run -p 8000:8000 -v ./data:/data ghcr.io/vecturadb/vecturadb</code></pre>
-  <p>Images for amd64 and arm64. The data lives in <code>/data</code>.</p>
+  <pre><code>docker run -p 8000:8000 -v ./data:/data ghcr.io/vecturadb/vecturadb:preview</code></pre>
+  <p>Images for amd64 and arm64. <code>preview</code> is the newest preview; every release also has its own tag, such as <code>1.0.0-preview.1</code>. The data lives in <code>/data</code>.</p>
 
-  <h2>Binaries</h2>
-  <p>Linux (x86_64 and arm64), macOS (x64 and arm64) and Windows (x64):</p>
+  <h2>CLI</h2>
+  <p>Linux (x86_64 and arm64) and macOS (x64 and arm64):</p>
   <pre><code>curl -sSL https://raw.githubusercontent.com/VecturaDB/VecturaDB/main/rust/cli/install/install.sh | bash
 chroma run --path ./data</code></pre>
-  <p>On Windows, in PowerShell:</p>
+  <p>Windows (x64), in PowerShell:</p>
   <pre><code>iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/VecturaDB/VecturaDB/main/rust/cli/install/install.ps1'))</code></pre>
-  <p>Every binary is also in the <a href="https://github.com/VecturaDB/VecturaDB/releases">releases</a>.</p>
+  <p>The scripts install the newest release, previews included. Every binary is also in the <a href="https://github.com/VecturaDB/VecturaDB/releases">releases</a>. The binary keeps the name <code>chroma</code>.</p>
+
+  <h2>Moving data out of Chroma Cloud</h2>
+  <p>The CLI copies collections from Chroma Cloud into a running VecturaDB:</p>
+  <pre><code>chroma login --api-key &lt;your Chroma Cloud API key&gt;
+chroma copy --from-cloud --to-local --host http://localhost:8000 --db &lt;database&gt; --all</code></pre>
+  <p>To copy only some collections, use <code>--collections &lt;name&gt;</code> once per collection instead of <code>--all</code>. The collections must not exist yet in VecturaDB.</p>
+  <p>The copy stops at the first collection it cannot create. The collections copied before it stay in VecturaDB: copy the rest with <code>--collections</code>. Collections whose metadata holds the legacy <code>hnsw:*</code> settings fail with <code>Cannot set both collection config and schema simultaneously</code>; Chroma gives the same error.</p>
+  <p>What arrives: every record with its document, metadata, embedding and URI, the metadata of the collection, and its schema, sparse and BM25 indexes included. Sparse and BM25 searches give the same scores as on Chroma Cloud. The settings of the dense index do not arrive: Chroma Cloud uses SPANN, VecturaDB uses HNSW with its default settings.</p>
 
   <h2>Telemetry</h2>
   <p>Off by default. <code>ANONYMIZED_TELEMETRY=TRUE</code> turns on the anonymized telemetry inherited from Chroma, in the Python package only. The server binary sends none.</p>
