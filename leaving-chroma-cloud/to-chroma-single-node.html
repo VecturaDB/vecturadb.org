@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Leaving Chroma Cloud: to Chroma 1.5.9, single node · VecturaDB</title>
-<meta name="description" content="Chroma 1.5.9 is the open-source Chroma server. It runs as one container, or inside a Python application. It keeps dense search, metadata filters and document filters. It has no sparse vectors, no BM25, no Search API and no collection fork.">
+<meta name="description" content="Chroma 1.5.9 is the open-source Chroma server. It runs as one container, inside a Python application, or, in .NET, inside your application with ChromaDotNet.Local. It keeps dense search, metadata filters and document filters. It has no sparse vectors, no BM25, no Search API and no collection fork.">
 <link rel="canonical" href="https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node">
 <meta property="og:title" content="Leaving Chroma Cloud: to Chroma 1.5.9, single node">
-<meta property="og:description" content="Chroma 1.5.9 is the open-source Chroma server. It runs as one container, or inside a Python application. It keeps dense search, metadata filters and document filters. It has no sparse vectors, no BM25, no Search API and no collection fork.">
+<meta property="og:description" content="Chroma 1.5.9 is the open-source Chroma server. It runs as one container, inside a Python application, or, in .NET, inside your application with ChromaDotNet.Local. It keeps dense search, metadata filters and document filters. It has no sparse vectors, no BM25, no Search API and no collection fork.">
 <!-- site-head -->
 <meta property="og:site_name" content="VecturaDB">
 <meta property="og:image" content="https://vecturadb.org/vecturadb-social-cloud-1280x640.png">
@@ -74,8 +74,8 @@
 <p><strong>Disclaimer.</strong> These guides and the scripts they link are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 25 October 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.</p>
 <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
 </div>
-<p>Chroma 1.5.9 is the open-source Chroma server. It runs as one container, or inside a Python application. It keeps dense search, metadata filters and document filters. It has no sparse vectors, no BM25, no Search API and no collection fork.</p>
-<p>VecturaDB, which wrote this guide, is not affiliated with Chroma. We ran every command below on 25 October 2026, against Chroma Cloud and against <code>chromadb/chroma:1.5.9</code>.</p>
+<p>Chroma 1.5.9 is the open-source Chroma server. It runs as one container, inside a Python application, or, in .NET, inside your application with ChromaDotNet.Local. It keeps dense search, metadata filters and document filters. It has no sparse vectors, no BM25, no Search API and no collection fork.</p>
+<p>VecturaDB and ChromaDotNet, who wrote this guide, are not affiliated with Chroma. We ran every command below on 25 October 2026, against Chroma Cloud and against <code>chromadb/chroma:1.5.9</code>.</p>
 <h2 id="1-start-chroma">1. Start Chroma</h2>
 <div class="hl"><pre tabindex="0"><span></span><code>docker<span class="w"> </span>network<span class="w"> </span>create<span class="w"> </span>chroma-net
 docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>chroma<span class="w"> </span>--network<span class="w"> </span>chroma-net<span class="w"> </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:8000:8000<span class="w"> </span>-v<span class="w"> </span>./chroma-data:/data<span class="w"> </span>chromadb/chroma:1.5.9
@@ -83,26 +83,23 @@ docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </sp
 
 <p>The image keeps its data in <code>/data</code>.</p>
 <h2 id="2-copy-the-data">2. Copy the data</h2>
-<p>The <code>chroma</code> CLI is inside the same image. It needs your Chroma Cloud API key and the name of your database.</p>
+<p>The copy runs with the <code>chroma</code> CLI of VecturaDB, from its image. It reads Chroma Cloud and writes into your Chroma 1.5.9 through its HTTP API, like any client. It needs your Chroma Cloud API key and the name of your database.</p>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">CHROMA_API_KEY</span><span class="o">=</span>&lt;your<span class="w"> </span>Chroma<span class="w"> </span>Cloud<span class="w"> </span>API<span class="w"> </span>key&gt;
-docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--network<span class="w"> </span>chroma-net<span class="w"> </span>-e<span class="w"> </span>CHROMA_API_KEY<span class="w"> </span>--entrypoint<span class="w"> </span>bash<span class="w"> </span>chromadb/chroma:1.5.9<span class="w"> </span>-c<span class="w"> </span><span class="se">\</span>
+docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--network<span class="w"> </span>chroma-net<span class="w"> </span>-e<span class="w"> </span>CHROMA_API_KEY<span class="w"> </span>--entrypoint<span class="w"> </span>bash<span class="w"> </span>ghcr.io/vecturadb/vecturadb:1.0.0-preview.3<span class="w"> </span>-c<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="s1">&#39;chroma login --api-key &quot;$CHROMA_API_KEY&quot; --profile cloud &amp;&amp;</span>
-<span class="s1">   chroma copy --from-cloud --to-local --host http://chroma:8000 --db &lt;database&gt; --collections &lt;name&gt; --collections &lt;name&gt;&#39;</span>
+<span class="s1">   chroma copy --from-cloud --to-local --host http://chroma:8000 --db &lt;database&gt; --all&#39;</span>
 </code></pre></div>
 
-<p>Repeat <code>--collections</code> once per collection. Two things the CLI does not tell you clearly:</p>
-<ul>
-<li><code>--all</code> does not work against Chroma Cloud with this CLI. It asks for 10000 collections in one call, and Chroma Cloud answers <code>422 Quota exceeded</code>. Our script <a href="https://github.com/VecturaDB/VecturaDB/blob/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/list_for_copy.py">list_for_copy.py</a> prints the <code>--collections</code> options for every collection of a database.</li>
-<li>The CLI exits with code 0 even when the copy fails. Read its output: each collection ends with <code>Copy Completed!</code> or with an error.</li>
-</ul>
+<p><code>--all</code> copies every collection of the database, one after the other. In our run it read all 19 collections of our test database. The CLI in the Chroma image does not get that far: it asks for 10000 collections in one call, and Chroma Cloud answers <code>422 Quota exceeded</code>.</p>
+<p>When every collection arrives, the CLI prints <code>Copy Completed!</code> and exits with code 0. At the first collection that fails it stops, prints the error and exits with code 1. To copy some collections only, use <code>--collections &lt;name&gt;</code>, once per collection, instead of <code>--all</code>. Our script <a href="https://github.com/VecturaDB/VecturaDB/blob/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/list_for_copy.py">list_for_copy.py</a> prints those options for every collection of a database.</p>
 <p>What arrives: every record, with its document, metadata, embedding and URI, and the metadata of the collection. The settings of the dense index do not arrive: Chroma Cloud uses SPANN, Chroma 1.5.9 uses HNSW with its default settings.</p>
 <h3 id="collections-the-cli-cannot-copy">Collections the CLI cannot copy</h3>
-<p>Two kinds of collections fail:</p>
+<p>Two kinds of collections fail, with the CLI of VecturaDB as with the CLI of Chroma:</p>
 <ul>
 <li>collections with a sparse vector index or a BM25 index: <code>Sparse vector indexing is not enabled in local</code>;</li>
 <li>collections created with the old <code>hnsw:*</code> settings in their metadata: <code>Cannot set both collection config and schema simultaneously</code>.</li>
 </ul>
-<p>A collection that fails stops the copy. Copy those collections with our script <a href="https://github.com/VecturaDB/VecturaDB/blob/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/copy_without_sparse.py">copy_without_sparse.py</a> instead:</p>
+<p>Copy the other collections with <code>--collections</code>, and these with our script <a href="https://github.com/VecturaDB/VecturaDB/blob/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/copy_without_sparse.py">copy_without_sparse.py</a>:</p>
 <div class="hl"><pre tabindex="0"><span></span><code>curl<span class="w"> </span>-O<span class="w"> </span>https://raw.githubusercontent.com/VecturaDB/VecturaDB/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/copy_without_sparse.py
 pip<span class="w"> </span>install<span class="w"> </span><span class="nv">chromadb</span><span class="o">==</span><span class="m">1</span>.5.9
 <span class="nb">export</span><span class="w"> </span><span class="nv">CHROMA_API_KEY</span><span class="o">=</span>&lt;key&gt;<span class="w"> </span><span class="nv">CHROMA_TENANT</span><span class="o">=</span>&lt;tenant&gt;<span class="w"> </span><span class="nv">CHROMA_DATABASE</span><span class="o">=</span>&lt;database&gt;
@@ -110,11 +107,12 @@ python<span class="w"> </span>copy_without_sparse.py<span class="w"> </span><spa
 </code></pre></div>
 
 <p>It copies the records, documents, metadata, embeddings and URIs into a collection with the same name, metadata and distance. Chroma 1.5.9 cannot store sparse vectors at all, not even as plain metadata. So the script writes them to <code>&lt;name&gt;.sparse.jsonl</code>, one line per record, and they are not lost.</p>
-<p>On Chroma 1.5.9 those collections lose their sparse and BM25 search. Dense search, filters and the documents stay.</p>
+<p>On Chroma 1.5.9 those collections lose their sparse and BM25 search. Dense search, filters and the documents stay. If you need them, see <a href="to-vecturadb">To VecturaDB</a>: the same copy keeps them.</p>
 <h2 id="3-switch-the-client">3. Switch the client</h2>
 <p>Only the line that creates the client changes. The collections are in the default tenant and database of the server.</p>
 <p>The examples use <code>127.0.0.1</code>. With Docker Desktop on Windows, <code>localhost</code> went to the IPv6 port of the container, which closed the connection; <code>127.0.0.1</code> worked everywhere.</p>
-<p><strong>Python</strong> (<code>chromadb</code> 1.5.9):</p>
+<h3 id="python">Python</h3>
+<p><code>chromadb</code> 1.5.9:</p>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">chromadb</span>
 
 <span class="c1"># Before:</span>
@@ -122,7 +120,8 @@ python<span class="w"> </span>copy_without_sparse.py<span class="w"> </span><spa
 <span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
 </code></pre></div>
 
-<p><strong>JavaScript</strong> (<code>chromadb</code> 3.5.0 on npm):</p>
+<h3 id="javascript">JavaScript</h3>
+<p><code>chromadb</code> 3.5.0 on npm:</p>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">ChromaClient</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;chromadb&quot;</span><span class="p">;</span>
 
 <span class="c1">// Before:</span>
@@ -130,7 +129,8 @@ python<span class="w"> </span>copy_without_sparse.py<span class="w"> </span><spa
 <span class="kd">const</span><span class="w"> </span><span class="nx">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">ChromaClient</span><span class="p">({</span><span class="w"> </span><span class="nx">host</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">port</span><span class="o">:</span><span class="w"> </span><span class="mf">8000</span><span class="p">,</span><span class="w"> </span><span class="nx">ssl</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">});</span>
 </code></pre></div>
 
-<p><strong>.NET</strong> (ChromaDotNet.Client 2.18.0):</p>
+<h3 id="net">.NET</h3>
+<p><a href="https://chromadotnet.org/libraries/client/">ChromaDotNet.Client</a> 2.18.0:</p>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">ChromaDB.Client</span><span class="p">;</span>
 
 <span class="c1">// Before:</span>
@@ -141,7 +141,37 @@ python<span class="w"> </span>copy_without_sparse.py<span class="w"> </span><spa
 </code></pre></div>
 
 <p>With each of the three clients, the same query on the same copied collection gave the same records on Chroma Cloud and on Chroma 1.5.9.</p>
-<p>Chroma 1.5.9 has no API keys: the server accepts every request. Keep it on a private network, or behind a proxy that checks a key.</p>
+<h3 id="net-without-docker">.NET without Docker</h3>
+<p><a href="https://chromadotnet.org/libraries/local/">ChromaDotNet.Local</a> starts Chroma 1.5.9 inside your .NET application, without Docker. It opens a folder that <code>chromadb/chroma:1.5.9</code> wrote: in our run it found the collection, its metadata and its records, and answered a query with the same records.</p>
+<div class="hl"><pre tabindex="0"><span></span><code>dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w"> </span>ChromaDotNet.Local.ChromaDB<span class="w"> </span>--prerelease
+</code></pre></div>
+
+<div class="hl"><pre tabindex="0"><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">ChromaDotNet.Local</span><span class="p">;</span>
+
+<span class="c1">// The folder of step 1, after the copy. Stop the container first.</span>
+<span class="k">await</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="nn">var</span><span class="w"> </span><span class="n">chroma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">ChromaLocalServer</span><span class="p">.</span><span class="n">StartAsync</span><span class="p">(</span><span class="k">new</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">DataPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;./chroma-data&quot;</span><span class="w"> </span><span class="p">});</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">var</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chroma</span><span class="p">.</span><span class="n">CreateClient</span><span class="p">();</span>
+</code></pre></div>
+
+<p>The copy itself still needs the containers of steps 1 and 2. Once the folder is filled, the application needs neither Docker nor Python.</p>
+<h3 id="aspire">Aspire</h3>
+<p>For development, <a href="https://chromadotnet.org/libraries/aspire/">ChromaDotNet.Aspire</a> 0.2.8 runs <code>chromadb/chroma:1.5.9</code> for the AppHost, and the service gets its client from the reference:</p>
+<div class="hl"><pre tabindex="0"><span></span><code><span class="c1">// AppHost</span>
+<span class="kt">var</span><span class="w"> </span><span class="n">chroma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">builder</span><span class="p">.</span><span class="n">AddChroma</span><span class="p">(</span><span class="s">&quot;chroma&quot;</span><span class="p">).</span><span class="n">WithDataVolume</span><span class="p">();</span>
+<span class="n">builder</span><span class="p">.</span><span class="n">AddProject</span><span class="o">&lt;</span><span class="n">Projects</span><span class="p">.</span><span class="n">ApiService</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;api&quot;</span><span class="p">).</span><span class="n">WithReference</span><span class="p">(</span><span class="n">chroma</span><span class="p">).</span><span class="n">WaitFor</span><span class="p">(</span><span class="n">chroma</span><span class="p">);</span>
+
+<span class="c1">// Service</span>
+<span class="n">builder</span><span class="p">.</span><span class="n">AddChromaClient</span><span class="p">(</span><span class="s">&quot;chroma&quot;</span><span class="p">);</span>
+</code></pre></div>
+
+<h3 id="testcontainers">Testcontainers</h3>
+<p>For tests, <a href="https://chromadotnet.org/libraries/testcontainers/">ChromaDotNet.Testcontainers</a> 0.1.7 starts the same image:</p>
+<div class="hl"><pre tabindex="0"><span></span><code><span class="k">await</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="nn">var</span><span class="w"> </span><span class="n">chroma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ChromaBuilder</span><span class="p">(</span><span class="s">&quot;chromadb/chroma:1.5.9&quot;</span><span class="p">).</span><span class="n">Build</span><span class="p">();</span>
+<span class="k">await</span><span class="w"> </span><span class="n">chroma</span><span class="p">.</span><span class="n">StartAsync</span><span class="p">();</span>
+</code></pre></div>
+
+<h3 id="the-api-keys">The API keys</h3>
+<p>Chroma 1.5.9 has no API keys: the server accepts every request. Keep it on a private network, or behind a proxy that checks a key. <a href="to-vecturadb">VecturaDB</a> checks keys as Chroma Cloud did.</p>
 <h2 id="4-hosted-embedding-models">4. Hosted embedding models</h2>
 <p><code>chroma-cloud-qwen</code> and <code>chroma-cloud-splade</code> run on Chroma Cloud and stop with it. See <a href="hosted-embedding-models">Hosted embedding models</a>: the same open models, run locally, gave the same search results in our tests.</p>
 <p>On Chroma 1.5.9 only the dense model matters: SPLADE vectors are sparse, and Chroma 1.5.9 cannot search them.</p>

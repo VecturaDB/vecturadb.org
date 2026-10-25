@@ -74,15 +74,16 @@
 <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
 </div>
 <p>Chroma Cloud stops accepting writes on 22 November 2026. It stops serving reads on 22 December 2026.</p>
-<p>This page compares three places to move your data to:</p>
+<p>These guides take you from Chroma Cloud to the place you choose, with tools we build and test for that move:</p>
 <ul>
-<li><strong>Chroma 1.5.9</strong>, the open-source single-node server;</li>
-<li><strong>Chroma distributed</strong>, the open-source multi-service deployment, run on Kubernetes;</li>
-<li><strong>VecturaDB 1.0.0-preview.3</strong>, a single-node server built from Chroma, with Chroma Cloud's sparse vectors, BM25, hybrid search, collection fork and API keys.</li>
+<li>the <code>chroma</code> CLI of VecturaDB, which copies your collections out of Chroma Cloud;</li>
+<li><code>verify.py</code>, which compares every copied collection with Chroma Cloud;</li>
+<li>for .NET, the ChromaDotNet libraries: client, Local, Aspire and Testcontainers;</li>
+<li>for Docker, Python and JavaScript, VecturaDB itself, when you need what only Chroma Cloud had.</li>
 </ul>
-<p>VecturaDB is our project. It is not affiliated with Chroma. Chroma itself is a first-class destination here, and for many users it is the right one.</p>
+<p>VecturaDB and ChromaDotNet are our projects. They are not affiliated with Chroma. Chroma itself is a first-class destination here, and for many users it is the right one.</p>
 <p>We ran every command and every line of code in these guides against Chroma Cloud and against the destination before writing it. The numbers come from those runs.</p>
-<h2 id="which-one">Which one</h2>
+<h2 id="where-you-go">Where you go</h2>
 <p><strong>If you use only dense search, with metadata filters and document filters, Chroma 1.5.9 is enough.</strong> It is one container or one Python package, and it holds every record that Chroma Cloud gives back.</p>
 <p>If you use sparse vectors, BM25, the Search API or hybrid search, the single-node Chroma 1.5.9 cannot hold those collections: you need Chroma distributed or VecturaDB.</p>
 <div class="table" tabindex="0"><table>
@@ -144,10 +145,10 @@
 <td>Yes</td>
 </tr>
 <tr>
-<td><code>chroma copy</code> from Chroma Cloud</td>
-<td>Dense collections yes; collections with a sparse or BM25 index no</td>
-<td>Yes, everything, SPANN settings included</td>
-<td>Yes; dense index settings become HNSW defaults</td>
+<td>Copy from Chroma Cloud</td>
+<td>Dense collections, with the CLI of VecturaDB; the others with our script</td>
+<td>Every collection, SPANN settings included</td>
+<td>Every collection, with the CLI of VecturaDB; dense index settings become HNSW defaults</td>
 </tr>
 <tr>
 <td>Embedding models hosted by Chroma Cloud</td>
@@ -163,9 +164,9 @@
 </tr>
 <tr>
 <td>What you run</td>
-<td>One container, or <code>pip install chromadb</code></td>
+<td>One container, or <code>pip install chromadb</code>; in .NET, also ChromaDotNet.Local</td>
 <td>Kubernetes, several services, object storage and a SQL database</td>
-<td>One container, or <code>pip install VecturaDB</code></td>
+<td>One container, the <code>chroma</code> CLI, or <code>pip install VecturaDB</code></td>
 </tr>
 </tbody>
 </table></div>
@@ -177,6 +178,50 @@
 <p>"The system catalog is backed by a SQL database."</p>
 </blockquote>
 <p>Source: <a href="https://docs.trychroma.com/reference/architecture/distributed">Distributed Chroma, Chroma documentation</a>.</p>
+<h2 id="where-you-start-from">Where you start from</h2>
+<div class="table" tabindex="0"><table>
+<thead>
+<tr>
+<th>You use</th>
+<th>To Chroma 1.5.9</th>
+<th>To Chroma distributed</th>
+<th>To VecturaDB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.NET</td>
+<td><a href="to-chroma-single-node#net">ChromaDotNet.Client</a>; <a href="to-chroma-single-node#net-without-docker">ChromaDotNet.Local, without Docker</a>; <a href="to-chroma-single-node#aspire">Aspire</a>; <a href="to-chroma-single-node#testcontainers">Testcontainers</a></td>
+<td><a href="to-chroma-distributed#3-switch-the-client">ChromaDotNet.Client</a></td>
+<td><a href="to-vecturadb#net">ChromaDotNet.Client</a>; <a href="to-vecturadb#aspire">Aspire</a>; <a href="to-vecturadb#testcontainers">Testcontainers</a></td>
+</tr>
+<tr>
+<td>Python</td>
+<td><a href="to-chroma-single-node#python"><code>chromadb</code></a></td>
+<td><a href="to-chroma-distributed#3-switch-the-client"><code>chromadb</code></a></td>
+<td><a href="to-vecturadb#python"><code>pip install VecturaDB</code></a>, also without a server</td>
+</tr>
+<tr>
+<td>JavaScript and TypeScript</td>
+<td><a href="to-chroma-single-node#javascript"><code>chromadb</code> on npm</a></td>
+<td><a href="to-chroma-distributed#3-switch-the-client"><code>chromadb</code> on npm</a></td>
+<td><a href="to-vecturadb#javascript"><code>chromadb</code> on npm, with VecturaDB as the server</a></td>
+</tr>
+<tr>
+<td>Another language</td>
+<td>your Chroma client, unchanged</td>
+<td>your Chroma client, unchanged</td>
+<td><a href="to-vecturadb#other-languages">the clients we tested</a></td>
+</tr>
+<tr>
+<td>Docker</td>
+<td><a href="to-chroma-single-node#1-start-chroma"><code>chromadb/chroma:1.5.9</code></a></td>
+<td></td>
+<td><a href="to-vecturadb#1-start-vecturadb"><code>ghcr.io/vecturadb/vecturadb</code></a></td>
+</tr>
+</tbody>
+</table></div>
+<p>On every path you copy with the CLI of VecturaDB and check with <code>verify.py</code>. The guide to Chroma distributed still copies with the CLI of Chroma: we have not yet run the CLI of VecturaDB against a distributed cluster.</p>
 <h2 id="the-guides">The guides</h2>
 <p>Each guide has the same five steps: start the destination (or, for Chroma distributed, reach it), copy the data, switch the client, replace the hosted embedding models, check the result.</p>
 <ul>
