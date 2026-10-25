@@ -75,6 +75,12 @@
 <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
 </div>
 <p>Chroma Cloud stops accepting writes on 22 November 2026. It stops serving reads on 22 December 2026.</p>
+<p><strong>In our tests no data was lost.</strong> On each of the three destinations every record arrived with its document, metadata, embedding and URI, and <code>verify.py</code> found every record the same as on Chroma Cloud. What depends on the destination:</p>
+<ul>
+<li>the settings of the dense index arrive only on Chroma distributed: Chroma 1.5.9 and VecturaDB use HNSW with its default settings, where Chroma Cloud uses SPANN;</li>
+<li>Chroma 1.5.9 cannot hold sparse vectors: our script copies everything else and keeps the sparse vectors in a file, one line per record;</li>
+<li>collections created with the old <code>hnsw:*</code> settings in their metadata stop the CLI on every destination, and need our script.</li>
+</ul>
 <p>These guides take you from Chroma Cloud to the place you choose, with tools we build and test for that move:</p>
 <ul>
 <li>the <code>chroma</code> CLI of VecturaDB, which copies your collections out of Chroma Cloud;</li>

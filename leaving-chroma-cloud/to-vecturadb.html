@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Leaving Chroma Cloud: to VecturaDB · VecturaDB</title>
-<meta name="description" content="VecturaDB is a single-node server built from Chroma. It serves the Chroma API, and it has sparse vectors, BM25, the Search API, hybrid search and collection fork on a single node. It runs as one container, as a binary, or inside a Python application. Your Chroma clients keep working with it, in Python, JavaScript, .NET and the other languages we tested.">
+<meta name="description" content="In our tests no data was lost. The CLI of VecturaDB copied every record with its document, metadata, embedding and URI, and every collection with its metadata, its schema and its sparse and BM25 indexes. Then verify.py found every record the same as on Chroma Cloud, sparse vectors included. Two things do not arrive as they are:">
 <link rel="canonical" href="https://vecturadb.org/leaving-chroma-cloud/to-vecturadb">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://vecturadb.org/leaving-chroma-cloud/to-vecturadb">
 <meta property="og:title" content="Leaving Chroma Cloud: to VecturaDB">
-<meta property="og:description" content="VecturaDB is a single-node server built from Chroma. It serves the Chroma API, and it has sparse vectors, BM25, the Search API, hybrid search and collection fork on a single node. It runs as one container, as a binary, or inside a Python application. Your Chroma clients keep working with it, in Python, JavaScript, .NET and the other languages we tested.">
+<meta property="og:description" content="In our tests no data was lost. The CLI of VecturaDB copied every record with its document, metadata, embedding and URI, and every collection with its metadata, its schema and its sparse and BM25 indexes. Then verify.py found every record the same as on Chroma Cloud, sparse vectors included. Two things do not arrive as they are:">
 <!-- site-head -->
 <meta property="og:site_name" content="VecturaDB">
 <meta property="og:image" content="https://vecturadb.org/vecturadb-social-cloud-1280x640.png">
@@ -75,6 +75,11 @@
 <p><strong>Disclaimer.</strong> These guides and the scripts they link are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 25 October 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.</p>
 <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
 </div>
+<p><strong>In our tests no data was lost.</strong> The CLI of VecturaDB copied every record with its document, metadata, embedding and URI, and every collection with its metadata, its schema and its sparse and BM25 indexes. Then <code>verify.py</code> found every record the same as on Chroma Cloud, sparse vectors included. Two things do not arrive as they are:</p>
+<ul>
+<li>the settings of the dense index: Chroma Cloud uses SPANN, VecturaDB uses HNSW with its default settings;</li>
+<li>collections created with the old <code>hnsw:*</code> settings in their metadata: the CLI stops on them, and they need our script. See <a href="#what-arrives">What arrives</a>.</li>
+</ul>
 <p>VecturaDB is a single-node server built from Chroma. It serves the Chroma API, and it has sparse vectors, BM25, the Search API, hybrid search and collection fork on a single node. It runs as one container, as a binary, or inside a Python application. Your Chroma clients keep working with it, in Python, JavaScript, .NET and the other languages we tested.</p>
 <p>VecturaDB is our project, like ChromaDotNet. They are not affiliated with Chroma. We ran every command below on 25 October 2026, against Chroma Cloud and against VecturaDB 1.0.0-preview.3.</p>
 <h2 id="1-start-vecturadb">1. Start VecturaDB</h2>
