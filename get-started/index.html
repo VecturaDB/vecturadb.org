@@ -94,7 +94,7 @@ pip<span class="w"> </span>install<span class="w"> </span>--force-reinstall<span
     </ul>
 
     <h2 id="docker">Docker</h2>
-    <pre tabindex="0"><code class="language-bash">docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span>:8000<span class="w"> </span>-v<span class="w"> </span>./data:/data<span class="w"> </span>ghcr.io/vecturadb/vecturadb:preview
+    <pre tabindex="0"><code class="language-bash">docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:8000:8000<span class="w"> </span>-v<span class="w"> </span>./data:/data<span class="w"> </span>ghcr.io/vecturadb/vecturadb:preview
 </code></pre>
     <p>Images for amd64 and arm64. <code>preview</code> is the newest preview; every release also has a tag with its version. The data lives in <code>/data</code>.</p>
 

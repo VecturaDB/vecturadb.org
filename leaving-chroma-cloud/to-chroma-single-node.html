@@ -78,7 +78,7 @@
 <p>VecturaDB, which wrote this guide, is not affiliated with Chroma. We ran every command below on 25 October 2026, against Chroma Cloud and against <code>chromadb/chroma:1.5.9</code>.</p>
 <h2 id="1-start-chroma">1. Start Chroma</h2>
 <div class="hl"><pre tabindex="0"><span></span><code>docker<span class="w"> </span>network<span class="w"> </span>create<span class="w"> </span>chroma-net
-docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>chroma<span class="w"> </span>--network<span class="w"> </span>chroma-net<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span>:8000<span class="w"> </span>-v<span class="w"> </span>./chroma-data:/data<span class="w"> </span>chromadb/chroma:1.5.9
+docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>chroma<span class="w"> </span>--network<span class="w"> </span>chroma-net<span class="w"> </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:8000:8000<span class="w"> </span>-v<span class="w"> </span>./chroma-data:/data<span class="w"> </span>chromadb/chroma:1.5.9
 </code></pre></div>
 
 <p>The image keeps its data in <code>/data</code>.</p>

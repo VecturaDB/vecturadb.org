@@ -83,7 +83,7 @@ pip<span class="w"> </span>install<span class="w"> </span>VecturaDB
         </div>
         <div role="tabpanel" id="panel-docker" aria-labelledby="tab-docker">
           <p class="panel-label">Docker</p>
-          <pre tabindex="0"><code class="language-bash">docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span>:8000<span class="w"> </span>-v<span class="w"> </span>./data:/data<span class="w"> </span>ghcr.io/vecturadb/vecturadb:preview
+          <pre tabindex="0"><code class="language-bash">docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:8000:8000<span class="w"> </span>-v<span class="w"> </span>./data:/data<span class="w"> </span>ghcr.io/vecturadb/vecturadb:preview
 </code></pre>
           <p class="caption">Images for amd64 and arm64. The data lives in <code>/data</code>.</p>
         </div>

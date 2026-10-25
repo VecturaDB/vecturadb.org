@@ -78,7 +78,7 @@
 <p>VecturaDB is our project. It is not affiliated with Chroma. We ran every command below on 25 October 2026, against Chroma Cloud and against <code>ghcr.io/vecturadb/vecturadb:1.0.0-preview.3</code>.</p>
 <h2 id="1-start-vecturadb">1. Start VecturaDB</h2>
 <div class="hl"><pre tabindex="0"><span></span><code>docker<span class="w"> </span>network<span class="w"> </span>create<span class="w"> </span>vecturadb-net
-docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>vecturadb<span class="w"> </span>--network<span class="w"> </span>vecturadb-net<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span>:8000<span class="w"> </span>-v<span class="w"> </span>./vecturadb-data:/data<span class="w"> </span>ghcr.io/vecturadb/vecturadb:1.0.0-preview.3
+docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>vecturadb<span class="w"> </span>--network<span class="w"> </span>vecturadb-net<span class="w"> </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:8000:8000<span class="w"> </span>-v<span class="w"> </span>./vecturadb-data:/data<span class="w"> </span>ghcr.io/vecturadb/vecturadb:1.0.0-preview.3
 </code></pre></div>
 
 <p>The image keeps its data in <code>/data</code>.</p>
