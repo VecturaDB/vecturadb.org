@@ -79,7 +79,7 @@
 <ul>
 <li>the settings of the dense index arrive only on Chroma distributed: Chroma 1.5.9 and VecturaDB use HNSW with its default settings, where Chroma Cloud uses SPANN;</li>
 <li>Chroma 1.5.9 cannot hold sparse vectors: our script copies everything else and keeps the sparse vectors in a file, one line per record;</li>
-<li>collections created with the old <code>hnsw:*</code> settings in their metadata stop the CLI on every destination, and need our script.</li>
+<li>collections created with the old <code>hnsw:*</code> settings in their metadata stop the CLI on every destination, and need our script; if their metadata hold sparse vectors, our script keeps those in a file, one line per record.</li>
 </ul>
 <p>These guides take you from Chroma Cloud to the place you choose, with tools we build and test for that move:</p>
 <ul>
