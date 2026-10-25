@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Leaving Chroma Cloud: to Chroma distributed · VecturaDB</title>
 <meta name="description" content="Distributed Chroma is the open-source, multi-service form of Chroma, the one Chroma Cloud is built on. It runs on Kubernetes. Of the three destinations, it is the closest to Chroma Cloud: in our tests every feature worked, collection fork included, with the same answers.">
-<link rel="canonical" href="https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed.html">
+<link rel="canonical" href="https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed.html">
+<meta property="og:url" content="https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed">
 <meta property="og:title" content="Leaving Chroma Cloud: to Chroma distributed">
 <meta property="og:description" content="Distributed Chroma is the open-source, multi-service form of Chroma, the one Chroma Cloud is built on. It runs on Kubernetes. Of the three destinations, it is the closest to Chroma Cloud: in our tests every feature worked, collection fork included, with the same answers.">
 <!-- site-head -->
@@ -61,10 +61,10 @@
     <h2>Leaving Chroma Cloud</h2>
     <ul>
       <li><a href="/leaving-chroma-cloud/">Overview</a></li>
-      <li><a href="/leaving-chroma-cloud/to-chroma-single-node.html">To Chroma 1.5.9, single node</a></li>
-      <li><a href="/leaving-chroma-cloud/to-chroma-distributed.html" aria-current="page">To Chroma distributed</a></li>
-      <li><a href="/leaving-chroma-cloud/to-vecturadb.html">To VecturaDB</a></li>
-      <li><a href="/leaving-chroma-cloud/hosted-embedding-models.html">Hosted embedding models</a></li>
+      <li><a href="/leaving-chroma-cloud/to-chroma-single-node">To Chroma 1.5.9, single node</a></li>
+      <li><a href="/leaving-chroma-cloud/to-chroma-distributed" aria-current="page">To Chroma distributed</a></li>
+      <li><a href="/leaving-chroma-cloud/to-vecturadb">To VecturaDB</a></li>
+      <li><a href="/leaving-chroma-cloud/hosted-embedding-models">Hosted embedding models</a></li>
     </ul>
   </aside>
   <main id="main" class="doc prose">
@@ -144,7 +144,7 @@ docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </
 <p>With each of the three clients, the same query on the same copied collection gave the same records on Chroma Cloud and on distributed Chroma.</p>
 <p>Distributed Chroma has no API keys: the frontend accepted requests with no key and with a random one. Keep it inside your network, or behind a proxy that checks a key.</p>
 <h2 id="4-hosted-embedding-models">4. Hosted embedding models</h2>
-<p><code>chroma-cloud-qwen</code> and <code>chroma-cloud-splade</code> run on Chroma Cloud and stop with it. See <a href="hosted-embedding-models.html">Hosted embedding models</a>: the same open models, run locally, gave the same search results in our tests.</p>
+<p><code>chroma-cloud-qwen</code> and <code>chroma-cloud-splade</code> run on Chroma Cloud and stop with it. See <a href="hosted-embedding-models">Hosted embedding models</a>: the same open models, run locally, gave the same search results in our tests.</p>
 <h2 id="5-check">5. Check</h2>
 <p><a href="https://github.com/VecturaDB/VecturaDB/blob/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/verify.py">verify.py</a> compares each collection on both sides: count, ids, documents, metadata with the sparse vectors, URIs, embeddings, and the distances of three dense queries.</p>
 <div class="hl"><pre tabindex="0"><span></span><code>curl<span class="w"> </span>-O<span class="w"> </span>https://raw.githubusercontent.com/VecturaDB/VecturaDB/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/verify.py

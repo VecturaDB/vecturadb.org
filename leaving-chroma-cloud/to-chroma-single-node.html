@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Leaving Chroma Cloud: to Chroma 1.5.9, single node · VecturaDB</title>
 <meta name="description" content="Chroma 1.5.9 is the open-source Chroma server. It runs as one container, or inside a Python application. It keeps dense search, metadata filters and document filters. It has no sparse vectors, no BM25, no Search API and no collection fork.">
-<link rel="canonical" href="https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node.html">
+<link rel="canonical" href="https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node.html">
+<meta property="og:url" content="https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node">
 <meta property="og:title" content="Leaving Chroma Cloud: to Chroma 1.5.9, single node">
 <meta property="og:description" content="Chroma 1.5.9 is the open-source Chroma server. It runs as one container, or inside a Python application. It keeps dense search, metadata filters and document filters. It has no sparse vectors, no BM25, no Search API and no collection fork.">
 <!-- site-head -->
@@ -61,10 +61,10 @@
     <h2>Leaving Chroma Cloud</h2>
     <ul>
       <li><a href="/leaving-chroma-cloud/">Overview</a></li>
-      <li><a href="/leaving-chroma-cloud/to-chroma-single-node.html" aria-current="page">To Chroma 1.5.9, single node</a></li>
-      <li><a href="/leaving-chroma-cloud/to-chroma-distributed.html">To Chroma distributed</a></li>
-      <li><a href="/leaving-chroma-cloud/to-vecturadb.html">To VecturaDB</a></li>
-      <li><a href="/leaving-chroma-cloud/hosted-embedding-models.html">Hosted embedding models</a></li>
+      <li><a href="/leaving-chroma-cloud/to-chroma-single-node" aria-current="page">To Chroma 1.5.9, single node</a></li>
+      <li><a href="/leaving-chroma-cloud/to-chroma-distributed">To Chroma distributed</a></li>
+      <li><a href="/leaving-chroma-cloud/to-vecturadb">To VecturaDB</a></li>
+      <li><a href="/leaving-chroma-cloud/hosted-embedding-models">Hosted embedding models</a></li>
     </ul>
   </aside>
   <main id="main" class="doc prose">
@@ -143,7 +143,7 @@ python<span class="w"> </span>copy_without_sparse.py<span class="w"> </span><spa
 <p>With each of the three clients, the same query on the same copied collection gave the same records on Chroma Cloud and on Chroma 1.5.9.</p>
 <p>Chroma 1.5.9 has no API keys: the server accepts every request. Keep it on a private network, or behind a proxy that checks a key.</p>
 <h2 id="4-hosted-embedding-models">4. Hosted embedding models</h2>
-<p><code>chroma-cloud-qwen</code> and <code>chroma-cloud-splade</code> run on Chroma Cloud and stop with it. See <a href="hosted-embedding-models.html">Hosted embedding models</a>: the same open models, run locally, gave the same search results in our tests.</p>
+<p><code>chroma-cloud-qwen</code> and <code>chroma-cloud-splade</code> run on Chroma Cloud and stop with it. See <a href="hosted-embedding-models">Hosted embedding models</a>: the same open models, run locally, gave the same search results in our tests.</p>
 <p>On Chroma 1.5.9 only the dense model matters: SPLADE vectors are sparse, and Chroma 1.5.9 cannot search them.</p>
 <h2 id="5-check">5. Check</h2>
 <p><a href="https://github.com/VecturaDB/VecturaDB/blob/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/verify.py">verify.py</a> compares each collection on both sides: count, ids, documents, metadata, URIs, embeddings, and the distances of three dense queries.</p>
