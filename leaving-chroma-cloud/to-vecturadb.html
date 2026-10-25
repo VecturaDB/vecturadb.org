@@ -75,17 +75,17 @@
 <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
 </div>
 <p>VecturaDB is a single-node server built from Chroma. It serves the Chroma API, and it has sparse vectors, BM25, the Search API, hybrid search and collection fork on a single node. It runs as one container, as a binary, or inside a Python application.</p>
-<p>VecturaDB is our project. It is not affiliated with Chroma. We ran every command below on 25 October 2026, against Chroma Cloud and against <code>ghcr.io/vecturadb/vecturadb:1.0.0-preview.2</code>.</p>
+<p>VecturaDB is our project. It is not affiliated with Chroma. We ran every command below on 25 October 2026, against Chroma Cloud and against <code>ghcr.io/vecturadb/vecturadb:1.0.0-preview.3</code>.</p>
 <h2 id="1-start-vecturadb">1. Start VecturaDB</h2>
 <div class="hl"><pre tabindex="0"><span></span><code>docker<span class="w"> </span>network<span class="w"> </span>create<span class="w"> </span>vecturadb-net
-docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>vecturadb<span class="w"> </span>--network<span class="w"> </span>vecturadb-net<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span>:8000<span class="w"> </span>-v<span class="w"> </span>./vecturadb-data:/data<span class="w"> </span>ghcr.io/vecturadb/vecturadb:1.0.0-preview.2
+docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>vecturadb<span class="w"> </span>--network<span class="w"> </span>vecturadb-net<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span>:8000<span class="w"> </span>-v<span class="w"> </span>./vecturadb-data:/data<span class="w"> </span>ghcr.io/vecturadb/vecturadb:1.0.0-preview.3
 </code></pre></div>
 
 <p>The image keeps its data in <code>/data</code>.</p>
 <h2 id="2-copy-the-data">2. Copy the data</h2>
 <p>The <code>chroma</code> CLI of VecturaDB is inside the same image. It needs your Chroma Cloud API key and the name of your database.</p>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">CHROMA_API_KEY</span><span class="o">=</span>&lt;your<span class="w"> </span>Chroma<span class="w"> </span>Cloud<span class="w"> </span>API<span class="w"> </span>key&gt;
-docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--network<span class="w"> </span>vecturadb-net<span class="w"> </span>-e<span class="w"> </span>CHROMA_API_KEY<span class="w"> </span>--entrypoint<span class="w"> </span>bash<span class="w"> </span>ghcr.io/vecturadb/vecturadb:1.0.0-preview.2<span class="w"> </span>-c<span class="w"> </span><span class="se">\</span>
+docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--network<span class="w"> </span>vecturadb-net<span class="w"> </span>-e<span class="w"> </span>CHROMA_API_KEY<span class="w"> </span>--entrypoint<span class="w"> </span>bash<span class="w"> </span>ghcr.io/vecturadb/vecturadb:1.0.0-preview.3<span class="w"> </span>-c<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="s1">&#39;chroma login --api-key &quot;$CHROMA_API_KEY&quot; --profile cloud &amp;&amp;</span>
 <span class="s1">   chroma copy --from-cloud --to-local --host http://vecturadb:8000 --db &lt;database&gt; --all&#39;</span>
 </code></pre></div>
@@ -129,7 +129,7 @@ pip<span class="w"> </span>install<span class="w"> </span>VecturaDB
 </code></pre></div>
 
 <p>With each of the three clients, the same query on the same copied collection gave the same records on Chroma Cloud and on VecturaDB.</p>
-<p>VecturaDB has no API keys, like open-source Chroma: the server accepts every request. Keep it on a private network, or behind a proxy that checks a key.</p>
+<p>Without API keys VecturaDB accepts every request, like open-source Chroma. With a file of users and keys it checks the <code>x-chroma-token</code> header, as Chroma Cloud does: see <a href="https://github.com/VecturaDB/VecturaDB/blob/v1.0.0-preview.3/docs/mintlify/guides/deploy/client-server-mode.mdx#api-keys">API keys</a>. The server does not serve HTTPS: put a TLS proxy in front of it to expose it beyond your machine.</p>
 <h2 id="4-hosted-embedding-models">4. Hosted embedding models</h2>
 <p><code>chroma-cloud-qwen</code> and <code>chroma-cloud-splade</code> run on Chroma Cloud and stop with it. See <a href="hosted-embedding-models">Hosted embedding models</a>: the same open models, run locally, gave the same search results in our tests. VecturaDB keeps the SPLADE vectors of your collections, so sparse search keeps working.</p>
 <h2 id="5-check">5. Check</h2>

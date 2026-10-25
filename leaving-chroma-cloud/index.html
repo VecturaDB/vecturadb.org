@@ -78,7 +78,7 @@
 <ul>
 <li><strong>Chroma 1.5.9</strong>, the open-source single-node server;</li>
 <li><strong>Chroma distributed</strong>, the open-source multi-service deployment, run on Kubernetes;</li>
-<li><strong>VecturaDB 1.0.0-preview.2</strong>, a single-node server built from Chroma, with Chroma Cloud's sparse vectors, BM25, hybrid search and collection fork.</li>
+<li><strong>VecturaDB 1.0.0-preview.3</strong>, a single-node server built from Chroma, with Chroma Cloud's sparse vectors, BM25, hybrid search, collection fork and API keys.</li>
 </ul>
 <p>VecturaDB is our project. It is not affiliated with Chroma. Chroma itself is a first-class destination here, and for many users it is the right one.</p>
 <p>We ran every command and every line of code in these guides against Chroma Cloud and against the destination before writing it. The numbers come from those runs.</p>
@@ -91,7 +91,7 @@
 <th></th>
 <th>Chroma 1.5.9, single node</th>
 <th>Chroma distributed</th>
-<th>VecturaDB 1.0.0-preview.2</th>
+<th>VecturaDB 1.0.0-preview.3</th>
 </tr>
 </thead>
 <tbody>
@@ -159,7 +159,7 @@
 <td>API keys</td>
 <td>None: the open-source server accepts every request</td>
 <td>None: the same server code</td>
-<td>None: the same server code</td>
+<td>Yes: keys per tenant and database, in the <code>x-chroma-token</code> header, as on Chroma Cloud</td>
 </tr>
 <tr>
 <td>What you run</td>
