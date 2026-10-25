@@ -3,60 +3,79 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Leaving Chroma Cloud: hosted embedding models</title>
-<link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="icon" href="../favicon.ico" sizes="any">
-<link rel="canonical" href="https://vecturadb.org/leaving-chroma-cloud/hosted-embedding-models.html">
+<title>Leaving Chroma Cloud: hosted embedding models · VecturaDB</title>
 <meta name="description" content="Chroma Cloud runs two embedding models for its clients:">
+<link rel="canonical" href="https://vecturadb.org/leaving-chroma-cloud/hosted-embedding-models.html">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://vecturadb.org/leaving-chroma-cloud/hosted-embedding-models.html">
 <meta property="og:title" content="Leaving Chroma Cloud: hosted embedding models">
 <meta property="og:description" content="Chroma Cloud runs two embedding models for its clients:">
+<!-- site-head -->
+<meta property="og:site_name" content="VecturaDB">
 <meta property="og:image" content="https://vecturadb.org/vecturadb-social-cloud-1280x640.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
 <meta name="twitter:card" content="summary_large_image">
-<style>
-  :root { --fg: #1b1f24; --muted: #57606a; --bg: #ffffff; --code: #f3f4f6; --line: #d0d7de; --link: #0b5cad; --brand: #4f46e5; --brand-db: #0d9488; }
-  @media (prefers-color-scheme: dark) {
-    :root { --fg: #e6e8eb; --muted: #9aa3ad; --bg: #111418; --code: #1c2128; --line: #373e47; --link: #6cb6ff; --brand: #818cf8; --brand-db: #2dd4bf; }
-  }
-  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
-  main { max-width: 760px; margin: 0 auto; padding: 24px 16px 64px; }
-  .home { margin: 0 0 24px; font-weight: 600; }
-  .home a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
-  .home img { width: 24px; height: 24px; }
-  .home .name { color: var(--brand); }
-  .home .db { color: var(--brand-db); }
-  .crumb { margin: 0 0 8px; font-size: 14px; }
-  h1 { font-size: 1.6rem; line-height: 1.3; margin: 0 0 16px; }
-  h2 { font-size: 1.25rem; margin: 32px 0 8px; }
-  h3 { font-size: 1.05rem; margin: 20px 0 6px; }
-  p, li { margin: 8px 0; }
-  a { color: var(--link); }
-  .note { border-left: 4px solid var(--brand); background: var(--code); padding: 4px 14px; border-radius: 0 6px 6px 0; margin: 0 0 24px; }
-  pre { background: var(--code); padding: 12px 14px; border-radius: 6px; overflow-x: auto; font-size: 14px; }
-  code { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; }
-  :not(pre) > code { background: var(--code); padding: 1px 4px; border-radius: 4px; font-size: 0.92em; }
-  blockquote { margin: 12px 0; padding: 0 14px; border-left: 4px solid var(--line); color: var(--muted); }
-  .table { overflow-x: auto; margin: 12px 0; }
-  table { border-collapse: collapse; font-size: 14px; min-width: 100%; }
-  th, td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
-  th { background: var(--code); }
-  footer { margin-top: 48px; color: var(--muted); font-size: 14px; }
-</style>
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b1120" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon-96.png" type="image/png" sizes="96x96">
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="/assets/site.js" defer></script>
+<!-- /site-head -->
 </head>
 <body>
-<main>
-  <p class="home"><a href="../"><img src="../vecturadb-mark-auto.svg" alt="" width="24" height="24"><span class="name">Vectura<span class="db">DB</span></span></a></p>
-  <p class="crumb"><a href="./">Leaving Chroma Cloud</a></p>
-<h1>Leaving Chroma Cloud: hosted embedding models</h1>
+<!-- site-header -->
+<svg class="sprite" aria-hidden="true"><symbol id="i-github" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></symbol></svg>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="visually-hidden">Menu</span>
+      <svg class="icon icon-stroke icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="icon icon-stroke icon-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/get-started/">Get started</a></li>
+        <li><a href="/leaving-chroma-cloud/" aria-current="page">Guides</a></li>
+        <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+        <li><a class="nav-github" href="https://github.com/VecturaDB/VecturaDB"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<!-- /site-header -->
+
+<div class="container doc-layout">
+  <aside class="doc-aside" aria-label="Leaving Chroma Cloud">
+    <h2>Leaving Chroma Cloud</h2>
+    <ul>
+      <li><a href="/leaving-chroma-cloud/">Overview</a></li>
+      <li><a href="/leaving-chroma-cloud/to-chroma-single-node.html">To Chroma 1.5.9, single node</a></li>
+      <li><a href="/leaving-chroma-cloud/to-chroma-distributed.html">To Chroma distributed</a></li>
+      <li><a href="/leaving-chroma-cloud/to-vecturadb.html">To VecturaDB</a></li>
+      <li><a href="/leaving-chroma-cloud/hosted-embedding-models.html" aria-current="page">Hosted embedding models</a></li>
+    </ul>
+  </aside>
+  <main id="main" class="doc prose">
+    <p class="crumb"><a href="./">Leaving Chroma Cloud</a></p>
+<h1 id="leaving-chroma-cloud-hosted-embedding-models">Leaving Chroma Cloud: hosted embedding models</h1>
 <div class="note">
 <p><strong>Disclaimer.</strong> These guides and the scripts they link are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 25 October 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.</p>
 <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
 </div>
 <p>Chroma Cloud runs two embedding models for its clients:</p>
-<div class="table"><table>
+<div class="table" tabindex="0"><table>
 <thead>
 <tr>
 <th>Embedding function</th>
@@ -79,9 +98,9 @@
 </table></div>
 <p>Both run on Chroma Cloud's servers, and they stop when Chroma Cloud stops. Both models are open: you can run them yourself. This page says what we measured, and how to switch a collection to the local models. It is the same for the three destinations.</p>
 <p>VecturaDB, which wrote this guide, is not affiliated with Chroma. We measured on 25 October 2026, with the Python client <code>chromadb</code> 1.5.9.</p>
-<h2>Same vectors?</h2>
+<h2 id="same-vectors">Same vectors?</h2>
 <p>We embedded 12 documents and 4 queries on Chroma Cloud and locally, and compared.</p>
-<div class="table"><table>
+<div class="table" tabindex="0"><table>
 <thead>
 <tr>
 <th></th>
@@ -111,39 +130,42 @@
 <li><strong>float32.</strong> <code>sentence-transformers</code> loaded Qwen in bfloat16 on our CPU. In bfloat16 the cosine was 0.9998: close, but not the same. Ask for float32, as in the code below.</li>
 <li><strong>Our test set is small.</strong> Before you rely on it, compare the results of a few of your own queries on Chroma Cloud and on your destination, while Chroma Cloud still answers.</li>
 </ul>
-<h2>Qwen, without a task</h2>
+<h2 id="qwen-without-a-task">Qwen, without a task</h2>
 <p>This is the common case: <code>ChromaCloudQwenEmbeddingFunction(model=..., task=None)</code>.</p>
-<pre><code class="language-python">from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
+<div class="hl"><pre tabindex="0"><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">chromadb.utils.embedding_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">SentenceTransformerEmbeddingFunction</span>
 
-qwen = SentenceTransformerEmbeddingFunction(
-    model_name=&quot;Qwen/Qwen3-Embedding-0.6B&quot;,
-    normalize_embeddings=True,
-    model_kwargs={&quot;dtype&quot;: &quot;float32&quot;},
-)
-</code></pre>
+<span class="n">qwen</span> <span class="o">=</span> <span class="n">SentenceTransformerEmbeddingFunction</span><span class="p">(</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;Qwen/Qwen3-Embedding-0.6B&quot;</span><span class="p">,</span>
+    <span class="n">normalize_embeddings</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;dtype&quot;</span><span class="p">:</span> <span class="s2">&quot;float32&quot;</span><span class="p">},</span>
+<span class="p">)</span>
+</code></pre></div>
+
 <p>It needs <code>pip install sentence-transformers</code>.</p>
 <p>A collection created on Chroma Cloud with <code>task=None</code> stores no usable embedding function: its configuration says <code>legacy</code>. Opened without a function, it gets Chroma's default model, which has 384 dimensions, and a text query fails with <code>Collection expecting embedding with dimension of 1024, got 384</code>. Pass the function each time you open the collection, or store it once:</p>
-<pre><code class="language-python">collection = client.get_collection(&quot;&lt;name&gt;&quot;, embedding_function=None)
-collection.modify(configuration={&quot;embedding_function&quot;: qwen})
-</code></pre>
+<div class="hl"><pre tabindex="0"><span></span><code><span class="n">collection</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="s2">&quot;&lt;name&gt;&quot;</span><span class="p">,</span> <span class="n">embedding_function</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">collection</span><span class="o">.</span><span class="n">modify</span><span class="p">(</span><span class="n">configuration</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;embedding_function&quot;</span><span class="p">:</span> <span class="n">qwen</span><span class="p">})</span>
+</code></pre></div>
+
 <p>After that, <code>client.get_collection("&lt;name&gt;")</code> loads the local Qwen from the configuration.</p>
-<h2>Qwen, with a task</h2>
+<h2 id="qwen-with-a-task">Qwen, with a task</h2>
 <p>With a task, for example <code>task="nl_to_code"</code>, Chroma Cloud adds an instruction to the queries. The plain local function does not: its query vectors had a cosine of 0.75 with Chroma Cloud's. Add the instruction in Qwen's format:</p>
-<pre><code class="language-python">from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
+<div class="hl"><pre tabindex="0"><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">chromadb.utils.embedding_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">SentenceTransformerEmbeddingFunction</span>
 
 
-class QwenWithInstruction(SentenceTransformerEmbeddingFunction):
-    def __init__(self, instruction):
-        super().__init__(model_name=&quot;Qwen/Qwen3-Embedding-0.6B&quot;, normalize_embeddings=True,
-                         model_kwargs={&quot;dtype&quot;: &quot;float32&quot;})
-        self.instruction = instruction
+<span class="k">class</span><span class="w"> </span><span class="nc">QwenWithInstruction</span><span class="p">(</span><span class="n">SentenceTransformerEmbeddingFunction</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instruction</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;Qwen/Qwen3-Embedding-0.6B&quot;</span><span class="p">,</span> <span class="n">normalize_embeddings</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                         <span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;dtype&quot;</span><span class="p">:</span> <span class="s2">&quot;float32&quot;</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instruction</span> <span class="o">=</span> <span class="n">instruction</span>
 
-    def embed_query(self, input):
-        return super().__call__([f&quot;Instruct: {self.instruction}\nQuery:{q}&quot; for q in input])
+    <span class="k">def</span><span class="w"> </span><span class="nf">embed_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;Instruct: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">instruction</span><span class="si">}</span><span class="se">\n</span><span class="s2">Query:</span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">])</span>
 
 
-qwen = QwenWithInstruction(&quot;Given a question about coding, retrieval code or passage that can solve user's question&quot;)
-</code></pre>
+<span class="n">qwen</span> <span class="o">=</span> <span class="n">QwenWithInstruction</span><span class="p">(</span><span class="s2">&quot;Given a question about coding, retrieval code or passage that can solve user&#39;s question&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <p>The instruction above is the one of <code>nl_to_code</code> in the Python client. With it, the 4 queries gave Chroma Cloud's ranking.</p>
 <p>A collection created with a task stores <code>chroma-cloud-qwen</code> in its configuration, and switching it needs one particular call:</p>
 <ul>
@@ -151,32 +173,72 @@ qwen = QwenWithInstruction(&quot;Given a question about coding, retrieval code o
 <li><code>client.get_collection(name).modify(...)</code> fails: <code>Cannot update embedding function: incompatible types</code>;</li>
 <li>this works:</li>
 </ul>
-<pre><code class="language-python">collection = client.get_collection(&quot;&lt;name&gt;&quot;, embedding_function=None)
-collection.modify(configuration={&quot;embedding_function&quot;: qwen})
-</code></pre>
-<p>The stored configuration keeps the model, not the instruction. For queries, pass <code>QwenWithInstruction</code> when you open the collection.</p>
-<h2>SPLADE</h2>
-<pre><code class="language-python">from chromadb.utils.embedding_functions import FastembedSparseEmbeddingFunction
+<div class="hl"><pre tabindex="0"><span></span><code><span class="n">collection</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="s2">&quot;&lt;name&gt;&quot;</span><span class="p">,</span> <span class="n">embedding_function</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">collection</span><span class="o">.</span><span class="n">modify</span><span class="p">(</span><span class="n">configuration</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;embedding_function&quot;</span><span class="p">:</span> <span class="n">qwen</span><span class="p">})</span>
+</code></pre></div>
 
-splade = FastembedSparseEmbeddingFunction(model_name=&quot;prithivida/Splade_PP_en_v1&quot;)
-</code></pre>
+<p>The stored configuration keeps the model, not the instruction. For queries, pass <code>QwenWithInstruction</code> when you open the collection.</p>
+<h2 id="splade">SPLADE</h2>
+<div class="hl"><pre tabindex="0"><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">chromadb.utils.embedding_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastembedSparseEmbeddingFunction</span>
+
+<span class="n">splade</span> <span class="o">=</span> <span class="n">FastembedSparseEmbeddingFunction</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;prithivida/Splade_PP_en_v1&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <p>It needs <code>pip install fastembed</code>. Only a destination with sparse vectors can use it: VecturaDB or Chroma distributed.</p>
 <p>The copied schema keeps <code>chroma-cloud-splade</code> as the function of the sparse key. Without Chroma Cloud, compute the sparse vectors yourself and pass them; this worked with Chroma Cloud unreachable:</p>
-<pre><code class="language-python">from chromadb import Knn, Search
-from chromadb.base_types import SparseVector
+<div class="hl"><pre tabindex="0"><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">chromadb</span><span class="w"> </span><span class="kn">import</span> <span class="n">Knn</span><span class="p">,</span> <span class="n">Search</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chromadb.base_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparseVector</span>
 
-# Search: embed the query locally
-q = splade.embed_query([&quot;what is the capital of France&quot;])[0]
-results = collection.search(Search().rank(Knn(query=SparseVector(indices=q.indices, values=q.values), key=&quot;&lt;sparse key&gt;&quot;)).limit(10))
+<span class="c1"># Search: embed the query locally</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">splade</span><span class="o">.</span><span class="n">embed_query</span><span class="p">([</span><span class="s2">&quot;what is the capital of France&quot;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">Search</span><span class="p">()</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">Knn</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">SparseVector</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="n">q</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">q</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;&lt;sparse key&gt;&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 
-# Add: put the sparse vector in the metadata, and the client does not call Chroma Cloud
-v = splade([&quot;Rome is the capital of Italy&quot;])[0]
-collection.add(ids=[&quot;new1&quot;], documents=[&quot;Rome is the capital of Italy&quot;], embeddings=[dense_vector],
-               metadatas=[{&quot;&lt;sparse key&gt;&quot;: SparseVector(indices=v.indices, values=v.values)}])
-</code></pre>
-  <footer>
-    <a href="./">Leaving Chroma Cloud</a> · <a href="../">vecturadb.org</a> · <a href="https://github.com/VecturaDB/VecturaDB">github.com/VecturaDB/VecturaDB</a>
-  </footer>
-</main>
+<span class="c1"># Add: put the sparse vector in the metadata, and the client does not call Chroma Cloud</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">splade</span><span class="p">([</span><span class="s2">&quot;Rome is the capital of Italy&quot;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">collection</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;new1&quot;</span><span class="p">],</span> <span class="n">documents</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Rome is the capital of Italy&quot;</span><span class="p">],</span> <span class="n">embeddings</span><span class="o">=</span><span class="p">[</span><span class="n">dense_vector</span><span class="p">],</span>
+               <span class="n">metadatas</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;&lt;sparse key&gt;&quot;</span><span class="p">:</span> <span class="n">SparseVector</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">values</span><span class="p">)}])</span>
+</code></pre></div>
+  </main>
+</div>
+
+<!-- site-footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+        <p>Vector database compatible with the Chroma API, bringing Chroma Cloud's features to open source.</p>
+      </div>
+      <div class="footer-col">
+        <h2>Docs</h2>
+        <ul>
+          <li><a href="/get-started/">Get started</a></li>
+          <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/VecturaDB/VecturaDB">GitHub</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/security/policy">Security policy</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/blob/main/LICENSE">License</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Packages</h2>
+        <ul>
+          <li><a href="https://pypi.org/project/VecturaDB/">PyPI</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/pkgs/container/vecturadb">Docker image</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>VecturaDB is not affiliated with Chroma.</p>
+      <p>Apache License 2.0</p>
+    </div>
+  </div>
+</footer>
+<!-- /site-footer -->
 </body>
 </html>

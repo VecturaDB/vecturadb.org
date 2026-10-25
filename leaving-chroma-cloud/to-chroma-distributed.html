@@ -3,54 +3,73 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Leaving Chroma Cloud: to Chroma distributed</title>
-<link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="icon" href="../favicon.ico" sizes="any">
-<link rel="canonical" href="https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed.html">
+<title>Leaving Chroma Cloud: to Chroma distributed · VecturaDB</title>
 <meta name="description" content="Distributed Chroma is the open-source, multi-service form of Chroma, the one Chroma Cloud is built on. It runs on Kubernetes. Of the three destinations, it is the closest to Chroma Cloud: in our tests every feature worked, collection fork included, with the same answers.">
+<link rel="canonical" href="https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed.html">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed.html">
 <meta property="og:title" content="Leaving Chroma Cloud: to Chroma distributed">
 <meta property="og:description" content="Distributed Chroma is the open-source, multi-service form of Chroma, the one Chroma Cloud is built on. It runs on Kubernetes. Of the three destinations, it is the closest to Chroma Cloud: in our tests every feature worked, collection fork included, with the same answers.">
+<!-- site-head -->
+<meta property="og:site_name" content="VecturaDB">
 <meta property="og:image" content="https://vecturadb.org/vecturadb-social-cloud-1280x640.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
 <meta name="twitter:card" content="summary_large_image">
-<style>
-  :root { --fg: #1b1f24; --muted: #57606a; --bg: #ffffff; --code: #f3f4f6; --line: #d0d7de; --link: #0b5cad; --brand: #4f46e5; --brand-db: #0d9488; }
-  @media (prefers-color-scheme: dark) {
-    :root { --fg: #e6e8eb; --muted: #9aa3ad; --bg: #111418; --code: #1c2128; --line: #373e47; --link: #6cb6ff; --brand: #818cf8; --brand-db: #2dd4bf; }
-  }
-  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
-  main { max-width: 760px; margin: 0 auto; padding: 24px 16px 64px; }
-  .home { margin: 0 0 24px; font-weight: 600; }
-  .home a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
-  .home img { width: 24px; height: 24px; }
-  .home .name { color: var(--brand); }
-  .home .db { color: var(--brand-db); }
-  .crumb { margin: 0 0 8px; font-size: 14px; }
-  h1 { font-size: 1.6rem; line-height: 1.3; margin: 0 0 16px; }
-  h2 { font-size: 1.25rem; margin: 32px 0 8px; }
-  h3 { font-size: 1.05rem; margin: 20px 0 6px; }
-  p, li { margin: 8px 0; }
-  a { color: var(--link); }
-  .note { border-left: 4px solid var(--brand); background: var(--code); padding: 4px 14px; border-radius: 0 6px 6px 0; margin: 0 0 24px; }
-  pre { background: var(--code); padding: 12px 14px; border-radius: 6px; overflow-x: auto; font-size: 14px; }
-  code { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; }
-  :not(pre) > code { background: var(--code); padding: 1px 4px; border-radius: 4px; font-size: 0.92em; }
-  blockquote { margin: 12px 0; padding: 0 14px; border-left: 4px solid var(--line); color: var(--muted); }
-  .table { overflow-x: auto; margin: 12px 0; }
-  table { border-collapse: collapse; font-size: 14px; min-width: 100%; }
-  th, td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
-  th { background: var(--code); }
-  footer { margin-top: 48px; color: var(--muted); font-size: 14px; }
-</style>
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b1120" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon-96.png" type="image/png" sizes="96x96">
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="/assets/site.js" defer></script>
+<!-- /site-head -->
 </head>
 <body>
-<main>
-  <p class="home"><a href="../"><img src="../vecturadb-mark-auto.svg" alt="" width="24" height="24"><span class="name">Vectura<span class="db">DB</span></span></a></p>
-  <p class="crumb"><a href="./">Leaving Chroma Cloud</a></p>
-<h1>Leaving Chroma Cloud: to Chroma distributed</h1>
+<!-- site-header -->
+<svg class="sprite" aria-hidden="true"><symbol id="i-github" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></symbol></svg>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="visually-hidden">Menu</span>
+      <svg class="icon icon-stroke icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="icon icon-stroke icon-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/get-started/">Get started</a></li>
+        <li><a href="/leaving-chroma-cloud/" aria-current="page">Guides</a></li>
+        <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+        <li><a class="nav-github" href="https://github.com/VecturaDB/VecturaDB"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<!-- /site-header -->
+
+<div class="container doc-layout">
+  <aside class="doc-aside" aria-label="Leaving Chroma Cloud">
+    <h2>Leaving Chroma Cloud</h2>
+    <ul>
+      <li><a href="/leaving-chroma-cloud/">Overview</a></li>
+      <li><a href="/leaving-chroma-cloud/to-chroma-single-node.html">To Chroma 1.5.9, single node</a></li>
+      <li><a href="/leaving-chroma-cloud/to-chroma-distributed.html" aria-current="page">To Chroma distributed</a></li>
+      <li><a href="/leaving-chroma-cloud/to-vecturadb.html">To VecturaDB</a></li>
+      <li><a href="/leaving-chroma-cloud/hosted-embedding-models.html">Hosted embedding models</a></li>
+    </ul>
+  </aside>
+  <main id="main" class="doc prose">
+    <p class="crumb"><a href="./">Leaving Chroma Cloud</a></p>
+<h1 id="leaving-chroma-cloud-to-chroma-distributed">Leaving Chroma Cloud: to Chroma distributed</h1>
 <div class="note">
 <p><strong>Disclaimer.</strong> These guides and the scripts they link are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 25 October 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.</p>
 <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
@@ -65,7 +84,7 @@
 </blockquote>
 <p>Source: <a href="https://docs.trychroma.com/reference/architecture/distributed">Distributed Chroma, Chroma documentation</a>.</p>
 <p>VecturaDB, which wrote this guide, is not affiliated with Chroma. We ran every command below on 25 October 2026, against Chroma Cloud and against distributed Chroma on Azure Kubernetes Service.</p>
-<h2>What we ran</h2>
+<h2 id="what-we-ran">What we ran</h2>
 <ul>
 <li>Kubernetes: 2 nodes <code>Standard_D4s_v4</code> (4 vCPU, 16 GiB each). The published query and compaction images are built for CPUs with AVX-512: on an Azure node without it, they stopped with SIGILL (exit code 132). Pick nodes with AVX-512.</li>
 <li>The Helm chart <code>distributed-chroma</code> 0.1.94, with the images of the same Chroma commit.</li>
@@ -73,17 +92,19 @@
 <li><code>terraform apply</code> of the cluster and the chart: 347 seconds.</li>
 </ul>
 <p>The chart runs Postgres and MinIO inside the cluster. For your data, plan their backups, or use managed services.</p>
-<h2>1. Reach the frontend</h2>
+<h2 id="1-reach-the-frontend">1. Reach the frontend</h2>
 <p>From the machine that runs the copy:</p>
-<pre><code class="language-bash">kubectl --kubeconfig &lt;your kubeconfig&gt; -n chroma port-forward svc/rust-frontend-service 8000:8000
-</code></pre>
-<h2>2. Copy the data</h2>
+<div class="hl"><pre tabindex="0"><span></span><code>kubectl<span class="w"> </span>--kubeconfig<span class="w"> </span>&lt;your<span class="w"> </span>kubeconfig&gt;<span class="w"> </span>-n<span class="w"> </span>chroma<span class="w"> </span>port-forward<span class="w"> </span>svc/rust-frontend-service<span class="w"> </span><span class="m">8000</span>:8000
+</code></pre></div>
+
+<h2 id="2-copy-the-data">2. Copy the data</h2>
 <p>The <code>chroma</code> CLI is inside the image <code>chromadb/chroma:1.5.9</code>. It needs your Chroma Cloud API key and the name of your database.</p>
-<pre><code class="language-bash">export CHROMA_API_KEY=&lt;your Chroma Cloud API key&gt;
-docker run --rm -e CHROMA_API_KEY --entrypoint bash chromadb/chroma:1.5.9 -c \
-  'chroma login --api-key &quot;$CHROMA_API_KEY&quot; --profile cloud &amp;&amp;
-   chroma copy --from-cloud --to-local --host http://host.docker.internal:8000 --db &lt;database&gt; --collections &lt;name&gt; --collections &lt;name&gt;'
-</code></pre>
+<div class="hl"><pre tabindex="0"><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">CHROMA_API_KEY</span><span class="o">=</span>&lt;your<span class="w"> </span>Chroma<span class="w"> </span>Cloud<span class="w"> </span>API<span class="w"> </span>key&gt;
+docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-e<span class="w"> </span>CHROMA_API_KEY<span class="w"> </span>--entrypoint<span class="w"> </span>bash<span class="w"> </span>chromadb/chroma:1.5.9<span class="w"> </span>-c<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s1">&#39;chroma login --api-key &quot;$CHROMA_API_KEY&quot; --profile cloud &amp;&amp;</span>
+<span class="s1">   chroma copy --from-cloud --to-local --host http://host.docker.internal:8000 --db &lt;database&gt; --collections &lt;name&gt; --collections &lt;name&gt;&#39;</span>
+</code></pre></div>
+
 <p><code>host.docker.internal</code> reaches the port-forward of the host with Docker Desktop. Repeat <code>--collections</code> once per collection:</p>
 <ul>
 <li><code>--all</code> does not work against Chroma Cloud with this CLI. It asks for 10000 collections in one call, and Chroma Cloud answers <code>422 Quota exceeded</code>. Our script <a href="https://github.com/VecturaDB/VecturaDB/blob/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/list_for_copy.py">list_for_copy.py</a> prints the <code>--collections</code> options for every collection of a database.</li>
@@ -91,47 +112,89 @@ docker run --rm -e CHROMA_API_KEY --entrypoint bash chromadb/chroma:1.5.9 -c \
 </ul>
 <p>What arrives: everything. Records, documents, metadata, embeddings, URIs, the metadata of the collection, its schema with sparse and BM25 indexes, and its SPANN settings. Four test collections took 4 seconds.</p>
 <p>Collections created with the old <code>hnsw:*</code> settings in their metadata fail: <code>Cannot set both collection config and schema simultaneously</code>. Copy those with our script <a href="https://github.com/VecturaDB/VecturaDB/blob/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/copy_without_sparse.py">copy_without_sparse.py</a>. It writes the sparse vectors to a file instead of the collection, so use it only for those collections.</p>
-<h2>3. Switch the client</h2>
+<h2 id="3-switch-the-client">3. Switch the client</h2>
 <p>Only the line that creates the client changes. The collections are in the default tenant and database.</p>
 <p>The examples use <code>127.0.0.1</code>. With Docker Desktop on Windows, <code>localhost</code> went to the IPv6 port of the container, which closed the connection; <code>127.0.0.1</code> worked everywhere.</p>
 <p><strong>Python</strong> (<code>chromadb</code> 1.5.9):</p>
-<pre><code class="language-python">import chromadb
+<div class="hl"><pre tabindex="0"><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">chromadb</span>
 
-# Before:
-# client = chromadb.CloudClient(api_key=&quot;...&quot;, tenant=&quot;...&quot;, database=&quot;...&quot;)
-client = chromadb.HttpClient(host=&quot;127.0.0.1&quot;, port=8000)
-</code></pre>
+<span class="c1"># Before:</span>
+<span class="c1"># client = chromadb.CloudClient(api_key=&quot;...&quot;, tenant=&quot;...&quot;, database=&quot;...&quot;)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
+</code></pre></div>
+
 <p><strong>JavaScript</strong> (<code>chromadb</code> 3.5.0 on npm):</p>
-<pre><code class="language-javascript">import { ChromaClient } from &quot;chromadb&quot;;
+<div class="hl"><pre tabindex="0"><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">ChromaClient</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;chromadb&quot;</span><span class="p">;</span>
 
-// Before:
-// const client = new CloudClient({ apiKey: &quot;...&quot;, tenant: &quot;...&quot;, database: &quot;...&quot; });
-const client = new ChromaClient({ host: &quot;127.0.0.1&quot;, port: 8000, ssl: false });
-</code></pre>
+<span class="c1">// Before:</span>
+<span class="c1">// const client = new CloudClient({ apiKey: &quot;...&quot;, tenant: &quot;...&quot;, database: &quot;...&quot; });</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">ChromaClient</span><span class="p">({</span><span class="w"> </span><span class="nx">host</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">port</span><span class="o">:</span><span class="w"> </span><span class="mf">8000</span><span class="p">,</span><span class="w"> </span><span class="nx">ssl</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">});</span>
+</code></pre></div>
+
 <p><strong>.NET</strong> (ChromaDotNet.Client 2.18.0):</p>
-<pre><code class="language-csharp">using ChromaDB.Client;
+<div class="hl"><pre tabindex="0"><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">ChromaDB.Client</span><span class="p">;</span>
 
-// Before:
-// var options = ChromaConfigurationOptions.FromConnectionString(&quot;Endpoint=https://api.trychroma.com;Token=...;Tenant=...;Database=...&quot;);
-var options = ChromaConfigurationOptions.FromConnectionString(&quot;Endpoint=http://127.0.0.1:8000&quot;);
-using var http = new HttpClient();
-var client = new ChromaClient(options, http);
-</code></pre>
+<span class="c1">// Before:</span>
+<span class="c1">// var options = ChromaConfigurationOptions.FromConnectionString(&quot;Endpoint=https://api.trychroma.com;Token=...;Tenant=...;Database=...&quot;);</span>
+<span class="kt">var</span><span class="w"> </span><span class="n">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ChromaConfigurationOptions</span><span class="p">.</span><span class="n">FromConnectionString</span><span class="p">(</span><span class="s">&quot;Endpoint=http://127.0.0.1:8000&quot;</span><span class="p">);</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">var</span><span class="w"> </span><span class="n">http</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HttpClient</span><span class="p">();</span>
+<span class="kt">var</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ChromaClient</span><span class="p">(</span><span class="n">options</span><span class="p">,</span><span class="w"> </span><span class="n">http</span><span class="p">);</span>
+</code></pre></div>
+
 <p>With each of the three clients, the same query on the same copied collection gave the same records on Chroma Cloud and on distributed Chroma.</p>
 <p>Distributed Chroma has no API keys: the frontend accepted requests with no key and with a random one. Keep it inside your network, or behind a proxy that checks a key.</p>
-<h2>4. Hosted embedding models</h2>
+<h2 id="4-hosted-embedding-models">4. Hosted embedding models</h2>
 <p><code>chroma-cloud-qwen</code> and <code>chroma-cloud-splade</code> run on Chroma Cloud and stop with it. See <a href="hosted-embedding-models.html">Hosted embedding models</a>: the same open models, run locally, gave the same search results in our tests.</p>
-<h2>5. Check</h2>
+<h2 id="5-check">5. Check</h2>
 <p><a href="https://github.com/VecturaDB/VecturaDB/blob/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/verify.py">verify.py</a> compares each collection on both sides: count, ids, documents, metadata with the sparse vectors, URIs, embeddings, and the distances of three dense queries.</p>
-<pre><code class="language-bash">curl -O https://raw.githubusercontent.com/VecturaDB/VecturaDB/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/verify.py
-pip install chromadb==1.5.9
-export CHROMA_API_KEY=&lt;key&gt; CHROMA_TENANT=&lt;tenant&gt; CHROMA_DATABASE=&lt;database&gt;
-python verify.py 127.0.0.1 8000 &lt;name&gt; &lt;name&gt;
-</code></pre>
+<div class="hl"><pre tabindex="0"><span></span><code>curl<span class="w"> </span>-O<span class="w"> </span>https://raw.githubusercontent.com/VecturaDB/VecturaDB/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/verify.py
+pip<span class="w"> </span>install<span class="w"> </span><span class="nv">chromadb</span><span class="o">==</span><span class="m">1</span>.5.9
+<span class="nb">export</span><span class="w"> </span><span class="nv">CHROMA_API_KEY</span><span class="o">=</span>&lt;key&gt;<span class="w"> </span><span class="nv">CHROMA_TENANT</span><span class="o">=</span>&lt;tenant&gt;<span class="w"> </span><span class="nv">CHROMA_DATABASE</span><span class="o">=</span>&lt;database&gt;
+python<span class="w"> </span>verify.py<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span><span class="m">8000</span><span class="w"> </span>&lt;name&gt;<span class="w"> </span>&lt;name&gt;
+</code></pre></div>
+
 <p>In our run, the four test collections were identical on both sides, and so were the answers to the queries.</p>
-  <footer>
-    <a href="./">Leaving Chroma Cloud</a> · <a href="../">vecturadb.org</a> · <a href="https://github.com/VecturaDB/VecturaDB">github.com/VecturaDB/VecturaDB</a>
-  </footer>
-</main>
+  </main>
+</div>
+
+<!-- site-footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+        <p>Vector database compatible with the Chroma API, bringing Chroma Cloud's features to open source.</p>
+      </div>
+      <div class="footer-col">
+        <h2>Docs</h2>
+        <ul>
+          <li><a href="/get-started/">Get started</a></li>
+          <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/VecturaDB/VecturaDB">GitHub</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/security/policy">Security policy</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/blob/main/LICENSE">License</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Packages</h2>
+        <ul>
+          <li><a href="https://pypi.org/project/VecturaDB/">PyPI</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/pkgs/container/vecturadb">Docker image</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>VecturaDB is not affiliated with Chroma.</p>
+      <p>Apache License 2.0</p>
+    </div>
+  </div>
+</footer>
+<!-- /site-footer -->
 </body>
 </html>
