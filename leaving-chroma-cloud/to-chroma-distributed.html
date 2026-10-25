@@ -113,9 +113,17 @@ docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </
 <p>What arrives: everything. Records, documents, metadata, embeddings, URIs, the metadata of the collection, its schema with sparse and BM25 indexes, and its SPANN settings. Four test collections took 4 seconds.</p>
 <p>Collections created with the old <code>hnsw:*</code> settings in their metadata fail: <code>Cannot set both collection config and schema simultaneously</code>. Copy those with our script <a href="https://github.com/VecturaDB/VecturaDB/blob/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/copy_without_sparse.py">copy_without_sparse.py</a>. It writes the sparse vectors to a file instead of the collection, so use it only for those collections.</p>
 <h2 id="3-switch-the-client">3. Switch the client</h2>
-<p>Only the line that creates the client changes. The collections are in the default tenant and database.</p>
+<p>Only the line that creates the client changes. The collections are in the default tenant and database. With each of the three clients, Python, JavaScript and .NET, the same query on the same copied collection gave the same records on Chroma Cloud and on distributed Chroma.</p>
 <p>The examples use <code>127.0.0.1</code>. With Docker Desktop on Windows, <code>localhost</code> went to the IPv6 port of the container, which closed the connection; <code>127.0.0.1</code> worked everywhere.</p>
-<p><strong>Python</strong> (<code>chromadb</code> 1.5.9):</p>
+<div class="guide-tabs" data-tabs data-tabs-key="language">
+<div class="tablist" role="tablist" aria-label="Language">
+<button type="button" role="tab" id="tab-python" aria-controls="panel-python" aria-selected="true">Python</button>
+<button type="button" role="tab" id="tab-javascript" aria-controls="panel-javascript" aria-selected="false" tabindex="-1">JavaScript</button>
+<button type="button" role="tab" id="tab-net" aria-controls="panel-net" aria-selected="false" tabindex="-1">.NET</button>
+</div>
+<div role="tabpanel" id="panel-python" aria-labelledby="tab-python">
+<h3 class="panel-heading" id="python">Python</h3>
+<p><code>chromadb</code> 1.5.9:</p>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">chromadb</span>
 
 <span class="c1"># Before:</span>
@@ -123,7 +131,10 @@ docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </
 <span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
 </code></pre></div>
 
-<p><strong>JavaScript</strong> (<code>chromadb</code> 3.5.0 on npm):</p>
+</div>
+<div role="tabpanel" id="panel-javascript" aria-labelledby="tab-javascript">
+<h3 class="panel-heading" id="javascript">JavaScript</h3>
+<p><code>chromadb</code> 3.5.0 on npm:</p>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">ChromaClient</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;chromadb&quot;</span><span class="p">;</span>
 
 <span class="c1">// Before:</span>
@@ -131,7 +142,10 @@ docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </
 <span class="kd">const</span><span class="w"> </span><span class="nx">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">ChromaClient</span><span class="p">({</span><span class="w"> </span><span class="nx">host</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">port</span><span class="o">:</span><span class="w"> </span><span class="mf">8000</span><span class="p">,</span><span class="w"> </span><span class="nx">ssl</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">});</span>
 </code></pre></div>
 
-<p><strong>.NET</strong> (ChromaDotNet.Client 2.18.0):</p>
+</div>
+<div role="tabpanel" id="panel-net" aria-labelledby="tab-net">
+<h3 class="panel-heading" id="net">.NET</h3>
+<p><a href="https://chromadotnet.org/libraries/client/">ChromaDotNet.Client</a> 2.18.0:</p>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">ChromaDB.Client</span><span class="p">;</span>
 
 <span class="c1">// Before:</span>
@@ -141,7 +155,9 @@ docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </
 <span class="kt">var</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ChromaClient</span><span class="p">(</span><span class="n">options</span><span class="p">,</span><span class="w"> </span><span class="n">http</span><span class="p">);</span>
 </code></pre></div>
 
-<p>With each of the three clients, the same query on the same copied collection gave the same records on Chroma Cloud and on distributed Chroma.</p>
+</div>
+</div>
+<h3 id="the-api-keys">The API keys</h3>
 <p>Distributed Chroma has no API keys: the frontend accepted requests with no key and with a random one. Keep it inside your network, or behind a proxy that checks a key.</p>
 <h2 id="4-hosted-embedding-models">4. Hosted embedding models</h2>
 <p><code>chroma-cloud-qwen</code> and <code>chroma-cloud-splade</code> run on Chroma Cloud and stop with it. See <a href="hosted-embedding-models">Hosted embedding models</a>: the same open models, run locally, gave the same search results in our tests.</p>

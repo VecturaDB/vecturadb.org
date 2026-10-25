@@ -109,9 +109,16 @@ python<span class="w"> </span>copy_without_sparse.py<span class="w"> </span><spa
 <p>It copies the records, documents, metadata, embeddings and URIs into a collection with the same name, metadata and distance. Chroma 1.5.9 cannot store sparse vectors at all, not even as plain metadata. So the script writes them to <code>&lt;name&gt;.sparse.jsonl</code>, one line per record, and they are not lost.</p>
 <p>On Chroma 1.5.9 those collections lose their sparse and BM25 search. Dense search, filters and the documents stay. If you need them, see <a href="to-vecturadb">To VecturaDB</a>: the same copy keeps them.</p>
 <h2 id="3-switch-the-client">3. Switch the client</h2>
-<p>Only the line that creates the client changes. The collections are in the default tenant and database of the server.</p>
+<p>Only the line that creates the client changes. The collections are in the default tenant and database of the server. With each of the three clients, Python, JavaScript and .NET, the same query on the same copied collection gave the same records on Chroma Cloud and on Chroma 1.5.9.</p>
 <p>The examples use <code>127.0.0.1</code>. With Docker Desktop on Windows, <code>localhost</code> went to the IPv6 port of the container, which closed the connection; <code>127.0.0.1</code> worked everywhere.</p>
-<h3 id="python">Python</h3>
+<div class="guide-tabs" data-tabs data-tabs-key="language">
+<div class="tablist" role="tablist" aria-label="Language">
+<button type="button" role="tab" id="tab-python" aria-controls="panel-python" aria-selected="true">Python</button>
+<button type="button" role="tab" id="tab-javascript" aria-controls="panel-javascript" aria-selected="false" tabindex="-1">JavaScript</button>
+<button type="button" role="tab" id="tab-net" aria-controls="panel-net" aria-selected="false" tabindex="-1">.NET</button>
+</div>
+<div role="tabpanel" id="panel-python" aria-labelledby="tab-python">
+<h3 class="panel-heading" id="python">Python</h3>
 <p><code>chromadb</code> 1.5.9:</p>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">chromadb</span>
 
@@ -120,7 +127,9 @@ python<span class="w"> </span>copy_without_sparse.py<span class="w"> </span><spa
 <span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
 </code></pre></div>
 
-<h3 id="javascript">JavaScript</h3>
+</div>
+<div role="tabpanel" id="panel-javascript" aria-labelledby="tab-javascript">
+<h3 class="panel-heading" id="javascript">JavaScript</h3>
 <p><code>chromadb</code> 3.5.0 on npm:</p>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">ChromaClient</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;chromadb&quot;</span><span class="p">;</span>
 
@@ -129,7 +138,9 @@ python<span class="w"> </span>copy_without_sparse.py<span class="w"> </span><spa
 <span class="kd">const</span><span class="w"> </span><span class="nx">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">ChromaClient</span><span class="p">({</span><span class="w"> </span><span class="nx">host</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">port</span><span class="o">:</span><span class="w"> </span><span class="mf">8000</span><span class="p">,</span><span class="w"> </span><span class="nx">ssl</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">});</span>
 </code></pre></div>
 
-<h3 id="net">.NET</h3>
+</div>
+<div role="tabpanel" id="panel-net" aria-labelledby="tab-net">
+<h3 class="panel-heading" id="net">.NET</h3>
 <p><a href="https://chromadotnet.org/libraries/client/">ChromaDotNet.Client</a> 2.18.0:</p>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">ChromaDB.Client</span><span class="p">;</span>
 
@@ -140,8 +151,7 @@ python<span class="w"> </span>copy_without_sparse.py<span class="w"> </span><spa
 <span class="kt">var</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ChromaClient</span><span class="p">(</span><span class="n">options</span><span class="p">,</span><span class="w"> </span><span class="n">http</span><span class="p">);</span>
 </code></pre></div>
 
-<p>With each of the three clients, the same query on the same copied collection gave the same records on Chroma Cloud and on Chroma 1.5.9.</p>
-<h3 id="net-without-docker">.NET without Docker</h3>
+<h4 id="net-without-docker">.NET without Docker</h4>
 <p><a href="https://chromadotnet.org/libraries/local/">ChromaDotNet.Local</a> starts Chroma 1.5.9 inside your .NET application, without Docker. It opens a folder that <code>chromadb/chroma:1.5.9</code> wrote: in our run it found the collection, its metadata and its records, and answered a query with the same records.</p>
 <div class="hl"><pre tabindex="0"><span></span><code>dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w"> </span>ChromaDotNet.Local.ChromaDB<span class="w"> </span>--prerelease
 </code></pre></div>
@@ -154,7 +164,7 @@ python<span class="w"> </span>copy_without_sparse.py<span class="w"> </span><spa
 </code></pre></div>
 
 <p>The copy itself still needs the containers of steps 1 and 2. Once the folder is filled, the application needs neither Docker nor Python.</p>
-<h3 id="aspire">Aspire</h3>
+<h4 id="aspire">Aspire</h4>
 <p>For development, <a href="https://chromadotnet.org/libraries/aspire/">ChromaDotNet.Aspire</a> 0.2.8 runs <code>chromadb/chroma:1.5.9</code> for the AppHost, and the service gets its client from the reference:</p>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="c1">// AppHost</span>
 <span class="kt">var</span><span class="w"> </span><span class="n">chroma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">builder</span><span class="p">.</span><span class="n">AddChroma</span><span class="p">(</span><span class="s">&quot;chroma&quot;</span><span class="p">).</span><span class="n">WithDataVolume</span><span class="p">();</span>
@@ -164,12 +174,14 @@ python<span class="w"> </span>copy_without_sparse.py<span class="w"> </span><spa
 <span class="n">builder</span><span class="p">.</span><span class="n">AddChromaClient</span><span class="p">(</span><span class="s">&quot;chroma&quot;</span><span class="p">);</span>
 </code></pre></div>
 
-<h3 id="testcontainers">Testcontainers</h3>
+<h4 id="testcontainers">Testcontainers</h4>
 <p>For tests, <a href="https://chromadotnet.org/libraries/testcontainers/">ChromaDotNet.Testcontainers</a> 0.1.7 starts the same image:</p>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="k">await</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="nn">var</span><span class="w"> </span><span class="n">chroma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ChromaBuilder</span><span class="p">(</span><span class="s">&quot;chromadb/chroma:1.5.9&quot;</span><span class="p">).</span><span class="n">Build</span><span class="p">();</span>
 <span class="k">await</span><span class="w"> </span><span class="n">chroma</span><span class="p">.</span><span class="n">StartAsync</span><span class="p">();</span>
 </code></pre></div>
 
+</div>
+</div>
 <h3 id="the-api-keys">The API keys</h3>
 <p>Chroma 1.5.9 has no API keys: the server accepts every request. Keep it on a private network, or behind a proxy that checks a key. <a href="to-vecturadb">VecturaDB</a> checks keys as Chroma Cloud did.</p>
 <h2 id="4-hosted-embedding-models">4. Hosted embedding models</h2>

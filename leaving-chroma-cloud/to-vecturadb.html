@@ -77,13 +77,21 @@
 <p>VecturaDB is a single-node server built from Chroma. It serves the Chroma API, and it has sparse vectors, BM25, the Search API, hybrid search and collection fork on a single node. It runs as one container, as a binary, or inside a Python application. Your Chroma clients keep working with it, in Python, JavaScript, .NET and the other languages we tested.</p>
 <p>VecturaDB is our project, like ChromaDotNet. They are not affiliated with Chroma. We ran every command below on 25 October 2026, against Chroma Cloud and against VecturaDB 1.0.0-preview.3.</p>
 <h2 id="1-start-vecturadb">1. Start VecturaDB</h2>
-<h3 id="with-docker">With Docker</h3>
+<div class="guide-tabs" data-tabs data-tabs-key="docker">
+<div class="tablist" role="tablist" aria-label="Docker">
+<button type="button" role="tab" id="tab-with-docker" aria-controls="panel-with-docker" aria-selected="true">With Docker</button>
+<button type="button" role="tab" id="tab-without-docker" aria-controls="panel-without-docker" aria-selected="false" tabindex="-1">Without Docker</button>
+</div>
+<div role="tabpanel" id="panel-with-docker" aria-labelledby="tab-with-docker">
+<h3 class="panel-heading" id="with-docker">With Docker</h3>
 <div class="hl"><pre tabindex="0"><span></span><code>docker<span class="w"> </span>network<span class="w"> </span>create<span class="w"> </span>vecturadb-net
 docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>vecturadb<span class="w"> </span>--network<span class="w"> </span>vecturadb-net<span class="w"> </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:8000:8000<span class="w"> </span>-v<span class="w"> </span>./vecturadb-data:/data<span class="w"> </span>ghcr.io/vecturadb/vecturadb:1.0.0-preview.3
 </code></pre></div>
 
 <p>The image keeps its data in <code>/data</code>.</p>
-<h3 id="without-docker">Without Docker</h3>
+</div>
+<div role="tabpanel" id="panel-without-docker" aria-labelledby="tab-without-docker">
+<h3 class="panel-heading" id="without-docker">Without Docker</h3>
 <p>The <code>chroma</code> CLI of VecturaDB is one binary, for Windows x64, Linux x64 and arm64, macOS x64 and arm64. On Linux and macOS:</p>
 <div class="hl"><pre tabindex="0"><span></span><code>curl<span class="w"> </span>-sSL<span class="w"> </span>https://raw.githubusercontent.com/VecturaDB/VecturaDB/main/rust/cli/install/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
 </code></pre></div>
@@ -97,26 +105,49 @@ docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </sp
 </code></pre></div>
 
 <p><code>--host 127.0.0.1</code> matters: without it the server listens on <code>localhost</code>, and on our Windows machine <code>127.0.0.1</code> got no answer.</p>
+</div>
+</div>
 <h2 id="2-copy-the-data">2. Copy the data</h2>
-<p>The <code>chroma</code> CLI of VecturaDB copies from Chroma Cloud. It needs your Chroma Cloud API key and the name of your database. With Docker, from the same image:</p>
+<p>The <code>chroma</code> CLI of VecturaDB copies from Chroma Cloud. It needs your Chroma Cloud API key and the name of your database.</p>
+<div class="guide-tabs" data-tabs data-tabs-key="docker">
+<div class="tablist" role="tablist" aria-label="Docker">
+<button type="button" role="tab" id="tab-with-docker_1" aria-controls="panel-with-docker_1" aria-selected="true">With Docker</button>
+<button type="button" role="tab" id="tab-without-docker_1" aria-controls="panel-without-docker_1" aria-selected="false" tabindex="-1">Without Docker</button>
+</div>
+<div role="tabpanel" id="panel-with-docker_1" aria-labelledby="tab-with-docker_1">
+<h3 class="panel-heading" id="with-docker_1">With Docker</h3>
+<p>The CLI is in the same image:</p>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">CHROMA_API_KEY</span><span class="o">=</span>&lt;your<span class="w"> </span>Chroma<span class="w"> </span>Cloud<span class="w"> </span>API<span class="w"> </span>key&gt;
 docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--network<span class="w"> </span>vecturadb-net<span class="w"> </span>-e<span class="w"> </span>CHROMA_API_KEY<span class="w"> </span>--entrypoint<span class="w"> </span>bash<span class="w"> </span>ghcr.io/vecturadb/vecturadb:1.0.0-preview.3<span class="w"> </span>-c<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="s1">&#39;chroma login --api-key &quot;$CHROMA_API_KEY&quot; --profile cloud &amp;&amp;</span>
 <span class="s1">   chroma copy --from-cloud --to-local --host http://vecturadb:8000 --db &lt;database&gt; --all&#39;</span>
 </code></pre></div>
 
-<p>Without Docker, with the CLI you installed:</p>
+</div>
+<div role="tabpanel" id="panel-without-docker_1" aria-labelledby="tab-without-docker_1">
+<h3 class="panel-heading" id="without-docker_1">Without Docker</h3>
+<p>With the CLI you installed:</p>
 <div class="hl"><pre tabindex="0"><span></span><code>chroma<span class="w"> </span>login<span class="w"> </span>--api-key<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CHROMA_API_KEY</span><span class="s2">&quot;</span><span class="w"> </span>--profile<span class="w"> </span>cloud
 chroma<span class="w"> </span>copy<span class="w"> </span>--from-cloud<span class="w"> </span>--to-local<span class="w"> </span>--host<span class="w"> </span>http://127.0.0.1:8000<span class="w"> </span>--db<span class="w"> </span>&lt;database&gt;<span class="w"> </span>--all
 </code></pre></div>
 
+</div>
+</div>
+<h3 id="what-arrives">What arrives</h3>
 <p><code>--all</code> copies every collection of the database. To copy only some, use <code>--collections &lt;name&gt;</code> once per collection.</p>
-<p>What arrives: every record, with its document, metadata, embedding and URI; the metadata of the collection; and its schema, sparse and BM25 indexes included. Sparse and BM25 searches gave the same scores as on Chroma Cloud. The settings of the dense index do not arrive: Chroma Cloud uses SPANN, VecturaDB uses HNSW with its default settings.</p>
+<p>Every record arrives, with its document, metadata, embedding and URI; the metadata of the collection; and its schema, sparse and BM25 indexes included. Sparse and BM25 searches gave the same scores as on Chroma Cloud. The settings of the dense index do not arrive: Chroma Cloud uses SPANN, VecturaDB uses HNSW with its default settings.</p>
 <p>The copy stops at the first collection it cannot create, and exits with code 1. The collections copied before it stay. Chroma Cloud collections created with the old <code>hnsw:*</code> settings in their metadata fail with <code>Cannot set both collection config and schema simultaneously</code>, as they do with Chroma. Copy those with our script <a href="https://github.com/VecturaDB/VecturaDB/blob/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/copy_without_sparse.py">copy_without_sparse.py</a>, and the rest with <code>--collections</code>.</p>
 <h2 id="3-switch-the-client">3. Switch the client</h2>
-<p>Only the line that creates the client changes. The collections are in the default tenant and database of the server.</p>
+<p>Only the line that creates the client changes. The collections are in the default tenant and database of the server. With each of the three clients, Python, JavaScript and .NET, the same query on the same copied collection gave the same records on Chroma Cloud and on VecturaDB.</p>
 <p>The examples use <code>127.0.0.1</code>. With Docker Desktop on Windows, <code>localhost</code> went to the IPv6 port of the container, which closed the connection; <code>127.0.0.1</code> worked everywhere.</p>
-<h3 id="python">Python</h3>
+<div class="guide-tabs" data-tabs data-tabs-key="language">
+<div class="tablist" role="tablist" aria-label="Language">
+<button type="button" role="tab" id="tab-python" aria-controls="panel-python" aria-selected="true">Python</button>
+<button type="button" role="tab" id="tab-javascript" aria-controls="panel-javascript" aria-selected="false" tabindex="-1">JavaScript</button>
+<button type="button" role="tab" id="tab-net" aria-controls="panel-net" aria-selected="false" tabindex="-1">.NET</button>
+</div>
+<div role="tabpanel" id="panel-python" aria-labelledby="tab-python">
+<h3 class="panel-heading" id="python">Python</h3>
 <div class="hl"><pre tabindex="0"><span></span><code>pip<span class="w"> </span>uninstall<span class="w"> </span>-y<span class="w"> </span>chromadb
 pip<span class="w"> </span>install<span class="w"> </span>VecturaDB
 </code></pre></div>
@@ -134,7 +165,9 @@ pip<span class="w"> </span>install<span class="w"> </span>VecturaDB
 <div class="hl"><pre tabindex="0"><span></span><code><span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">PersistentClient</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;./vecturadb-data&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<h3 id="javascript">JavaScript</h3>
+</div>
+<div role="tabpanel" id="panel-javascript" aria-labelledby="tab-javascript">
+<h3 class="panel-heading" id="javascript">JavaScript</h3>
 <p><code>chromadb</code> 3.5.0 on npm, with VecturaDB as the server:</p>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">ChromaClient</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;chromadb&quot;</span><span class="p">;</span>
 
@@ -143,7 +176,9 @@ pip<span class="w"> </span>install<span class="w"> </span>VecturaDB
 <span class="kd">const</span><span class="w"> </span><span class="nx">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">ChromaClient</span><span class="p">({</span><span class="w"> </span><span class="nx">host</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">port</span><span class="o">:</span><span class="w"> </span><span class="mf">8000</span><span class="p">,</span><span class="w"> </span><span class="nx">ssl</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">});</span>
 </code></pre></div>
 
-<h3 id="net">.NET</h3>
+</div>
+<div role="tabpanel" id="panel-net" aria-labelledby="tab-net">
+<h3 class="panel-heading" id="net">.NET</h3>
 <p><a href="https://chromadotnet.org/libraries/client/">ChromaDotNet.Client</a> 2.18.0:</p>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">ChromaDB.Client</span><span class="p">;</span>
 
@@ -154,8 +189,7 @@ pip<span class="w"> </span>install<span class="w"> </span>VecturaDB
 <span class="kt">var</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ChromaClient</span><span class="p">(</span><span class="n">options</span><span class="p">,</span><span class="w"> </span><span class="n">http</span><span class="p">);</span>
 </code></pre></div>
 
-<p>With each of the three clients, the same query on the same copied collection gave the same records on Chroma Cloud and on VecturaDB.</p>
-<h3 id="aspire">Aspire</h3>
+<h4 id="aspire">Aspire</h4>
 <p><a href="https://chromadotnet.org/libraries/aspire/">ChromaDotNet.Aspire</a> 0.2.8 runs VecturaDB for the AppHost when you give it the image. In our run the container started on <code>127.0.0.1</code> and its pre-flight checks answered VecturaDB 1.0.0-preview.3:</p>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="c1">// AppHost</span>
 <span class="kt">var</span><span class="w"> </span><span class="n">chroma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">builder</span><span class="p">.</span><span class="n">AddChroma</span><span class="p">(</span><span class="s">&quot;chroma&quot;</span><span class="p">)</span>
@@ -166,12 +200,14 @@ pip<span class="w"> </span>install<span class="w"> </span>VecturaDB
 <span class="n">builder</span><span class="p">.</span><span class="n">AddChromaClient</span><span class="p">(</span><span class="s">&quot;chroma&quot;</span><span class="p">);</span>
 </code></pre></div>
 
-<h3 id="testcontainers">Testcontainers</h3>
+<h4 id="testcontainers">Testcontainers</h4>
 <p><a href="https://chromadotnet.org/libraries/testcontainers/">ChromaDotNet.Testcontainers</a> 0.1.7 starts VecturaDB for your tests when you give it the image. In our run the Search API answered there, and not on <code>chromadb/chroma:1.5.9</code>:</p>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="k">await</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="nn">var</span><span class="w"> </span><span class="n">chroma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ChromaBuilder</span><span class="p">(</span><span class="s">&quot;ghcr.io/vecturadb/vecturadb:1.0.0-preview.3&quot;</span><span class="p">).</span><span class="n">Build</span><span class="p">();</span>
 <span class="k">await</span><span class="w"> </span><span class="n">chroma</span><span class="p">.</span><span class="n">StartAsync</span><span class="p">();</span>
 </code></pre></div>
 
+</div>
+</div>
 <h3 id="other-languages">Other languages</h3>
 <p>The same short test with each client (create, add, query, get, where, delete, count) gave the same result on VecturaDB 1.0.0-preview.3 and on Chroma 1.5.9:</p>
 <div class="table" tabindex="0"><table>
