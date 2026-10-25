@@ -47,7 +47,7 @@
 
   <h2>Why VecturaDB</h2>
   <p>Chroma Cloud is winding down: it stops accepting writes on 22 November 2026 and stops serving reads on 22 December 2026. Some features of Chroma exist only in Chroma Cloud and in its distributed version: sparse vectors, the BM25 index and hybrid search. VecturaDB brings them to the single-node database, the one that runs with Docker, as a server, or inside a Python application, so that they stay available to everyone, as open source.</p>
-  <p>Since 1.0.0-preview.1, sparse vectors, BM25 and the Search API, hybrid search included, work on the single node.</p>
+  <p>Sparse vectors, BM25, the Search API, hybrid search included, and collection fork work on the single node.</p>
   <p>The releases are previews, <code>1.0.0-preview.N</code>, until VecturaDB has been proven in use; then comes <code>1.0.0</code>.</p>
 
   <h2>Python</h2>
@@ -70,7 +70,7 @@ pip install --force-reinstall --no-deps VecturaDB</code></pre>
 
   <h2>Docker</h2>
   <pre><code>docker run -p 8000:8000 -v ./data:/data ghcr.io/vecturadb/vecturadb:preview</code></pre>
-  <p>Images for amd64 and arm64. <code>preview</code> is the newest preview; every release also has its own tag, such as <code>1.0.0-preview.1</code>. The data lives in <code>/data</code>.</p>
+  <p>Images for amd64 and arm64. <code>preview</code> is the newest preview; every release also has a tag with its version. The data lives in <code>/data</code>.</p>
 
   <h2>CLI</h2>
   <p>Linux (x86_64 and arm64) and macOS (x64 and arm64):</p>
