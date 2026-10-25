@@ -53,7 +53,7 @@
   <h2>Python</h2>
   <pre><code>pip uninstall -y chromadb
 pip install VecturaDB</code></pre>
-  <p>The <code>VecturaDB</code> package replaces <code>chromadb</code>. The import name stays <code>chromadb</code>, so existing code runs as it is.</p>
+  <p>The <code>VecturaDB</code> package keeps the import name <code>chromadb</code>, so existing code runs as it is.</p>
   <pre><code>import chromadb
 
 client = chromadb.HttpClient(host="localhost", port=8000)</code></pre>
