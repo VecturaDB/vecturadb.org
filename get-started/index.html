@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Get started · VecturaDB</title>
+<meta name="description" content="Install VecturaDB with pip, Docker or the CLI, and copy your collections from Chroma Cloud.">
+<link rel="canonical" href="https://vecturadb.org/get-started/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://vecturadb.org/get-started/">
+<meta property="og:title" content="Get started · VecturaDB">
+<meta property="og:description" content="Install VecturaDB with pip, Docker or the CLI, and copy your collections from Chroma Cloud.">
+<!-- site-head -->
+<meta property="og:site_name" content="VecturaDB">
+<meta property="og:image" content="https://vecturadb.org/vecturadb-social-cloud-1280x640.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b1120" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon-96.png" type="image/png" sizes="96x96">
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="/assets/site.js" defer></script>
+<!-- /site-head -->
+</head>
+<body>
+<!-- site-header -->
+<svg class="sprite" aria-hidden="true"><symbol id="i-github" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></symbol></svg>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="visually-hidden">Menu</span>
+      <svg class="icon icon-stroke icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="icon icon-stroke icon-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/get-started/" aria-current="page">Get started</a></li>
+        <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+        <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+        <li><a class="nav-github" href="https://github.com/VecturaDB/VecturaDB"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<!-- /site-header -->
+
+<div class="container doc-layout">
+  <aside class="doc-aside" aria-label="On this page">
+    <h2>On this page</h2>
+    <ul>
+      <li><a href="#python">Python</a></li>
+      <li><a href="#packages-that-depend-on-chromadb">Packages that depend on chromadb</a></li>
+      <li><a href="#docker">Docker</a></li>
+      <li><a href="#cli">CLI</a></li>
+      <li><a href="#moving-data-out-of-chroma-cloud">Moving data out of Chroma Cloud</a></li>
+      <li><a href="#telemetry">Telemetry</a></li>
+    </ul>
+  </aside>
+  <main id="main" class="doc prose">
+    <h1>Get started</h1>
+    <p class="lead-doc">Three ways to run VecturaDB: the Python package, the Docker image and the CLI.</p>
+
+    <h2 id="python">Python</h2>
+    <pre tabindex="0"><code class="language-bash">pip<span class="w"> </span>uninstall<span class="w"> </span>-y<span class="w"> </span>chromadb
+pip<span class="w"> </span>install<span class="w"> </span>VecturaDB
+</code></pre>
+    <p>The <code>VecturaDB</code> package keeps the import name <code>chromadb</code>, so existing code runs as it is.</p>
+    <pre tabindex="0"><code class="language-python" data-snippet="client"><span class="kn">import</span><span class="w"> </span><span class="nn">chromadb</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
+</code></pre>
+    <p>While only previews exist, <code>pip install VecturaDB</code> installs the newest preview. Once <code>1.0.0</code> is out, a preview needs <code>pip install --pre VecturaDB</code>.</p>
+
+    <h3 id="packages-that-depend-on-chromadb">Packages that depend on chromadb</h3>
+    <p><code>VecturaDB</code> and <code>chromadb</code> install the same modules, so they cannot be installed side by side. Packages that declare a dependency on <code>chromadb</code>, such as <code>langchain-chroma</code>, make pip install <code>chromadb</code> too, and its files replace those of VecturaDB. Install those packages first and VecturaDB last:</p>
+    <pre tabindex="0"><code class="language-bash">pip<span class="w"> </span>install<span class="w"> </span>langchain-chroma
+pip<span class="w"> </span>install<span class="w"> </span>--force-reinstall<span class="w"> </span>--no-deps<span class="w"> </span>VecturaDB
+</code></pre>
+    <ul>
+      <li>Run the last line again after any command that installs or upgrades <code>chromadb</code>.</li>
+      <li>Do not uninstall <code>chromadb</code> afterwards: it removes files that VecturaDB uses.</li>
+    </ul>
+
+    <h2 id="docker">Docker</h2>
+    <pre tabindex="0"><code class="language-bash">docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span>:8000<span class="w"> </span>-v<span class="w"> </span>./data:/data<span class="w"> </span>ghcr.io/vecturadb/vecturadb:preview
+</code></pre>
+    <p>Images for amd64 and arm64. <code>preview</code> is the newest preview; every release also has a tag with its version. The data lives in <code>/data</code>.</p>
+
+    <h2 id="cli">CLI</h2>
+    <p>Linux (x86_64 and arm64) and macOS (x64 and arm64):</p>
+    <pre tabindex="0"><code class="language-bash">curl<span class="w"> </span>-sSL<span class="w"> </span>https://raw.githubusercontent.com/VecturaDB/VecturaDB/main/rust/cli/install/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+chroma<span class="w"> </span>run<span class="w"> </span>--path<span class="w"> </span>./data
+</code></pre>
+    <p>Windows (x64), in PowerShell:</p>
+    <pre tabindex="0"><code class="language-powershell"><span class="nb">iex </span><span class="p">((</span><span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">DownloadString</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/VecturaDB/VecturaDB/main/rust/cli/install/install.ps1&#39;</span><span class="p">))</span>
+</code></pre>
+    <p>The scripts install the newest release, previews included. Every binary is also in the <a href="https://github.com/VecturaDB/VecturaDB/releases">releases</a>. The binary keeps the name <code>chroma</code>.</p>
+
+    <h2 id="moving-data-out-of-chroma-cloud">Moving data out of Chroma Cloud</h2>
+    <p>Guides for every destination, Chroma included: <a href="/leaving-chroma-cloud/">Leaving Chroma Cloud</a>.</p>
+    <p>The CLI copies collections from Chroma Cloud into a running VecturaDB:</p>
+    <pre tabindex="0"><code class="language-bash">chroma<span class="w"> </span>login<span class="w"> </span>--api-key<span class="w"> </span>&lt;your<span class="w"> </span>Chroma<span class="w"> </span>Cloud<span class="w"> </span>API<span class="w"> </span>key&gt;
+chroma<span class="w"> </span>copy<span class="w"> </span>--from-cloud<span class="w"> </span>--to-local<span class="w"> </span>--host<span class="w"> </span>http://localhost:8000<span class="w"> </span>--db<span class="w"> </span>&lt;database&gt;<span class="w"> </span>--all
+</code></pre>
+    <p>To copy only some collections, use <code>--collections &lt;name&gt;</code> once per collection instead of <code>--all</code>. The collections must not exist yet in VecturaDB.</p>
+    <p>The copy stops at the first collection it cannot create. The collections copied before it stay in VecturaDB: copy the rest with <code>--collections</code>. Collections whose metadata holds the legacy <code>hnsw:*</code> settings fail with <code>Cannot set both collection config and schema simultaneously</code>; Chroma gives the same error.</p>
+    <p>What arrives: every record with its document, metadata, embedding and URI, the metadata of the collection, and its schema, sparse and BM25 indexes included. Sparse and BM25 searches give the same scores as on Chroma Cloud. The settings of the dense index do not arrive: Chroma Cloud uses SPANN, VecturaDB uses HNSW with its default settings.</p>
+
+    <h2 id="telemetry">Telemetry</h2>
+    <p>Off by default. <code>ANONYMIZED_TELEMETRY=TRUE</code> turns on the anonymized telemetry inherited from Chroma, in the Python package only. The server binary sends none.</p>
+  </main>
+</div>
+
+<!-- site-footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+        <p>Vector database compatible with the Chroma API, bringing Chroma Cloud's features to open source.</p>
+      </div>
+      <div class="footer-col">
+        <h2>Docs</h2>
+        <ul>
+          <li><a href="/get-started/">Get started</a></li>
+          <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/VecturaDB/VecturaDB">GitHub</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/security/policy">Security policy</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/blob/main/LICENSE">License</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Packages</h2>
+        <ul>
+          <li><a href="https://pypi.org/project/VecturaDB/">PyPI</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/pkgs/container/vecturadb">Docker image</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>VecturaDB is not affiliated with Chroma.</p>
+      <p>Apache License 2.0</p>
+    </div>
+  </div>
+</footer>
+<!-- /site-footer -->
+</body>
+</html>

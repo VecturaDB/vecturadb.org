@@ -4,100 +4,328 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>VecturaDB</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="canonical" href="https://vecturadb.org/">
 <meta name="description" content="Vector database compatible with the Chroma API, bringing Chroma Cloud's features to open source.">
+<link rel="canonical" href="https://vecturadb.org/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vecturadb.org/">
 <meta property="og:title" content="VecturaDB">
 <meta property="og:description" content="Vector database compatible with the Chroma API, bringing Chroma Cloud's features to open source.">
+<!-- site-head -->
+<meta property="og:site_name" content="VecturaDB">
 <meta property="og:image" content="https://vecturadb.org/vecturadb-social-cloud-1280x640.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
 <meta name="twitter:card" content="summary_large_image">
-<style>
-  :root { --fg: #1b1f24; --muted: #57606a; --bg: #ffffff; --code: #f3f4f6; --link: #0b5cad; --brand: #4f46e5; --brand-db: #0d9488; }
-  @media (prefers-color-scheme: dark) {
-    :root { --fg: #e6e8eb; --muted: #9aa3ad; --bg: #111418; --code: #1c2128; --link: #6cb6ff; --brand: #818cf8; --brand-db: #2dd4bf; }
-  }
-  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
-  main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
-  h1 { font-size: 2rem; margin: 0 0 4px; display: flex; align-items: center; gap: 10px; }
-  h1 img { width: 44px; height: 44px; }
-  h1 .name { color: var(--brand); }
-  h1 .db { color: var(--brand-db); }
-  h2 { font-size: 1.25rem; margin: 32px 0 8px; }
-  h3 { font-size: 1.05rem; margin: 20px 0 6px; }
-  p, li { margin: 8px 0; }
-  .lead { color: var(--muted); margin-bottom: 24px; }
-  a { color: var(--link); }
-  pre { background: var(--code); padding: 12px 14px; border-radius: 6px; overflow-x: auto; font-size: 14px; }
-  code { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; }
-  footer { margin-top: 48px; color: var(--muted); font-size: 14px; }
-</style>
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b1120" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon-96.png" type="image/png" sizes="96x96">
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="/assets/site.js" defer></script>
+<!-- /site-head -->
 </head>
 <body>
-<main>
-  <h1><img src="vecturadb-mark-auto.svg" alt="" width="44" height="44"><span class="name">Vectura<span class="db">DB</span></span></h1>
-  <p class="lead">Vector database compatible with the Chroma API, bringing Chroma Cloud's features to open source.</p>
+<!-- site-header -->
+<svg class="sprite" aria-hidden="true"><symbol id="i-github" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></symbol></svg>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="visually-hidden">Menu</span>
+      <svg class="icon icon-stroke icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="icon icon-stroke icon-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/get-started/">Get started</a></li>
+        <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+        <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+        <li><a class="nav-github" href="https://github.com/VecturaDB/VecturaDB"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<!-- /site-header -->
 
-  <p>VecturaDB was forked from the open-source <a href="https://github.com/chroma-core/chroma">Chroma</a> project. It is not affiliated with Chroma.</p>
-  <p>VecturaDB is an open-source vector database, compatible with the Chroma API. The <a href="https://github.com/VecturaDB/VecturaDB">VecturaDB repository</a> keeps the full git history of Chroma and its Apache 2.0 license.</p>
+<main id="main">
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <a class="pill" href="https://github.com/VecturaDB/VecturaDB/releases/tag/v1.0.0-preview.2"><span class="dot" aria-hidden="true"></span>Latest release: 1.0.0-preview.2</a>
+        <h1>Vector database compatible with the Chroma API, bringing <span class="grad">Chroma Cloud's features to open source</span>.</h1>
+        <p class="lead">Sparse vectors, BM25, the Search API, hybrid search included, and collection fork work on the single node.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="/get-started/">Get started</a>
+          <a class="btn btn-secondary" href="https://github.com/VecturaDB/VecturaDB"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a>
+        </div>
+      </div>
+      <div class="code-card" data-tabs>
+        <div class="tablist" role="tablist" aria-label="Install">
+          <button type="button" role="tab" id="tab-pip" aria-controls="panel-pip" aria-selected="true">pip</button>
+          <button type="button" role="tab" id="tab-docker" aria-controls="panel-docker" aria-selected="false" tabindex="-1">Docker</button>
+          <button type="button" role="tab" id="tab-cli" aria-controls="panel-cli" aria-selected="false" tabindex="-1">CLI</button>
+        </div>
+        <div role="tabpanel" id="panel-pip" aria-labelledby="tab-pip">
+          <p class="panel-label">pip</p>
+          <pre tabindex="0"><code class="language-bash">pip<span class="w"> </span>uninstall<span class="w"> </span>-y<span class="w"> </span>chromadb
+pip<span class="w"> </span>install<span class="w"> </span>VecturaDB
+</code></pre>
+          <p class="caption">The <code>VecturaDB</code> package keeps the import name <code>chromadb</code>, so existing code runs as it is.</p>
+        </div>
+        <div role="tabpanel" id="panel-docker" aria-labelledby="tab-docker">
+          <p class="panel-label">Docker</p>
+          <pre tabindex="0"><code class="language-bash">docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span>:8000<span class="w"> </span>-v<span class="w"> </span>./data:/data<span class="w"> </span>ghcr.io/vecturadb/vecturadb:preview
+</code></pre>
+          <p class="caption">Images for amd64 and arm64. The data lives in <code>/data</code>.</p>
+        </div>
+        <div role="tabpanel" id="panel-cli" aria-labelledby="tab-cli">
+          <p class="panel-label">CLI</p>
+          <pre tabindex="0"><code class="language-bash">curl<span class="w"> </span>-sSL<span class="w"> </span>https://raw.githubusercontent.com/VecturaDB/VecturaDB/main/rust/cli/install/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+chroma<span class="w"> </span>run<span class="w"> </span>--path<span class="w"> </span>./data
+</code></pre>
+          <p class="caption">Linux and macOS. For Windows, see <a href="/get-started/#cli">Get started</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <h2>Why VecturaDB</h2>
-  <p>Chroma Cloud is winding down: it stops accepting writes on 22 November 2026 and stops serving reads on 22 December 2026. Some features of Chroma exist only in Chroma Cloud and in its distributed version: sparse vectors, the BM25 index and hybrid search. VecturaDB brings them to the single-node database, the one that runs with Docker, as a server, or inside a Python application, so that they stay available to everyone, as open source.</p>
-  <p>Sparse vectors, BM25, the Search API, hybrid search included, and collection fork work on the single node.</p>
-  <p>The releases are previews, <code>1.0.0-preview.N</code>, until VecturaDB has been proven in use; then comes <code>1.0.0</code>.</p>
+  <section class="facts" aria-label="At a glance">
+    <div class="container">
+      <ul>
+        <li><span class="fact-k">Python</span><span class="fact-v"><code>pip install VecturaDB</code></span></li>
+        <li><span class="fact-k">Docker</span><span class="fact-v">amd64 and arm64</span></li>
+        <li><span class="fact-k">CLI</span><span class="fact-v">Linux, macOS and Windows</span></li>
+        <li><span class="fact-k">Telemetry</span><span class="fact-v">Off by default</span></li>
+      </ul>
+    </div>
+  </section>
 
-  <h2>Python</h2>
-  <pre><code>pip uninstall -y chromadb
-pip install VecturaDB</code></pre>
-  <p>The <code>VecturaDB</code> package keeps the import name <code>chromadb</code>, so existing code runs as it is.</p>
-  <pre><code>import chromadb
+  <section class="section" id="features" aria-labelledby="features-title">
+    <div class="container">
+      <p class="eyebrow">Features</p>
+      <h2 id="features-title">Chroma Cloud's features, on a single node</h2>
+      <p class="section-intro">Some features of Chroma exist only in Chroma Cloud and in its distributed version: sparse vectors, the BM25 index and hybrid search. VecturaDB brings them to the single-node database, the one that runs with Docker, as a server, or inside a Python application, so that they stay available to everyone, as open source.</p>
 
-client = chromadb.HttpClient(host="localhost", port=8000)</code></pre>
-  <p>While only previews exist, <code>pip install VecturaDB</code> installs the newest preview. Once <code>1.0.0</code> is out, a preview needs <code>pip install --pre VecturaDB</code>.</p>
+      <div class="feature-tabs" data-tabs>
+        <div class="tablist" role="tablist" aria-label="Features">
+          <button type="button" role="tab" id="tab-sparse" aria-controls="panel-sparse" aria-selected="true">Sparse vectors</button>
+          <button type="button" role="tab" id="tab-bm25" aria-controls="panel-bm25" aria-selected="false" tabindex="-1">BM25</button>
+          <button type="button" role="tab" id="tab-hybrid" aria-controls="panel-hybrid" aria-selected="false" tabindex="-1">Hybrid search</button>
+          <button type="button" role="tab" id="tab-fork" aria-controls="panel-fork" aria-selected="false" tabindex="-1">Collection fork</button>
+        </div>
 
-  <h3>Packages that depend on chromadb</h3>
-  <p><code>VecturaDB</code> and <code>chromadb</code> install the same modules, so they cannot be installed side by side. Packages that declare a dependency on <code>chromadb</code>, such as <code>langchain-chroma</code>, make pip install <code>chromadb</code> too, and its files replace those of VecturaDB. Install those packages first and VecturaDB last:</p>
-  <pre><code>pip install langchain-chroma
-pip install --force-reinstall --no-deps VecturaDB</code></pre>
-  <ul>
-    <li>Run the last line again after any command that installs or upgrades <code>chromadb</code>.</li>
-    <li>Do not uninstall <code>chromadb</code> afterwards: it removes files that VecturaDB uses.</li>
-  </ul>
+        <div class="feature-panel" role="tabpanel" id="panel-sparse" aria-labelledby="tab-sparse">
+          <div>
+            <h3>Sparse vectors</h3>
+            <p>A sparse vector index on the single node, searched with the Search API.</p>
+            <p>In our tests, collections copied from Chroma Cloud gave the same sparse scores as on Chroma Cloud.</p>
+          </div>
+          <div class="code-card"><pre tabindex="0"><code class="language-python" data-snippet="sparse"><span class="kn">import</span><span class="w"> </span><span class="nn">chromadb</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chromadb</span><span class="w"> </span><span class="kn">import</span> <span class="n">K</span><span class="p">,</span> <span class="n">Knn</span><span class="p">,</span> <span class="n">Schema</span><span class="p">,</span> <span class="n">Search</span><span class="p">,</span> <span class="n">SparseVectorIndexConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chromadb.base_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparseVector</span>
 
-  <h2>Docker</h2>
-  <pre><code>docker run -p 8000:8000 -v ./data:/data ghcr.io/vecturadb/vecturadb:preview</code></pre>
-  <p>Images for amd64 and arm64. <code>preview</code> is the newest preview; every release also has a tag with its version. The data lives in <code>/data</code>.</p>
+<span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
 
-  <h2>CLI</h2>
-  <p>Linux (x86_64 and arm64) and macOS (x64 and arm64):</p>
-  <pre><code>curl -sSL https://raw.githubusercontent.com/VecturaDB/VecturaDB/main/rust/cli/install/install.sh | bash
-chroma run --path ./data</code></pre>
-  <p>Windows (x64), in PowerShell:</p>
-  <pre><code>iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/VecturaDB/VecturaDB/main/rust/cli/install/install.ps1'))</code></pre>
-  <p>The scripts install the newest release, previews included. Every binary is also in the <a href="https://github.com/VecturaDB/VecturaDB/releases">releases</a>. The binary keeps the name <code>chroma</code>.</p>
+<span class="n">schema</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">()</span>
+<span class="n">schema</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">SparseVectorIndexConfig</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;sparse&quot;</span><span class="p">)</span>
+<span class="n">collection</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">create_collection</span><span class="p">(</span>
+    <span class="s2">&quot;articles&quot;</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">,</span> <span class="n">embedding_function</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span>
 
-  <h2>Moving data out of Chroma Cloud</h2>
-  <p>Guides for every destination, Chroma included: <a href="leaving-chroma-cloud/">Leaving Chroma Cloud</a>.</p>
-  <p>The CLI copies collections from Chroma Cloud into a running VecturaDB:</p>
-  <pre><code>chroma login --api-key &lt;your Chroma Cloud API key&gt;
-chroma copy --from-cloud --to-local --host http://localhost:8000 --db &lt;database&gt; --all</code></pre>
-  <p>To copy only some collections, use <code>--collections &lt;name&gt;</code> once per collection instead of <code>--all</code>. The collections must not exist yet in VecturaDB.</p>
-  <p>The copy stops at the first collection it cannot create. The collections copied before it stay in VecturaDB: copy the rest with <code>--collections</code>. Collections whose metadata holds the legacy <code>hnsw:*</code> settings fail with <code>Cannot set both collection config and schema simultaneously</code>; Chroma gives the same error.</p>
-  <p>What arrives: every record with its document, metadata, embedding and URI, the metadata of the collection, and its schema, sparse and BM25 indexes included. Sparse and BM25 searches give the same scores as on Chroma Cloud. The settings of the dense index do not arrive: Chroma Cloud uses SPANN, VecturaDB uses HNSW with its default settings.</p>
+<span class="n">collection</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a1&quot;</span><span class="p">,</span> <span class="s2">&quot;a2&quot;</span><span class="p">,</span> <span class="s2">&quot;a3&quot;</span><span class="p">],</span>
+    <span class="n">embeddings</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>
+    <span class="n">metadatas</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;sparse&quot;</span><span class="p">:</span> <span class="n">SparseVector</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])},</span>
+        <span class="p">{</span><span class="s2">&quot;sparse&quot;</span><span class="p">:</span> <span class="n">SparseVector</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])},</span>
+        <span class="p">{</span><span class="s2">&quot;sparse&quot;</span><span class="p">:</span> <span class="n">SparseVector</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])},</span>
+    <span class="p">],</span>
+<span class="p">)</span>
 
-  <h2>Telemetry</h2>
-  <p>Off by default. <code>ANONYMIZED_TELEMETRY=TRUE</code> turns on the anonymized telemetry inherited from Chroma, in the Python package only. The server binary sends none.</p>
+<span class="n">query</span> <span class="o">=</span> <span class="n">SparseVector</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">])</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+    <span class="n">Search</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">Knn</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;sparse&quot;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">SCORE</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+        </div>
 
-  <h2>License</h2>
-  <p>Apache License 2.0. The changes of VecturaDB are copyright of the VecturaDB contributors. Chroma's notices stay as they are: see <a href="https://github.com/VecturaDB/VecturaDB/blob/main/LICENSE">LICENSE</a> and <a href="https://github.com/VecturaDB/VecturaDB/blob/main/NOTICE">NOTICE</a>.</p>
+        <div class="feature-panel" role="tabpanel" id="panel-bm25" aria-labelledby="tab-bm25">
+          <div>
+            <h3>BM25</h3>
+            <p>A BM25 index on the documents of a collection. As with Chroma Cloud, the client computes the BM25 vectors: the Python client needs <code>pip install snowballstemmer</code>.</p>
+            <p>In our tests, collections copied from Chroma Cloud gave the same BM25 scores as on Chroma Cloud.</p>
+          </div>
+          <div class="code-card"><pre tabindex="0"><code class="language-python" data-snippet="bm25"><span class="kn">import</span><span class="w"> </span><span class="nn">chromadb</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chromadb</span><span class="w"> </span><span class="kn">import</span> <span class="n">K</span><span class="p">,</span> <span class="n">Knn</span><span class="p">,</span> <span class="n">Schema</span><span class="p">,</span> <span class="n">Search</span><span class="p">,</span> <span class="n">SparseVectorIndexConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chromadb.utils.embedding_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChromaBm25EmbeddingFunction</span>
 
-  <footer>
-    <a href="https://github.com/VecturaDB/VecturaDB">github.com/VecturaDB/VecturaDB</a>
-  </footer>
+<span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
+
+<span class="n">schema</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">()</span>
+<span class="n">schema</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">SparseVectorIndexConfig</span><span class="p">(</span>
+        <span class="n">source_key</span><span class="o">=</span><span class="n">K</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span>
+        <span class="n">embedding_function</span><span class="o">=</span><span class="n">ChromaBm25EmbeddingFunction</span><span class="p">(),</span>
+        <span class="n">bm25</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">key</span><span class="o">=</span><span class="s2">&quot;doc_bm25&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">collection</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">create_collection</span><span class="p">(</span>
+    <span class="s2">&quot;docs&quot;</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">,</span> <span class="n">embedding_function</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span>
+
+<span class="n">collection</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;fox&quot;</span><span class="p">,</span> <span class="s2">&quot;pie&quot;</span><span class="p">,</span> <span class="s2">&quot;ml&quot;</span><span class="p">],</span>
+    <span class="n">embeddings</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>
+    <span class="n">documents</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;The quick brown fox jumps over the lazy dog&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Grandma bakes an apple pie every Sunday&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Machine learning is a subset of artificial intelligence&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">metadatas</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;topic&quot;</span><span class="p">:</span> <span class="s2">&quot;animals&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;topic&quot;</span><span class="p">:</span> <span class="s2">&quot;food&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;topic&quot;</span><span class="p">:</span> <span class="s2">&quot;tech&quot;</span><span class="p">}],</span>
+<span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+    <span class="n">Search</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">Knn</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s2">&quot;apple pie&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;doc_bm25&quot;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">K</span><span class="o">.</span><span class="n">SCORE</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+        </div>
+
+        <div class="feature-panel" role="tabpanel" id="panel-hybrid" aria-labelledby="tab-hybrid">
+          <div>
+            <h3>Search API and hybrid search</h3>
+            <p>The Search API filters, ranks and selects fields in one call.</p>
+            <p>Hybrid search merges a dense ranking and a BM25 ranking with Reciprocal Rank Fusion (RRF).</p>
+          </div>
+          <div class="code-card"><pre tabindex="0"><code class="language-python" data-snippet="hybrid"><span class="kn">import</span><span class="w"> </span><span class="nn">chromadb</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chromadb</span><span class="w"> </span><span class="kn">import</span> <span class="n">K</span><span class="p">,</span> <span class="n">Knn</span><span class="p">,</span> <span class="n">Rrf</span><span class="p">,</span> <span class="n">Search</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
+<span class="c1"># The &quot;docs&quot; collection of the BM25 example</span>
+<span class="n">collection</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="s2">&quot;docs&quot;</span><span class="p">)</span>
+
+<span class="n">hybrid</span> <span class="o">=</span> <span class="n">Rrf</span><span class="p">(</span>
+    <span class="n">ranks</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">Knn</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">return_rank</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">Knn</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s2">&quot;apple pie&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;doc_bm25&quot;</span><span class="p">,</span> <span class="n">return_rank</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="p">],</span>
+    <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span>
+    <span class="n">k</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+    <span class="n">Search</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">K</span><span class="p">(</span><span class="s2">&quot;topic&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;tech&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">hybrid</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">K</span><span class="o">.</span><span class="n">SCORE</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+        </div>
+
+        <div class="feature-panel" role="tabpanel" id="panel-fork" aria-labelledby="tab-fork">
+          <div>
+            <h3>Collection fork</h3>
+            <p>Fork creates a new collection with the records of an existing one.</p>
+            <p>On the single node the fork is a full copy of the records, not copy-on-write.</p>
+          </div>
+          <div class="code-card"><pre tabindex="0"><code class="language-python" data-snippet="fork"><span class="kn">import</span><span class="w"> </span><span class="nn">chromadb</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
+<span class="n">collection</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="s2">&quot;docs&quot;</span><span class="p">)</span>
+
+<span class="n">experiment</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">fork</span><span class="p">(</span><span class="s2">&quot;docs-experiment&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>  <span class="c1"># 3</span>
+</code></pre></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-soft" id="leaving-chroma-cloud" aria-labelledby="leaving-title">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">Leaving Chroma Cloud</p>
+        <h2 id="leaving-title">Guides for every destination, Chroma included</h2>
+        <p>Chroma Cloud is winding down: it stops accepting writes on 22 November 2026 and stops serving reads on 22 December 2026.</p>
+        <p>The CLI copies collections from Chroma Cloud into a running VecturaDB:</p>
+        <div class="code-card"><pre tabindex="0"><code class="language-bash">chroma<span class="w"> </span>login<span class="w"> </span>--api-key<span class="w"> </span>&lt;your<span class="w"> </span>Chroma<span class="w"> </span>Cloud<span class="w"> </span>API<span class="w"> </span>key&gt;
+chroma<span class="w"> </span>copy<span class="w"> </span>--from-cloud<span class="w"> </span>--to-local<span class="w"> </span>--host<span class="w"> </span>http://localhost:8000<span class="w"> </span>--db<span class="w"> </span>&lt;database&gt;<span class="w"> </span>--all
+</code></pre></div>
+        <div class="actions"><a class="btn btn-primary" href="/leaving-chroma-cloud/">Read the guides</a></div>
+      </div>
+      <div class="cards">
+        <a class="card" href="/leaving-chroma-cloud/to-chroma-single-node.html"><h3>To Chroma 1.5.9, single node <span class="arrow" aria-hidden="true">→</span></h3><p>The open-source single-node server.</p></a>
+        <a class="card" href="/leaving-chroma-cloud/to-chroma-distributed.html"><h3>To Chroma distributed <span class="arrow" aria-hidden="true">→</span></h3><p>The open-source multi-service deployment, run on Kubernetes.</p></a>
+        <a class="card" href="/leaving-chroma-cloud/to-vecturadb.html"><h3>To VecturaDB <span class="arrow" aria-hidden="true">→</span></h3><p>A single-node server built from Chroma.</p></a>
+        <a class="card" href="/leaving-chroma-cloud/hosted-embedding-models.html"><h3>Hosted embedding models <span class="arrow" aria-hidden="true">→</span></h3><p>Shared by the three guides.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section open-source" id="open-source" aria-labelledby="open-source-title">
+    <div class="container">
+      <p class="eyebrow">Open source</p>
+      <h2 id="open-source-title">An open-source vector database, compatible with the Chroma API</h2>
+      <p>VecturaDB was forked from the open-source <a href="https://github.com/chroma-core/chroma">Chroma</a> project. It is not affiliated with Chroma. The <a href="https://github.com/VecturaDB/VecturaDB">VecturaDB repository</a> keeps the full git history of Chroma and its Apache 2.0 license.</p>
+      <p>The releases are previews, <code>1.0.0-preview.N</code>, until VecturaDB has been proven in use; then comes <code>1.0.0</code>.</p>
+      <p>Apache License 2.0. The changes of VecturaDB are copyright of the VecturaDB contributors. Chroma's notices stay as they are: see <a href="https://github.com/VecturaDB/VecturaDB/blob/main/LICENSE">LICENSE</a> and <a href="https://github.com/VecturaDB/VecturaDB/blob/main/NOTICE">NOTICE</a>.</p>
+    </div>
+  </section>
 </main>
+
+<!-- site-footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+        <p>Vector database compatible with the Chroma API, bringing Chroma Cloud's features to open source.</p>
+      </div>
+      <div class="footer-col">
+        <h2>Docs</h2>
+        <ul>
+          <li><a href="/get-started/">Get started</a></li>
+          <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/VecturaDB/VecturaDB">GitHub</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/security/policy">Security policy</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/blob/main/LICENSE">License</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Packages</h2>
+        <ul>
+          <li><a href="https://pypi.org/project/VecturaDB/">PyPI</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/pkgs/container/vecturadb">Docker image</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>VecturaDB is not affiliated with Chroma.</p>
+      <p>Apache License 2.0</p>
+    </div>
+  </div>
+</footer>
+<!-- /site-footer -->
 </body>
 </html>
