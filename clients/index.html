@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clients · VecturaDB</title>
+<meta name="description" content="We ran 14 Chroma clients, in 11 languages, with the same test against VecturaDB 1.0.0-preview.3 and against Chroma 1.5.9. In our tests each client gave the same result on the two servers, step by step: where a client fails, it fails in the same way on Chroma 1.5.9.">
+<link rel="canonical" href="https://vecturadb.org/clients/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://vecturadb.org/clients/">
+<meta property="og:title" content="Clients · VecturaDB">
+<meta property="og:description" content="We ran 14 Chroma clients, in 11 languages, with the same test against VecturaDB 1.0.0-preview.3 and against Chroma 1.5.9. In our tests each client gave the same result on the two servers, step by step: where a client fails, it fails in the same way on Chroma 1.5.9.">
+<!-- site-head -->
+<meta property="og:site_name" content="VecturaDB">
+<meta property="og:image" content="https://vecturadb.org/vecturadb-social-cloud-1280x640.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b1120" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon-96.png" type="image/png" sizes="96x96">
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="/assets/site.js" defer></script>
+<!-- /site-head -->
+</head>
+<body>
+<!-- site-header -->
+<svg class="sprite" aria-hidden="true"><symbol id="i-github" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></symbol></svg>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="visually-hidden">Menu</span>
+      <svg class="icon icon-stroke icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="icon icon-stroke icon-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/get-started/">Get started</a></li>
+        <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+        <li><a href="/clients/" aria-current="page">Clients</a></li>
+        <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+        <li><a class="nav-github" href="https://github.com/VecturaDB/VecturaDB"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<!-- /site-header -->
+
+<div class="container doc-layout">
+  <aside class="doc-aside" aria-label="On this page">
+    <h2>On this page</h2>
+    <ul>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#what-the-results-mean">What the results mean</a></li>
+      <li><a href="#how-we-tested">How we tested</a></li>
+      <li><a href="#moving-from-chroma-cloud">Moving from Chroma Cloud</a></li>
+    </ul>
+  </aside>
+  <main id="main" class="doc prose">
+<h1 id="clients">Clients</h1>
+<p class="lead-doc">We ran 14 Chroma clients, in 11 languages, with the same test against VecturaDB 1.0.0-preview.3 and against Chroma 1.5.9. In our tests each client gave the same result on the two servers, step by step: where a client fails, it fails in the same way on Chroma 1.5.9.</p>
+<div class="note">
+<p><strong>Disclaimer.</strong> These results are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 25 October 2026: your client, its version and your setup may behave differently.</p>
+<p>Not sure about your client? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, name the client and its version, and we will take a look on a best-effort basis.</p>
+</div>
+<h2 id="results">Results</h2>
+<div class="table clients-table" tabindex="0"><table>
+<thead>
+<tr>
+<th>Language</th>
+<th>Package and version</th>
+<th>VecturaDB 1.0.0-preview.3</th>
+<th>Chroma 1.5.9</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python</td>
+<td><code>chromadb-<wbr>client</code> 1.5.9</td>
+<td data-label="VecturaDB 1.0.0-preview.3">Passed</td>
+<td data-label="Chroma 1.5.9">Passed</td>
+<td>All 9 steps.</td>
+</tr>
+<tr>
+<td>JavaScript</td>
+<td><code>chromadb</code> 3.5.0</td>
+<td data-label="VecturaDB 1.0.0-preview.3">Passed</td>
+<td data-label="Chroma 1.5.9">Passed</td>
+<td>All 9 steps.</td>
+</tr>
+<tr>
+<td>.NET</td>
+<td><code>ChromaDotNet.<wbr>Client</code> 2.18.0</td>
+<td data-label="VecturaDB 1.0.0-preview.3">Passed</td>
+<td data-label="Chroma 1.5.9">Passed</td>
+<td>All 9 steps. The whole test suite of the client, on VecturaDB 1.0.0-preview.3: 2192 passed, 12 skipped, 0 failed. The skipped tests are for Chroma Cloud quotas and settings, tenants and databases created on a server already running, the built-in authentication that Chroma 1.0 removed, timing measurements and Chroma 0.x.</td>
+</tr>
+<tr>
+<td>Go</td>
+<td><code>github.<wbr>com/<wbr>amikos-<wbr>tech/<wbr>chroma-<wbr>go</code> v0.4.1</td>
+<td data-label="VecturaDB 1.0.0-preview.3">Passed</td>
+<td data-label="Chroma 1.5.9">Passed</td>
+<td>All 9 steps. To install it, its dependency <code>chroma-go-local</code> v0.3.4 had to be replaced with v0.3.5: proxy.golang.org answered 404 and the direct download failed the checksum. Only the embedded client uses it.</td>
+</tr>
+<tr>
+<td>PHP</td>
+<td><code>codewithkyrian/<wbr>chromadb-<wbr>php</code> 1.0.0</td>
+<td data-label="VecturaDB 1.0.0-preview.3">Passed</td>
+<td data-label="Chroma 1.5.9">Passed</td>
+<td>All 9 steps.</td>
+</tr>
+<tr>
+<td>PHP</td>
+<td><code>helgesverre/<wbr>chromadb</code> v3.0.0</td>
+<td data-label="VecturaDB 1.0.0-preview.3">Passed</td>
+<td data-label="Chroma 1.5.9">Passed</td>
+<td>All 9 steps.</td>
+</tr>
+<tr>
+<td>Dart</td>
+<td><code>chromadb</code> 2.0.0</td>
+<td data-label="VecturaDB 1.0.0-preview.3">Passed</td>
+<td data-label="Chroma 1.5.9">Passed</td>
+<td>All 9 steps.</td>
+</tr>
+<tr>
+<td>Rust</td>
+<td><code>chroma</code> 0.15.0</td>
+<td data-label="VecturaDB 1.0.0-preview.3">Partial</td>
+<td data-label="Chroma 1.5.9">Partial</td>
+<td>The crate has no pre-flight-checks; the other 8 steps passed. It needs <code>protoc</code> to build.</td>
+</tr>
+<tr>
+<td>Elixir</td>
+<td><code>chroma</code> 0.1.3</td>
+<td data-label="VecturaDB 1.0.0-preview.3">Partial</td>
+<td data-label="Chroma 1.5.9">Partial</td>
+<td>Set to the v2 API with its <code>api_version</code> setting. The library has no pre-flight-checks, get by id, where or delete of records; the other steps passed.</td>
+</tr>
+<tr>
+<td>Rust</td>
+<td><code>chromadb</code> 2.3.0</td>
+<td data-label="VecturaDB 1.0.0-preview.3">Failed</td>
+<td data-label="Chroma 1.5.9">Failed</td>
+<td>The heartbeat calls the v1 API: "410 Gone: The v1 API is deprecated. Please use /v2 apis". The other steps passed.</td>
+</tr>
+<tr>
+<td>Ruby</td>
+<td><code>chroma-<wbr>db</code> 0.9.0</td>
+<td data-label="VecturaDB 1.0.0-preview.3">Failed</td>
+<td data-label="Chroma 1.5.9">Failed</td>
+<td>Get and delete send an empty <code>where</code> and <code>where_document</code>, which both servers reject with 400 "Invalid where clause". The gem then raises <code>NoMethodError: private method `raise_failure_error'</code> instead of the message of the server.</td>
+</tr>
+<tr>
+<td>.NET</td>
+<td><code>Microsoft.<wbr>SemanticKernel.<wbr>Connectors.<wbr>Chroma</code> 1.74.0-alpha</td>
+<td data-label="VecturaDB 1.0.0-preview.3">Failed</td>
+<td data-label="Chroma 1.5.9">Failed</td>
+<td>The v1 API only: creating a collection answers "405 (Method Not Allowed)".</td>
+</tr>
+<tr>
+<td>Java</td>
+<td><code>io.<wbr>github.<wbr>amikos-<wbr>tech:<wbr>chromadb-<wbr>java-<wbr>client</code> 0.1.7</td>
+<td data-label="VecturaDB 1.0.0-preview.3">Failed</td>
+<td data-label="Chroma 1.5.9">Failed</td>
+<td>The v1 API only: the heartbeat answers "Gone", creating a collection "Method Not Allowed".</td>
+</tr>
+<tr>
+<td>Clojure</td>
+<td><code>levand/<wbr>clojure-<wbr>chroma-<wbr>client</code>, commit 61766c3</td>
+<td data-label="VecturaDB 1.0.0-preview.3">Failed</td>
+<td data-label="Chroma 1.5.9">Failed</td>
+<td>The v1 API only: "Unsuccessful HTTP status code" from the heartbeat and from creating a collection.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="what-the-results-mean">What the results mean</h2>
+<ul>
+<li><strong>Passed</strong>: all 9 steps gave the expected result.</li>
+<li><strong>Partial</strong>: the steps the client has passed; the others are not in the client.</li>
+<li><strong>Failed</strong>: at least one step gave an error. Each failure in the table happened in the same way on Chroma 1.5.9. Four of the five failing clients call the v1 API, which Chroma 1.x no longer serves.</li>
+</ul>
+<h2 id="how-we-tested">How we tested</h2>
+<ul>
+<li>The servers: <code>chromadb/chroma:1.5.9</code> and <code>ghcr.io/vecturadb/vecturadb:1.0.0-preview.3</code>, for linux/amd64, with the default command of the image. The image of VecturaDB was <code>sha256:df6c4144ca9bd85910c8a224efabcf85b17ff99306c8ea4809a43bf9f9ca0eaf</code>.</li>
+<li>A new container for each client and each server, with an empty data folder, on a Docker network: the client reached the server at port 8000. No API keys, the default tenant and database.</li>
+<li>Each client ran in a container of its language, with its version pinned.</li>
+</ul>
+<p>The steps were the same for every client, with embeddings of two numbers given by hand, so no embedding model was involved:</p>
+<ol>
+<li>heartbeat;</li>
+<li>pre-flight-checks;</li>
+<li>create a collection, with the cosine space;</li>
+<li>add 3 records with documents and metadata;</li>
+<li>query with [1, 0] for 2 results, expecting r1 then r3;</li>
+<li>get by id;</li>
+<li>get with the filter <code>{"n": {"$gte": 2}}</code>;</li>
+<li>delete one record, then count, expecting 2;</li>
+<li>delete the collection.</li>
+</ol>
+<p>The one difference between the two servers is in step 2: VecturaDB adds its <code>server</code> block to the answer of pre-flight-checks. The clients that show the raw answer, Python, JavaScript, Dart, Ruby and both PHP clients, took it without errors, with the same <code>max_batch_size</code>, 5461.</p>
+<h2 id="moving-from-chroma-cloud">Moving from Chroma Cloud</h2>
+<p>The guides switch the client from Chroma Cloud to VecturaDB, or to Chroma, in Python, JavaScript and .NET: <a href="/leaving-chroma-cloud/">Leaving Chroma Cloud</a>.</p>
+  </main>
+</div>
+
+<!-- site-footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+        <p>Vector database compatible with the Chroma API, bringing Chroma Cloud's features to open source.</p>
+      </div>
+      <div class="footer-col">
+        <h2>Docs</h2>
+        <ul>
+          <li><a href="/get-started/">Get started</a></li>
+          <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+          <li><a href="/clients/">Clients</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/VecturaDB/VecturaDB">GitHub</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/security/policy">Security policy</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/blob/main/LICENSE">License</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Packages</h2>
+        <ul>
+          <li><a href="https://pypi.org/project/VecturaDB/">PyPI</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/pkgs/container/vecturadb">Docker image</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>VecturaDB is not affiliated with Chroma.</p>
+      <p>Apache License 2.0</p>
+    </div>
+  </div>
+</footer>
+<!-- /site-footer -->
+</body>
+</html>
