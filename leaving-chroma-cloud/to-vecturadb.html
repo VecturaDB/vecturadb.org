@@ -115,6 +115,19 @@ export CHROMA_API_KEY=&lt;key&gt; CHROMA_TENANT=&lt;tenant&gt; CHROMA_DATABASE=&
 python verify.py 127.0.0.1 8000 &lt;name&gt; &lt;name&gt;
 </code></pre>
 <p>In our run, all records were the same, sparse vectors included. One difference is worth knowing. HNSW is approximate: in a test collection with 300 identical embeddings, it did not find the two records at distance 0, which Chroma Cloud found. Chroma 1.5.9 does the same. With real data, run <code>verify.py</code> on your largest collections.</p>
+<h2>Opening the same data with Chroma 1.5.9</h2>
+<p>In our tests, Chroma 1.5.9 opened the data folder of VecturaDB with no error and no loss. It read every record, document and metadata value. It did not read the sparse vectors, which stayed in the database. Sparse, BM25 and Search API queries failed there with "not implemented".</p>
+<p>The other way also worked: a collection written by Chroma 1.5.9 opened, and worked, in VecturaDB.</p>
+<p>Writing with Chroma 1.5.9 into a VecturaDB collection with a BM25 index is different:</p>
+<ul>
+<li>With the Python client <code>chromadb</code> 1.5.9, adding a record or changing a document failed: Chroma 1.5.9 answered <code>Sparse vector is not supported for local chroma</code>. Changes to metadata only went through.</li>
+<li>A client that writes without the BM25 function, for example over HTTP, got through. Back in VecturaDB, a record added that way had no BM25 vector, and BM25 search did not find it. A document changed that way kept the BM25 vector of its old text.</li>
+</ul>
+<p>To fix those records, write their documents again with VecturaDB and the Python client, with their embeddings:</p>
+<pre><code class="language-python">collection.update(ids=ids, documents=documents, embeddings=embeddings)
+</code></pre>
+<p>In our tests, BM25 search then found them, with their new text.</p>
+<p>So we suggest not writing with Chroma 1.5.9 to VecturaDB data that uses sparse vectors or BM25.</p>
   <footer>
     <a href="./">Leaving Chroma Cloud</a> · <a href="../">vecturadb.org</a> · <a href="https://github.com/VecturaDB/VecturaDB">github.com/VecturaDB/VecturaDB</a>
   </footer>
