@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leaving Chroma Cloud</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="canonical" href="https://vecturadb.org/leaving-chroma-cloud/">
+<meta name="description" content="Chroma Cloud stops accepting writes on 22 November 2026. It stops serving reads on 22 December 2026.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://vecturadb.org/leaving-chroma-cloud/">
+<meta property="og:title" content="Leaving Chroma Cloud">
+<meta property="og:description" content="Chroma Cloud stops accepting writes on 22 November 2026. It stops serving reads on 22 December 2026.">
+<meta property="og:image" content="https://vecturadb.org/vecturadb-social-cloud-1280x640.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root { --fg: #1b1f24; --muted: #57606a; --bg: #ffffff; --code: #f3f4f6; --line: #d0d7de; --link: #0b5cad; --brand: #4f46e5; --brand-db: #0d9488; }
+  @media (prefers-color-scheme: dark) {
+    :root { --fg: #e6e8eb; --muted: #9aa3ad; --bg: #111418; --code: #1c2128; --line: #373e47; --link: #6cb6ff; --brand: #818cf8; --brand-db: #2dd4bf; }
+  }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 24px 16px 64px; }
+  .home { margin: 0 0 24px; font-weight: 600; }
+  .home a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
+  .home img { width: 24px; height: 24px; }
+  .home .name { color: var(--brand); }
+  .home .db { color: var(--brand-db); }
+  .crumb { margin: 0 0 8px; font-size: 14px; }
+  h1 { font-size: 1.6rem; line-height: 1.3; margin: 0 0 16px; }
+  h2 { font-size: 1.25rem; margin: 32px 0 8px; }
+  h3 { font-size: 1.05rem; margin: 20px 0 6px; }
+  p, li { margin: 8px 0; }
+  a { color: var(--link); }
+  .note { border-left: 4px solid var(--brand); background: var(--code); padding: 4px 14px; border-radius: 0 6px 6px 0; margin: 0 0 24px; }
+  pre { background: var(--code); padding: 12px 14px; border-radius: 6px; overflow-x: auto; font-size: 14px; }
+  code { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; }
+  :not(pre) > code { background: var(--code); padding: 1px 4px; border-radius: 4px; font-size: 0.92em; }
+  blockquote { margin: 12px 0; padding: 0 14px; border-left: 4px solid var(--line); color: var(--muted); }
+  .table { overflow-x: auto; margin: 12px 0; }
+  table { border-collapse: collapse; font-size: 14px; min-width: 100%; }
+  th, td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: var(--code); }
+  footer { margin-top: 48px; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <p class="home"><a href="../"><img src="../vecturadb-mark-auto.svg" alt="" width="24" height="24"><span class="name">Vectura<span class="db">DB</span></span></a></p>
+<h1>Leaving Chroma Cloud</h1>
+<div class="note">
+<p><strong>Disclaimer.</strong> These guides and the scripts they link are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 25 October 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.</p>
+<p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
+</div>
+<p>Chroma Cloud stops accepting writes on 22 November 2026. It stops serving reads on 22 December 2026.</p>
+<p>This page compares three places to move your data to:</p>
+<ul>
+<li><strong>Chroma 1.5.9</strong>, the open-source single-node server;</li>
+<li><strong>Chroma distributed</strong>, the open-source multi-service deployment, run on Kubernetes;</li>
+<li><strong>VecturaDB 1.0.0-preview.2</strong>, a single-node server built from Chroma.</li>
+</ul>
+<p>VecturaDB is our project. It is not affiliated with Chroma. Chroma itself is a first-class destination here, and for many users it is the right one.</p>
+<p>We ran every command and every line of code in these guides against Chroma Cloud and against the destination before writing it. The numbers come from those runs.</p>
+<h2>Which one</h2>
+<p><strong>If you use only dense search, with metadata filters and document filters, Chroma 1.5.9 is enough.</strong> It is one container or one Python package, and it holds every record that Chroma Cloud gives back.</p>
+<p>If you use sparse vectors, BM25, the Search API or hybrid search, the single-node Chroma 1.5.9 cannot hold those collections: you need Chroma distributed or VecturaDB.</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th></th>
+<th>Chroma 1.5.9, single node</th>
+<th>Chroma distributed</th>
+<th>VecturaDB 1.0.0-preview.2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dense search</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Metadata filters</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Document filters: <code>$contains</code>, <code>$regex</code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Sparse vectors</td>
+<td>No: "Sparse vector indexing is not enabled in local"</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>BM25</td>
+<td>No, same error</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Search API</td>
+<td>No: "Search operation is not implemented for local executor"</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Hybrid search (RRF)</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Collection fork</td>
+<td>No: "Collection forking is unsupported for local chroma"</td>
+<td>Yes</td>
+<td>Yes, since 1.0.0-preview.2</td>
+</tr>
+<tr>
+<td><code>chroma copy</code> from Chroma Cloud</td>
+<td>Dense collections yes; collections with a sparse or BM25 index no</td>
+<td>Yes, everything, SPANN settings included</td>
+<td>Yes; dense index settings become HNSW defaults</td>
+</tr>
+<tr>
+<td>Embedding models hosted by Chroma Cloud</td>
+<td>Stop with Chroma Cloud. The same open models run locally give the same search results in our tests</td>
+<td>Same</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>API keys</td>
+<td>None: the open-source server accepts every request</td>
+<td>None: the same server code</td>
+<td>None: the same server code</td>
+</tr>
+<tr>
+<td>What you run</td>
+<td>One container, or <code>pip install chromadb</code></td>
+<td>Kubernetes, several services, object storage and a SQL database</td>
+<td>One container, or <code>pip install VecturaDB</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>On distributed Chroma, Chroma's documentation says:</p>
+<blockquote>
+<p>"Distributed Chroma is designed for large-scale production workloads."</p>
+<p>"In distributed mode, Chroma's components are deployed independently."</p>
+<p>"The log and built indexes are stored in cloud object storage."</p>
+<p>"The system catalog is backed by a SQL database."</p>
+</blockquote>
+<p>Source: <a href="https://docs.trychroma.com/reference/architecture/distributed">Distributed Chroma, Chroma documentation</a>.</p>
+<h2>The guides</h2>
+<p>Each guide has the same five steps: start the destination (or, for Chroma distributed, reach it), copy the data, switch the client, replace the hosted embedding models, check the result.</p>
+<ul>
+<li><a href="to-chroma-single-node.html">To Chroma 1.5.9, single node</a></li>
+<li><a href="to-chroma-distributed.html">To Chroma distributed</a></li>
+<li><a href="to-vecturadb.html">To VecturaDB</a></li>
+<li><a href="hosted-embedding-models.html">Hosted embedding models</a>, shared by the three guides</li>
+</ul>
+  <footer>
+    <a href="./">Leaving Chroma Cloud</a> · <a href="../">vecturadb.org</a> · <a href="https://github.com/VecturaDB/VecturaDB">github.com/VecturaDB/VecturaDB</a>
+  </footer>
+</main>
+</body>
+</html>

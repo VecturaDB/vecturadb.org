@@ -2,6 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://vecturadb.org/</loc>
-    <lastmod>2026-10-24</lastmod>
+    <lastmod>2026-10-25</lastmod>
+  </url>
+  <url>
+    <loc>https://vecturadb.org/leaving-chroma-cloud/</loc>
+    <lastmod>2026-10-25</lastmod>
+  </url>
+  <url>
+    <loc>https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node.html</loc>
+    <lastmod>2026-10-25</lastmod>
+  </url>
+  <url>
+    <loc>https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed.html</loc>
+    <lastmod>2026-10-25</lastmod>
+  </url>
+  <url>
+    <loc>https://vecturadb.org/leaving-chroma-cloud/to-vecturadb.html</loc>
+    <lastmod>2026-10-25</lastmod>
+  </url>
+  <url>
+    <loc>https://vecturadb.org/leaving-chroma-cloud/hosted-embedding-models.html</loc>
+    <lastmod>2026-10-25</lastmod>
   </url>
 </urlset>
