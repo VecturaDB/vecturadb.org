@@ -286,6 +286,18 @@ python<span class="w"> </span>verify.py<span class="w"> </span><span class="m">1
 
 <p>In our tests, BM25 search then found them, with their new text.</p>
 <p>So we suggest not writing with Chroma 1.5.9 to VecturaDB data that uses sparse vectors or BM25.</p>
+<h2 id="going-back-to-chroma-159">Going back to Chroma 1.5.9</h2>
+<p>To go back, stop VecturaDB and start Chroma 1.5.9 on the same data folder:</p>
+<div class="hl"><pre tabindex="0"><span></span><code>docker<span class="w"> </span>rm<span class="w"> </span>-f<span class="w"> </span>vecturadb
+docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>chroma<span class="w"> </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:8000:8000<span class="w"> </span>-v<span class="w"> </span>./vecturadb-data:/data<span class="w"> </span>chromadb/chroma:1.5.9
+</code></pre></div>
+
+<p>In our tests, on 26 October 2026, Chroma 1.5.9 opened a data folder written by VecturaDB with the same data, except the sparse vectors in the metadata:</p>
+<ul>
+<li>Chroma 1.5.9 did not return them, and answered 501 to a write that carried one.</li>
+<li>An update of a record with Chroma 1.5.9 did not delete its sparse vectors: when we opened the folder with VecturaDB again, they were back.</li>
+</ul>
+<p>For writes to collections with a BM25 index, see the section above.</p>
   </main>
 </div>
 
