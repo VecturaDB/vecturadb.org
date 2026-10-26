@@ -82,14 +82,14 @@
 <li>Chroma 1.5.9 cannot hold sparse vectors: our script copies everything else and keeps the sparse vectors in a file, one line per record;</li>
 <li>collections created with the old <code>hnsw:*</code> settings in their metadata stop the CLI on every destination, and need our script; if their metadata hold sparse vectors, our script keeps those in a file, one line per record.</li>
 </ul>
-<p>These guides take you from Chroma Cloud to the place you choose, with tools we build and test for that move:</p>
+<p>These guides take you from Chroma Cloud to the place you choose, with tools we test for that move:</p>
 <ul>
 <li>the <code>chroma</code> CLI of VecturaDB, which copies your collections out of Chroma Cloud;</li>
 <li><code>verify.py</code>, which compares every copied collection with Chroma Cloud;</li>
 <li>for .NET, the ChromaDotNet libraries: client, Local, Aspire and Testcontainers;</li>
 <li>for Docker, Python and JavaScript, VecturaDB itself, when you need what only Chroma Cloud had.</li>
 </ul>
-<p>VecturaDB and ChromaDotNet are our projects. They are not affiliated with Chroma. Chroma itself is a first-class destination here, and for many users it is the right one.</p>
+<p>VecturaDB is our project. It is not affiliated with Chroma. Chroma itself is a first-class destination here, and for many users it is the right one.</p>
 <p>We ran every command and every line of code in these guides against Chroma Cloud and against the destination before writing it. The numbers come from those runs.</p>
 <h2 id="where-you-go">Where you go</h2>
 <p><strong>If you use only dense search, with metadata filters and document filters, Chroma 1.5.9 is enough.</strong> It is one container or one Python package, and it holds every record that Chroma Cloud gives back.</p>
