@@ -76,8 +76,8 @@
 <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
 </div>
 <p class="lead-doc">One server in your own Azure subscription, with its data on a managed disk, HTTPS, allowed IP addresses and backups.</p>
-<p><a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.0.2%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.0.2%2Fazure%2Fvm%2FcreateUiDefinition.json">Deploy to Azure</a></p>
-<p>The button opens the form of the Azure portal with the template of the tag <code>azure-v1.0.2</code>. The template, its scripts and its README are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.0.2/azure/vm"><code>azure/vm</code></a>.</p>
+<p><a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fvm%2FcreateUiDefinition.json">Deploy to Azure</a></p>
+<p>The button opens the form of the Azure portal with the template of the tag <code>azure-v1.1.0</code>. The template, its scripts and its README are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.1.0/azure/vm"><code>azure/vm</code></a>.</p>
 <p>When the portal shows “Your deployment is complete”, open <strong>Outputs</strong> in the menu on the left: <code>url</code> is the address of the server, for the clients.</p>
 <p>The template runs one of two servers:</p>
 <ul>
@@ -174,7 +174,7 @@ az group delete -n $RG --yes</code></pre>
 <li>With the backup instance still there, the deletion of the group failed after 438 seconds. Everything else was gone, and the group and the vault stayed.</li>
 <li>With the backup instance deleted and soft delete still on, the instance stayed soft deleted for 14 days, and so did the vault and the group. Microsoft says that snapshots still there during those days are billed (<a href="https://learn.microsoft.com/en-us/azure/backup/secure-by-default">soft delete for Azure Backup</a>).</li>
 </ul>
-<p>The <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.0.2/azure/vm#delete-everything">README of the template</a> also says how to get out of the soft-deleted state before the 14 days.</p>
+<p>The <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.1.0/azure/vm#delete-everything">README of the template</a> also says how to get out of the soft-deleted state before the 14 days.</p>
 
 <h2 id="limits">Limits</h2>
 <ul>
