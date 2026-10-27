@@ -183,7 +183,7 @@ az group delete -n $RG --yes</code></pre>
 </ul>
 
 <h2 id="container-apps">Container Apps, for a few hours of use a day</h2>
-<p>A second template runs Chroma 1.5.9 on Azure Container Apps, with the data on an Azure Files SMB share. The app scales to zero when nobody uses it, so it costs almost nothing on idle days. It has clear limits, and the VM above stays the choice we recommend. VecturaDB comes to it with its next release, which fixes an error we found on SMB shares.</p>
+<p>A second template runs Chroma 1.5.9 on Azure Container Apps, with the data on an Azure Files SMB share. The app scales to zero when nobody uses it, so it costs almost nothing on idle days. It has clear limits, and the VM above stays the choice we recommend.</p>
 <p>The limits, as we measured them:</p>
 <ul>
 <li>An update made while the app is in use needs a manual step. During a change of revision Container Apps runs the old and the new revision together, and Chroma does not lock its files: a lock file makes the new revision wait until you deactivate the old one with <code>az containerapp revision deactivate</code>. In our tests the server then did not answer for about 6 seconds. An update made while the app has scaled to zero needs no manual step.</li>
@@ -204,7 +204,9 @@ az group delete -n $RG --yes</code></pre>
 <tr><td>One hour a month</td><td>0.00</td><td>0.09</td><td>14.26</td></tr>
 </tbody>
 </table></div>
-<p>The template, with its limits in full, is in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/main/azure/container-apps"><code>azure/container-apps</code></a> folder of the repository.</p>
+<p><a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json">Deploy Container Apps to Azure</a></p>
+<p>The button opens the form of the Azure portal with the template of the tag <code>azure-v1.1.0</code>. In our tests a deployment from zero took 15-17 minutes (881-1002 seconds), most of it for the Container Apps environment. When the portal shows “Your deployment is complete”, open <strong>Outputs</strong>: <code>url</code> is the address of the server. The template, with its limits in full, is in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.1.0/azure/container-apps"><code>azure/container-apps</code></a> folder of the repository.</p>
+<p>To delete everything, delete the resource group: there is no backup vault. In our tests it took 27 minutes (1632 seconds). The storage account, with the data, and the Log Analytics workspace, with the logs, then stay recoverable for 14 days (<a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-account-recover">storage account</a>, <a href="https://learn.microsoft.com/en-us/azure/azure-monitor/logs/delete-workspace">workspace</a>); the README of the template says how to remove the logs at once.</p>
 
 <div class="note">
 <p>VecturaDB is an independent fork of Chroma, under the Apache License 2.0. The original code is copyright Chroma Inc. and its contributors.</p>
