@@ -182,13 +182,29 @@ az group delete -n $RG --yes</code></pre>
 <li>The backups are snapshots in the same region.</li>
 </ul>
 
-<h2 id="why-not-container-apps">Why not Container Apps</h2>
-<p>We measured Azure Container Apps with the data on Azure Files, as a cheaper option with scale to zero, and set it aside for data that must persist:</p>
+<h2 id="container-apps">Container Apps, for a few hours of use a day</h2>
+<p>A second template runs Chroma 1.5.9 on Azure Container Apps, with the data on an Azure Files SMB share. The app scales to zero when nobody uses it, so it costs almost nothing on idle days. It has clear limits, and the VM above stays the choice we recommend. VecturaDB comes to it with its next release, which fixes an error we found on SMB shares.</p>
+<p>The limits, as we measured them:</p>
 <ul>
-<li>during a change of revision, the old and the new revision run at the same time on the same files, and Chroma does not lock its files;</li>
-<li>Chroma 1.5.9 did not start on an SMB share mounted as Container Apps mounts it;</li>
-<li>on an NFS share, the same operations took 15 to 230 times longer than on the VM, measured from the same client: 309 ms for a query against 2.6 ms.</li>
+<li>An update made while the app is in use needs a manual step. During a change of revision Container Apps runs the old and the new revision together, and Chroma does not lock its files: a lock file makes the new revision wait until you deactivate the old one with <code>az containerapp revision deactivate</code>. In our tests the server then did not answer for about 6 seconds. An update made while the app has scaled to zero needs no manual step.</li>
+<li>About 10 minutes after the last request (582-613 seconds) the app scales to zero, and the next request waits 26-32 seconds.</li>
+<li>One replica at most, and no backups of the share.</li>
+<li>Slower than the VM, from the same client: 5.2-5.7 ms for a query against 2.5 ms, 434-448 ms for an add against 112 ms. With the data on an NFS share instead of SMB, a query took 309 ms.</li>
+<li>Azure Files costs too: 0.06 USD per GB stored a month, and about 0.03 USD for every 1,000 writes in our tests.</li>
 </ul>
+<p>The cost a month with 0.5 CPU and 1 GiB, at the list prices of westeurope in USD, with the free grant of Container Apps, which covers the whole subscription:</p>
+<div class="table" tabindex="0"><table>
+<thead>
+<tr><th>Use</th><th>Container Apps</th><th>Without the free grant</th><th>VM (B2pts_v2)</th></tr>
+</thead>
+<tbody>
+<tr><td>In use all day, every day</td><td>47.63</td><td>55.19</td><td>14.26</td></tr>
+<tr><td>8 hours a day</td><td>10.69</td><td>18.25</td><td>14.26</td></tr>
+<tr><td>3 hours a day</td><td>0.00</td><td>6.91</td><td>14.26</td></tr>
+<tr><td>One hour a month</td><td>0.00</td><td>0.09</td><td>14.26</td></tr>
+</tbody>
+</table></div>
+<p>The template, with its limits in full, is in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/main/azure/container-apps"><code>azure/container-apps</code></a> folder of the repository.</p>
 
 <div class="note">
 <p>VecturaDB is an independent fork of Chroma, under the Apache License 2.0. The original code is copyright Chroma Inc. and its contributors.</p>
