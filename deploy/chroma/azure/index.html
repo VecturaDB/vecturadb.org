@@ -152,6 +152,29 @@ az disk delete -g my-chroma -n &lt;restored disk&gt;</code></pre>
 <li>Ubuntu installs its security updates by itself. Caddy comes from its own repository: you update it.</li>
 </ul>
 
+<h2 id="delete-everything">Delete everything</h2>
+<p>Deleting the resource group deletes the deployment, the snapshots of the backups included. With backups on, two things stop it first: the backup instance of the data disk, and the soft delete of the vault, on by default. So turn soft delete off, delete the backup instance, then delete the group. Without backups, delete the group.</p>
+<p>In the portal:</p>
+<ol>
+<li>open the backup vault, <code>&lt;name&gt;-backup</code>, and turn soft delete off in its security settings;</li>
+<li>in the vault, open Backup instances, select <code>&lt;name&gt;-data</code>, and delete it, with its backup data;</li>
+<li>delete the resource group.</li>
+</ol>
+<p>With the Azure CLI:</p>
+<pre tabindex="0"><code>SUB=$(az account show --query id -o tsv); RG=my-chroma; NAME=chroma
+VAULT=&quot;https://management.azure.com/subscriptions/$SUB/resourceGroups/$RG/providers/Microsoft.DataProtection/backupVaults/$NAME-backup&quot;
+az rest --method patch --url &quot;$VAULT?api-version=2024-04-01&quot;   --body &#x27;{&quot;properties&quot;:{&quot;securitySettings&quot;:{&quot;softDeleteSettings&quot;:{&quot;state&quot;:&quot;Off&quot;,&quot;retentionDurationInDays&quot;:14}}}}&#x27;
+az rest --method delete --url &quot;$VAULT/backupInstances/$NAME-data?api-version=2024-04-01&quot;
+# The deletion goes on in the background: wait until the backup instance is gone.
+while az rest --method get --url &quot;$VAULT/backupInstances/$NAME-data?api-version=2024-04-01&quot; -o none 2&gt;/dev/null; do sleep 10; done
+az group delete -n $RG --yes</code></pre>
+<p>In our tests soft delete went off at once, the backup instance was gone after 80-103 seconds and the group after 126-143 seconds. Then nothing was left: no resource, no snapshot, no deleted vault.</p>
+<ul>
+<li>With the backup instance still there, the deletion of the group failed after 438 seconds. Everything else was gone, and the group and the vault stayed.</li>
+<li>With the backup instance deleted and soft delete still on, the instance stayed soft deleted for 14 days, and so did the vault and the group. Microsoft says that snapshots still there during those days are billed (<a href="https://learn.microsoft.com/en-us/azure/backup/secure-by-default">soft delete for Azure Backup</a>).</li>
+</ul>
+<p>The <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.0.2/azure/vm#delete-everything">README of the template</a> also says how to get out of the soft-deleted state before the 14 days.</p>
+
 <h2 id="limits">Limits</h2>
 <ul>
 <li>One VM and one disk: no high availability. While the VM restarts or a deployment switches the container, the server does not answer.</li>
