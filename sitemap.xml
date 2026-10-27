@@ -41,7 +41,11 @@
     <lastmod>2026-10-25</lastmod>
   </url>
   <url>
-    <loc>https://vecturadb.org/deploy/azure-vm/</loc>
-    <lastmod>2026-10-26</lastmod>
+    <loc>https://vecturadb.org/deploy/</loc>
+    <lastmod>2026-10-27</lastmod>
+  </url>
+  <url>
+    <loc>https://vecturadb.org/deploy/azure/</loc>
+    <lastmod>2026-10-27</lastmod>
   </url>
 </urlset>

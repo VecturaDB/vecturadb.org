@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Chroma or VecturaDB on an Azure VM · VecturaDB</title>
+<title>Deploy Chroma or VecturaDB on Azure · VecturaDB</title>
 <meta name="description" content="A template that runs Chroma 1.5.9 or VecturaDB on one VM in your Azure subscription, with HTTPS, allowed IP addresses and backups of the data disk. From about 14 USD a month.">
-<link rel="canonical" href="https://vecturadb.org/deploy/azure-vm/">
+<link rel="canonical" href="https://vecturadb.org/deploy/azure/">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://vecturadb.org/deploy/azure-vm/">
-<meta property="og:title" content="Chroma or VecturaDB on an Azure VM">
+<meta property="og:url" content="https://vecturadb.org/deploy/azure/">
+<meta property="og:title" content="Deploy Chroma or VecturaDB on Azure">
 <meta property="og:description" content="A template that runs Chroma 1.5.9 or VecturaDB on one VM in your Azure subscription, with HTTPS, allowed IP addresses and backups of the data disk. From about 14 USD a month.">
 <!-- site-head -->
 <meta property="og:site_name" content="VecturaDB">
@@ -48,6 +48,7 @@
         <li><a href="/#features">Features</a></li>
         <li><a href="/get-started/">Get started</a></li>
         <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+        <li><a href="/deploy/" aria-current="page">Deploy</a></li>
         <li><a href="/clients/">Clients</a></li>
         <li><a href="/news/">News</a></li>
         <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
@@ -62,16 +63,20 @@
   <aside class="doc-aside" aria-label="Deploy">
     <h2>Deploy</h2>
     <ul>
-      <li><a href="/deploy/azure-vm/" aria-current="page">Azure VM</a></li>
+      <li><a href="/deploy/">Overview</a></li>
+      <li><a href="/deploy/azure/" aria-current="page">Azure</a></li>
     </ul>
   </aside>
   <main id="main" class="doc prose">
-<h1 id="chroma-or-vecturadb-on-an-azure-vm">Chroma or VecturaDB on an Azure VM</h1>
+<p class="crumb"><a href="/deploy/">Deploy</a></p>
+<h1 id="deploy-chroma-or-vecturadb-on-azure">Deploy Chroma or VecturaDB on Azure</h1>
 <div class="note">
 <p><strong>Disclaimer.</strong> This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured on 25 and 26 October 2026 in westeurope: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.</p>
 <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
 </div>
 <p class="lead-doc">One server in your own Azure subscription, with its data on a managed disk, HTTPS, allowed IP addresses and backups.</p>
+<p><a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.0.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.0.0%2Fazure%2Fvm%2FcreateUiDefinition.json">Deploy to Azure</a></p>
+<p>The button opens the form of the Azure portal with the template of the tag <code>azure-v1.0.0</code>. The template, its scripts and its README are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.0.0/azure/vm"><code>azure/vm</code></a>.</p>
 <p>The template runs one of two servers:</p>
 <ul>
 <li><strong>Chroma 1.5.9</strong>, the open-source single-node server;</li>
@@ -180,7 +185,7 @@ az disk delete -g my-chroma -n &lt;restored disk&gt;</code></pre>
           <li><a href="/get-started/">Get started</a></li>
           <li><a href="/leaving-chroma-cloud/">Guides</a></li>
           <li><a href="/clients/">Clients</a></li>
-          <li><a href="/deploy/azure-vm/">Deploy on Azure</a></li>
+          <li><a href="/deploy/">Deploy</a></li>
         </ul>
       </div>
       <div class="footer-col">
