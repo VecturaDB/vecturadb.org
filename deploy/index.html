@@ -3,13 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Deploy · VecturaDB</title>
-<meta name="description" content="Templates that run a server in your own cloud account: Chroma 1.5.9 or VecturaDB.">
+<title>Deploy Chroma or VecturaDB in your own cloud · VecturaDB</title>
+<meta name="description" content="Open-source templates that run a Chroma 1.5.9 or VecturaDB server in your own cloud account: an Azure VM with HTTPS and backups, or Azure Container Apps.">
 <link rel="canonical" href="https://vecturadb.org/deploy/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vecturadb.org/deploy/">
-<meta property="og:title" content="Deploy">
-<meta property="og:description" content="Templates that run a server in your own cloud account: Chroma 1.5.9 or VecturaDB.">
+<meta property="og:title" content="Deploy Chroma or VecturaDB in your own cloud">
+<meta property="og:description" content="Open-source templates that run a Chroma 1.5.9 or VecturaDB server in your own cloud account: an Azure VM with HTTPS and backups, or Azure Container Apps.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "VecturaDB", "item": "https://vecturadb.org/"}, {"@type": "ListItem", "position": 2, "name": "Deploy", "item": "https://vecturadb.org/deploy/"}]}</script>
 <!-- site-head -->
 <meta property="og:site_name" content="VecturaDB">
 <meta property="og:image" content="https://vecturadb.org/vecturadb-social-cloud-1280x640.png">
@@ -59,24 +60,65 @@
 </header>
 <!-- /site-header -->
 
-<div class="container doc-layout">
-  <aside class="doc-aside" aria-label="Deploy">
-    <h2>Deploy</h2>
-    <ul>
-      <li><a href="/deploy/" aria-current="page">Overview</a></li>
-      <li><a href="/deploy/chroma/">Chroma</a></li>
-      <li><a href="/deploy/chroma/azure/">Azure</a></li>
-    </ul>
-  </aside>
-  <main id="main" class="doc prose">
-<h1 id="deploy">Deploy</h1>
-<p class="lead-doc">Templates that run a server in your own cloud account.</p>
-<ul>
-<li><a href="/deploy/chroma/">Chroma</a>: Chroma 1.5.9 or VecturaDB. For now on Azure.</li>
-</ul>
-<p>The templates are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under the Apache License 2.0, provided as is.</p>
-  </main>
-</div>
+<main id="main">
+  <section class="hero hero-page" aria-labelledby="page-title">
+    <div class="container">
+      <h1 id="page-title">Deploy Chroma or VecturaDB <span class="grad">in your own cloud</span></h1>
+      <p class="lead">Open-source templates that create the server in your own cloud account, with HTTPS. Choose one, select Deploy to Azure, and connect your Chroma client to the address it gives you.</p>
+    </div>
+  </section>
+
+  <section class="section section-choose" id="templates" aria-labelledby="templates-title">
+    <div class="container">
+      <h2 id="templates-title">Templates for Azure</h2>
+      <div class="plans">
+        <article class="plan plan-featured" aria-labelledby="plan-vm">
+          <p class="plan-badge">Recommended</p>
+          <h3 id="plan-vm">Azure VM</h3>
+          <p class="plan-for">For a server in use every day: always on, faster, with backups.</p>
+          <p class="plan-price"><span class="plan-amount">14.26&nbsp;USD</span> a month</p>
+          <p class="plan-price-note">Standard_B2pts_v2 with its disks and public IP, whatever the use.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fvm%2FcreateUiDefinition.json" aria-label="Deploy to Azure: the VM template">Deploy to Azure</a>
+            <a class="btn btn-secondary" href="/deploy/chroma/azure/vm/" aria-label="Details of the VM template">Details</a>
+          </div>
+        </article>
+        <article class="plan" aria-labelledby="plan-ca">
+          <h3 id="plan-ca">Azure Container Apps</h3>
+          <p class="plan-for">For a few hours of use a day: it scales to zero when nobody uses it.</p>
+          <p class="plan-price"><span class="plan-amount">0.00&nbsp;USD</span> a month, with 3&nbsp;hours of use a day</p>
+          <p class="plan-price-note">Within the free grant of Container Apps. Azure Files apart: 0.06&nbsp;USD per GB a month.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json" aria-label="Deploy to Azure: the Container Apps template">Deploy to Azure</a>
+            <a class="btn btn-secondary" href="/deploy/chroma/azure/container-apps/" aria-label="Details of the Container Apps template">Details</a>
+          </div>
+        </article>
+      </div>
+      <p class="fine-print"><a href="/deploy/chroma/azure/#compare">Compare the two templates</a>: cost, speed, updates and backups, as we measured them. List prices of westeurope in USD, on 26 and 27 October 2026.</p>
+    </div>
+  </section>
+
+  <section class="section section-compact section-soft" id="why" aria-labelledby="why-title">
+    <div class="container">
+      <h2 id="why-title">Why your own cloud</h2>
+      <ul class="tiles">
+        <li><h3>Your account, your data</h3><p>The server, its disk or share, and the backups of the VM are resources of your Azure subscription.</p></li>
+        <li><h3>Azure's prices, no fee from us</h3><p>Azure bills you at its list prices. The templates are free, under the Apache License 2.0.</p></li>
+        <li><h3>Read it before you run it</h3><p>The templates, their scripts and the numbers we measured are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section-compact" aria-label="Disclaimer and trademarks">
+    <div class="container">
+      <div class="landing-note">
+        <p><strong>Disclaimer.</strong> The templates and their scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on these pages are what we measured between 25 and 28 October 2026 in westeurope: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.</p>
+        <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
+        <p>VecturaDB is an independent fork of Chroma, under the Apache License 2.0. The original code is copyright Chroma Inc. and its contributors. Not affiliated with, endorsed by or sponsored by Chroma Inc. CHROMA is a registered trademark of Chroma Inc., used here only to describe compatibility.</p>
+      </div>
+    </div>
+  </section>
+</main>
 
 <!-- site-footer -->
 <footer class="site-footer">

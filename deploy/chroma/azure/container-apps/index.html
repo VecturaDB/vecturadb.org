@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chroma on Azure Container Apps · VecturaDB</title>
+<meta name="description" content="Chroma 1.5.9 on Azure Container Apps, with its data on Azure Files and scale to zero: what the template creates, the cost per use, updates and the limits.">
+<link rel="canonical" href="https://vecturadb.org/deploy/chroma/azure/container-apps/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://vecturadb.org/deploy/chroma/azure/container-apps/">
+<meta property="og:title" content="Chroma on Azure Container Apps">
+<meta property="og:description" content="Chroma 1.5.9 on Azure Container Apps, with its data on Azure Files and scale to zero: what the template creates, the cost per use, updates and the limits.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "VecturaDB", "item": "https://vecturadb.org/"}, {"@type": "ListItem", "position": 2, "name": "Deploy", "item": "https://vecturadb.org/deploy/"}, {"@type": "ListItem", "position": 3, "name": "Chroma", "item": "https://vecturadb.org/deploy/chroma/"}, {"@type": "ListItem", "position": 4, "name": "Azure", "item": "https://vecturadb.org/deploy/chroma/azure/"}, {"@type": "ListItem", "position": 5, "name": "Container Apps", "item": "https://vecturadb.org/deploy/chroma/azure/container-apps/"}]}</script>
+<!-- site-head -->
+<meta property="og:site_name" content="VecturaDB">
+<meta property="og:image" content="https://vecturadb.org/vecturadb-social-cloud-1280x640.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b1120" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon-96.png" type="image/png" sizes="96x96">
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="/assets/site.js" defer></script>
+<!-- /site-head -->
+</head>
+<body>
+<!-- site-header -->
+<svg class="sprite" aria-hidden="true"><symbol id="i-github" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></symbol></svg>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="visually-hidden">Menu</span>
+      <svg class="icon icon-stroke icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="icon icon-stroke icon-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/get-started/">Get started</a></li>
+        <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+        <li><a href="/deploy/" aria-current="page">Deploy</a></li>
+        <li><a href="/clients/">Clients</a></li>
+        <li><a href="/news/">News</a></li>
+        <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+        <li><a class="nav-github" href="https://github.com/VecturaDB/VecturaDB"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<!-- /site-header -->
+
+<div class="container doc-layout">
+  <aside class="doc-aside" aria-label="Deploy">
+    <h2>Deploy</h2>
+    <ul>
+      <li><a href="/deploy/">Overview</a></li>
+      <li><a href="/deploy/chroma/">Chroma</a></li>
+      <li><a href="/deploy/chroma/azure/">Azure</a>
+        <ul>
+          <li><a href="/deploy/chroma/azure/vm/">VM</a></li>
+          <li><a href="/deploy/chroma/azure/container-apps/" aria-current="page">Container Apps</a></li>
+        </ul>
+      </li>
+    </ul>
+  </aside>
+  <main id="main" class="doc prose">
+<nav class="crumb" aria-label="Breadcrumb"><a href="/deploy/">Deploy</a> / <a href="/deploy/chroma/">Chroma</a> / <a href="/deploy/chroma/azure/">Azure</a></nav>
+<h1 id="chroma-on-azure-container-apps">Chroma on Azure Container Apps</h1>
+<p class="lead-doc">Chroma 1.5.9 on Azure Container Apps, with the data on an Azure Files share. The app scales to zero when nobody uses it, so it costs almost nothing on idle days.</p>
+<div class="actions">
+<a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json">Deploy to Azure</a>
+<a class="btn btn-secondary" href="/deploy/chroma/azure/#compare">Compare with the VM</a>
+</div>
+<div class="note">
+<p><strong>For a few hours of use a day.</strong> For a server in use all day, the <a href="/deploy/chroma/azure/vm/">VM template</a> is cheaper, faster and needs no manual step at updates: it is the one we recommend.</p>
+<p><strong>Disclaimer.</strong> This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured on 25, 26, 27 and 28 October 2026 in westeurope: your region, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.</p>
+<p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
+</div>
+<nav class="toc" aria-label="On this page">
+<p class="toc-title">On this page</p>
+<ol>
+<li><a href="#what-it-creates">What it creates</a></li>
+<li><a href="#deploy">Deploy</a></li>
+<li><a href="#access-and-https">Access and HTTPS</a></li>
+<li><a href="#cost">Cost</a></li>
+<li><a href="#backups-and-restore">Backups and restore</a></li>
+<li><a href="#updates">Updates</a></li>
+<li><a href="#delete-everything">Delete everything</a></li>
+<li><a href="#limits">Limits</a></li>
+</ol>
+</nav>
+
+<h2 id="what-it-creates">What it creates</h2>
+<div class="table table-fit" tabindex="0"><table>
+<thead>
+<tr><th>Resource</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr><td>Container app</td><td>Chroma 1.5.9 (<code>ghcr.io/chroma-core/chroma:1.5.9</code>); one replica at most, scale to zero, HTTPS ingress on the Azure name of the app</td></tr>
+<tr><td>Container Apps environment</td><td>Consumption plan</td></tr>
+<tr><td>Storage account and file share</td><td>SMB, transaction optimized, 100&nbsp;GiB quota; soft delete of the share, 7&nbsp;days</td></tr>
+<tr><td>Log Analytics workspace</td><td>The logs of the app, 30&nbsp;days by default</td></tr>
+</tbody>
+</table></div>
+<p>The server reaches the share through two mounts:</p>
+<ul>
+<li>the data, with <code>nobrl</code>: byte-range locks stay on the replica. With the locks sent to the server, Chroma 1.5.9 did not start in our tests;</li>
+<li>a lock file, without <code>nobrl</code>: its lock reaches the server, so it holds across replicas and hosts. A new replica waits for it before it starts the server.</li>
+</ul>
+
+<h2 id="deploy">Deploy</h2>
+<p><a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json">Deploy to Azure</a></p>
+<p>The button opens the form of the Azure portal with the template of the tag <code>azure-v1.1.0</code>. When the portal shows “Your deployment is complete”, open <strong>Outputs</strong> in the menu on the left: <code>url</code> is the address of the server, for the clients.</p>
+<div class="table table-kv" tabindex="0"><table>
+<thead>
+<tr><th>In our tests</th><th>Time</th></tr>
+</thead>
+<tbody>
+<tr><td>Deployment from zero, most of it for the Container Apps environment</td><td>15-18&nbsp;min (881-1067&nbsp;s)</td></tr>
+</tbody>
+</table></div>
+<p>With the Azure CLI:</p>
+<pre tabindex="0"><code>az group create -n my-chroma -l westeurope
+az deployment group create -g my-chroma \
+  --template-uri https://raw.githubusercontent.com/VecturaDB/VecturaDB.Deploy/azure-v1.1.0/azure/container-apps/azuredeploy.json \
+  -p allowedIpRanges='["203.0.113.10/32"]'</code></pre>
+<p>The template and its README are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.1.0/azure/container-apps"><code>azure/container-apps</code></a>.</p>
+
+<h2 id="access-and-https">Access and HTTPS</h2>
+<div class="table table-fit" tabindex="0"><table>
+<thead>
+<tr><th>Access</th><th>Who reaches the server</th><th>Address</th></tr>
+</thead>
+<tbody>
+<tr><td>Allowed IP addresses</td><td>Only the IP ranges you give</td><td>https://, on the Azure name of the app</td></tr>
+<tr><td>Internal</td><td>Only the apps in the same Container Apps environment</td><td><code>url</code>, inside the environment</td></tr>
+</tbody>
+</table></div>
+<ul>
+<li>HTTPS comes from Container Apps, on the Azure name of the app.</li>
+<li>No API keys: Chroma 1.5.9 has none, so the template has no public access.</li>
+</ul>
+
+<h2 id="cost">Cost</h2>
+<p>Container Apps bills the seconds a replica runs: active while it serves, at a lower rate while it waits before scaling to zero. The first 180,000 vCPU-seconds, 360,000&nbsp;GiB-seconds and 2 million requests of each month are free, for the whole subscription.</p>
+<p>With 0.5 CPU and 1&nbsp;GiB, at the list prices of westeurope in USD on 27 October 2026:</p>
+<div class="table table-fit" tabindex="0"><table>
+<thead>
+<tr><th>Use</th><th>Container Apps, with the free grant</th><th>Without the free grant</th><th>VM template (B2pts_v2)</th></tr>
+</thead>
+<tbody>
+<tr><td>In use all day, every day</td><td>47.63</td><td>55.19</td><td>14.26</td></tr>
+<tr><td>8&nbsp;hours a day</td><td>10.69</td><td>18.25</td><td>14.26</td></tr>
+<tr><td>3&nbsp;hours a day</td><td>0.00</td><td>6.91</td><td>14.26</td></tr>
+<tr><td>One hour a month</td><td>0.00</td><td>0.09</td><td>14.26</td></tr>
+</tbody>
+</table></div>
+<p>Not in the table:</p>
+<div class="table table-fit" tabindex="0"><table>
+<thead>
+<tr><th>Also billed</th><th>In our tests</th></tr>
+</thead>
+<tbody>
+<tr><td>Azure Files, the stored data</td><td>0.06&nbsp;USD per GB a month</td></tr>
+<tr><td>Azure Files, the transactions of the writes</td><td>About 0.03&nbsp;USD for every 1,000 writes; reads cost almost nothing</td></tr>
+<tr><td>A replica that waits without requests</td><td>About 27 transactions a minute</td></tr>
+<tr><td>Log Analytics</td><td>The logs it receives</td></tr>
+</tbody>
+</table></div>
+<p>Other apps in the same subscription use the same free grant.</p>
+
+<h2 id="backups-and-restore">Backups and restore</h2>
+<p><strong>No backups:</strong> the template does not back up the share. Soft delete keeps a deleted share for 7&nbsp;days, but it does not bring back data that was changed or deleted inside it. For backups, use the <a href="/deploy/chroma/azure/vm/#backups-and-restore">VM template</a>.</p>
+
+<h2 id="updates">Updates</h2>
+<p>A new deployment, with other settings or another image, creates a new revision. Its replica waits for the lock held by the old one, and the deployment ends anyway.</p>
+<ul>
+<li><strong>While the app is in use:</strong> deactivate the old revision, the one that is not Activating, within 5&nbsp;minutes.</li>
+<li><strong>While the app has no replica</strong>, about 10&nbsp;minutes after the last request: nothing to do. Nothing holds the lock, and the old revision goes away by itself.</li>
+</ul>
+<pre tabindex="0"><code>az containerapp revision list -g my-chroma -n chroma --query "[?properties.active].{name:name, state:properties.runningState}" -o table
+az containerapp revision deactivate -g my-chroma -n chroma --revision &lt;the old revision, the one that is not Activating&gt;</code></pre>
+<p>In our tests the old revision kept serving while the new one waited, and the new revision answered with all the data.</p>
+<div class="table table-kv" tabindex="0"><table>
+<thead>
+<tr><th>In our tests</th><th>Time</th></tr>
+</thead>
+<tbody>
+<tr><td>No answer after the deactivation, until the new revision serves</td><td>About 6&nbsp;s</td></tr>
+<tr><td>Wait after which the new revision shows Failed</td><td>5&nbsp;min</td></tr>
+<tr><td>Start of a Failed revision, after a later deactivation</td><td>22&nbsp;s</td></tr>
+</tbody>
+</table></div>
+
+<h2 id="delete-everything">Delete everything</h2>
+<p>There is no backup vault here: deleting the resource group deletes the whole deployment. In the portal, open the resource group and select Delete resource group. Type the name of the group, select Delete, then Delete again to confirm. With the Azure CLI:</p>
+<pre tabindex="0"><code>az group delete -n my-chroma --yes</code></pre>
+<div class="table table-kv" tabindex="0"><table>
+<thead>
+<tr><th>In our tests</th><th>Time</th></tr>
+</thead>
+<tbody>
+<tr><td>Deletion of the resource group, most of it for the Container Apps environment</td><td>27-30&nbsp;min (1632-1810&nbsp;s)</td></tr>
+</tbody>
+</table></div>
+<p>Two things stay recoverable for 14&nbsp;days after the deletion, as Azure does for these resources, and then go away:</p>
+<ul>
+<li>the storage account, with the share and the data in it (<a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-account-recover">recover a deleted storage account</a>);</li>
+<li>the Log Analytics workspace, with the logs (<a href="https://learn.microsoft.com/en-us/azure/azure-monitor/logs/delete-workspace">delete and recover a workspace</a>).</li>
+</ul>
+<p>To remove the logs at once, delete the workspace permanently before the group:</p>
+<pre tabindex="0"><code>az monitor log-analytics workspace delete -g my-chroma -n chroma-logs --force --yes</code></pre>
+
+<h2 id="limits">Limits</h2>
+<ul>
+<li>An update made while the app is in use needs a manual step: see <a href="#updates">Updates</a>.</li>
+<li>After about 10&nbsp;minutes without requests the app scales to zero, and the next request waits: set the timeout of your client above that.</li>
+<li>One replica at most: no horizontal scale.</li>
+<li>Slower than the VM: the data sits on a network share.</li>
+<li>No backups, and no API keys.</li>
+<li>A lock can outlive its replica: see <a href="#a-lock-left-by-a-lost-replica">A lock left by a lost replica</a>.</li>
+</ul>
+<div class="table table-kv" tabindex="0"><table>
+<thead>
+<tr><th>In our tests</th><th>Time</th></tr>
+</thead>
+<tbody>
+<tr><td>From the last request to zero replicas</td><td>582-613&nbsp;s</td></tr>
+<tr><td>First request after scaling to zero</td><td>26-32&nbsp;s</td></tr>
+<tr><td>Lock kept after its host disappeared</td><td>655&nbsp;s</td></tr>
+</tbody>
+</table></div>
+<p>Medians from a client in the same region, in milliseconds:</p>
+<div class="table table-fit" tabindex="0"><table>
+<thead>
+<tr><th>Operation</th><th>VM (B2pts_v2, Standard SSD)</th><th>Container Apps (0.5 CPU, 1&nbsp;GiB, SMB)</th></tr>
+</thead>
+<tbody>
+<tr><td>query</td><td>2.5</td><td>5.2-5.7</td></tr>
+<tr><td>count</td><td>2.1</td><td>4.4-4.5</td></tr>
+<tr><td>get</td><td>4.1</td><td>8.6-8.8</td></tr>
+<tr><td>add</td><td>112</td><td>434-448</td></tr>
+<tr><td>small add</td><td>74</td><td>136-147</td></tr>
+<tr><td>8 concurrent writers, total</td><td>16.2&nbsp;s</td><td>25.3-26.2&nbsp;s</td></tr>
+</tbody>
+</table></div>
+<h3 id="a-lock-left-by-a-lost-replica">A lock left by a lost replica</h3>
+<p>When the host of the replica disappears without closing its files, Azure Files keeps the lock on the lock file until it gives up on that host. Until then the next replica waits, and the server does not answer. To free the lock earlier, close only the handle of the lost replica:</p>
+<pre tabindex="0"><code>ACCOUNT=$(az storage account list -g my-chroma --query "[0].name" -o tsv)
+KEY=$(az storage account keys list -g my-chroma -n $ACCOUNT --query "[0].value" -o tsv)
+az storage share list-handle --account-name $ACCOUNT --account-key $KEY --name data --path .lock -o table
+az storage share close-handle --account-name $ACCOUNT --account-key $KEY --name data --path .lock \
+  --handle-id &lt;the handle of the lost replica&gt;</code></pre>
+<p>The list shows a handle for each replica that opened the file, with its client IP and the time it was opened: the lost replica is the older one. Never use <code>--close-all</code>: in our tests it also closed the handle of the process that was waiting, which then failed with an input/output error.</p>
+
+<div class="note">
+<p>VecturaDB is an independent fork of Chroma, under the Apache License 2.0. The original code is copyright Chroma Inc. and its contributors.</p>
+<p>Not affiliated with, endorsed by or sponsored by Chroma Inc. CHROMA is a registered trademark of Chroma Inc., used here only to describe compatibility.</p>
+</div>
+  </main>
+</div>
+
+<!-- site-footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+        <p>Vector database compatible with the Chroma API, bringing Chroma Cloud's features to open source.</p>
+      </div>
+      <div class="footer-col">
+        <h2>Docs</h2>
+        <ul>
+          <li><a href="/get-started/">Get started</a></li>
+          <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+          <li><a href="/clients/">Clients</a></li>
+          <li><a href="/deploy/">Deploy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/VecturaDB/VecturaDB">GitHub</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/security/policy">Security policy</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/blob/main/LICENSE">License</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Packages</h2>
+        <ul>
+          <li><a href="https://pypi.org/project/VecturaDB/">PyPI</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/pkgs/container/vecturadb">Docker image</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Independent project. Not affiliated with, endorsed by or sponsored by Chroma Inc. CHROMA is a registered trademark of Chroma Inc., used here only to describe compatibility. <a href="/#about">About</a></p>
+      <p>Apache License 2.0</p>
+    </div>
+  </div>
+</footer>
+<!-- /site-footer -->
+</body>
+</html>

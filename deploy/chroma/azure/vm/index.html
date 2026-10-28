@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chroma or VecturaDB on an Azure VM · VecturaDB</title>
+<meta name="description" content="A template for Chroma 1.5.9 or VecturaDB on one Azure VM, with HTTPS, allowed IP addresses and daily backups: what it creates, the cost, restore and deletion.">
+<link rel="canonical" href="https://vecturadb.org/deploy/chroma/azure/vm/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://vecturadb.org/deploy/chroma/azure/vm/">
+<meta property="og:title" content="Chroma or VecturaDB on an Azure VM">
+<meta property="og:description" content="A template for Chroma 1.5.9 or VecturaDB on one Azure VM, with HTTPS, allowed IP addresses and daily backups: what it creates, the cost, restore and deletion.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "VecturaDB", "item": "https://vecturadb.org/"}, {"@type": "ListItem", "position": 2, "name": "Deploy", "item": "https://vecturadb.org/deploy/"}, {"@type": "ListItem", "position": 3, "name": "Chroma", "item": "https://vecturadb.org/deploy/chroma/"}, {"@type": "ListItem", "position": 4, "name": "Azure", "item": "https://vecturadb.org/deploy/chroma/azure/"}, {"@type": "ListItem", "position": 5, "name": "VM", "item": "https://vecturadb.org/deploy/chroma/azure/vm/"}]}</script>
+<!-- site-head -->
+<meta property="og:site_name" content="VecturaDB">
+<meta property="og:image" content="https://vecturadb.org/vecturadb-social-cloud-1280x640.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b1120" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon-96.png" type="image/png" sizes="96x96">
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="/assets/site.js" defer></script>
+<!-- /site-head -->
+</head>
+<body>
+<!-- site-header -->
+<svg class="sprite" aria-hidden="true"><symbol id="i-github" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></symbol></svg>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="visually-hidden">Menu</span>
+      <svg class="icon icon-stroke icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="icon icon-stroke icon-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/get-started/">Get started</a></li>
+        <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+        <li><a href="/deploy/" aria-current="page">Deploy</a></li>
+        <li><a href="/clients/">Clients</a></li>
+        <li><a href="/news/">News</a></li>
+        <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+        <li><a class="nav-github" href="https://github.com/VecturaDB/VecturaDB"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<!-- /site-header -->
+
+<div class="container doc-layout">
+  <aside class="doc-aside" aria-label="Deploy">
+    <h2>Deploy</h2>
+    <ul>
+      <li><a href="/deploy/">Overview</a></li>
+      <li><a href="/deploy/chroma/">Chroma</a></li>
+      <li><a href="/deploy/chroma/azure/">Azure</a>
+        <ul>
+          <li><a href="/deploy/chroma/azure/vm/" aria-current="page">VM</a></li>
+          <li><a href="/deploy/chroma/azure/container-apps/">Container Apps</a></li>
+        </ul>
+      </li>
+    </ul>
+  </aside>
+  <main id="main" class="doc prose">
+<nav class="crumb" aria-label="Breadcrumb"><a href="/deploy/">Deploy</a> / <a href="/deploy/chroma/">Chroma</a> / <a href="/deploy/chroma/azure/">Azure</a></nav>
+<h1 id="chroma-or-vecturadb-on-an-azure-vm">Chroma or VecturaDB on an Azure VM</h1>
+<p class="lead-doc">One server in your own Azure subscription, with its data on a managed disk, HTTPS, allowed IP addresses and backups. From about 14&nbsp;USD a month.</p>
+<div class="actions">
+<a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fvm%2FcreateUiDefinition.json">Deploy to Azure</a>
+<a class="btn btn-secondary" href="/deploy/chroma/azure/#compare">Compare with Container Apps</a>
+</div>
+<div class="note">
+<p><strong>Disclaimer.</strong> This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured on 25, 26 and 27 October 2026 in westeurope: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.</p>
+<p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
+</div>
+<nav class="toc" aria-label="On this page">
+<p class="toc-title">On this page</p>
+<ol>
+<li><a href="#what-it-creates">What it creates</a></li>
+<li><a href="#deploy">Deploy</a></li>
+<li><a href="#access-and-https">Access and HTTPS</a></li>
+<li><a href="#cost">Cost</a></li>
+<li><a href="#backups-and-restore">Backups and restore</a></li>
+<li><a href="#updates">Updates</a></li>
+<li><a href="#delete-everything">Delete everything</a></li>
+<li><a href="#limits">Limits</a></li>
+</ol>
+</nav>
+
+<h2 id="what-it-creates">What it creates</h2>
+<p>The template runs one of two servers:</p>
+<ul>
+<li><strong>Chroma 1.5.9</strong>, the open-source single-node server (<code>ghcr.io/chroma-core/chroma:1.5.9</code>);</li>
+<li><strong>VecturaDB 1.0.0-preview.3.post1</strong>, built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys.</li>
+</ul>
+<p>Both keep the Chroma API: the Chroma clients connect with the URL of the deployment. In our tests the Python (chromadb 1.5.9) and JavaScript (chromadb 3.5.0) clients and a .NET client gave the same results on the two servers.</p>
+<div class="table table-fit" tabindex="0"><table>
+<thead>
+<tr><th>Resource</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr><td>Ubuntu 24.04 VM</td><td>Docker runs the server; Caddy serves HTTPS in front of it</td></tr>
+<tr><td>Data disk, Standard SSD</td><td>Mounted at <code>/var/lib/chroma</code>; 16&nbsp;GiB by default</td></tr>
+<tr><td>Network security group</td><td>Opens only what the access mode needs</td></tr>
+<tr><td>Virtual network and network interface</td><td>10.42.0.0/16</td></tr>
+<tr><td>Public IP, Standard</td><td>Only with HTTPS access</td></tr>
+<tr><td>Backup vault</td><td>Only with backups on: Azure Disk Backup of the data disk</td></tr>
+</tbody>
+</table></div>
+
+<h2 id="deploy">Deploy</h2>
+<p><a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fvm%2FcreateUiDefinition.json">Deploy to Azure</a></p>
+<p>The button opens the form of the Azure portal with the template of the tag <code>azure-v1.1.0</code>. When the portal shows “Your deployment is complete”, open <strong>Outputs</strong> in the menu on the left: <code>url</code> is the address of the server, for the clients.</p>
+<div class="table table-kv" tabindex="0"><table>
+<thead>
+<tr><th>In our tests</th><th>Time</th></tr>
+</thead>
+<tbody>
+<tr><td>Deployment from zero</td><td>157-220&nbsp;s</td></tr>
+<tr><td>New deployment of an existing VM</td><td>36-68&nbsp;s</td></tr>
+</tbody>
+</table></div>
+<p>With the Azure CLI:</p>
+<pre tabindex="0"><code>az group create -n my-chroma -l westeurope
+az deployment group create -g my-chroma \
+  --template-uri https://raw.githubusercontent.com/VecturaDB/VecturaDB.Deploy/azure-v1.1.0/azure/vm/azuredeploy.json \
+  -p access=allowed-ips allowedIpRanges='["203.0.113.10/32"]' \
+     adminPublicKey="$(cat ~/.ssh/id_ed25519.pub)"</code></pre>
+<p>For VecturaDB with an API key, add <code>engine=vecturadb apiKey=&lt;your key&gt;</code>. The template, its scripts and its README are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.1.0/azure/vm"><code>azure/vm</code></a>.</p>
+
+<h2 id="access-and-https">Access and HTTPS</h2>
+<div class="table table-fit" tabindex="0"><table>
+<thead>
+<tr><th>Access</th><th>What is open</th><th>Address</th></tr>
+</thead>
+<tbody>
+<tr><td>Allowed IP addresses</td><td>443 from your IP ranges; 80 for the certificate only</td><td>https://, with the Azure name of the public IP or your domain</td></tr>
+<tr><td>Public</td><td>443 and 80 from anywhere; VecturaDB with an API key only</td><td>https://</td></tr>
+<tr><td>Internal</td><td>Nothing from the internet; port 8000 inside the virtual network</td><td>http://, on the private address</td></tr>
+</tbody>
+</table></div>
+<ul>
+<li>Caddy gets a Let's Encrypt certificate and forwards to the server on 127.0.0.1.</li>
+<li>Port 80 answers only the challenge of the certificate.</li>
+<li>Ports 22 and 8000 stay closed.</li>
+<li>The deployment ends only when Caddy holds the certificate.</li>
+<li>Chroma 1.5.9 has no API keys: public access needs VecturaDB with a key, sent in the <code>x-chroma-token</code> header.</li>
+</ul>
+<div class="table table-kv" tabindex="0"><table>
+<thead>
+<tr><th>Over HTTPS, from a VM in the same region (median, Standard_B2pts_v2)</th><th>Time</th></tr>
+</thead>
+<tbody>
+<tr><td>Heartbeat</td><td>1.1&nbsp;ms</td></tr>
+<tr><td>Query</td><td>2.6&nbsp;ms</td></tr>
+</tbody>
+</table></div>
+
+<h2 id="cost">Cost</h2>
+<p>The sizes we tested, with the list prices of westeurope in USD for 730&nbsp;hours a month, on 26 October 2026:</p>
+<div class="table" tabindex="0"><table>
+<thead>
+<tr><th>Size</th><th>CPU, memory</th><th>VM</th><th>Disks (OS E4, data E3)</th><th>Public IP</th><th>Total a month</th></tr>
+</thead>
+<tbody>
+<tr><td>Standard_B2pts_v2 (default, Arm)</td><td>2, 1&nbsp;GiB</td><td>7.01</td><td>3.60</td><td>3.65</td><td>14.26</td></tr>
+<tr><td>Standard_B1s</td><td>1, 1&nbsp;GiB</td><td>8.76</td><td>3.60</td><td>3.65</td><td>16.01</td></tr>
+<tr><td>Standard_B1ms</td><td>1, 2&nbsp;GiB</td><td>17.52</td><td>3.60</td><td>3.65</td><td>24.77</td></tr>
+</tbody>
+</table></div>
+<ul>
+<li>With internal access there is no public IP: 3.65&nbsp;USD less.</li>
+<li>Not in the table: disk transactions, outbound traffic and the snapshots of the backups.</li>
+<li>Standard_B1ls does not work: in our tests it ran out of memory at the first boot.</li>
+<li>B1s and B1ms belong to the Bv1 series, which Azure lists as <a href="https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/general-purpose/bv1-series">End of Life</a>: that is why the default is B2pts_v2.</li>
+<li>B-series sizes stay at a baseline CPU once their credits run out: 20% for B2pts_v2 (<a href="https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/general-purpose/bpsv2-series">Bpsv2 series</a>). A server that is busy all the time needs another size.</li>
+<li>A new <a href="https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account">Azure free account</a> includes, for 12 months, "750&nbsp;hours each of B1s, B2pts v2 (Arm-based), and B2ats v2 (AMD-based) burstable VMs" (<a href="https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/create-free-services">details</a>).</li>
+<li>With 1&nbsp;GiB of memory, Chroma used 54-61&nbsp;MiB at rest. We measured only small collections: Chroma keeps its vector index in memory, so a large collection needs a larger size.</li>
+</ul>
+
+<h2 id="backups-and-restore">Backups and restore</h2>
+<ul>
+<li>With backups on, the default, Azure Disk Backup takes incremental snapshots of the data disk every 24&nbsp;hours, or every 4, 6, 8 or 12&nbsp;hours, and keeps them 7&nbsp;days.</li>
+<li>Azure Disk Backup has no fee per protected disk. The snapshots are billed at the price of standard storage, 0.05&nbsp;USD per GB a month in westeurope: the first one for the used part of the disk, the next ones for the changes.</li>
+<li>Soft delete is on: deleted backups stay 14&nbsp;days.</li>
+<li>The snapshots are taken while the server runs, so a restored disk is like a disk after a power cut. In our tests the server started on it with all the data of the backup.</li>
+</ul>
+<h3 id="restore">Restore</h3>
+<ol>
+<li>In the backup vault, restore a recovery point to a new disk in the same resource group: Backup instances, then Restore.</li>
+<li>Attach the new disk at LUN 1 and run <code>restore.sh</code>: it copies the data of the backup over the data disk and starts the server again.</li>
+<li>Detach and delete the new disk.</li>
+</ol>
+<pre tabindex="0"><code>az vm disk attach -g my-chroma --vm-name chroma --name &lt;restored disk&gt; --lun 1
+az vm run-command invoke -g my-chroma -n chroma --command-id RunShellScript --scripts @restore.sh
+az vm disk detach -g my-chroma --vm-name chroma --name &lt;restored disk&gt;
+az disk delete -g my-chroma -n &lt;restored disk&gt;</code></pre>
+<p><strong>The data written after the backup is lost:</strong> take an on-demand backup first if you may want it back. The data disk stays the same, so the backups go on.</p>
+<div class="table table-kv" tabindex="0"><table>
+<thead>
+<tr><th>In our tests</th><th>Time</th></tr>
+</thead>
+<tbody>
+<tr><td>On-demand backup, until the recovery point</td><td>175-179&nbsp;s</td></tr>
+<tr><td>Restore to a new disk</td><td>50&nbsp;s</td></tr>
+<tr><td>Attach at LUN 1</td><td>8-40&nbsp;s</td></tr>
+<tr><td><code>restore.sh</code></td><td>32-33&nbsp;s</td></tr>
+<tr><td>Detach and delete</td><td>11-73&nbsp;s</td></tr>
+</tbody>
+</table></div>
+<p>After the restore the server held the data of the backup, and not the data written after it.</p>
+
+<h2 id="updates">Updates</h2>
+<ul>
+<li>To change the server, its image or the access, deploy the template again: it stops the old container and starts the new one, with the data on the data disk.</li>
+<li>The server does not answer during the switch.</li>
+<li>Docker starts only once the data disk is mounted: a VM that boots without it serves nothing, rather than an empty database.</li>
+<li>Ubuntu installs its security updates by itself. Caddy comes from its own repository: you update it.</li>
+</ul>
+<div class="table table-kv" tabindex="0"><table>
+<thead>
+<tr><th>In our tests</th><th>Time</th></tr>
+</thead>
+<tbody>
+<tr><td>Switch from Chroma 1.5.9 to VecturaDB, which read the collections written by Chroma</td><td>67-68&nbsp;s</td></tr>
+<tr><td>Restart of the VM (<code>az vm restart</code>)</td><td>73&nbsp;s</td></tr>
+<tr><td>From the restart to the first answer of the server</td><td>11&nbsp;s</td></tr>
+</tbody>
+</table></div>
+
+<h2 id="delete-everything">Delete everything</h2>
+<p>Deleting the resource group deletes the deployment, the snapshots of the backups included. With backups on, two things stop it first: the backup instance of the data disk, and the soft delete of the vault, on by default. So turn soft delete off, delete the backup instance, then delete the group. Without backups, delete the group.</p>
+<h3 id="delete-in-the-portal">In the portal</h3>
+<ol>
+<li>Open the backup vault, <code>&lt;name&gt;-backup</code>. Under Manage, open Properties. In Cyber recovery settings, on the Soft delete row, select Update, clear Enable Soft Delete, and select Update.</li>
+<li>Under Manage, open Backup instances. The filter starts on another datasource type, so the list looks empty: set Datasource type to Azure Disks, and open <code>&lt;name&gt;-data</code>.</li>
+<li>Select Delete. Type the name of the instance, choose a reason and write a comment: all three are required. Select Delete, then Confirm.</li>
+<li>Open the resource group and select Delete resource group. Type the name of the group, select Delete, then Delete again to confirm.</li>
+</ol>
+<h3 id="delete-with-the-azure-cli">With the Azure CLI</h3>
+<pre tabindex="0"><code>SUB=$(az account show --query id -o tsv); RG=my-chroma; NAME=chroma
+VAULT="https://management.azure.com/subscriptions/$SUB/resourceGroups/$RG/providers/Microsoft.DataProtection/backupVaults/$NAME-backup"
+az rest --method patch --url "$VAULT?api-version=2024-04-01"   --body '{"properties":{"securitySettings":{"softDeleteSettings":{"state":"Off","retentionDurationInDays":14}}}}'
+az rest --method delete --url "$VAULT/backupInstances/$NAME-data?api-version=2024-04-01"
+# The deletion goes on in the background: wait until the backup instance is gone.
+while az rest --method get --url "$VAULT/backupInstances/$NAME-data?api-version=2024-04-01" -o none 2&gt;/dev/null; do sleep 10; done
+az group delete -n $RG --yes</code></pre>
+<div class="table table-kv" tabindex="0"><table>
+<thead>
+<tr><th>In our tests, in the portal and with the CLI</th><th>Time</th></tr>
+</thead>
+<tbody>
+<tr><td>Soft delete off</td><td>at once</td></tr>
+<tr><td>Backup instance gone</td><td>70-103&nbsp;s</td></tr>
+<tr><td>Resource group gone</td><td>126-190&nbsp;s</td></tr>
+</tbody>
+</table></div>
+<p>Then nothing was left: no resource, no snapshot, no deleted vault.</p>
+<h3 id="if-you-skip-these-steps">If you skip these steps</h3>
+<ul>
+<li>With the backup instance still there, the deletion of the group failed after 438&nbsp;seconds. Everything else was gone, and the group and the vault stayed.</li>
+<li>With the backup instance deleted and soft delete still on, the instance stayed soft deleted for 14&nbsp;days, and so did the vault and the group. Microsoft says that snapshots still there during those days are billed (<a href="https://learn.microsoft.com/en-us/azure/backup/secure-by-default">soft delete for Azure Backup</a>).</li>
+</ul>
+<p>The <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.1.0/azure/vm#delete-everything">README of the template</a> also says how to get out of the soft-deleted state before the 14&nbsp;days.</p>
+
+<h2 id="limits">Limits</h2>
+<ul>
+<li>One VM and one disk: no high availability.</li>
+<li>While the VM restarts or a deployment switches the container, the server does not answer.</li>
+<li>A new deployment restarts the server, even when nothing changes.</li>
+<li>The backups are snapshots in the same region.</li>
+<li>A disk attached by hand at LUN 0 needs <code>--caching ReadOnly</code>, as the template sets it: otherwise a later deployment changes the caching, and Azure detaches and attaches the disk while the VM runs.</li>
+</ul>
+
+<div class="note">
+<p>VecturaDB is an independent fork of Chroma, under the Apache License 2.0. The original code is copyright Chroma Inc. and its contributors.</p>
+<p>Not affiliated with, endorsed by or sponsored by Chroma Inc. CHROMA is a registered trademark of Chroma Inc., used here only to describe compatibility.</p>
+</div>
+  </main>
+</div>
+
+<!-- site-footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+        <p>Vector database compatible with the Chroma API, bringing Chroma Cloud's features to open source.</p>
+      </div>
+      <div class="footer-col">
+        <h2>Docs</h2>
+        <ul>
+          <li><a href="/get-started/">Get started</a></li>
+          <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+          <li><a href="/clients/">Clients</a></li>
+          <li><a href="/deploy/">Deploy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/VecturaDB/VecturaDB">GitHub</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/security/policy">Security policy</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/blob/main/LICENSE">License</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Packages</h2>
+        <ul>
+          <li><a href="https://pypi.org/project/VecturaDB/">PyPI</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/pkgs/container/vecturadb">Docker image</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Independent project. Not affiliated with, endorsed by or sponsored by Chroma Inc. CHROMA is a registered trademark of Chroma Inc., used here only to describe compatibility. <a href="/#about">About</a></p>
+      <p>Apache License 2.0</p>
+    </div>
+  </div>
+</footer>
+<!-- /site-footer -->
+</body>
+</html>

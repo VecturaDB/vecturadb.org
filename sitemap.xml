@@ -42,14 +42,22 @@
   </url>
   <url>
     <loc>https://vecturadb.org/deploy/</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-28</lastmod>
   </url>
   <url>
     <loc>https://vecturadb.org/deploy/chroma/</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-28</lastmod>
   </url>
   <url>
     <loc>https://vecturadb.org/deploy/chroma/azure/</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
+  <url>
+    <loc>https://vecturadb.org/deploy/chroma/azure/vm/</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
+  <url>
+    <loc>https://vecturadb.org/deploy/chroma/azure/container-apps/</loc>
     <lastmod>2026-10-28</lastmod>
   </url>
 </urlset>
