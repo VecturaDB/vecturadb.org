@@ -188,6 +188,7 @@ az group delete -n $RG --yes</code></pre>
 <ul>
 <li>An update made while the app is in use needs a manual step. During a change of revision Container Apps runs the old and the new revision together, and Chroma does not lock its files: a lock file makes the new revision wait until you deactivate the old one with <code>az containerapp revision deactivate</code>. In our tests the server then did not answer for about 6 seconds. An update made while the app has scaled to zero needs no manual step.</li>
 <li>About 10 minutes after the last request (582-613 seconds) the app scales to zero, and the next request waits 26-32 seconds.</li>
+<li>If the host of the replica disappears, the share keeps the lock for about 11 minutes (655 seconds in our tests), and the next replica waits; the README of the template says how to free it earlier.</li>
 <li>One replica at most, and no backups of the share.</li>
 <li>Slower than the VM, from the same client: 5.2-5.7 ms for a query against 2.5 ms, 434-448 ms for an add against 112 ms. With the data on an NFS share instead of SMB, a query took 309 ms.</li>
 <li>Azure Files costs too: 0.06 USD per GB stored a month, and about 0.03 USD for every 1,000 writes in our tests.</li>
