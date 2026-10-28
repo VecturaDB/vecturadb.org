@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chroma clients on VecturaDB, step by step · VecturaDB</title>
+<meta name="description" content="Each Chroma client, step by step, on VecturaDB and Chroma 1.5.9: heartbeat, collections, add, query, get and delete, with the errors and the defects we found.">
+<link rel="canonical" href="https://vecturadb.org/clients/details/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://vecturadb.org/clients/details/">
+<meta property="og:title" content="Chroma clients on VecturaDB, step by step">
+<meta property="og:description" content="Each Chroma client, step by step, on VecturaDB and Chroma 1.5.9: heartbeat, collections, add, query, get and delete, with the errors and the defects we found.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "VecturaDB", "item": "https://vecturadb.org/"}, {"@type": "ListItem", "position": 2, "name": "Clients", "item": "https://vecturadb.org/clients/"}, {"@type": "ListItem", "position": 3, "name": "Details", "item": "https://vecturadb.org/clients/details/"}]}</script>
+<!-- site-head -->
+<meta property="og:site_name" content="VecturaDB">
+<meta property="og:image" content="https://vecturadb.org/vecturadb-social-cloud-1280x640.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b1120" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon-96.png" type="image/png" sizes="96x96">
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="/assets/site.js" defer></script>
+<!-- /site-head -->
+</head>
+<body>
+<!-- site-header -->
+<svg class="sprite" aria-hidden="true"><symbol id="i-github" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></symbol></svg>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="visually-hidden">Menu</span>
+      <svg class="icon icon-stroke icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="icon icon-stroke icon-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/get-started/">Get started</a></li>
+        <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+        <li><a href="/deploy/">Deploy</a></li>
+        <li><a href="/clients/" aria-current="page">Clients</a></li>
+        <li><a href="/news/">News</a></li>
+        <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+        <li><a class="nav-github" href="https://github.com/VecturaDB/VecturaDB"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<!-- /site-header -->
+
+<div class="container doc-layout">
+  <aside class="doc-aside" aria-label="Clients">
+    <h2>Clients</h2>
+    <ul>
+      <li><a href="/clients/">Overview</a></li>
+      <li><a href="/clients/details/" aria-current="page">Details</a></li>
+    </ul>
+  </aside>
+  <main id="main" class="doc prose">
+<nav class="crumb" aria-label="Breadcrumb"><a href="/clients/">Clients</a> / Details</nav>
+<h1 id="chroma-clients-step-by-step">Chroma clients, step by step</h1>
+<p class="lead-doc">Each Chroma client we ran against VecturaDB and against Chroma 1.5.9: the result of each step on the two servers, the notes and the defects of the client. The summary, one row for each client, is on the <a href="/clients/">Clients</a> page.</p>
+<div class="note">
+<p><strong>Disclaimer.</strong> These results are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 29 October 2026: your client, its version and your setup may behave differently.</p>
+<p>Not sure about your client? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, name the client and its version, and we will take a look on a best-effort basis.</p>
+</div>
+<nav class="toc" aria-label="On this page">
+<p class="toc-title">On this page</p>
+<ol>
+<li><a href="#what-the-results-mean">What the results mean</a></li>
+<li><a href="#python">Python</a></li>
+<li><a href="#javascript">JavaScript</a></li>
+<li><a href="#dotnet">.NET</a></li>
+<li><a href="#go">Go</a></li>
+<li><a href="#php">PHP</a></li>
+<li><a href="#dart">Dart</a></li>
+<li><a href="#rust">Rust</a></li>
+<li><a href="#elixir">Elixir</a></li>
+<li><a href="#ruby">Ruby</a></li>
+<li><a href="#java">Java</a></li>
+<li><a href="#clojure">Clojure</a></li>
+<li><a href="#sparse-vectors-bm25-search-and-api-keys">Sparse vectors, BM25, Search and API keys</a></li>
+<li><a href="#how-we-tested">How we tested</a></li>
+<li><a href="#moving-from-chroma-cloud">Moving from Chroma Cloud</a></li>
+</ol>
+</nav>
+<h2 id="what-the-results-mean">What the results mean</h2>
+<ul>
+<li><strong>Works</strong>: all 9 steps gave the expected result.</li>
+<li><strong>Partial</strong>: the steps the client has passed; the others are not in the client.</li>
+<li><strong>Fails</strong>: at least one step gave an error. Each failure on this page happened in the same way on Chroma 1.5.9. Four of the five failing clients call the v1 API, which Chroma 1.x no longer serves.</li>
+</ul>
+<h2 id="python">Python</h2>
+<h3 id="python-chromadb-client"><code>chromadb-<wbr>client</code> 1.5.9</h3>
+<p class="client-meta"><span class="result result-works">Works</span> on both servers.</p>
+<div class="table table-fit client-steps" tabindex="0"><table>
+<thead>
+<tr><th scope="col">Step</th><th scope="col">Chroma<span class="ver">1.5.9</span></th><th scope="col">VecturaDB<span class="ver">1.0.0-preview.3.post1</span></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">1. Heartbeat</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">2. Pre-flight-checks</th><td class="s-pass">Passed</td><td class="s-pass">Passed, with the server block</td></tr>
+<tr><th scope="row">3. Create a collection, cosine</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">4. Add 3 records</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">5. Query [1, 0], 2 results</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">6. Get by id</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">7. Get with a filter</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">8. Delete one record, then count</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">9. Delete the collection</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+</tbody>
+</table></div>
+<h2 id="javascript">JavaScript</h2>
+<h3 id="javascript-chromadb"><code>chromadb</code> 3.5.0</h3>
+<p class="client-meta"><span class="result result-works">Works</span> on both servers.</p>
+<div class="table table-fit client-steps" tabindex="0"><table>
+<thead>
+<tr><th scope="col">Step</th><th scope="col">Chroma<span class="ver">1.5.9</span></th><th scope="col">VecturaDB<span class="ver">1.0.0-preview.3.post1</span></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">1. Heartbeat</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">2. Pre-flight-checks</th><td class="s-pass">Passed</td><td class="s-pass">Passed, with the server block</td></tr>
+<tr><th scope="row">3. Create a collection, cosine</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">4. Add 3 records</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">5. Query [1, 0], 2 results</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">6. Get by id</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">7. Get with a filter</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">8. Delete one record, then count</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">9. Delete the collection</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+</tbody>
+</table></div>
+<h2 id="dotnet">.NET</h2>
+<h3 id="dotnet-chromadotnet-client"><code>ChromaDotNet.<wbr>Client</code> 2.18.1</h3>
+<p class="client-meta"><span class="result result-works">Works</span> on both servers.</p>
+<div class="table table-fit client-steps" tabindex="0"><table>
+<thead>
+<tr><th scope="col">Step</th><th scope="col">Chroma<span class="ver">1.5.9</span></th><th scope="col">VecturaDB<span class="ver">1.0.0-preview.3.post1</span></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">1. Heartbeat</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">2. Pre-flight-checks</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">3. Create a collection, cosine</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">4. Add 3 records</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">5. Query [1, 0], 2 results</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">6. Get by id</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">7. Get with a filter</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">8. Delete one record, then count</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">9. Delete the collection</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+</tbody>
+</table></div>
+<ul class="client-notes">
+<li>The whole test suite of the client at commit c146440 of its main branch, on VecturaDB 1.0.0-preview.3.post1: 2192 passed, 12 skipped, 0 failed. The skipped tests are for Chroma Cloud quotas and settings, tenants and databases created on a server already running, the built-in authentication that Chroma 1.0 removed, timing measurements and Chroma 0.x.</li>
+</ul>
+<h3 id="dotnet-communitytoolkit-vectordata-chroma"><code>CommunityToolkit.<wbr>VectorData.<wbr>Chroma</code> 1.0.2-preview</h3>
+<p class="client-meta"><span class="result result-partial">Partial</span> on both servers.</p>
+<div class="table table-fit client-steps" tabindex="0"><table>
+<thead>
+<tr><th scope="col">Step</th><th scope="col">Chroma<span class="ver">1.5.9</span></th><th scope="col">VecturaDB<span class="ver">1.0.0-preview.3.post1</span></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">1. Heartbeat</th><td class="s-none">Not in the client</td><td class="s-none">Not in the client</td></tr>
+<tr><th scope="row">2. Pre-flight-checks</th><td class="s-none">Not in the client</td><td class="s-none">Not in the client</td></tr>
+<tr><th scope="row">3. Create a collection, cosine</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">4. Add 3 records</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">5. Query [1, 0], 2 results</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">6. Get by id</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">7. Get with a filter</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">8. Delete one record, then count</th><td class="s-none">Delete only: a get of the 3 ids finds 2. Count is not in the client</td><td class="s-none">Delete only: a get of the 3 ids finds 2. Count is not in the client</td></tr>
+<tr><th scope="row">9. Delete the collection</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+</tbody>
+</table></div>
+<ul class="client-notes">
+<li>The Chroma provider of the AI Community Toolkit. It has no heartbeat, pre-flight-checks or count, and it adds records with upsert; the other steps passed. The document of a record is its full-text property.</li>
+</ul>
+<h3 id="dotnet-semantic-kernel-connector"><code>Microsoft.<wbr>SemanticKernel.<wbr>Connectors.<wbr>Chroma</code> 1.74.0-alpha</h3>
+<p class="client-meta"><span class="result result-fails">Fails</span>, also on Chroma 1.5.9.</p>
+<div class="table table-fit client-steps" tabindex="0"><table>
+<thead>
+<tr><th scope="col">Step</th><th scope="col">Chroma<span class="ver">1.5.9</span></th><th scope="col">VecturaDB<span class="ver">1.0.0-preview.3.post1</span></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">1. Heartbeat</th><td class="s-none">Not in the client</td><td class="s-none">Not in the client</td></tr>
+<tr><th scope="row">2. Pre-flight-checks</th><td class="s-none">Not in the client</td><td class="s-none">Not in the client</td></tr>
+<tr><th scope="row">3. Create a collection, cosine</th><td class="s-error">Error: 405 Method Not Allowed</td><td class="s-error">Error: 405 Method Not Allowed</td></tr>
+<tr><th scope="row">4. Add 3 records</th><td class="s-notrun">Not run: no collection</td><td class="s-notrun">Not run: no collection</td></tr>
+<tr><th scope="row">5. Query [1, 0], 2 results</th><td class="s-notrun">Not run: no collection</td><td class="s-notrun">Not run: no collection</td></tr>
+<tr><th scope="row">6. Get by id</th><td class="s-notrun">Not run: no collection</td><td class="s-notrun">Not run: no collection</td></tr>
+<tr><th scope="row">7. Get with a filter</th><td class="s-notrun">Not run: no collection</td><td class="s-notrun">Not run: no collection</td></tr>
+<tr><th scope="row">8. Delete one record, then count</th><td class="s-notrun">Not run: no collection</td><td class="s-notrun">Not run: no collection</td></tr>
+<tr><th scope="row">9. Delete the collection</th><td class="s-notrun">Not run: no collection</td><td class="s-notrun">Not run: no collection</td></tr>
+</tbody>
+</table></div>
+<ul class="client-notes">
+<li>The v1 API only: creating a collection answers "405 (Method Not Allowed)".</li>
+<li>Deprecated on NuGet, which suggests <code>CommunityToolkit.VectorData.Chroma</code>.</li>
+</ul>
+<h2 id="go">Go</h2>
+<h3 id="go-chroma-go"><code>github.<wbr>com/<wbr>amikos-<wbr>tech/<wbr>chroma-<wbr>go</code> v0.4.1</h3>
+<p class="client-meta"><span class="result result-works">Works</span> on both servers.</p>
+<div class="table table-fit client-steps" tabindex="0"><table>
+<thead>
+<tr><th scope="col">Step</th><th scope="col">Chroma<span class="ver">1.5.9</span></th><th scope="col">VecturaDB<span class="ver">1.0.0-preview.3.post1</span></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">1. Heartbeat</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">2. Pre-flight-checks</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">3. Create a collection, cosine</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">4. Add 3 records</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">5. Query [1, 0], 2 results</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">6. Get by id</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">7. Get with a filter</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">8. Delete one record, then count</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">9. Delete the collection</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+</tbody>
+</table></div>
+<ul class="client-notes">
+<li>To install it, its dependency <code>chroma-go-local</code> v0.3.4 had to be replaced with v0.3.5: proxy.golang.org answered 404 and the direct download failed the checksum. Only the embedded client uses it.</li>
+</ul>
+<h2 id="php">PHP</h2>
+<h3 id="php-codewithkyrian-chromadb-php"><code>codewithkyrian/<wbr>chromadb-<wbr>php</code> 1.0.0</h3>
+<p class="client-meta"><span class="result result-works">Works</span> on both servers.</p>
+<div class="table table-fit client-steps" tabindex="0"><table>
+<thead>
+<tr><th scope="col">Step</th><th scope="col">Chroma<span class="ver">1.5.9</span></th><th scope="col">VecturaDB<span class="ver">1.0.0-preview.3.post1</span></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">1. Heartbeat</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">2. Pre-flight-checks</th><td class="s-pass">Passed</td><td class="s-pass">Passed, with the server block</td></tr>
+<tr><th scope="row">3. Create a collection, cosine</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">4. Add 3 records</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">5. Query [1, 0], 2 results</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">6. Get by id</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">7. Get with a filter</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">8. Delete one record, then count</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">9. Delete the collection</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+</tbody>
+</table></div>
+<h3 id="php-helgesverre-chromadb"><code>helgesverre/<wbr>chromadb</code> v3.0.0</h3>
+<p class="client-meta"><span class="result result-works">Works</span> on both servers.</p>
+<div class="table table-fit client-steps" tabindex="0"><table>
+<thead>
+<tr><th scope="col">Step</th><th scope="col">Chroma<span class="ver">1.5.9</span></th><th scope="col">VecturaDB<span class="ver">1.0.0-preview.3.post1</span></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">1. Heartbeat</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">2. Pre-flight-checks</th><td class="s-pass">Passed</td><td class="s-pass">Passed, with the server block</td></tr>
+<tr><th scope="row">3. Create a collection, cosine</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">4. Add 3 records</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">5. Query [1, 0], 2 results</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">6. Get by id</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">7. Get with a filter</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">8. Delete one record, then count</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">9. Delete the collection</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+</tbody>
+</table></div>
+<h2 id="dart">Dart</h2>
+<h3 id="dart-chromadb"><code>chromadb</code> 2.0.0</h3>
+<p class="client-meta"><span class="result result-works">Works</span> on both servers.</p>
+<div class="table table-fit client-steps" tabindex="0"><table>
+<thead>
+<tr><th scope="col">Step</th><th scope="col">Chroma<span class="ver">1.5.9</span></th><th scope="col">VecturaDB<span class="ver">1.0.0-preview.3.post1</span></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">1. Heartbeat</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">2. Pre-flight-checks</th><td class="s-pass">Passed</td><td class="s-pass">Passed, with the server block</td></tr>
+<tr><th scope="row">3. Create a collection, cosine</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">4. Add 3 records</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">5. Query [1, 0], 2 results</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">6. Get by id</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">7. Get with a filter</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">8. Delete one record, then count</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">9. Delete the collection</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+</tbody>
+</table></div>
+<h2 id="rust">Rust</h2>
+<h3 id="rust-chroma"><code>chroma</code> 0.15.0</h3>
+<p class="client-meta"><span class="result result-partial">Partial</span> on both servers.</p>
+<div class="table table-fit client-steps" tabindex="0"><table>
+<thead>
+<tr><th scope="col">Step</th><th scope="col">Chroma<span class="ver">1.5.9</span></th><th scope="col">VecturaDB<span class="ver">1.0.0-preview.3.post1</span></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">1. Heartbeat</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">2. Pre-flight-checks</th><td class="s-none">Not in the client</td><td class="s-none">Not in the client</td></tr>
+<tr><th scope="row">3. Create a collection, cosine</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">4. Add 3 records</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">5. Query [1, 0], 2 results</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">6. Get by id</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">7. Get with a filter</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">8. Delete one record, then count</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">9. Delete the collection</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+</tbody>
+</table></div>
+<ul class="client-notes">
+<li>The crate has no pre-flight-checks; the other 8 steps passed. It needs <code>protoc</code> to build.</li>
+</ul>
+<h4 id="rust-chroma-features">VecturaDB features</h4>
+<div class="table table-fit client-steps" tabindex="0"><table>
+<thead>
+<tr><th scope="col">Step</th><th scope="col">Chroma<span class="ver">1.5.9</span></th><th scope="col">VecturaDB<span class="ver">1.0.0-preview.3.post1</span></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">Create a collection with a sparse vector index</th><td class="s-error">Error: 400 Sparse vector indexing is not enabled in local</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">Add 3 records with BM25 vectors</th><td class="s-notrun">Not run: no collection</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">Search, dense: [1, 0]</th><td class="s-notrun">Not run: no collection</td><td class="s-pass">Passed: r1, r3</td></tr>
+<tr><th scope="row">Search, BM25: "apple"</th><td class="s-notrun">Not run: no collection</td><td class="s-pass">Passed: r1</td></tr>
+<tr><th scope="row">Delete the collection</th><td class="s-notrun">Not run: no collection</td><td class="s-pass">Passed</td></tr>
+<tr class="group"><th scope="rowgroup" colspan="3">With one API key on both servers</th></tr>
+<tr><th scope="row">No API key</th><td class="s-info">Accepted</td><td class="s-pass">Rejected: 401 Permission denied.</td></tr>
+<tr><th scope="row">The right API key</th><td class="s-info">Accepted</td><td class="s-pass">Accepted</td></tr>
+<tr><th scope="row">A wrong API key</th><td class="s-info">Accepted</td><td class="s-pass">Rejected: 401 Permission denied.</td></tr>
+</tbody>
+</table></div>
+<ul class="client-notes">
+<li>It sent the API key with <code>ChromaAuthMethod::cloud_api_key</code>.</li>
+<li>How we tested them: <a href="#sparse-vectors-bm25-search-and-api-keys">Sparse vectors, BM25, Search and API keys</a>.</li>
+</ul>
+<h3 id="rust-chromadb"><code>chromadb</code> 2.3.0</h3>
+<p class="client-meta"><span class="result result-fails">Fails</span>, also on Chroma 1.5.9.</p>
+<div class="table table-fit client-steps" tabindex="0"><table>
+<thead>
+<tr><th scope="col">Step</th><th scope="col">Chroma<span class="ver">1.5.9</span></th><th scope="col">VecturaDB<span class="ver">1.0.0-preview.3.post1</span></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">1. Heartbeat</th><td class="s-error">Error: 410 Gone</td><td class="s-error">Error: 410 Gone</td></tr>
+<tr><th scope="row">2. Pre-flight-checks</th><td class="s-none">Not in the client</td><td class="s-none">Not in the client</td></tr>
+<tr><th scope="row">3. Create a collection, cosine</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">4. Add 3 records</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">5. Query [1, 0], 2 results</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">6. Get by id</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">7. Get with a filter</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">8. Delete one record, then count</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">9. Delete the collection</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+</tbody>
+</table></div>
+<ul class="client-notes">
+<li>The heartbeat calls the v1 API: "410 Gone: The v1 API is deprecated. Please use /v2 apis". The other steps passed.</li>
+</ul>
+<h4 id="rust-chromadb-features">VecturaDB features</h4>
+<div class="table table-fit client-steps" tabindex="0"><table>
+<thead>
+<tr><th scope="col">Step</th><th scope="col">Chroma<span class="ver">1.5.9</span></th><th scope="col">VecturaDB<span class="ver">1.0.0-preview.3.post1</span></th></tr>
+</thead>
+<tbody>
+<tr class="group"><th scope="rowgroup" colspan="3">With one API key on both servers</th></tr>
+<tr><th scope="row">No API key</th><td class="s-info">Accepted</td><td class="s-pass">Rejected: 401 Permission denied.</td></tr>
+<tr><th scope="row">The right API key</th><td class="s-info">Accepted</td><td class="s-pass">Accepted</td></tr>
+<tr><th scope="row">A wrong API key</th><td class="s-info">Accepted</td><td class="s-pass">Rejected: 401 Permission denied.</td></tr>
+</tbody>
+</table></div>
+<ul class="client-notes">
+<li>It sent the API key with <code>TokenAuth</code>, in the <code>X-Chroma-Token</code> header.</li>
+<li>How we tested them: <a href="#sparse-vectors-bm25-search-and-api-keys">Sparse vectors, BM25, Search and API keys</a>.</li>
+</ul>
+<h2 id="elixir">Elixir</h2>
+<h3 id="elixir-chroma"><code>chroma</code> 0.1.3</h3>
+<p class="client-meta"><span class="result result-partial">Partial</span> on both servers.</p>
+<div class="table table-fit client-steps" tabindex="0"><table>
+<thead>
+<tr><th scope="col">Step</th><th scope="col">Chroma<span class="ver">1.5.9</span></th><th scope="col">VecturaDB<span class="ver">1.0.0-preview.3.post1</span></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">1. Heartbeat</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">2. Pre-flight-checks</th><td class="s-none">Not in the client</td><td class="s-none">Not in the client</td></tr>
+<tr><th scope="row">3. Create a collection, cosine</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">4. Add 3 records</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">5. Query [1, 0], 2 results</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">6. Get by id</th><td class="s-none">Not in the client</td><td class="s-none">Not in the client</td></tr>
+<tr><th scope="row">7. Get with a filter</th><td class="s-none">Not in the client</td><td class="s-none">Not in the client</td></tr>
+<tr><th scope="row">8. Delete one record, then count</th><td class="s-none">Count only: 3. Delete is not in the client</td><td class="s-none">Count only: 3. Delete is not in the client</td></tr>
+<tr><th scope="row">9. Delete the collection</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+</tbody>
+</table></div>
+<ul class="client-notes">
+<li>Set to the v2 API with its <code>api_version</code> setting. The library has no pre-flight-checks, get by id, where or delete of records; the other steps passed.</li>
+</ul>
+<h2 id="ruby">Ruby</h2>
+<h3 id="ruby-chroma-db"><code>chroma-<wbr>db</code> 0.9.0</h3>
+<p class="client-meta"><span class="result result-fails">Fails</span>, also on Chroma 1.5.9.</p>
+<div class="table table-fit client-steps" tabindex="0"><table>
+<thead>
+<tr><th scope="col">Step</th><th scope="col">Chroma<span class="ver">1.5.9</span></th><th scope="col">VecturaDB<span class="ver">1.0.0-preview.3.post1</span></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">1. Heartbeat</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">2. Pre-flight-checks</th><td class="s-pass">Passed</td><td class="s-pass">Passed, with the server block</td></tr>
+<tr><th scope="row">3. Create a collection, cosine</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">4. Add 3 records</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">5. Query [1, 0], 2 results</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+<tr><th scope="row">6. Get by id</th><td class="s-error">Error: NoMethodError</td><td class="s-error">Error: NoMethodError</td></tr>
+<tr><th scope="row">7. Get with a filter</th><td class="s-error">Error: NoMethodError</td><td class="s-error">Error: NoMethodError</td></tr>
+<tr><th scope="row">8. Delete one record, then count</th><td class="s-error">Error: NoMethodError</td><td class="s-error">Error: NoMethodError</td></tr>
+<tr><th scope="row">9. Delete the collection</th><td class="s-pass">Passed</td><td class="s-pass">Passed</td></tr>
+</tbody>
+</table></div>
+<ul class="client-notes">
+<li>Get and delete send an empty <code>where</code> and <code>where_document</code>, which both servers reject with 400 "Invalid where clause". The gem then raises <code>NoMethodError: private method `raise_failure_error'</code> instead of the message of the server.</li>
+</ul>
+<h2 id="java">Java</h2>
+<h3 id="java-chromadb-java-client"><code>io.<wbr>github.<wbr>amikos-<wbr>tech:<wbr>chromadb-<wbr>java-<wbr>client</code> 0.1.7</h3>
+<p class="client-meta"><span class="result result-fails">Fails</span>, also on Chroma 1.5.9.</p>
+<div class="table table-fit client-steps" tabindex="0"><table>
+<thead>
+<tr><th scope="col">Step</th><th scope="col">Chroma<span class="ver">1.5.9</span></th><th scope="col">VecturaDB<span class="ver">1.0.0-preview.3.post1</span></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">1. Heartbeat</th><td class="s-error">Error: Gone</td><td class="s-error">Error: Gone</td></tr>
+<tr><th scope="row">2. Pre-flight-checks</th><td class="s-none">Not in the client</td><td class="s-none">Not in the client</td></tr>
+<tr><th scope="row">3. Create a collection, cosine</th><td class="s-error">Error: Method Not Allowed</td><td class="s-error">Error: Method Not Allowed</td></tr>
+<tr><th scope="row">4. Add 3 records</th><td class="s-notrun">Not run: no collection</td><td class="s-notrun">Not run: no collection</td></tr>
+<tr><th scope="row">5. Query [1, 0], 2 results</th><td class="s-notrun">Not run: no collection</td><td class="s-notrun">Not run: no collection</td></tr>
+<tr><th scope="row">6. Get by id</th><td class="s-notrun">Not run: no collection</td><td class="s-notrun">Not run: no collection</td></tr>
+<tr><th scope="row">7. Get with a filter</th><td class="s-notrun">Not run: no collection</td><td class="s-notrun">Not run: no collection</td></tr>
+<tr><th scope="row">8. Delete one record, then count</th><td class="s-notrun">Not run: no collection</td><td class="s-notrun">Not run: no collection</td></tr>
+<tr><th scope="row">9. Delete the collection</th><td class="s-notrun">Not run: no collection</td><td class="s-notrun">Not run: no collection</td></tr>
+</tbody>
+</table></div>
+<ul class="client-notes">
+<li>The v1 API only: the heartbeat answers "Gone", creating a collection "Method Not Allowed".</li>
+</ul>
+<h2 id="clojure">Clojure</h2>
+<h3 id="clojure-clojure-chroma-client"><code>levand/<wbr>clojure-<wbr>chroma-<wbr>client</code>, commit 61766c3</h3>
+<p class="client-meta"><span class="result result-fails">Fails</span>, also on Chroma 1.5.9.</p>
+<div class="table table-fit client-steps" tabindex="0"><table>
+<thead>
+<tr><th scope="col">Step</th><th scope="col">Chroma<span class="ver">1.5.9</span></th><th scope="col">VecturaDB<span class="ver">1.0.0-preview.3.post1</span></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">1. Heartbeat</th><td class="s-error">Error: Unsuccessful HTTP status code</td><td class="s-error">Error: Unsuccessful HTTP status code</td></tr>
+<tr><th scope="row">2. Pre-flight-checks</th><td class="s-none">Not in the client</td><td class="s-none">Not in the client</td></tr>
+<tr><th scope="row">3. Create a collection, cosine</th><td class="s-error">Error: Unsuccessful HTTP status code</td><td class="s-error">Error: Unsuccessful HTTP status code</td></tr>
+<tr><th scope="row">4. Add 3 records</th><td class="s-notrun">Not run: no collection</td><td class="s-notrun">Not run: no collection</td></tr>
+<tr><th scope="row">5. Query [1, 0], 2 results</th><td class="s-notrun">Not run: no collection</td><td class="s-notrun">Not run: no collection</td></tr>
+<tr><th scope="row">6. Get by id</th><td class="s-notrun">Not run: no collection</td><td class="s-notrun">Not run: no collection</td></tr>
+<tr><th scope="row">7. Get with a filter</th><td class="s-notrun">Not run: no collection</td><td class="s-notrun">Not run: no collection</td></tr>
+<tr><th scope="row">8. Delete one record, then count</th><td class="s-notrun">Not run: no collection</td><td class="s-notrun">Not run: no collection</td></tr>
+<tr><th scope="row">9. Delete the collection</th><td class="s-notrun">Not run: no collection</td><td class="s-notrun">Not run: no collection</td></tr>
+</tbody>
+</table></div>
+<ul class="client-notes">
+<li>The v1 API only: "Unsuccessful HTTP status code" from the heartbeat and from creating a collection.</li>
+</ul>
+
+<h2 id="sparse-vectors-bm25-search-and-api-keys">Sparse vectors, BM25, Search and API keys</h2>
+<p>VecturaDB also has sparse vectors, BM25, the Search API and API keys on the single node, where Chroma 1.5.9 does not have them. We tested them with the two Rust crates, against VecturaDB 1.0.0-preview.3.post1 and against Chroma 1.5.9:</p>
+<ul>
+<li><strong>Sparse vectors, BM25 and Search</strong>, with <code>chroma</code> 0.15.0. On VecturaDB the crate created a collection with a sparse vector index, added 3 records with the BM25 vectors it computes from their documents, and searched them with the Search API: the dense search for [1, 0] gave r1 then r3, and the BM25 search for "apple" gave r1. Chroma 1.5.9 rejected the index with 400 "Sparse vector indexing is not enabled in local".</li>
+<li><strong>API keys</strong>, with both crates. We started both servers with one API key in <code>CHROMA_SERVER_AUTHN_CREDENTIALS</code>. VecturaDB answered 401 "Permission denied." without a key and with a wrong key, and accepted the right one: <code>chroma</code> 0.15.0 sent it with <code>ChromaAuthMethod::cloud_api_key</code>, <code>chromadb</code> 2.3.0 with <code>TokenAuth</code> in the <code>X-Chroma-Token</code> header. With the right key, the other steps gave the same results as without keys. Chroma 1.5.9 has no built-in authentication: it accepted every request, with any key or none. To set up API keys, see <a href="https://github.com/VecturaDB/VecturaDB/blob/v1.0.0-preview.3.post1/docs/mintlify/guides/deploy/client-server-mode.mdx#api-keys">API keys</a>.</li>
+</ul>
+<h2 id="how-we-tested">How we tested</h2>
+<ul>
+<li>The servers: <code>chromadb/chroma:1.5.9</code> and <code>ghcr.io/vecturadb/vecturadb:1.0.0-preview.3.post1</code>, for linux/amd64, with the default command of the image. The image of VecturaDB was <code>sha256:b7a7fcf464a19ae1987e2ebd02bf68ea1afb25446d274ab083f1a430e0854ff5</code>.</li>
+<li>A new container for each client and each server, with an empty data folder, on a Docker network: the client reached the server at port 8000. No API keys outside the API key steps, the default tenant and database.</li>
+<li>Each client ran in a container of its language, with its version pinned.</li>
+</ul>
+<p>The steps were the same for every client, with embeddings of two numbers given by hand, so no embedding model was involved:</p>
+<ol>
+<li>heartbeat;</li>
+<li>pre-flight-checks;</li>
+<li>create a collection, with the cosine space;</li>
+<li>add 3 records with documents and metadata;</li>
+<li>query with [1, 0] for 2 results, expecting r1 then r3;</li>
+<li>get by id;</li>
+<li>get with the filter <code>{"n": {"$gte": 2}}</code>;</li>
+<li>delete one record, then count, expecting 2;</li>
+<li>delete the collection.</li>
+</ol>
+<p>The one difference between the two servers is in step 2: VecturaDB adds its <code>server</code> block to the answer of pre-flight-checks. The clients that show the raw answer, Python, JavaScript, Dart, Ruby and both PHP clients, took it without errors, with the same <code>max_batch_size</code>, 5461.</p>
+<h2 id="moving-from-chroma-cloud">Moving from Chroma Cloud</h2>
+<p>The guides switch the client from Chroma Cloud to VecturaDB, or to Chroma, in Python, JavaScript and .NET: <a href="/leaving-chroma-cloud/">Leaving Chroma Cloud</a>.</p>
+
+<div class="note">
+<p>VecturaDB is an independent fork of Chroma, under the Apache License 2.0. The original code is copyright Chroma Inc. and its contributors.</p>
+<p>Not affiliated with, endorsed by or sponsored by Chroma Inc. CHROMA is a registered trademark of Chroma Inc., used here only to describe compatibility.</p>
+</div>
+  </main>
+</div>
+
+<!-- site-footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+        <p>Vector database compatible with the Chroma API, bringing Chroma Cloud's features to open source.</p>
+      </div>
+      <div class="footer-col">
+        <h2>Docs</h2>
+        <ul>
+          <li><a href="/get-started/">Get started</a></li>
+          <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+          <li><a href="/clients/">Clients</a></li>
+          <li><a href="/deploy/">Deploy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/VecturaDB/VecturaDB">GitHub</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/security/policy">Security policy</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/blob/main/LICENSE">License</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Packages</h2>
+        <ul>
+          <li><a href="https://pypi.org/project/VecturaDB/">PyPI</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/pkgs/container/vecturadb">Docker image</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Independent project. Not affiliated with, endorsed by or sponsored by Chroma Inc. CHROMA is a registered trademark of Chroma Inc., used here only to describe compatibility. <a href="/#about">About</a></p>
+      <p>Apache License 2.0</p>
+    </div>
+  </div>
+</footer>
+<!-- /site-footer -->
+</body>
+</html>

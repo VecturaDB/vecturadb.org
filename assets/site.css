@@ -349,6 +349,49 @@ html:not(.js) .feature-panel + .feature-panel { margin-top: 56px; }
 /* Clients: the package names break only where the page allows it. */
 .clients-table td:nth-child(2) { min-width: 11.5rem; }
 .clients-table td:nth-child(2) code { overflow-wrap: normal; }
+/* Clients, the overview: a row for each client, with a sign for its result on each server, and a legend. */
+.legend { display: flex; flex-wrap: wrap; gap: 8px 24px; margin: 0 0 16px; padding: 0; list-style: none; color: var(--fg-muted); font-size: 0.92rem; }
+.legend li { display: flex; align-items: center; gap: 8px; }
+.legend strong { color: var(--fg); }
+.sign { flex: none; width: 22px; height: 22px; vertical-align: middle; }
+.sign-disc { fill: currentColor; }
+.sign-glyph { fill: none; stroke: var(--bg-elevated); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.sign-half { fill: var(--bg-elevated); }
+.compare.clients-overview, .clients-overview ~ .fine-print { max-width: 46rem; }
+.compare.clients-overview tbody th { width: auto; color: var(--fg); font-weight: 500; }
+.clients-overview code { padding: 0.1em 0.35em; border-radius: 6px; background: var(--inline-code-bg); font-size: 0.9em; overflow-wrap: normal; }
+.clients-overview .c-sign { width: 10.5rem; text-align: center; vertical-align: middle; }
+.clients-overview .ver, .client-steps .ver { display: block; color: var(--fg-muted); font-size: 0.8rem; font-weight: 500; }
+.clients-overview .ver { white-space: nowrap; }
+.clients-overview .c-details { width: 1%; text-align: center; vertical-align: middle; white-space: nowrap; }
+.compare.clients-overview .c-details, .compare.clients-overview thead th:last-child { border-left: 0; }
+.row-link { font-weight: 600; text-decoration: none; }
+.row-link:hover { text-decoration: underline; }
+.result { display: inline-flex; align-items: center; gap: 7px; font-weight: 650; white-space: nowrap; }
+.result::before { content: ""; flex: none; width: 9px; height: 9px; border-radius: 50%; background: currentColor; }
+.result-works { color: #0f766e; }
+.result-partial { color: #b45309; }
+.result-fails { color: #be123c; }
+/* Clients, the details: a table of the steps of each client, which fits a phone. */
+.client-meta { color: var(--fg-muted); }
+.prose .client-steps tbody th { background: none; font-weight: 500; }
+.prose .client-steps tbody th + td { border-left: 1px solid var(--border); }
+.prose .client-steps tbody .group th { background: var(--bg-soft); font-weight: 600; }
+.prose .client-steps tr:last-child th { border-bottom: 0; }
+.client-steps .s-pass::before, .client-steps .s-error::before {
+  content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 7px; border-radius: 50%; vertical-align: 0.05em;
+}
+.client-steps .s-pass::before { background: #0f766e; }
+.client-steps .s-error { color: #be123c; }
+.client-steps .s-error::before { background: currentColor; }
+.client-steps .s-none, .client-steps .s-notrun { color: var(--fg-muted); }
+@media (prefers-color-scheme: dark) {
+  .result-works { color: #2dd4bf; }
+  .result-partial { color: #fbbf24; }
+  .result-fails { color: #fb7185; }
+  .client-steps .s-pass::before { background: #2dd4bf; }
+  .client-steps .s-error { color: #fb7185; }
+}
 .crumb { margin: 0 0 12px; color: var(--fg-muted); font-size: 0.9rem; }
 .crumb a { color: var(--fg-muted); }
 /* The pages of a template: what is on the page, and small tables of measured times that need no scrolling. */
@@ -510,6 +553,19 @@ html:not(.js) .feature-panel + .feature-panel { margin-top: 56px; }
   .clients-table td:nth-child(2)::before { content: " · "; }
   .clients-table td[data-label]::before { content: attr(data-label) ": "; color: var(--fg-muted); }
   .clients-table td:last-child { margin-top: 4px; color: var(--fg-muted); }
+  /* Clients, the overview: the same table, narrower, with the arrow alone for Details. */
+  .compare.clients-overview th, .compare.clients-overview td { padding: 10px 4px; }
+  .compare.clients-overview thead th:first-child, .compare.clients-overview tbody th { padding-left: 10px; padding-right: 8px; }
+  .clients-overview thead th { font-size: 0.78rem; }
+  .clients-overview .c-sign { width: 1%; }
+  .clients-overview .ver { font-size: 0.72rem; white-space: normal; }
+  .clients-overview code { font-size: 0.85em; }
+  .compare.clients-overview .c-details { padding-left: 2px; padding-right: 2px; }
+  .clients-overview .row-link-word { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .clients-overview .row-link { display: inline-block; min-width: 24px; line-height: 24px; }
+  /* Clients, the details: narrower cells, so that the steps of each client fit the screen. */
+  .prose .client-steps th, .prose .client-steps td { padding: 8px; }
+  .prose .client-steps thead th + th { width: 5.5rem; }
 }
 @media (max-width: 420px) {
   .actions .btn { flex: 1 1 auto; }

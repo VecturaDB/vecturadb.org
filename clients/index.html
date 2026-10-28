@@ -3,13 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Clients · VecturaDB</title>
-<meta name="description" content="We ran 14 Chroma clients, in 11 languages, with the same test against VecturaDB 1.0.0-preview.3 and against Chroma 1.5.9. In our tests each client gave the same result on the two servers, step by step: where a client fails, it fails in the same way on Chroma 1.5.9.">
+<title>Chroma clients, tested on VecturaDB and Chroma 1.5.9 · VecturaDB</title>
+<meta name="description" content="We ran 15 Chroma clients in 11 languages, Python, JavaScript, .NET, Go, Rust and more, on VecturaDB and Chroma 1.5.9: each gave the same result on both.">
 <link rel="canonical" href="https://vecturadb.org/clients/">
-<meta property="og:type" content="article">
+<meta property="og:type" content="website">
 <meta property="og:url" content="https://vecturadb.org/clients/">
-<meta property="og:title" content="Clients · VecturaDB">
-<meta property="og:description" content="We ran 14 Chroma clients, in 11 languages, with the same test against VecturaDB 1.0.0-preview.3 and against Chroma 1.5.9. In our tests each client gave the same result on the two servers, step by step: where a client fails, it fails in the same way on Chroma 1.5.9.">
+<meta property="og:title" content="Chroma clients, tested on VecturaDB and Chroma 1.5.9">
+<meta property="og:description" content="We ran 15 Chroma clients in 11 languages, Python, JavaScript, .NET, Go, Rust and more, on VecturaDB and Chroma 1.5.9: each gave the same result on both.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "VecturaDB", "item": "https://vecturadb.org/"}, {"@type": "ListItem", "position": 2, "name": "Clients", "item": "https://vecturadb.org/clients/"}]}</script>
 <!-- site-head -->
 <meta property="og:site_name" content="VecturaDB">
 <meta property="og:image" content="https://vecturadb.org/vecturadb-social-cloud-1280x640.png">
@@ -59,172 +60,61 @@
 </header>
 <!-- /site-header -->
 
-<div class="container doc-layout">
-  <aside class="doc-aside" aria-label="On this page">
-    <h2>On this page</h2>
-    <ul>
-      <li><a href="#results">Results</a></li>
-      <li><a href="#what-the-results-mean">What the results mean</a></li>
-      <li><a href="#sparse-vectors-bm25-search-and-api-keys">Sparse vectors, BM25, Search and API keys</a></li>
-      <li><a href="#how-we-tested">How we tested</a></li>
-      <li><a href="#moving-from-chroma-cloud">Moving from Chroma Cloud</a></li>
-    </ul>
-  </aside>
-  <main id="main" class="doc prose">
-<h1 id="clients">Clients</h1>
-<p class="lead-doc">We ran 14 Chroma clients, in 11 languages, with the same test against VecturaDB 1.0.0-preview.3 and against Chroma 1.5.9. In our tests each client gave the same result on the two servers, step by step: where a client fails, it fails in the same way on Chroma 1.5.9.</p>
-<div class="note">
-<p><strong>Disclaimer.</strong> These results are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 25 and 27 October 2026: your client, its version and your setup may behave differently.</p>
-<p>Not sure about your client? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, name the client and its version, and we will take a look on a best-effort basis.</p>
-</div>
-<h2 id="results">Results</h2>
-<div class="table clients-table" tabindex="0"><table>
-<thead>
-<tr>
-<th>Language</th>
-<th>Package and version</th>
-<th>VecturaDB 1.0.0-preview.3</th>
-<th>Chroma 1.5.9</th>
-<th>Note</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Python</td>
-<td><code>chromadb-<wbr>client</code> 1.5.9</td>
-<td data-label="VecturaDB 1.0.0-preview.3">Passed</td>
-<td data-label="Chroma 1.5.9">Passed</td>
-<td>All 9 steps.</td>
-</tr>
-<tr>
-<td>JavaScript</td>
-<td><code>chromadb</code> 3.5.0</td>
-<td data-label="VecturaDB 1.0.0-preview.3">Passed</td>
-<td data-label="Chroma 1.5.9">Passed</td>
-<td>All 9 steps.</td>
-</tr>
-<tr>
-<td>.NET</td>
-<td><code>ChromaDotNet.<wbr>Client</code> 2.18.0</td>
-<td data-label="VecturaDB 1.0.0-preview.3">Passed</td>
-<td data-label="Chroma 1.5.9">Passed</td>
-<td>All 9 steps. The whole test suite of the client, on VecturaDB 1.0.0-preview.3: 2192 passed, 12 skipped, 0 failed. The skipped tests are for Chroma Cloud quotas and settings, tenants and databases created on a server already running, the built-in authentication that Chroma 1.0 removed, timing measurements and Chroma 0.x.</td>
-</tr>
-<tr>
-<td>Go</td>
-<td><code>github.<wbr>com/<wbr>amikos-<wbr>tech/<wbr>chroma-<wbr>go</code> v0.4.1</td>
-<td data-label="VecturaDB 1.0.0-preview.3">Passed</td>
-<td data-label="Chroma 1.5.9">Passed</td>
-<td>All 9 steps. To install it, its dependency <code>chroma-go-local</code> v0.3.4 had to be replaced with v0.3.5: proxy.golang.org answered 404 and the direct download failed the checksum. Only the embedded client uses it.</td>
-</tr>
-<tr>
-<td>PHP</td>
-<td><code>codewithkyrian/<wbr>chromadb-<wbr>php</code> 1.0.0</td>
-<td data-label="VecturaDB 1.0.0-preview.3">Passed</td>
-<td data-label="Chroma 1.5.9">Passed</td>
-<td>All 9 steps.</td>
-</tr>
-<tr>
-<td>PHP</td>
-<td><code>helgesverre/<wbr>chromadb</code> v3.0.0</td>
-<td data-label="VecturaDB 1.0.0-preview.3">Passed</td>
-<td data-label="Chroma 1.5.9">Passed</td>
-<td>All 9 steps.</td>
-</tr>
-<tr>
-<td>Dart</td>
-<td><code>chromadb</code> 2.0.0</td>
-<td data-label="VecturaDB 1.0.0-preview.3">Passed</td>
-<td data-label="Chroma 1.5.9">Passed</td>
-<td>All 9 steps.</td>
-</tr>
-<tr>
-<td>Rust</td>
-<td><code>chroma</code> 0.15.0</td>
-<td data-label="VecturaDB 1.0.0-preview.3">Partial</td>
-<td data-label="Chroma 1.5.9">Partial</td>
-<td>The crate has no pre-flight-checks; the other 8 steps passed. It needs <code>protoc</code> to build.</td>
-</tr>
-<tr>
-<td>Elixir</td>
-<td><code>chroma</code> 0.1.3</td>
-<td data-label="VecturaDB 1.0.0-preview.3">Partial</td>
-<td data-label="Chroma 1.5.9">Partial</td>
-<td>Set to the v2 API with its <code>api_version</code> setting. The library has no pre-flight-checks, get by id, where or delete of records; the other steps passed.</td>
-</tr>
-<tr>
-<td>Rust</td>
-<td><code>chromadb</code> 2.3.0</td>
-<td data-label="VecturaDB 1.0.0-preview.3">Failed</td>
-<td data-label="Chroma 1.5.9">Failed</td>
-<td>The heartbeat calls the v1 API: "410 Gone: The v1 API is deprecated. Please use /v2 apis". The other steps passed.</td>
-</tr>
-<tr>
-<td>Ruby</td>
-<td><code>chroma-<wbr>db</code> 0.9.0</td>
-<td data-label="VecturaDB 1.0.0-preview.3">Failed</td>
-<td data-label="Chroma 1.5.9">Failed</td>
-<td>Get and delete send an empty <code>where</code> and <code>where_document</code>, which both servers reject with 400 "Invalid where clause". The gem then raises <code>NoMethodError: private method `raise_failure_error'</code> instead of the message of the server.</td>
-</tr>
-<tr>
-<td>.NET</td>
-<td><code>Microsoft.<wbr>SemanticKernel.<wbr>Connectors.<wbr>Chroma</code> 1.74.0-alpha</td>
-<td data-label="VecturaDB 1.0.0-preview.3">Failed</td>
-<td data-label="Chroma 1.5.9">Failed</td>
-<td>The v1 API only: creating a collection answers "405 (Method Not Allowed)".</td>
-</tr>
-<tr>
-<td>Java</td>
-<td><code>io.<wbr>github.<wbr>amikos-<wbr>tech:<wbr>chromadb-<wbr>java-<wbr>client</code> 0.1.7</td>
-<td data-label="VecturaDB 1.0.0-preview.3">Failed</td>
-<td data-label="Chroma 1.5.9">Failed</td>
-<td>The v1 API only: the heartbeat answers "Gone", creating a collection "Method Not Allowed".</td>
-</tr>
-<tr>
-<td>Clojure</td>
-<td><code>levand/<wbr>clojure-<wbr>chroma-<wbr>client</code>, commit 61766c3</td>
-<td data-label="VecturaDB 1.0.0-preview.3">Failed</td>
-<td data-label="Chroma 1.5.9">Failed</td>
-<td>The v1 API only: "Unsuccessful HTTP status code" from the heartbeat and from creating a collection.</td>
-</tr>
-</tbody>
-</table></div>
-<h2 id="what-the-results-mean">What the results mean</h2>
-<ul>
-<li><strong>Passed</strong>: all 9 steps gave the expected result.</li>
-<li><strong>Partial</strong>: the steps the client has passed; the others are not in the client.</li>
-<li><strong>Failed</strong>: at least one step gave an error. Each failure in the table happened in the same way on Chroma 1.5.9. Four of the five failing clients call the v1 API, which Chroma 1.x no longer serves.</li>
-</ul>
-<h2 id="sparse-vectors-bm25-search-and-api-keys">Sparse vectors, BM25, Search and API keys</h2>
-<p>VecturaDB also has sparse vectors, BM25, the Search API and API keys on the single node, where Chroma 1.5.9 does not have them. On 27 October 2026 we tested them with the two Rust crates, against VecturaDB 1.0.0-preview.3.post1 and against Chroma 1.5.9:</p>
-<ul>
-<li><strong>Sparse vectors, BM25 and Search</strong>, with <code>chroma</code> 0.15.0. On VecturaDB the crate created a collection with a sparse vector index, added 3 records with the BM25 vectors it computes from their documents, and searched them with the Search API: the dense search for [1, 0] gave r1 then r3, and the BM25 search for "apple" gave r1. Chroma 1.5.9 rejected the index with 400 "Sparse vector indexing is not enabled in local".</li>
-<li><strong>API keys</strong>, with both crates. We started both servers with one API key in <code>CHROMA_SERVER_AUTHN_CREDENTIALS</code>. VecturaDB answered 401 "Permission denied." without a key and with a wrong key, and accepted the right one: <code>chroma</code> 0.15.0 sent it with <code>ChromaAuthMethod::cloud_api_key</code>, <code>chromadb</code> 2.3.0 with <code>TokenAuth</code> in the <code>X-Chroma-Token</code> header. With the right key, the other steps gave the same results as without keys. Chroma 1.5.9 has no built-in authentication: it accepted every request, with any key or none. To set up API keys, see <a href="https://github.com/VecturaDB/VecturaDB/blob/v1.0.0-preview.3/docs/mintlify/guides/deploy/client-server-mode.mdx#api-keys">API keys</a>.</li>
-</ul>
-<h2 id="how-we-tested">How we tested</h2>
-<ul>
-<li>The servers: <code>chromadb/chroma:1.5.9</code> and <code>ghcr.io/vecturadb/vecturadb:1.0.0-preview.3</code>, for linux/amd64, with the default command of the image. The image of VecturaDB was <code>sha256:df6c4144ca9bd85910c8a224efabcf85b17ff99306c8ea4809a43bf9f9ca0eaf</code>.</li>
-<li>On 27 October 2026 the two Rust crates and the Java client ran again against <code>ghcr.io/vecturadb/vecturadb:1.0.0-preview.3.post1</code>, a post-release with the same server code; the image was <code>sha256:b7a7fcf464a19ae1987e2ebd02bf68ea1afb25446d274ab083f1a430e0854ff5</code>. The 9 steps gave the same results as on 1.0.0-preview.3.</li>
-<li>A new container for each client and each server, with an empty data folder, on a Docker network: the client reached the server at port 8000. No API keys outside the API key steps, the default tenant and database.</li>
-<li>Each client ran in a container of its language, with its version pinned.</li>
-</ul>
-<p>The steps were the same for every client, with embeddings of two numbers given by hand, so no embedding model was involved:</p>
-<ol>
-<li>heartbeat;</li>
-<li>pre-flight-checks;</li>
-<li>create a collection, with the cosine space;</li>
-<li>add 3 records with documents and metadata;</li>
-<li>query with [1, 0] for 2 results, expecting r1 then r3;</li>
-<li>get by id;</li>
-<li>get with the filter <code>{"n": {"$gte": 2}}</code>;</li>
-<li>delete one record, then count, expecting 2;</li>
-<li>delete the collection.</li>
-</ol>
-<p>The one difference between the two servers is in step 2: VecturaDB adds its <code>server</code> block to the answer of pre-flight-checks. The clients that show the raw answer, Python, JavaScript, Dart, Ruby and both PHP clients, took it without errors, with the same <code>max_batch_size</code>, 5461.</p>
-<h2 id="moving-from-chroma-cloud">Moving from Chroma Cloud</h2>
-<p>The guides switch the client from Chroma Cloud to VecturaDB, or to Chroma, in Python, JavaScript and .NET: <a href="/leaving-chroma-cloud/">Leaving Chroma Cloud</a>.</p>
-  </main>
-</div>
+<main id="main">
+  <section class="hero hero-page" aria-labelledby="page-title">
+    <div class="container">
+      <h1 id="page-title">Chroma clients, <span class="grad">tested on VecturaDB</span></h1>
+      <p class="lead">In our tests, Chroma clients work with VecturaDB as they do with Chroma 1.5.9: we ran 15 of them, in 11 languages, and each gave the same result on both servers, step by step.</p>
+    </div>
+  </section>
+
+  <section class="section section-choose" id="results" aria-labelledby="results-title">
+    <div class="container">
+      <h2 id="results-title">Results by client</h2>
+      <ul class="legend" aria-label="Legend">
+        <li><svg class="sign result-works" viewBox="0 0 20 20" aria-hidden="true"><title>Works</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6 10.4 8.7 13.1 14.2 7.3"/></svg><span><strong>Works</strong>: all 9 steps gave the expected result.</span></li>
+        <li><svg class="sign result-partial" viewBox="0 0 20 20" aria-hidden="true"><title>Partial</title><circle class="sign-disc" cx="10" cy="10" r="10"/><circle class="sign-glyph" cx="10" cy="10" r="5"/><path class="sign-half" d="M10 5a5 5 0 0 1 0 10z"/></svg><span><strong>Partial</strong>: the steps the client has passed; the others are not in the client.</span></li>
+        <li><svg class="sign result-fails" viewBox="0 0 20 20" aria-hidden="true"><title>Fails</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6.8 6.8 13.2 13.2M13.2 6.8 6.8 13.2"/></svg><span><strong>Fails</strong>: at least one step gave an error.</span></li>
+      </ul>
+      <div class="compare clients-overview" tabindex="0">
+        <table>
+          <thead>
+            <tr><th scope="col">Client</th><th scope="col" class="c-sign">Chroma<span class="ver">1.5.9</span></th><th scope="col" class="c-sign">VecturaDB<span class="ver">1.0.0-preview.3.post1</span></th><th scope="col"><span class="visually-hidden">Details</span></th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row"><span class="tag">Python</span> <code>chromadb-<wbr>client</code> 1.5.9</th><td class="c-sign"><svg class="sign result-works" viewBox="0 0 20 20" aria-hidden="true"><title>Works</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6 10.4 8.7 13.1 14.2 7.3"/></svg><span class="visually-hidden">Works</span></td><td class="c-sign"><svg class="sign result-works" viewBox="0 0 20 20" aria-hidden="true"><title>Works</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6 10.4 8.7 13.1 14.2 7.3"/></svg><span class="visually-hidden">Works</span></td><td class="c-details"><a class="row-link" href="/clients/details/#python-chromadb-client" aria-label="Details: chromadb-client 1.5.9, Python"><span class="row-link-word">Details</span><span aria-hidden="true"> →</span></a></td></tr>
+            <tr><th scope="row"><span class="tag">JavaScript</span> <code>chromadb</code> 3.5.0</th><td class="c-sign"><svg class="sign result-works" viewBox="0 0 20 20" aria-hidden="true"><title>Works</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6 10.4 8.7 13.1 14.2 7.3"/></svg><span class="visually-hidden">Works</span></td><td class="c-sign"><svg class="sign result-works" viewBox="0 0 20 20" aria-hidden="true"><title>Works</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6 10.4 8.7 13.1 14.2 7.3"/></svg><span class="visually-hidden">Works</span></td><td class="c-details"><a class="row-link" href="/clients/details/#javascript-chromadb" aria-label="Details: chromadb 3.5.0, JavaScript"><span class="row-link-word">Details</span><span aria-hidden="true"> →</span></a></td></tr>
+            <tr><th scope="row"><span class="tag">.NET</span> <code>ChromaDotNet.<wbr>Client</code> 2.18.1</th><td class="c-sign"><svg class="sign result-works" viewBox="0 0 20 20" aria-hidden="true"><title>Works</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6 10.4 8.7 13.1 14.2 7.3"/></svg><span class="visually-hidden">Works</span></td><td class="c-sign"><svg class="sign result-works" viewBox="0 0 20 20" aria-hidden="true"><title>Works</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6 10.4 8.7 13.1 14.2 7.3"/></svg><span class="visually-hidden">Works</span></td><td class="c-details"><a class="row-link" href="/clients/details/#dotnet-chromadotnet-client" aria-label="Details: ChromaDotNet.Client 2.18.1, .NET"><span class="row-link-word">Details</span><span aria-hidden="true"> →</span></a></td></tr>
+            <tr><th scope="row"><span class="tag">.NET</span> <code>CommunityToolkit.<wbr>VectorData.<wbr>Chroma</code> 1.0.2-preview</th><td class="c-sign"><svg class="sign result-partial" viewBox="0 0 20 20" aria-hidden="true"><title>Partial</title><circle class="sign-disc" cx="10" cy="10" r="10"/><circle class="sign-glyph" cx="10" cy="10" r="5"/><path class="sign-half" d="M10 5a5 5 0 0 1 0 10z"/></svg><span class="visually-hidden">Partial</span></td><td class="c-sign"><svg class="sign result-partial" viewBox="0 0 20 20" aria-hidden="true"><title>Partial</title><circle class="sign-disc" cx="10" cy="10" r="10"/><circle class="sign-glyph" cx="10" cy="10" r="5"/><path class="sign-half" d="M10 5a5 5 0 0 1 0 10z"/></svg><span class="visually-hidden">Partial</span></td><td class="c-details"><a class="row-link" href="/clients/details/#dotnet-communitytoolkit-vectordata-chroma" aria-label="Details: CommunityToolkit.VectorData.Chroma 1.0.2-preview, .NET"><span class="row-link-word">Details</span><span aria-hidden="true"> →</span></a></td></tr>
+            <tr><th scope="row"><span class="tag">.NET</span> <code>Microsoft.<wbr>SemanticKernel.<wbr>Connectors.<wbr>Chroma</code> 1.74.0-alpha</th><td class="c-sign"><svg class="sign result-fails" viewBox="0 0 20 20" aria-hidden="true"><title>Fails</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6.8 6.8 13.2 13.2M13.2 6.8 6.8 13.2"/></svg><span class="visually-hidden">Fails</span></td><td class="c-sign"><svg class="sign result-fails" viewBox="0 0 20 20" aria-hidden="true"><title>Fails</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6.8 6.8 13.2 13.2M13.2 6.8 6.8 13.2"/></svg><span class="visually-hidden">Fails</span></td><td class="c-details"><a class="row-link" href="/clients/details/#dotnet-semantic-kernel-connector" aria-label="Details: Microsoft.SemanticKernel.Connectors.Chroma 1.74.0-alpha, .NET"><span class="row-link-word">Details</span><span aria-hidden="true"> →</span></a></td></tr>
+            <tr><th scope="row"><span class="tag">Go</span> <code>github.<wbr>com/<wbr>amikos-<wbr>tech/<wbr>chroma-<wbr>go</code> v0.4.1</th><td class="c-sign"><svg class="sign result-works" viewBox="0 0 20 20" aria-hidden="true"><title>Works</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6 10.4 8.7 13.1 14.2 7.3"/></svg><span class="visually-hidden">Works</span></td><td class="c-sign"><svg class="sign result-works" viewBox="0 0 20 20" aria-hidden="true"><title>Works</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6 10.4 8.7 13.1 14.2 7.3"/></svg><span class="visually-hidden">Works</span></td><td class="c-details"><a class="row-link" href="/clients/details/#go-chroma-go" aria-label="Details: github.com/amikos-tech/chroma-go v0.4.1, Go"><span class="row-link-word">Details</span><span aria-hidden="true"> →</span></a></td></tr>
+            <tr><th scope="row"><span class="tag">PHP</span> <code>codewithkyrian/<wbr>chromadb-<wbr>php</code> 1.0.0</th><td class="c-sign"><svg class="sign result-works" viewBox="0 0 20 20" aria-hidden="true"><title>Works</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6 10.4 8.7 13.1 14.2 7.3"/></svg><span class="visually-hidden">Works</span></td><td class="c-sign"><svg class="sign result-works" viewBox="0 0 20 20" aria-hidden="true"><title>Works</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6 10.4 8.7 13.1 14.2 7.3"/></svg><span class="visually-hidden">Works</span></td><td class="c-details"><a class="row-link" href="/clients/details/#php-codewithkyrian-chromadb-php" aria-label="Details: codewithkyrian/chromadb-php 1.0.0, PHP"><span class="row-link-word">Details</span><span aria-hidden="true"> →</span></a></td></tr>
+            <tr><th scope="row"><span class="tag">PHP</span> <code>helgesverre/<wbr>chromadb</code> v3.0.0</th><td class="c-sign"><svg class="sign result-works" viewBox="0 0 20 20" aria-hidden="true"><title>Works</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6 10.4 8.7 13.1 14.2 7.3"/></svg><span class="visually-hidden">Works</span></td><td class="c-sign"><svg class="sign result-works" viewBox="0 0 20 20" aria-hidden="true"><title>Works</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6 10.4 8.7 13.1 14.2 7.3"/></svg><span class="visually-hidden">Works</span></td><td class="c-details"><a class="row-link" href="/clients/details/#php-helgesverre-chromadb" aria-label="Details: helgesverre/chromadb v3.0.0, PHP"><span class="row-link-word">Details</span><span aria-hidden="true"> →</span></a></td></tr>
+            <tr><th scope="row"><span class="tag">Dart</span> <code>chromadb</code> 2.0.0</th><td class="c-sign"><svg class="sign result-works" viewBox="0 0 20 20" aria-hidden="true"><title>Works</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6 10.4 8.7 13.1 14.2 7.3"/></svg><span class="visually-hidden">Works</span></td><td class="c-sign"><svg class="sign result-works" viewBox="0 0 20 20" aria-hidden="true"><title>Works</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6 10.4 8.7 13.1 14.2 7.3"/></svg><span class="visually-hidden">Works</span></td><td class="c-details"><a class="row-link" href="/clients/details/#dart-chromadb" aria-label="Details: chromadb 2.0.0, Dart"><span class="row-link-word">Details</span><span aria-hidden="true"> →</span></a></td></tr>
+            <tr><th scope="row"><span class="tag">Rust</span> <code>chroma</code> 0.15.0</th><td class="c-sign"><svg class="sign result-partial" viewBox="0 0 20 20" aria-hidden="true"><title>Partial</title><circle class="sign-disc" cx="10" cy="10" r="10"/><circle class="sign-glyph" cx="10" cy="10" r="5"/><path class="sign-half" d="M10 5a5 5 0 0 1 0 10z"/></svg><span class="visually-hidden">Partial</span></td><td class="c-sign"><svg class="sign result-partial" viewBox="0 0 20 20" aria-hidden="true"><title>Partial</title><circle class="sign-disc" cx="10" cy="10" r="10"/><circle class="sign-glyph" cx="10" cy="10" r="5"/><path class="sign-half" d="M10 5a5 5 0 0 1 0 10z"/></svg><span class="visually-hidden">Partial</span></td><td class="c-details"><a class="row-link" href="/clients/details/#rust-chroma" aria-label="Details: chroma 0.15.0, Rust"><span class="row-link-word">Details</span><span aria-hidden="true"> →</span></a></td></tr>
+            <tr><th scope="row"><span class="tag">Rust</span> <code>chromadb</code> 2.3.0</th><td class="c-sign"><svg class="sign result-fails" viewBox="0 0 20 20" aria-hidden="true"><title>Fails</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6.8 6.8 13.2 13.2M13.2 6.8 6.8 13.2"/></svg><span class="visually-hidden">Fails</span></td><td class="c-sign"><svg class="sign result-fails" viewBox="0 0 20 20" aria-hidden="true"><title>Fails</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6.8 6.8 13.2 13.2M13.2 6.8 6.8 13.2"/></svg><span class="visually-hidden">Fails</span></td><td class="c-details"><a class="row-link" href="/clients/details/#rust-chromadb" aria-label="Details: chromadb 2.3.0, Rust"><span class="row-link-word">Details</span><span aria-hidden="true"> →</span></a></td></tr>
+            <tr><th scope="row"><span class="tag">Elixir</span> <code>chroma</code> 0.1.3</th><td class="c-sign"><svg class="sign result-partial" viewBox="0 0 20 20" aria-hidden="true"><title>Partial</title><circle class="sign-disc" cx="10" cy="10" r="10"/><circle class="sign-glyph" cx="10" cy="10" r="5"/><path class="sign-half" d="M10 5a5 5 0 0 1 0 10z"/></svg><span class="visually-hidden">Partial</span></td><td class="c-sign"><svg class="sign result-partial" viewBox="0 0 20 20" aria-hidden="true"><title>Partial</title><circle class="sign-disc" cx="10" cy="10" r="10"/><circle class="sign-glyph" cx="10" cy="10" r="5"/><path class="sign-half" d="M10 5a5 5 0 0 1 0 10z"/></svg><span class="visually-hidden">Partial</span></td><td class="c-details"><a class="row-link" href="/clients/details/#elixir-chroma" aria-label="Details: chroma 0.1.3, Elixir"><span class="row-link-word">Details</span><span aria-hidden="true"> →</span></a></td></tr>
+            <tr><th scope="row"><span class="tag">Ruby</span> <code>chroma-<wbr>db</code> 0.9.0</th><td class="c-sign"><svg class="sign result-fails" viewBox="0 0 20 20" aria-hidden="true"><title>Fails</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6.8 6.8 13.2 13.2M13.2 6.8 6.8 13.2"/></svg><span class="visually-hidden">Fails</span></td><td class="c-sign"><svg class="sign result-fails" viewBox="0 0 20 20" aria-hidden="true"><title>Fails</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6.8 6.8 13.2 13.2M13.2 6.8 6.8 13.2"/></svg><span class="visually-hidden">Fails</span></td><td class="c-details"><a class="row-link" href="/clients/details/#ruby-chroma-db" aria-label="Details: chroma-db 0.9.0, Ruby"><span class="row-link-word">Details</span><span aria-hidden="true"> →</span></a></td></tr>
+            <tr><th scope="row"><span class="tag">Java</span> <code>io.<wbr>github.<wbr>amikos-<wbr>tech:<wbr>chromadb-<wbr>java-<wbr>client</code> 0.1.7</th><td class="c-sign"><svg class="sign result-fails" viewBox="0 0 20 20" aria-hidden="true"><title>Fails</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6.8 6.8 13.2 13.2M13.2 6.8 6.8 13.2"/></svg><span class="visually-hidden">Fails</span></td><td class="c-sign"><svg class="sign result-fails" viewBox="0 0 20 20" aria-hidden="true"><title>Fails</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6.8 6.8 13.2 13.2M13.2 6.8 6.8 13.2"/></svg><span class="visually-hidden">Fails</span></td><td class="c-details"><a class="row-link" href="/clients/details/#java-chromadb-java-client" aria-label="Details: io.github.amikos-tech:chromadb-java-client 0.1.7, Java"><span class="row-link-word">Details</span><span aria-hidden="true"> →</span></a></td></tr>
+            <tr><th scope="row"><span class="tag">Clojure</span> <code>levand/<wbr>clojure-<wbr>chroma-<wbr>client</code>, commit 61766c3</th><td class="c-sign"><svg class="sign result-fails" viewBox="0 0 20 20" aria-hidden="true"><title>Fails</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6.8 6.8 13.2 13.2M13.2 6.8 6.8 13.2"/></svg><span class="visually-hidden">Fails</span></td><td class="c-sign"><svg class="sign result-fails" viewBox="0 0 20 20" aria-hidden="true"><title>Fails</title><circle class="sign-disc" cx="10" cy="10" r="10"/><path class="sign-glyph" d="M6.8 6.8 13.2 13.2M13.2 6.8 6.8 13.2"/></svg><span class="visually-hidden">Fails</span></td><td class="c-details"><a class="row-link" href="/clients/details/#clojure-clojure-chroma-client" aria-label="Details: levand/clojure-chroma-client, commit 61766c3, Clojure"><span class="row-link-word">Details</span><span aria-hidden="true"> →</span></a></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="fine-print">Each failure on this page happened in the same way on Chroma 1.5.9. Four of the five failing clients call the v1 API, which Chroma 1.x no longer serves.</p>
+      <p class="fine-print">In the <a href="/clients/details/">details</a>: the steps of each client, with its errors and notes; <a href="/clients/details/#how-we-tested">how we tested</a>; and <a href="/clients/details/#sparse-vectors-bm25-search-and-api-keys">sparse vectors, BM25, the Search API and API keys</a>, tested with the two Rust crates.</p>
+    </div>
+  </section>
+
+  <section class="section section-compact section-soft" aria-label="Disclaimer and trademarks">
+    <div class="container">
+      <div class="landing-note">
+        <p><strong>Disclaimer.</strong> These results are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 29 October 2026: your client, its version and your setup may behave differently.</p>
+        <p>Not sure about your client? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, name the client and its version, and we will take a look on a best-effort basis.</p>
+        <p>VecturaDB is an independent fork of Chroma, under the Apache License 2.0. The original code is copyright Chroma Inc. and its contributors. Not affiliated with, endorsed by or sponsored by Chroma Inc. CHROMA is a registered trademark of Chroma Inc., used here only to describe compatibility.</p>
+      </div>
+    </div>
+  </section>
+</main>
 
 <!-- site-footer -->
 <footer class="site-footer">
