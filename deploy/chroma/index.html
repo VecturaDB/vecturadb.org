@@ -72,30 +72,33 @@
   <section class="section section-choose" id="templates" aria-labelledby="templates-title">
     <div class="container">
       <h2 id="templates-title">Templates for Azure</h2>
-      <div class="plans">
-        <article class="plan plan-featured" aria-labelledby="plan-vm">
-          <p class="plan-badge">Recommended</p>
-          <h3 id="plan-vm">Azure VM</h3>
-          <p class="plan-for">For a server in use every day: always on, faster, with backups.</p>
-          <p class="plan-price"><span class="plan-amount">14.26&nbsp;USD</span> a month</p>
-          <p class="plan-price-note">Standard_B2pts_v2 with its disks and public IP, whatever the use.</p>
+      <div class="choices">
+        <article class="choice choice-featured" aria-labelledby="choice-vm">
+          <p class="choice-badge">Recommended</p>
+          <h3 id="choice-vm">Azure VM</h3>
+          <p class="choice-for">For a server in use every day: always on, faster, with backups.</p>
+          <p class="choice-cost-label">Estimated Azure cost</p>
+          <p class="choice-cost"><span class="choice-amount">14.26&nbsp;USD</span> a month on your Azure bill</p>
+          <p class="choice-cost-note">Standard_B2pts_v2 with its disks and public IP, whatever the use.</p>
           <div class="actions">
             <a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fvm%2FcreateUiDefinition.json" aria-label="Deploy to Azure: the VM template">Deploy to Azure</a>
             <a class="btn btn-secondary" href="/deploy/chroma/azure/vm/" aria-label="Details of the VM template">Details</a>
           </div>
         </article>
-        <article class="plan" aria-labelledby="plan-ca">
-          <h3 id="plan-ca">Azure Container Apps</h3>
-          <p class="plan-for">For a few hours of use a day: it scales to zero when nobody uses it.</p>
-          <p class="plan-price"><span class="plan-amount">0.00&nbsp;USD</span> a month, with 3&nbsp;hours of use a day</p>
-          <p class="plan-price-note">Within the free grant of Container Apps. Azure Files apart: 0.06&nbsp;USD per GB a month.</p>
+        <article class="choice" aria-labelledby="choice-ca">
+          <h3 id="choice-ca">Azure Container Apps</h3>
+          <p class="choice-for">For a few hours of use a day: it scales to zero when nobody uses it.</p>
+          <p class="choice-cost-label">Estimated Azure cost, with 3&nbsp;hours of use a day</p>
+          <p class="choice-cost"><span class="choice-amount">0.00&nbsp;USD</span> a month on your Azure bill</p>
+          <p class="choice-cost-note">Within the free grant of Container Apps. Azure Files apart: 0.06&nbsp;USD per GB a month.</p>
           <div class="actions">
             <a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json" aria-label="Deploy to Azure: the Container Apps template">Deploy to Azure</a>
             <a class="btn btn-secondary" href="/deploy/chroma/azure/container-apps/" aria-label="Details of the Container Apps template">Details</a>
           </div>
         </article>
       </div>
-      <p class="fine-print"><a href="/deploy/chroma/azure/#compare">Compare the two templates</a>: cost, speed, updates and backups, as we measured them. List prices of westeurope in USD, on 26 and 27 October 2026.</p>
+      <p class="free-note"><span><strong>The templates are free and open source (Apache 2.0).</strong> You pay only Azure, which bills you directly: no fee from us.</span></p>
+      <p class="fine-print"><a href="/deploy/chroma/azure/#compare">Compare the two templates</a>: Azure cost, speed, updates and backups. Costs estimated with the Azure list prices of westeurope in USD, on 26 and 27 October 2026.</p>
     </div>
   </section>
 

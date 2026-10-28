@@ -72,14 +72,15 @@
   <section class="section section-choose" id="choose" aria-labelledby="choose-title">
     <div class="container">
       <h2 id="choose-title">Choose a template</h2>
-      <div class="plans">
-        <article class="plan plan-featured" aria-labelledby="plan-vm">
-          <p class="plan-badge">Recommended</p>
-          <h3 id="plan-vm">Virtual machine</h3>
-          <p class="plan-for">For a server in use every day.</p>
-          <p class="plan-price"><span class="plan-amount">14.26&nbsp;USD</span> a month</p>
-          <p class="plan-price-note">Standard_B2pts_v2 with its disks and public IP, whatever the use.</p>
-          <ul class="plan-list">
+      <div class="choices">
+        <article class="choice choice-featured" aria-labelledby="choice-vm">
+          <p class="choice-badge">Recommended</p>
+          <h3 id="choice-vm">Virtual machine</h3>
+          <p class="choice-for">For a server in use every day.</p>
+          <p class="choice-cost-label">Estimated Azure cost</p>
+          <p class="choice-cost"><span class="choice-amount">14.26&nbsp;USD</span> a month on your Azure bill</p>
+          <p class="choice-cost-note">Standard_B2pts_v2 with its disks and public IP, whatever the use.</p>
+          <ul class="choice-list">
             <li>Always on: no wait at the first request</li>
             <li>Faster: a query in 2.5&nbsp;ms, an add in 112&nbsp;ms</li>
             <li>Backups of the data disk every 24&nbsp;hours, kept 7&nbsp;days</li>
@@ -90,12 +91,13 @@
             <a class="btn btn-secondary" href="/deploy/chroma/azure/vm/" aria-label="Details of the VM template">Details</a>
           </div>
         </article>
-        <article class="plan" aria-labelledby="plan-ca">
-          <h3 id="plan-ca">Container Apps</h3>
-          <p class="plan-for">For a few hours of use a day.</p>
-          <p class="plan-price"><span class="plan-amount">0.00&nbsp;USD</span> a month, with 3&nbsp;hours of use a day</p>
-          <p class="plan-price-note">Within the free grant of Container Apps. Azure Files apart: 0.06&nbsp;USD per GB a month.</p>
-          <ul class="plan-list">
+        <article class="choice" aria-labelledby="choice-ca">
+          <h3 id="choice-ca">Container Apps</h3>
+          <p class="choice-for">For a few hours of use a day.</p>
+          <p class="choice-cost-label">Estimated Azure cost, with 3&nbsp;hours of use a day</p>
+          <p class="choice-cost"><span class="choice-amount">0.00&nbsp;USD</span> a month on your Azure bill</p>
+          <p class="choice-cost-note">Within the free grant of Container Apps. Azure Files apart: 0.06&nbsp;USD per GB a month.</p>
+          <ul class="choice-list">
             <li>Scales to zero about 10&nbsp;minutes after the last request</li>
             <li>Bills only the seconds a replica runs</li>
             <li>HTTPS on its Azure address, open only to your IP addresses</li>
@@ -107,15 +109,16 @@
           </div>
         </article>
       </div>
-      <p class="plans-note"><strong>Before you choose Container Apps:</strong> the first request after a pause waits 26-32&nbsp;seconds, an update made while the app is in use needs a manual step, it is slower than the VM, and the template has no backups and no API keys. <a href="/deploy/chroma/azure/container-apps/#limits">All its limits</a></p>
-      <p class="fine-print">In our tests: medians from a client in the same region. List prices of westeurope in USD, on 26 and 27 October 2026.</p>
+      <p class="free-note"><span><strong>The templates are free and open source (Apache 2.0).</strong> You pay only Azure, which bills you directly: no fee from us.</span></p>
+      <p class="choices-note"><strong>Before you choose Container Apps:</strong> the first request after a pause waits 26-32&nbsp;seconds, an update made while the app is in use needs a manual step, it is slower than the VM, and the template has no backups and no API keys. <a href="/deploy/chroma/azure/container-apps/#limits">All its limits</a></p>
+      <p class="fine-print">Times: medians in our tests, from a client in the same region. Costs: estimates with the Azure list prices of westeurope in USD, on 26 and 27 October 2026.</p>
     </div>
   </section>
 
   <section class="section section-compact section-soft" id="compare" aria-labelledby="compare-title">
     <div class="container">
       <h2 id="compare-title">VM or Container Apps, side by side</h2>
-      <p class="section-intro">We recommend the VM: it is always on, faster, has backups, and needs no manual step at updates. Container Apps costs less for a few hours of use a day.</p>
+      <p class="section-intro">We recommend the VM: it is always on, faster, has backups, and needs no manual step at updates. For a few hours of use a day, Container Apps costs less on your Azure bill.</p>
       <div class="compare" tabindex="0">
         <table>
           <thead>
@@ -124,20 +127,22 @@
           <tbody>
             <tr><th scope="row">Best for</th><td>A server in use every day</td><td>A few hours of use a day</td></tr>
             <tr><th scope="row">Server</th><td>Chroma 1.5.9 or VecturaDB</td><td>Chroma 1.5.9</td></tr>
-            <tr><th scope="row">A month, in use all day</th><td>14.26&nbsp;USD</td><td>47.63&nbsp;USD</td></tr>
-            <tr><th scope="row">A month, 8&nbsp;hours a day</th><td>14.26&nbsp;USD</td><td>10.69&nbsp;USD</td></tr>
-            <tr><th scope="row">A month, 3&nbsp;hours a day</th><td>14.26&nbsp;USD</td><td>0.00&nbsp;USD</td></tr>
+            <tr><th scope="row">Updates</th><td>Deploy again</td><td>Deploy again; while the app is in use, one manual step</td></tr>
+            <tr><th scope="row">Backups</th><td>Every 24&nbsp;hours, kept 7&nbsp;days</td><td>None</td></tr>
+            <tr class="group"><th scope="colgroup" colspan="3">Estimated Azure cost a month</th></tr>
+            <tr><th scope="row">In use all day</th><td>14.26&nbsp;USD</td><td>47.63&nbsp;USD</td></tr>
+            <tr><th scope="row">8&nbsp;hours a day</th><td>14.26&nbsp;USD</td><td>10.69&nbsp;USD</td></tr>
+            <tr><th scope="row">3&nbsp;hours a day</th><td>14.26&nbsp;USD</td><td>0.00&nbsp;USD</td></tr>
+            <tr class="group"><th scope="colgroup" colspan="3">In our tests</th></tr>
             <tr><th scope="row">Query, median</th><td>2.5&nbsp;ms</td><td>5.2-5.7&nbsp;ms</td></tr>
             <tr><th scope="row">Add, median</th><td>112&nbsp;ms</td><td>434-448&nbsp;ms</td></tr>
             <tr><th scope="row">First request after a pause</th><td>No pause: always on</td><td>26-32&nbsp;s, after about 10&nbsp;minutes without requests</td></tr>
-            <tr><th scope="row">Updates</th><td>Deploy again</td><td>Deploy again; while the app is in use, one manual step</td></tr>
-            <tr><th scope="row">Backups</th><td>Every 24&nbsp;hours, kept 7&nbsp;days</td><td>None</td></tr>
             <tr><th scope="row">Deployment from zero</th><td>157-220&nbsp;s</td><td>15-18&nbsp;min</td></tr>
             <tr><th scope="row">Deploy</th><td><a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fvm%2FcreateUiDefinition.json" aria-label="Deploy to Azure: the VM template">Deploy to Azure</a></td><td><a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json" aria-label="Deploy to Azure: the Container Apps template">Deploy to Azure</a></td></tr>
           </tbody>
         </table>
       </div>
-      <p class="fine-print">VM: Standard_B2pts_v2. Container Apps: 0.5 CPU and 1&nbsp;GiB, with the free grant, which the whole subscription shares. Not in the costs: Azure Files for Container Apps, the snapshots of the backups for the VM. The details are on the pages of the <a href="/deploy/chroma/azure/vm/">VM</a> and of <a href="/deploy/chroma/azure/container-apps/">Container Apps</a>.</p>
+      <p class="fine-print">Costs estimated with the Azure list prices of westeurope in USD, on 26 and 27 October 2026: the VM is a Standard_B2pts_v2; Container Apps has 0.5 CPU and 1&nbsp;GiB, within the free grant, which the whole subscription shares. Not in the estimates: Azure Files for Container Apps, the snapshots of the backups for the VM. The details are on the pages of the <a href="/deploy/chroma/azure/vm/">VM</a> and of <a href="/deploy/chroma/azure/container-apps/">Container Apps</a>.</p>
     </div>
   </section>
 
