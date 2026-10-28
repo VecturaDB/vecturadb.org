@@ -65,6 +65,7 @@
     <ul>
       <li><a href="#results">Results</a></li>
       <li><a href="#what-the-results-mean">What the results mean</a></li>
+      <li><a href="#sparse-vectors-bm25-search-and-api-keys">Sparse vectors, BM25, Search and API keys</a></li>
       <li><a href="#how-we-tested">How we tested</a></li>
       <li><a href="#moving-from-chroma-cloud">Moving from Chroma Cloud</a></li>
     </ul>
@@ -73,7 +74,7 @@
 <h1 id="clients">Clients</h1>
 <p class="lead-doc">We ran 14 Chroma clients, in 11 languages, with the same test against VecturaDB 1.0.0-preview.3 and against Chroma 1.5.9. In our tests each client gave the same result on the two servers, step by step: where a client fails, it fails in the same way on Chroma 1.5.9.</p>
 <div class="note">
-<p><strong>Disclaimer.</strong> These results are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 25 October 2026: your client, its version and your setup may behave differently.</p>
+<p><strong>Disclaimer.</strong> These results are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 25 and 27 October 2026: your client, its version and your setup may behave differently.</p>
 <p>Not sure about your client? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, name the client and its version, and we will take a look on a best-effort basis.</p>
 </div>
 <h2 id="results">Results</h2>
@@ -194,10 +195,17 @@
 <li><strong>Partial</strong>: the steps the client has passed; the others are not in the client.</li>
 <li><strong>Failed</strong>: at least one step gave an error. Each failure in the table happened in the same way on Chroma 1.5.9. Four of the five failing clients call the v1 API, which Chroma 1.x no longer serves.</li>
 </ul>
+<h2 id="sparse-vectors-bm25-search-and-api-keys">Sparse vectors, BM25, Search and API keys</h2>
+<p>VecturaDB also has sparse vectors, BM25, the Search API and API keys on the single node, where Chroma 1.5.9 does not have them. On 27 October 2026 we tested them with the two Rust crates, against VecturaDB 1.0.0-preview.3.post1 and against Chroma 1.5.9:</p>
+<ul>
+<li><strong>Sparse vectors, BM25 and Search</strong>, with <code>chroma</code> 0.15.0. On VecturaDB the crate created a collection with a sparse vector index, added 3 records with the BM25 vectors it computes from their documents, and searched them with the Search API: the dense search for [1, 0] gave r1 then r3, and the BM25 search for "apple" gave r1. Chroma 1.5.9 rejected the index with 400 "Sparse vector indexing is not enabled in local".</li>
+<li><strong>API keys</strong>, with both crates. We started both servers with one API key in <code>CHROMA_SERVER_AUTHN_CREDENTIALS</code>. VecturaDB answered 401 "Permission denied." without a key and with a wrong key, and accepted the right one: <code>chroma</code> 0.15.0 sent it with <code>ChromaAuthMethod::cloud_api_key</code>, <code>chromadb</code> 2.3.0 with <code>TokenAuth</code> in the <code>X-Chroma-Token</code> header. With the right key, the other steps gave the same results as without keys. Chroma 1.5.9 has no built-in authentication: it accepted every request, with any key or none. To set up API keys, see <a href="https://github.com/VecturaDB/VecturaDB/blob/v1.0.0-preview.3/docs/mintlify/guides/deploy/client-server-mode.mdx#api-keys">API keys</a>.</li>
+</ul>
 <h2 id="how-we-tested">How we tested</h2>
 <ul>
 <li>The servers: <code>chromadb/chroma:1.5.9</code> and <code>ghcr.io/vecturadb/vecturadb:1.0.0-preview.3</code>, for linux/amd64, with the default command of the image. The image of VecturaDB was <code>sha256:df6c4144ca9bd85910c8a224efabcf85b17ff99306c8ea4809a43bf9f9ca0eaf</code>.</li>
-<li>A new container for each client and each server, with an empty data folder, on a Docker network: the client reached the server at port 8000. No API keys, the default tenant and database.</li>
+<li>On 27 October 2026 the two Rust crates and the Java client ran again against <code>ghcr.io/vecturadb/vecturadb:1.0.0-preview.3.post1</code>, a post-release with the same server code; the image was <code>sha256:b7a7fcf464a19ae1987e2ebd02bf68ea1afb25446d274ab083f1a430e0854ff5</code>. The 9 steps gave the same results as on 1.0.0-preview.3.</li>
+<li>A new container for each client and each server, with an empty data folder, on a Docker network: the client reached the server at port 8000. No API keys outside the API key steps, the default tenant and database.</li>
 <li>Each client ran in a container of its language, with its version pinned.</li>
 </ul>
 <p>The steps were the same for every client, with embeddings of two numbers given by hand, so no embedding model was involved:</p>
