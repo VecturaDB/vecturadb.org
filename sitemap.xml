@@ -64,4 +64,12 @@
     <loc>https://vecturadb.org/deploy/chroma/azure/container-apps/</loc>
     <lastmod>2026-10-29</lastmod>
   </url>
+  <url>
+    <loc>https://vecturadb.org/deploy/chroma/aws/</loc>
+    <lastmod>2026-10-29</lastmod>
+  </url>
+  <url>
+    <loc>https://vecturadb.org/deploy/chroma/aws/vm/</loc>
+    <lastmod>2026-10-29</lastmod>
+  </url>
 </urlset>

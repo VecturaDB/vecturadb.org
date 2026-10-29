@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chroma or VecturaDB on an AWS EC2 instance · VecturaDB</title>
+<meta name="description" content="A CloudFormation template for Chroma 1.5.9 or VecturaDB on one EC2 instance, with HTTPS and EBS snapshots: what it creates, the cost, restore and deletion.">
+<link rel="canonical" href="https://vecturadb.org/deploy/chroma/aws/vm/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://vecturadb.org/deploy/chroma/aws/vm/">
+<meta property="og:title" content="Chroma or VecturaDB on an AWS EC2 instance">
+<meta property="og:description" content="A CloudFormation template for Chroma 1.5.9 or VecturaDB on one EC2 instance, with HTTPS and EBS snapshots: what it creates, the cost, restore and deletion.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "VecturaDB", "item": "https://vecturadb.org/"}, {"@type": "ListItem", "position": 2, "name": "Deploy", "item": "https://vecturadb.org/deploy/"}, {"@type": "ListItem", "position": 3, "name": "Chroma", "item": "https://vecturadb.org/deploy/chroma/"}, {"@type": "ListItem", "position": 4, "name": "AWS", "item": "https://vecturadb.org/deploy/chroma/aws/"}, {"@type": "ListItem", "position": 5, "name": "EC2 instance", "item": "https://vecturadb.org/deploy/chroma/aws/vm/"}]}</script>
+<!-- site-head -->
+<meta property="og:site_name" content="VecturaDB">
+<meta property="og:image" content="https://vecturadb.org/vecturadb-social-cloud-1280x640.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b1120" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon-96.png" type="image/png" sizes="96x96">
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="/assets/site.js" defer></script>
+<!-- /site-head -->
+</head>
+<body>
+<!-- site-header -->
+<svg class="sprite" aria-hidden="true"><symbol id="i-github" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></symbol></svg>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="visually-hidden">Menu</span>
+      <svg class="icon icon-stroke icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="icon icon-stroke icon-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/get-started/">Get started</a></li>
+        <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+        <li><a href="/deploy/" aria-current="page">Deploy</a></li>
+        <li><a href="/clients/">Clients</a></li>
+        <li><a href="/news/">News</a></li>
+        <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+        <li><a class="nav-github" href="https://github.com/VecturaDB/VecturaDB"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<!-- /site-header -->
+
+<div class="container doc-layout">
+  <aside class="doc-aside" aria-label="Deploy">
+    <h2>Deploy</h2>
+    <ul>
+      <li><a href="/deploy/">Overview</a></li>
+      <li><a href="/deploy/chroma/">Chroma</a></li>
+      <li><a href="/deploy/chroma/azure/">Azure</a>
+        <ul>
+          <li><a href="/deploy/chroma/azure/vm/">VM</a></li>
+          <li><a href="/deploy/chroma/azure/container-apps/">Container Apps</a></li>
+        </ul>
+      </li>
+      <li><a href="/deploy/chroma/aws/">AWS</a>
+        <ul>
+          <li><a href="/deploy/chroma/aws/vm/" aria-current="page">EC2 instance</a></li>
+        </ul>
+      </li>
+    </ul>
+  </aside>
+  <main id="main" class="doc prose">
+<nav class="crumb" aria-label="Breadcrumb"><a href="/deploy/">Deploy</a> / <a href="/deploy/chroma/">Chroma</a> / <a href="/deploy/chroma/aws/">AWS</a></nav>
+<h1 id="chroma-or-vecturadb-on-an-aws-ec2-instance">Chroma or VecturaDB on an AWS EC2 instance</h1>
+<p class="lead-doc">One server in your own AWS account, with its data on an EBS volume, HTTPS, allowed IP addresses and snapshots. From about 12.50&nbsp;USD a month on your AWS bill.</p>
+<div class="actions">
+<a class="btn btn-primary" href="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.0.0%2Fvm%2Ftemplate.yaml&amp;stackName=chroma">Launch Stack</a>
+<a class="btn btn-secondary" href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.0.0/aws/vm">README of the template</a>
+</div>
+<div class="note">
+<p><strong>Disclaimer.</strong> This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured on 29 October 2026 in eu-west-1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.</p>
+<p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
+</div>
+<nav class="toc" aria-label="On this page">
+<p class="toc-title">On this page</p>
+<ol>
+<li><a href="#what-it-creates">What it creates</a></li>
+<li><a href="#deploy">Deploy</a></li>
+<li><a href="#access-and-https">Access and HTTPS</a></li>
+<li><a href="#cost">Cost</a></li>
+<li><a href="#backups-and-restore">Backups and restore</a></li>
+<li><a href="#updates">Updates</a></li>
+<li><a href="#delete-everything">Delete everything</a></li>
+<li><a href="#limits">Limits</a></li>
+</ol>
+</nav>
+
+<h2 id="what-it-creates">What it creates</h2>
+<p>The template runs one of two servers:</p>
+<ul>
+<li><strong>Chroma 1.5.9</strong>, the open-source single-node server (<code>ghcr.io/chroma-core/chroma:1.5.9</code>);</li>
+<li><strong>VecturaDB 1.0.0-preview.3.post1</strong>, built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys.</li>
+</ul>
+<p>Both keep the Chroma API: the Chroma clients connect with the URL of the stack. In our tests the Python (chromadb 1.5.9) and JavaScript (chromadb 3.5.0) clients and a .NET client gave the same results on the two servers.</p>
+<div class="table table-fit" tabindex="0"><table>
+<thead>
+<tr><th>Resource</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr><td>EC2 instance, Ubuntu 24.04</td><td>Docker runs the server; Caddy serves HTTPS in front of it</td></tr>
+<tr><td>EBS data volume, gp3</td><td>Mounted at <code>/var/lib/chroma</code>; 16&nbsp;GiB by default, encrypted</td></tr>
+<tr><td>Security group</td><td>Opens only what the access mode needs</td></tr>
+<tr><td>VPC, subnet and internet gateway</td><td>10.42.0.0/16, in the first availability zone of the region</td></tr>
+<tr><td>Elastic IP</td><td>The address for HTTPS, and the way out to the package and image registries</td></tr>
+<tr><td>IAM role of the instance</td><td>Systems Manager runs the configuration and the restore: there is no SSH</td></tr>
+<tr><td>Systems Manager documents and association</td><td>The configuration, run at the creation and at every update that changes it; the restore</td></tr>
+<tr><td>Secrets Manager secret</td><td>Only VecturaDB with an API key</td></tr>
+<tr><td>Data Lifecycle Manager policy</td><td>Only with backups on: snapshots of the data volume</td></tr>
+</tbody>
+</table></div>
+
+<h2 id="deploy">Deploy</h2>
+<p><a class="btn btn-primary" href="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.0.0%2Fvm%2Ftemplate.yaml&amp;stackName=chroma">Launch Stack</a></p>
+<p>The button opens the quick-create page of CloudFormation in eu-west-1, with the template of the tag <code>aws-v1.0.0</code> and the name of the stack already filled in. CloudFormation reads templates from Amazon S3, so the button uses a copy of the template in a public bucket.</p>
+<ol>
+<li>Fill the parameters, in three groups: Server (engine, images, instance type, size of the data volume), Access (access mode, allowed IP ranges, API key, domain, email for Let's Encrypt) and Backups.</li>
+<li>Under “Capabilities and transforms”, tick the three acknowledgements: IAM resources, IAM resources with custom names, and <code>CAPABILITY_AUTO_EXPAND</code>.</li>
+<li>Choose “Create stack”. When the status is <code>CREATE_COMPLETE</code>, the Outputs tab has the <code>Url</code> for the clients.</li>
+</ol>
+<div class="table table-kv" tabindex="0"><table>
+<thead>
+<tr><th>In our tests</th><th>Time</th></tr>
+</thead>
+<tbody>
+<tr><td>Stack from zero, until the server answered over HTTPS</td><td>400-608&nbsp;s</td></tr>
+<tr><td>Update of an existing stack</td><td>34-126&nbsp;s</td></tr>
+</tbody>
+</table></div>
+<p>Most of the creation is the first boot of the instance, which installs Docker and Caddy. A new instance in standard credit mode has no CPU credits yet, so it runs at the baseline CPU: in both our tests the credit balance was 0 during the first boot.</p>
+<p>With the AWS CLI:</p>
+<pre tabindex="0"><code>aws cloudformation create-stack --region eu-west-1 --stack-name my-chroma \
+  --template-url https://vecturadb-deploy.s3.eu-west-1.amazonaws.com/aws-v1.0.0/vm/template.yaml \
+  --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND \
+  --parameters ParameterKey=Access,ParameterValue=allowed-ips \
+               ParameterKey=AllowedIpRanges,ParameterValue=203.0.113.10/32
+aws cloudformation wait stack-create-complete --region eu-west-1 --stack-name my-chroma
+aws cloudformation describe-stacks --region eu-west-1 --stack-name my-chroma --query "Stacks[0].Outputs"</code></pre>
+<p>For VecturaDB with an API key, add <code>ParameterKey=Engine,ParameterValue=vecturadb ParameterKey=ApiKey,ParameterValue=&lt;your key&gt;</code>. The template and its README are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.0.0/aws/vm"><code>aws/vm</code></a>.</p>
+
+<h2 id="access-and-https">Access and HTTPS</h2>
+<div class="table table-fit" tabindex="0"><table>
+<thead>
+<tr><th>Access</th><th>What is open</th><th>Address</th></tr>
+</thead>
+<tbody>
+<tr><td>Allowed IP addresses</td><td>443 from your IP ranges; 80 for the certificate only</td><td>https://, with the Elastic IP or your domain</td></tr>
+<tr><td>Public</td><td>443 and 80 from anywhere; VecturaDB with an API key only</td><td>https://</td></tr>
+<tr><td>Internal</td><td>Nothing from the internet; port 8000 inside the VPC</td><td>http://, on the private address</td></tr>
+</tbody>
+</table></div>
+<ul>
+<li>Caddy gets a Let's Encrypt certificate and forwards to the server on 127.0.0.1.</li>
+<li>Let's Encrypt gives no certificate for the names that AWS gives to instances. Without a domain, the certificate is for the Elastic IP itself, valid for 160&nbsp;hours, and Caddy renews it.</li>
+<li>Port 80 answers only the challenge of the certificate. Port 22 stays closed and the instance has no key pair: for a shell, use Session Manager.</li>
+<li>The stack is complete only when Caddy holds the certificate and the server answers.</li>
+<li>Chroma 1.5.9 has no API keys: public access needs VecturaDB with a key, sent in the <code>x-chroma-token</code> header. The stack keeps the key in Secrets Manager.</li>
+</ul>
+<div class="table table-kv" tabindex="0"><table>
+<thead>
+<tr><th>On the instance, against the server on 127.0.0.1 (median of 20 runs, t4g.micro)</th><th>Time</th></tr>
+</thead>
+<tbody>
+<tr><td>Query</td><td>2.2&nbsp;ms</td></tr>
+<tr><td>Get</td><td>4.2&nbsp;ms</td></tr>
+<tr><td>Add of 2 records</td><td>35&nbsp;ms</td></tr>
+<tr><td>8 concurrent writers, in all</td><td>6.1&nbsp;s</td></tr>
+</tbody>
+</table></div>
+
+<h2 id="cost">Cost</h2>
+<p>The sizes we tested, with the list prices of eu-west-1 in USD for 730&nbsp;hours a month, on 29 October 2026:</p>
+<div class="table" tabindex="0"><table>
+<thead>
+<tr><th>Size</th><th>CPU, memory</th><th>Instance</th><th>Root volume 8&nbsp;GiB</th><th>Data volume 16&nbsp;GiB</th><th>Public IPv4</th><th>Total a month</th></tr>
+</thead>
+<tbody>
+<tr><td>t4g.micro (default, Arm)</td><td>2, 1&nbsp;GiB</td><td>6.72</td><td>0.70</td><td>1.41</td><td>3.65</td><td>12.48</td></tr>
+<tr><td>t4g.small (Arm)</td><td>2, 2&nbsp;GiB</td><td>13.43</td><td>0.70</td><td>1.41</td><td>3.65</td><td>19.19</td></tr>
+</tbody>
+</table></div>
+<ul>
+<li>With internal access the Elastic IP stays: it is the way out to the internet, as there is no NAT gateway.</li>
+<li>VecturaDB with an API key adds the secret: 0.40&nbsp;USD a month, plus 0.05&nbsp;USD per 10,000 reads.</li>
+<li>Not in the table: outbound traffic and the snapshots of the backups.</li>
+<li>The t4g and t3 types have a baseline CPU and earn credits below it: 10% of each vCPU for t4g.micro and t3.micro, 20% for the small and medium sizes (<a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html">the credit table</a>). The stack sets the standard credit mode: without credits the CPU stays at the baseline, and nothing is billed beyond the price of the instance. A server that is busy all the time needs a larger size.</li>
+<li>With 1&nbsp;GiB of memory, Chroma used 10&nbsp;MiB at rest and 93&nbsp;MiB after our operations bench. We measured only small collections: Chroma keeps its vector index in memory, so a large collection needs a larger size.</li>
+</ul>
+
+<h2 id="backups-and-restore">Backups and restore</h2>
+<ul>
+<li>With backups on, the default, Amazon Data Lifecycle Manager takes snapshots of the data volume every 24&nbsp;hours, or every 4, 6, 8 or 12&nbsp;hours, and keeps them 7&nbsp;days.</li>
+<li>Data Lifecycle Manager has no fee. The snapshots are billed at 0.05&nbsp;USD per GB a month in eu-west-1: the first one for the used part of the volume, the next ones for the changes.</li>
+<li><strong>The snapshots are not part of the stack:</strong> deleting the stack leaves them.</li>
+<li>The snapshots are taken while the server runs, so a restored volume is like a volume after a power cut. In our tests its file system recovered its journal, and the server started on it with all the data of the snapshot.</li>
+</ul>
+<h3 id="restore">Restore</h3>
+<ol>
+<li>Create a volume from a snapshot in the availability zone of the instance, and attach it.</li>
+<li>Run the <code>RestoreDocument</code> of the stack: it stops the server, replaces the data with the data of the snapshot, and starts the server again.</li>
+<li>Detach and delete the volume.</li>
+</ol>
+<pre tabindex="0"><code>STACK=my-chroma; SNAPSHOT=&lt;snapshot id&gt;
+out() { aws cloudformation describe-stacks --stack-name $STACK --query "Stacks[0].Outputs[?OutputKey=='$1'].OutputValue" --output text; }
+INSTANCE=$(out InstanceId); DOCUMENT=$(out RestoreDocument)
+AZ=$(aws ec2 describe-instances --instance-ids $INSTANCE --query "Reservations[0].Instances[0].Placement.AvailabilityZone" --output text)
+VOLUME=$(aws ec2 create-volume --snapshot-id $SNAPSHOT --availability-zone $AZ --volume-type gp3 --encrypted --query VolumeId --output text)
+aws ec2 wait volume-available --volume-ids $VOLUME
+aws ec2 attach-volume --volume-id $VOLUME --instance-id $INSTANCE --device /dev/sdg
+aws ec2 wait volume-in-use --volume-ids $VOLUME
+COMMAND=$(aws ssm send-command --document-name $DOCUMENT --instance-ids $INSTANCE --parameters volumeId=$VOLUME --query Command.CommandId --output text)
+until aws ssm get-command-invocation --command-id $COMMAND --instance-id $INSTANCE --query Status --output text 2&gt;/dev/null | grep -qE 'Success|Failed|Cancelled|TimedOut'; do sleep 5; done
+aws ssm get-command-invocation --command-id $COMMAND --instance-id $INSTANCE --query "[Status,StandardOutputContent]" --output text
+aws ec2 detach-volume --volume-id $VOLUME
+aws ec2 wait volume-available --volume-ids $VOLUME
+aws ec2 delete-volume --volume-id $VOLUME</code></pre>
+<p><strong>The data written after the snapshot is lost:</strong> take a snapshot first if you may want it back. The data volume stays the same, so the snapshots go on.</p>
+<div class="table table-kv" tabindex="0"><table>
+<thead>
+<tr><th>In our tests</th><th>Time</th></tr>
+</thead>
+<tbody>
+<tr><td>Snapshot by hand, until completed</td><td>49&nbsp;s</td></tr>
+<tr><td>Volume from the snapshot</td><td>4&nbsp;s</td></tr>
+<tr><td>Attach</td><td>3-5&nbsp;s</td></tr>
+<tr><td><code>RestoreDocument</code>, with 5.6 MB of data</td><td>11-12&nbsp;s</td></tr>
+<tr><td>Detach and delete</td><td>6-21&nbsp;s</td></tr>
+</tbody>
+</table></div>
+<p>After the restore the server held the data of the snapshot, 4,400 records written before it, and none of the records written after it.</p>
+
+<h2 id="updates">Updates</h2>
+<ul>
+<li>To change the server, its image or the access, update the stack with the new parameters: Systems Manager pulls the image, stops the old container and starts the new one, with the data on the data volume. An update that changes none of them does not restart the server.</li>
+<li>The server does not answer during the switch.</li>
+<li>An update never replaces the instance, so it never moves the data volume. A change between t4g (Arm) and t3 (x86) needs a new stack and a restore.</li>
+<li>Docker starts only once the data volume is mounted: an instance that boots without it serves nothing, rather than an empty database.</li>
+<li>Ubuntu installs its security updates by itself. Caddy comes from its own repository: you update it.</li>
+</ul>
+<div class="table table-kv" tabindex="0"><table>
+<thead>
+<tr><th>In our tests</th><th>Time</th></tr>
+</thead>
+<tbody>
+<tr><td>Switch from Chroma 1.5.9 to VecturaDB with an API key, which read the collections written by Chroma</td><td>65&nbsp;s</td></tr>
+<tr><td>Change of access</td><td>34&nbsp;s</td></tr>
+<tr><td>From t4g.micro to t4g.small; the server did not answer for about 30&nbsp;s</td><td>65&nbsp;s</td></tr>
+<tr><td>From a reboot of the instance to the first answer of the server</td><td>24&nbsp;s</td></tr>
+</tbody>
+</table></div>
+
+<h2 id="delete-everything">Delete everything</h2>
+<p>Deleting the stack deletes the instance, the data volume, the network, the Elastic IP, the roles, the documents and the secret. The snapshots stay: delete them yourself, after the stack, so that no new snapshot comes after the cleanup.</p>
+<h3 id="delete-in-the-console">In the console</h3>
+<ol>
+<li>In CloudFormation, select the stack, choose Delete and type the name of the stack to confirm.</li>
+<li>In EC2, under Snapshots, delete the snapshots with the tag <code>chroma-backup</code> equal to the name of the stack.</li>
+</ol>
+<h3 id="delete-with-the-aws-cli">With the AWS CLI</h3>
+<pre tabindex="0"><code>aws cloudformation delete-stack --region eu-west-1 --stack-name my-chroma
+aws cloudformation wait stack-delete-complete --region eu-west-1 --stack-name my-chroma
+for s in $(aws ec2 describe-snapshots --region eu-west-1 --owner-ids self \
+    --filters Name=tag:chroma-backup,Values=my-chroma --query "Snapshots[].SnapshotId" --output text); do
+  aws ec2 delete-snapshot --region eu-west-1 --snapshot-id $s
+done</code></pre>
+<p>In our tests the deletion of the stack took 40-64&nbsp;seconds, in the console and with the CLI, and afterwards nothing of the stack was left in the region. With an API key, CloudFormation deleted the secret at once: it was not left among the secrets scheduled for deletion.</p>
+
+<h2 id="limits">Limits</h2>
+<ul>
+<li>One instance and one volume: no high availability.</li>
+<li>While the instance restarts or an update switches the container, the server does not answer.</li>
+<li>The snapshots are in the same region.</li>
+<li>The subnet is in the first availability zone of the region. In eu-west-1 all three zones offer t4g.micro; where the first zone does not offer a type, choose another one.</li>
+<li>The certificate of an IP address is valid for about 6&nbsp;days: Caddy renews it while the instance runs.</li>
+</ul>
+
+<div class="note">
+<p>VecturaDB is an independent fork of Chroma, under the Apache License 2.0. The original code is copyright Chroma Inc. and its contributors.</p>
+<p>Not affiliated with, endorsed by or sponsored by Chroma Inc. CHROMA is a registered trademark of Chroma Inc., used here only to describe compatibility.</p>
+</div>
+  </main>
+</div>
+
+<!-- site-footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+        <p>Vector database compatible with the Chroma API, bringing Chroma Cloud's features to open source.</p>
+      </div>
+      <div class="footer-col">
+        <h2>Docs</h2>
+        <ul>
+          <li><a href="/get-started/">Get started</a></li>
+          <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+          <li><a href="/clients/">Clients</a></li>
+          <li><a href="/deploy/">Deploy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/VecturaDB/VecturaDB">GitHub</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/security/policy">Security policy</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/blob/main/LICENSE">License</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Packages</h2>
+        <ul>
+          <li><a href="https://pypi.org/project/VecturaDB/">PyPI</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/pkgs/container/vecturadb">Docker image</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Independent project. Not affiliated with, endorsed by or sponsored by Chroma Inc. CHROMA is a registered trademark of Chroma Inc., used here only to describe compatibility. <a href="/#about">About</a></p>
+      <p>Apache License 2.0</p>
+    </div>
+  </div>
+</footer>
+<!-- /site-footer -->
+</body>
+</html>
