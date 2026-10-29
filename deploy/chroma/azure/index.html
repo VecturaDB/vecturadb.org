@@ -64,8 +64,8 @@
   <section class="hero hero-page" aria-labelledby="page-title">
     <div class="container">
       <nav class="crumb" aria-label="Breadcrumb"><a href="/deploy/">Deploy</a> / <a href="/deploy/chroma/">Chroma</a> / Azure</nav>
-      <h1 id="page-title">Deploy Chroma or VecturaDB on Azure, <span class="grad">in your own subscription</span></h1>
-      <p class="lead">Chroma 1.5.9 or VecturaDB, with HTTPS: each template has a button for each server it runs. The server and its data stay in your Azure account, Azure bills you directly, and the templates are open source.</p>
+      <h1 id="page-title">Deploy Chroma on Azure, <span class="grad">in your own subscription</span></h1>
+      <p class="lead">Chroma 1.5.9 or VecturaDB, with HTTPS, from a Deploy to Azure button. The server and its data stay in your Azure account, Azure bills you directly, and the templates are open source.</p>
     </div>
   </section>
 
@@ -82,13 +82,12 @@
           <p class="choice-cost-note">Standard_B2pts_v2 with its disks and public IP, whatever the use.</p>
           <ul class="choice-list">
             <li>Always on: no wait at the first request</li>
-            <li>Over HTTPS, a query in 2.5&nbsp;ms with Chroma and 2.6&nbsp;ms with VecturaDB</li>
+            <li>Faster: a query in 2.5&nbsp;ms, an add in 112&nbsp;ms</li>
             <li>Backups of the data disk every 24&nbsp;hours, kept 7&nbsp;days</li>
             <li>Chroma 1.5.9, or VecturaDB with API keys</li>
           </ul>
           <div class="actions">
-            <a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2FcreateUiDefinition.json" aria-label="Deploy Chroma 1.5.9 on an Azure VM">Deploy Chroma</a>
-            <a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2FcreateUiDefinition.vecturadb.json" aria-label="Deploy VecturaDB on an Azure VM">Deploy VecturaDB</a>
+            <a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2FcreateUiDefinition.json" aria-label="Deploy to Azure: the VM template">Deploy to Azure</a>
             <a class="btn btn-secondary" href="/deploy/chroma/azure/vm/" aria-label="Details of the VM template">Details</a>
           </div>
         </article>
@@ -105,14 +104,14 @@
             <li>Chroma 1.5.9</li>
           </ul>
           <div class="actions">
-            <a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json" aria-label="Deploy Chroma 1.5.9 on Azure Container Apps">Deploy Chroma</a>
+            <a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json" aria-label="Deploy to Azure: the Container Apps template">Deploy to Azure</a>
             <a class="btn btn-secondary" href="/deploy/chroma/azure/container-apps/" aria-label="Details of the Container Apps template">Details</a>
           </div>
         </article>
       </div>
       <p class="free-note"><span><strong>The templates are free and open source (Apache 2.0).</strong> You pay only Azure, which bills you directly: no fee from us.</span></p>
       <p class="choices-note"><strong>Before you choose Container Apps:</strong> the first request after a pause waits 26-32&nbsp;seconds, an update made while the app is in use needs a manual step, it is slower than the VM, and the template has no backups and no API keys. <a href="/deploy/chroma/azure/container-apps/#limits">All its limits</a></p>
-      <p class="fine-print">Times: medians in our tests, from a client in the same region. Costs: estimates with the Azure list prices of westeurope in USD, on 26 and 27 October 2026. On Container Apps the template runs Chroma 1.5.9 only.</p>
+      <p class="fine-print">Times: medians in our tests, from a client in the same region. Costs: estimates with the Azure list prices of westeurope in USD, on 26 and 27 October 2026.</p>
     </div>
   </section>
 
@@ -134,12 +133,12 @@
             <tr><th scope="row">In use all day</th><td>14.26&nbsp;USD</td><td>47.63&nbsp;USD</td></tr>
             <tr><th scope="row">8&nbsp;hours a day</th><td>14.26&nbsp;USD</td><td>10.69&nbsp;USD</td></tr>
             <tr><th scope="row">3&nbsp;hours a day</th><td>14.26&nbsp;USD</td><td>0.00&nbsp;USD</td></tr>
-            <tr class="group"><th scope="colgroup" colspan="3">In our tests, with Chroma 1.5.9</th></tr>
+            <tr class="group"><th scope="colgroup" colspan="3">In our tests</th></tr>
             <tr><th scope="row">Query, median</th><td>2.5&nbsp;ms</td><td>5.2-5.7&nbsp;ms</td></tr>
             <tr><th scope="row">Add, median</th><td>112&nbsp;ms</td><td>434-448&nbsp;ms</td></tr>
             <tr><th scope="row">First request after a pause</th><td>No pause: always on</td><td>26-32&nbsp;s, after about 10&nbsp;minutes without requests</td></tr>
             <tr><th scope="row">Deployment from zero</th><td>157-220&nbsp;s</td><td>15-18&nbsp;min</td></tr>
-            <tr><th scope="row">Deploy</th><td><a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2FcreateUiDefinition.json" aria-label="Deploy Chroma 1.5.9 on an Azure VM">Deploy Chroma</a> <a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2FcreateUiDefinition.vecturadb.json" aria-label="Deploy VecturaDB on an Azure VM">Deploy VecturaDB</a></td><td><a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json" aria-label="Deploy Chroma 1.5.9 on Azure Container Apps">Deploy Chroma</a></td></tr>
+            <tr><th scope="row">Deploy</th><td><a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2FcreateUiDefinition.json" aria-label="Deploy to Azure: the VM template">Deploy to Azure</a></td><td><a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json" aria-label="Deploy to Azure: the Container Apps template">Deploy to Azure</a></td></tr>
           </tbody>
         </table>
       </div>
@@ -151,7 +150,7 @@
     <div class="container">
       <h2 id="how-title">How it works</h2>
       <ol class="steps">
-        <li><h3>Open the form</h3><p>Deploy Chroma or Deploy VecturaDB opens the form of the template in the Azure portal, in your subscription, with that server already chosen. You choose the region, a name, the size and the IP addresses that may connect; for VecturaDB, also the API key.</p></li>
+        <li><h3>Open the form</h3><p>Deploy to Azure opens the form of the template in the Azure portal, in your subscription. You choose the region, a name, the size and the IP addresses that may connect.</p></li>
         <li><h3>Create</h3><p>Review the settings and create. In our tests the VM was ready in under 4&nbsp;minutes, and Container Apps in 15-18&nbsp;minutes.</p></li>
         <li><h3>Connect</h3><p>Open Outputs: <code>url</code> is the address of your server, over HTTPS. The Chroma clients connect to it.</p></li>
       </ol>
@@ -167,7 +166,7 @@ client = chromadb.HttpClient(host="&lt;the host in url&gt;", port=443, ssl=True)
   <section class="section section-compact section-soft" aria-label="Disclaimer and trademarks">
     <div class="container">
       <div class="landing-note">
-        <p><strong>Disclaimer.</strong> The templates and their scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured between 25 and 29 October 2026 in westeurope: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.</p>
+        <p><strong>Disclaimer.</strong> The templates and their scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured between 25 and 28 October 2026 in westeurope: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.</p>
         <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
         <p>VecturaDB is an independent fork of Chroma, under the Apache License 2.0. The original code is copyright Chroma Inc. and its contributors. Not affiliated with, endorsed by or sponsored by Chroma Inc. CHROMA is a registered trademark of Chroma Inc., used here only to describe compatibility.</p>
       </div>

@@ -64,8 +64,8 @@
   <section class="hero hero-page" aria-labelledby="page-title">
     <div class="container">
       <nav class="crumb" aria-label="Breadcrumb"><a href="/deploy/">Deploy</a> / <a href="/deploy/chroma/">Chroma</a> / AWS</nav>
-      <h1 id="page-title">Deploy Chroma or VecturaDB on AWS, <span class="grad">in your own account</span></h1>
-      <p class="lead">Chroma 1.5.9 or VecturaDB on one EC2 instance, with HTTPS: one button for each server. The server and its data stay in your AWS account, AWS bills you directly, and the template is open source.</p>
+      <h1 id="page-title">Deploy Chroma on AWS, <span class="grad">in your own account</span></h1>
+      <p class="lead">Chroma 1.5.9 or VecturaDB on one EC2 instance, with HTTPS, from a Launch Stack button. The server and its data stay in your AWS account, AWS bills you directly, and the template is open source.</p>
     </div>
   </section>
 
@@ -78,22 +78,21 @@
           <p class="choice-for">For a server in use every day.</p>
           <p class="choice-cost-label">Estimated AWS cost</p>
           <p class="choice-cost"><span class="choice-amount">12.48&nbsp;USD</span> a month on your AWS bill</p>
-          <p class="choice-cost-note">t4g.micro with its volumes and public IPv4, whatever the use. VecturaDB with an API key adds 0.40&nbsp;USD a month.</p>
+          <p class="choice-cost-note">t4g.micro with its volumes and public IPv4, whatever the use.</p>
           <ul class="choice-list">
             <li>Always on: no wait at the first request</li>
-            <li>On the instance: a query in 2.2&nbsp;ms, an add in 35&nbsp;ms, with either server</li>
+            <li>On the instance: a query in 2.2&nbsp;ms, an add in 35&nbsp;ms</li>
             <li>Snapshots of the data volume every 24&nbsp;hours, kept 7&nbsp;days</li>
             <li>Chroma 1.5.9, or VecturaDB with API keys</li>
           </ul>
           <div class="actions">
-            <a class="btn btn-primary" href="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.0.0%2Fvm%2Ftemplate.yaml&amp;stackName=chroma" aria-label="Deploy Chroma 1.5.9 on an AWS EC2 instance">Deploy Chroma</a>
-            <a class="btn btn-primary" href="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.0.0%2Fvm%2Ftemplate.yaml&amp;stackName=vecturadb&amp;param_Engine=vecturadb" aria-label="Deploy VecturaDB on an AWS EC2 instance">Deploy VecturaDB</a>
+            <a class="btn btn-primary" href="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.0.0%2Fvm%2Ftemplate.yaml&amp;stackName=chroma" aria-label="Launch Stack: the AWS EC2 template">Launch Stack</a>
             <a class="btn btn-secondary" href="/deploy/chroma/aws/vm/" aria-label="Details of the AWS EC2 template">Details</a>
           </div>
         </article>
       </div>
       <p class="free-note"><span><strong>The template is free and open source (Apache 2.0).</strong> You pay only AWS, which bills you directly: no fee from us.</span></p>
-      <p class="fine-print">Times: medians in our tests with Chroma 1.5.9 and with VecturaDB 1.0.0-preview.3.post1, against the server on the instance itself. Cost: an estimate with the AWS list prices of eu-west-1 in USD, on 29 October 2026, without the snapshots of the backups. The details are on the <a href="/deploy/chroma/aws/vm/">page of the template</a>.</p>
+      <p class="fine-print">Times: medians in our tests, against the server on the instance itself. Cost: an estimate with the AWS list prices of eu-west-1 in USD, on 29 October 2026, without the snapshots of the backups. The details are on the <a href="/deploy/chroma/aws/vm/">page of the template</a>.</p>
     </div>
   </section>
 
@@ -101,8 +100,8 @@
     <div class="container">
       <h2 id="how-title">How it works</h2>
       <ol class="steps">
-        <li><h3>Open the form</h3><p>Deploy Chroma or Deploy VecturaDB opens the quick-create page of CloudFormation in eu-west-1, in your AWS account, with that server already chosen. You choose the instance type, the access and the IP addresses that may connect; for VecturaDB, also the API key.</p></li>
-        <li><h3>Create</h3><p>Tick the three acknowledgements and create the stack. In our tests with VecturaDB it was ready in 400-608&nbsp;seconds, with HTTPS.</p></li>
+        <li><h3>Open the form</h3><p>Launch Stack opens the quick-create page of CloudFormation in eu-west-1, in your AWS account. You choose the server, the instance type, the access and the IP addresses that may connect.</p></li>
+        <li><h3>Create</h3><p>Tick the three acknowledgements and create the stack. The stack is complete when the server answers over HTTPS.</p></li>
         <li><h3>Connect</h3><p>Open the Outputs tab: <code>Url</code> is the address of your server, over HTTPS. The Chroma clients connect to it.</p></li>
       </ol>
       <div class="code-card steps-code">

@@ -73,8 +73,8 @@
     <div class="container">
       <h2 id="clouds-title">Choose your cloud</h2>
       <div class="cards">
-        <a class="card" href="/deploy/chroma/azure/"><h3>Azure <span class="arrow" aria-hidden="true">→</span></h3><p>Chroma 1.5.9 or VecturaDB on a VM with backups, or Chroma 1.5.9 on Container Apps that scales to zero.</p></a>
-        <a class="card" href="/deploy/chroma/aws/"><h3>AWS <span class="arrow" aria-hidden="true">→</span></h3><p>Chroma 1.5.9 or VecturaDB on one EC2 instance with snapshots of its data.</p></a>
+        <a class="card" href="/deploy/chroma/azure/"><h3>Azure <span class="arrow" aria-hidden="true">→</span></h3><p>Templates for your Azure subscription: a VM with backups, or Container Apps that scales to zero.</p></a>
+        <a class="card" href="/deploy/chroma/aws/"><h3>AWS <span class="arrow" aria-hidden="true">→</span></h3><p>A template for your AWS account: one EC2 instance with snapshots of its data.</p></a>
       </div>
       <p class="free-note"><span><strong>The templates are free and open source (Apache 2.0).</strong> You pay only your cloud, which bills you directly: no fee from us.</span></p>
     </div>
@@ -86,7 +86,7 @@
       <p class="section-intro">Both servers keep the Chroma API, so the Chroma clients connect with the URL of the deployment. In our tests the Python (chromadb 1.5.9) and JavaScript (chromadb 3.5.0) clients and a .NET client gave the same results on the two servers. The page of each cloud says which server each template runs.</p>
       <div class="cards">
         <div class="card card-static"><h3>Chroma 1.5.9</h3><p>The open-source single-node server, from the image <code>ghcr.io/chroma-core/chroma:1.5.9</code>.</p></div>
-        <a class="card" href="/"><h3>VecturaDB 1.0.0-preview.3.post1 <span class="arrow" aria-hidden="true">→</span></h3><p>Built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys.</p></a>
+        <a class="card" href="/deploy/vecturadb/"><h3>VecturaDB 1.0.0-preview.3.post1 <span class="arrow" aria-hidden="true">→</span></h3><p>Built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys.</p></a>
       </div>
     </div>
   </section>

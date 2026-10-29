@@ -78,8 +78,7 @@
 <h1 id="chroma-or-vecturadb-on-an-aws-ec2-instance">Chroma or VecturaDB on an AWS EC2 instance</h1>
 <p class="lead-doc">One server in your own AWS account, with its data on an EBS volume, HTTPS, allowed IP addresses and snapshots. From about 12.50&nbsp;USD a month on your AWS bill.</p>
 <div class="actions">
-<a class="btn btn-primary" href="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.0.0%2Fvm%2Ftemplate.yaml&amp;stackName=chroma" aria-label="Deploy Chroma 1.5.9 on an AWS EC2 instance">Deploy Chroma</a>
-<a class="btn btn-primary" href="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.0.0%2Fvm%2Ftemplate.yaml&amp;stackName=vecturadb&amp;param_Engine=vecturadb" aria-label="Deploy VecturaDB on an AWS EC2 instance">Deploy VecturaDB</a>
+<a class="btn btn-primary" href="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.0.0%2Fvm%2Ftemplate.yaml&amp;stackName=chroma">Launch Stack</a>
 <a class="btn btn-secondary" href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.0.0/aws/vm">README of the template</a>
 </div>
 <div class="note">
@@ -106,7 +105,7 @@
 <li><strong>Chroma 1.5.9</strong>, the open-source single-node server (<code>ghcr.io/chroma-core/chroma:1.5.9</code>);</li>
 <li><strong>VecturaDB 1.0.0-preview.3.post1</strong>, built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys.</li>
 </ul>
-<p>Both keep the Chroma API: the Chroma clients connect with the URL of the stack. In our tests the Python (chromadb 1.5.9) and JavaScript (chromadb 3.5.0) clients and a .NET client gave the same results on the two servers, and VecturaDB answered 401 without the key.</p>
+<p>Both keep the Chroma API: the Chroma clients connect with the URL of the stack. In our tests the Python (chromadb 1.5.9) and JavaScript (chromadb 3.5.0) clients and a .NET client gave the same results on the two servers.</p>
 <div class="table table-fit" tabindex="0"><table>
 <thead>
 <tr><th>Resource</th><th>Notes</th></tr>
@@ -125,22 +124,14 @@
 </table></div>
 
 <h2 id="deploy">Deploy</h2>
-<p><a class="btn btn-primary" href="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.0.0%2Fvm%2Ftemplate.yaml&amp;stackName=chroma" aria-label="Deploy Chroma 1.5.9 on an AWS EC2 instance">Deploy Chroma</a> <a class="btn btn-primary" href="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.0.0%2Fvm%2Ftemplate.yaml&amp;stackName=vecturadb&amp;param_Engine=vecturadb" aria-label="Deploy VecturaDB on an AWS EC2 instance">Deploy VecturaDB</a></p>
-<p>Both buttons open the quick-create page of CloudFormation in eu-west-1, with the template of the tag <code>aws-v1.0.0</code>. Deploy Chroma starts with Chroma 1.5.9 and <code>chroma</code> as the name of the stack; Deploy VecturaDB starts with VecturaDB already chosen and <code>vecturadb</code> as the name. CloudFormation reads templates from Amazon S3, so the buttons use a copy of the template in a public bucket.</p>
+<p><a class="btn btn-primary" href="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.0.0%2Fvm%2Ftemplate.yaml&amp;stackName=chroma">Launch Stack</a></p>
+<p>The button opens the quick-create page of CloudFormation in eu-west-1, with the template of the tag <code>aws-v1.0.0</code> and the name of the stack already filled in. CloudFormation reads templates from Amazon S3, so the button uses a copy of the template in a public bucket.</p>
 <ol>
 <li>Fill the parameters, in three groups: Server (engine, images, instance type, size of the data volume), Access (access mode, allowed IP ranges, API key, domain, email for Let's Encrypt) and Backups.</li>
 <li>Under “Capabilities and transforms”, tick the three acknowledgements: IAM resources, IAM resources with custom names, and <code>CAPABILITY_AUTO_EXPAND</code>.</li>
 <li>Choose “Create stack”. When the status is <code>CREATE_COMPLETE</code>, the Outputs tab has the <code>Url</code> for the clients.</li>
 </ol>
-<div class="table" tabindex="0"><table>
-<thead>
-<tr><th>In our tests</th><th>Chroma 1.5.9</th><th>VecturaDB 1.0.0-preview.3.post1</th></tr>
-</thead>
-<tbody>
-<tr><td>Stack from zero, until the server answered over HTTPS</td><td>not measured</td><td>400-608&nbsp;s</td></tr>
-</tbody>
-</table></div>
-<p>Most of the creation is the first boot of the instance, which installs Docker and Caddy. A new instance in standard credit mode has no CPU credits yet, so it runs at the baseline CPU: in our tests the credit balance was 0 during the first boot.</p>
+<p>Most of the creation is the first boot of the instance, which installs Docker and Caddy.</p>
 <p>With the AWS CLI:</p>
 <pre tabindex="0"><code>aws cloudformation create-stack --region eu-west-1 --stack-name my-chroma \
   --template-url https://vecturadb-deploy.s3.eu-west-1.amazonaws.com/aws-v1.0.0/vm/template.yaml \
@@ -169,15 +160,15 @@ aws cloudformation describe-stacks --region eu-west-1 --stack-name my-chroma --q
 <li>The stack is complete only when Caddy holds the certificate and the server answers.</li>
 <li>Chroma 1.5.9 has no API keys: public access needs VecturaDB with a key, sent in the <code>x-chroma-token</code> header. The stack keeps the key in Secrets Manager.</li>
 </ul>
-<div class="table" tabindex="0"><table>
+<div class="table table-kv" tabindex="0"><table>
 <thead>
-<tr><th>On the instance, against the server on 127.0.0.1 (median of 20 runs, t4g.micro)</th><th>Chroma 1.5.9</th><th>VecturaDB 1.0.0-preview.3.post1, with an API key</th></tr>
+<tr><th>On the instance, against the server on 127.0.0.1 (median of 20 runs, t4g.micro)</th><th>Time</th></tr>
 </thead>
 <tbody>
-<tr><td>Query</td><td>2.2&nbsp;ms</td><td>2.2&nbsp;ms</td></tr>
-<tr><td>Get</td><td>4.2&nbsp;ms</td><td>2.1&nbsp;ms</td></tr>
-<tr><td>Add of 2 records</td><td>35&nbsp;ms</td><td>35&nbsp;ms</td></tr>
-<tr><td>8 concurrent writers, in all</td><td>6.1&nbsp;s</td><td>7.0&nbsp;s</td></tr>
+<tr><td>Query</td><td>2.2&nbsp;ms</td></tr>
+<tr><td>Get</td><td>4.2&nbsp;ms</td></tr>
+<tr><td>Add of 2 records</td><td>35&nbsp;ms</td></tr>
+<tr><td>8 concurrent writers, in all</td><td>6.1&nbsp;s</td></tr>
 </tbody>
 </table></div>
 
@@ -197,7 +188,7 @@ aws cloudformation describe-stacks --region eu-west-1 --stack-name my-chroma --q
 <li>VecturaDB with an API key adds the secret: 0.40&nbsp;USD a month, plus 0.05&nbsp;USD per 10,000 reads.</li>
 <li>Not in the table: outbound traffic and the snapshots of the backups.</li>
 <li>The t4g and t3 types have a baseline CPU and earn credits below it: 10% of each vCPU for t4g.micro and t3.micro, 20% for the small and medium sizes (<a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html">the credit table</a>). The stack sets the standard credit mode: without credits the CPU stays at the baseline, and nothing is billed beyond the price of the instance. A server that is busy all the time needs a larger size.</li>
-<li>With 1&nbsp;GiB of memory, after our operations bench Chroma 1.5.9 used 93&nbsp;MiB and VecturaDB 30&nbsp;MiB, with 450-502&nbsp;MiB and 472&nbsp;MiB available on the instance. We measured only small collections: both keep the vector index in memory, so a large collection needs a larger size.</li>
+<li>With 1&nbsp;GiB of memory, Chroma used 10&nbsp;MiB at rest and 93&nbsp;MiB after our operations bench. We measured only small collections: Chroma keeps its vector index in memory, so a large collection needs a larger size.</li>
 </ul>
 
 <h2 id="backups-and-restore">Backups and restore</h2>
@@ -205,7 +196,7 @@ aws cloudformation describe-stacks --region eu-west-1 --stack-name my-chroma --q
 <li>With backups on, the default, Amazon Data Lifecycle Manager takes snapshots of the data volume every 24&nbsp;hours, or every 4, 6, 8 or 12&nbsp;hours, and keeps them 7&nbsp;days.</li>
 <li>Data Lifecycle Manager has no fee. The snapshots are billed at 0.05&nbsp;USD per GB a month in eu-west-1: the first one for the used part of the volume, the next ones for the changes.</li>
 <li><strong>The snapshots are not part of the stack:</strong> deleting the stack leaves them.</li>
-<li>The snapshots are taken while the server runs, so a restored volume is like a volume after a power cut. In our tests with VecturaDB its file system recovered its journal, and the server started on it with all the data of the snapshot.</li>
+<li>The snapshots are taken while the server runs, so a restored volume is like a volume after a power cut.</li>
 </ul>
 <h3 id="restore">Restore</h3>
 <ol>
@@ -228,19 +219,6 @@ aws ec2 detach-volume --volume-id $VOLUME
 aws ec2 wait volume-available --volume-ids $VOLUME
 aws ec2 delete-volume --volume-id $VOLUME</code></pre>
 <p><strong>The data written after the snapshot is lost:</strong> take a snapshot first if you may want it back. The data volume stays the same, so the snapshots go on.</p>
-<div class="table" tabindex="0"><table>
-<thead>
-<tr><th>In our tests</th><th>Chroma 1.5.9</th><th>VecturaDB 1.0.0-preview.3.post1</th></tr>
-</thead>
-<tbody>
-<tr><td>Snapshot by hand, until completed</td><td>not measured</td><td>49&nbsp;s</td></tr>
-<tr><td>Volume from the snapshot</td><td>not measured</td><td>4&nbsp;s</td></tr>
-<tr><td>Attach</td><td>not measured</td><td>3-5&nbsp;s</td></tr>
-<tr><td><code>RestoreDocument</code>, with 5.6 MB of data</td><td>not measured</td><td>11-12&nbsp;s</td></tr>
-<tr><td>Detach and delete</td><td>not measured</td><td>6-21&nbsp;s</td></tr>
-</tbody>
-</table></div>
-<p>After the restore VecturaDB held the data of the snapshot, 4,400 records written before it, and none of the records written after it.</p>
 
 <h2 id="updates">Updates</h2>
 <ul>
@@ -249,18 +227,8 @@ aws ec2 delete-volume --volume-id $VOLUME</code></pre>
 <li>An update never replaces the instance, so it never moves the data volume. A change between t4g (Arm) and t3 (x86) needs a new stack and a restore.</li>
 <li>Docker starts only once the data volume is mounted: an instance that boots without it serves nothing, rather than an empty database.</li>
 <li>Ubuntu installs its security updates by itself. Caddy comes from its own repository: you update it.</li>
-<li>In our tests a switch from Chroma 1.5.9 to VecturaDB with an API key took 65&nbsp;seconds, and VecturaDB read the collections written by Chroma.</li>
 </ul>
-<div class="table" tabindex="0"><table>
-<thead>
-<tr><th>In our tests</th><th>Chroma 1.5.9</th><th>VecturaDB 1.0.0-preview.3.post1</th></tr>
-</thead>
-<tbody>
-<tr><td>Change of access</td><td>not measured</td><td>34&nbsp;s</td></tr>
-<tr><td>From t4g.micro to t4g.small; the server did not answer for about 30&nbsp;s</td><td>not measured</td><td>65&nbsp;s</td></tr>
-<tr><td>From a reboot of the instance to the first answer of the server</td><td>not measured</td><td>24&nbsp;s</td></tr>
-</tbody>
-</table></div>
+<p>In our tests a switch from Chroma 1.5.9 to VecturaDB with an API key took 65&nbsp;seconds, and VecturaDB read the collections written by Chroma.</p>
 
 <h2 id="delete-everything">Delete everything</h2>
 <p>Deleting the stack deletes the instance, the data volume, the network, the Elastic IP, the roles, the documents and the secret. The snapshots stay: delete them yourself, after the stack, so that no new snapshot comes after the cleanup.</p>
@@ -276,15 +244,7 @@ for s in $(aws ec2 describe-snapshots --region eu-west-1 --owner-ids self \
     --filters Name=tag:chroma-backup,Values=my-chroma --query "Snapshots[].SnapshotId" --output text); do
   aws ec2 delete-snapshot --region eu-west-1 --snapshot-id $s
 done</code></pre>
-<div class="table" tabindex="0"><table>
-<thead>
-<tr><th>In our tests</th><th>Chroma 1.5.9, CLI</th><th>VecturaDB 1.0.0-preview.3.post1, console and CLI</th></tr>
-</thead>
-<tbody>
-<tr><td>Deletion of the stack</td><td>64&nbsp;s</td><td>40-66&nbsp;s</td></tr>
-</tbody>
-</table></div>
-<p>Afterwards nothing of the stack was left in the region. With an API key, CloudFormation deleted the secret at once: it was not left among the secrets scheduled for deletion.</p>
+<p>In our tests the deletion of the stack took 64&nbsp;seconds with the CLI, and afterwards nothing of the stack was left in the region.</p>
 
 <h2 id="limits">Limits</h2>
 <ul>
