@@ -79,7 +79,7 @@
 <h1 id="chroma-on-azure-container-apps">Chroma on Azure Container Apps</h1>
 <p class="lead-doc">Chroma 1.5.9 on Azure Container Apps, with the data on an Azure Files share. The app scales to zero when nobody uses it, so it costs almost nothing on idle days.</p>
 <div class="actions">
-<a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json">Deploy to Azure</a>
+<a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.1%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.1%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json">Deploy to Azure</a>
 <a class="btn btn-secondary" href="/deploy/chroma/azure/#compare">Compare with the VM</a>
 </div>
 <div class="note">
@@ -120,8 +120,8 @@
 </ul>
 
 <h2 id="deploy">Deploy</h2>
-<p><a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json">Deploy to Azure</a></p>
-<p>The button opens the form of the Azure portal with the template of the tag <code>azure-v1.1.0</code>. When the portal shows “Your deployment is complete”, open <strong>Outputs</strong> in the menu on the left: <code>url</code> is the address of the server, for the clients.</p>
+<p><a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.1%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.1.1%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json">Deploy to Azure</a></p>
+<p>The button opens the form of the Azure portal with the template of the tag <code>azure-v1.1.1</code>. When the portal shows “Your deployment is complete”, open <strong>Outputs</strong> in the menu on the left: <code>url</code> is the address of the server, for the clients.</p>
 <div class="table table-kv" tabindex="0"><table>
 <thead>
 <tr><th>In our tests</th><th>Time</th></tr>
@@ -133,9 +133,9 @@
 <p>With the Azure CLI:</p>
 <pre tabindex="0"><code>az group create -n my-chroma -l westeurope
 az deployment group create -g my-chroma \
-  --template-uri https://raw.githubusercontent.com/VecturaDB/VecturaDB.Deploy/azure-v1.1.0/azure/container-apps/azuredeploy.json \
+  --template-uri https://raw.githubusercontent.com/VecturaDB/VecturaDB.Deploy/azure-v1.1.1/azure/container-apps/azuredeploy.json \
   -p allowedIpRanges='["203.0.113.10/32"]'</code></pre>
-<p>The template and its README are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.1.0/azure/container-apps"><code>azure/container-apps</code></a>.</p>
+<p>The template and its README are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.1.1/azure/container-apps"><code>azure/container-apps</code></a>.</p>
 
 <h2 id="access-and-https">Access and HTTPS</h2>
 <div class="table table-fit" tabindex="0"><table>
