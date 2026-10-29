@@ -261,7 +261,7 @@ pip<span class="w"> </span>install<span class="w"> </span>VecturaDB
 </table></div>
 <p>Every client we tested, with its result on each server: <a href="/clients/">Clients</a>.</p>
 <h3 id="the-api-keys">The API keys</h3>
-<p>Without API keys VecturaDB accepts every request, like open-source Chroma. With a file of users and keys it checks the <code>x-chroma-token</code> header, as Chroma Cloud does: see <a href="https://github.com/VecturaDB/VecturaDB/blob/v1.0.0-preview.3/docs/mintlify/guides/deploy/client-server-mode.mdx#api-keys">API keys</a>. The server does not serve HTTPS: put a TLS proxy in front of it to expose it beyond your machine.</p>
+<p>Without API keys VecturaDB accepts every request, like open-source Chroma. With a file of users and keys it checks the <code>x-chroma-token</code> header, as Chroma Cloud does: see <a href="https://github.com/VecturaDB/VecturaDB/blob/v1.0.0-preview.3.post1/docs/mintlify/guides/deploy/client-server-mode.mdx#api-keys">API keys</a>. The server does not serve HTTPS: put a TLS proxy in front of it to expose it beyond your machine.</p>
 <h2 id="4-hosted-embedding-models">4. Hosted embedding models</h2>
 <p><code>chroma-cloud-qwen</code> and <code>chroma-cloud-splade</code> run on Chroma Cloud and stop with it. See <a href="hosted-embedding-models">Hosted embedding models</a>: the same open models, run locally, gave the same search results in our tests. VecturaDB keeps the SPLADE vectors of your collections, so sparse search keeps working.</p>
 <h2 id="5-check">5. Check</h2>
