@@ -72,4 +72,24 @@
     <loc>https://vecturadb.org/deploy/chroma/aws/vm/</loc>
     <lastmod>2026-10-29</lastmod>
   </url>
+  <url>
+    <loc>https://vecturadb.org/deploy/vecturadb/</loc>
+    <lastmod>2026-10-29</lastmod>
+  </url>
+  <url>
+    <loc>https://vecturadb.org/deploy/vecturadb/azure/</loc>
+    <lastmod>2026-10-29</lastmod>
+  </url>
+  <url>
+    <loc>https://vecturadb.org/deploy/vecturadb/azure/vm/</loc>
+    <lastmod>2026-10-29</lastmod>
+  </url>
+  <url>
+    <loc>https://vecturadb.org/deploy/vecturadb/aws/</loc>
+    <lastmod>2026-10-29</lastmod>
+  </url>
+  <url>
+    <loc>https://vecturadb.org/deploy/vecturadb/aws/vm/</loc>
+    <lastmod>2026-10-29</lastmod>
+  </url>
 </urlset>
