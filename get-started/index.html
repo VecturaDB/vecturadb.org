@@ -84,7 +84,7 @@ pip<span class="w"> </span>install<span class="w"> </span>VecturaDB
 
 <span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
 </code></pre>
-    <p>While only previews exist, <code>pip install VecturaDB</code> installs the newest preview. Once <code>1.0.0</code> is out, a preview needs <code>pip install --pre VecturaDB</code>.</p>
+    <p>While only previews exist, <code>pip install VecturaDB</code> installs the newest preview. Once <code>1.0.0</code> is out, install a preview with its exact version, for example <code>pip install VecturaDB==1.0.0rc4</code>: <code>--pre</code> takes the previews of the dependencies too, and a preview of httpx breaks the client.</p>
 
     <h3 id="packages-that-depend-on-chromadb">Packages that depend on chromadb</h3>
     <p><code>VecturaDB</code> and <code>chromadb</code> install the same modules, so they cannot be installed side by side. Packages that declare a dependency on <code>chromadb</code>, such as <code>langchain-chroma</code>, make pip install <code>chromadb</code> too, and its files replace those of VecturaDB. Install those packages first and VecturaDB last:</p>
