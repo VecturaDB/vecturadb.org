@@ -73,19 +73,19 @@
   <main id="main" class="doc prose">
 <h1 id="leaving-chroma-cloud">Leaving Chroma Cloud</h1>
 <div class="note">
-<p><strong>Disclaimer.</strong> These guides and the scripts they link are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 25 October 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.</p>
+<p><strong>Disclaimer.</strong> These guides and the scripts they link are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 25 October and 2 November 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.</p>
 <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
 </div>
 <p>Chroma Cloud stops accepting writes on 22 November 2026. It stops serving reads on 22 December 2026.</p>
 <p><strong>In our tests no data was lost.</strong> On each of the three destinations every record arrived with its document, metadata, embedding and URI, and <code>verify.py</code> found every record the same as on Chroma Cloud. What depends on the destination:</p>
 <ul>
-<li>the settings of the dense index arrive only on Chroma distributed: Chroma 1.5.9 and VecturaDB use HNSW with its default settings, where Chroma Cloud uses SPANN;</li>
+<li>the settings of the dense index arrive on Chroma distributed and on VecturaDB, SPANN as on Chroma Cloud; Chroma 1.5.9 uses HNSW with its default settings;</li>
 <li>Chroma 1.5.9 cannot hold sparse vectors: our script copies everything else and keeps the sparse vectors in a file, one line per record;</li>
 <li>collections created with the old <code>hnsw:*</code> settings in their metadata stop the CLI on every destination, and need our script; if their metadata hold sparse vectors, our script keeps those in a file, one line per record.</li>
 </ul>
 <p>These guides take you from Chroma Cloud to the place you choose, with tools we test for that move:</p>
 <ul>
-<li>the <code>chroma</code> CLI of VecturaDB, which copies your collections out of Chroma Cloud;</li>
+<li>the <code>vecturadb</code> CLI, which copies your collections out of Chroma Cloud;</li>
 <li><code>verify.py</code>, which compares every copied collection with Chroma Cloud;</li>
 <li>for .NET, the ChromaDotNet libraries: client, Local, Aspire and Testcontainers;</li>
 <li>for Docker, Python and JavaScript, VecturaDB itself, when you need what only Chroma Cloud had.</li>
@@ -101,7 +101,7 @@
 <th></th>
 <th>Chroma 1.5.9, single node</th>
 <th>Chroma distributed</th>
-<th>VecturaDB 1.0.0-preview.3</th>
+<th>VecturaDB 1.0.0-preview.5</th>
 </tr>
 </thead>
 <tbody>
@@ -157,7 +157,7 @@
 <td>Copy from Chroma Cloud</td>
 <td>Dense collections, with the CLI of VecturaDB; the others with our script</td>
 <td>Every collection, SPANN settings included</td>
-<td>Every collection, with the CLI of VecturaDB; dense index settings become HNSW defaults</td>
+<td>Every collection, with the CLI of VecturaDB, SPANN settings included</td>
 </tr>
 <tr>
 <td>Embedding models hosted by Chroma Cloud</td>
@@ -175,7 +175,7 @@
 <td>What you run</td>
 <td>One container, or <code>pip install chromadb</code>; in .NET, also ChromaDotNet.Local</td>
 <td>Kubernetes, several services, object storage and a SQL database</td>
-<td>One container, the <code>chroma</code> CLI, or <code>pip install VecturaDB</code></td>
+<td>One container, the <code>vecturadb</code> CLI, or <code>pip install VecturaDB</code></td>
 </tr>
 </tbody>
 </table></div>
