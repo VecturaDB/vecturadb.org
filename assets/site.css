@@ -565,7 +565,7 @@ html:not(.js) .feature-panel + .feature-panel { margin-top: 56px; }
   .clients-overview .row-link { display: inline-block; min-width: 24px; line-height: 24px; }
   /* Clients, the details: narrower cells, so that the steps of each client fit the screen. */
   .prose .client-steps th, .prose .client-steps td { padding: 8px; }
-  .prose .client-steps thead th + th { width: 5.5rem; }
+  .prose .client-steps thead th + th { width: 6.25rem; }
 }
 @media (max-width: 420px) {
   .actions .btn { flex: 1 1 auto; }
