@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What VecturaDB has beyond Chroma 1.5.9 · VecturaDB</title>
+<meta name="description" content="VecturaDB is a single-node server built from Chroma. It has the features of the API of distributed Chroma that Chroma 1.5.9 refuses on a single node: the Search API, sparse vectors and BM25, SPANN, read levels, indexing status, resource names, collection fork, conditional transactions and attached functions. Two attached functions of Chroma Cloud stay out.">
+<link rel="canonical" href="https://vecturadb.org/features/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://vecturadb.org/features/">
+<meta property="og:title" content="What VecturaDB has beyond Chroma 1.5.9">
+<meta property="og:description" content="VecturaDB is a single-node server built from Chroma. It has the features of the API of distributed Chroma that Chroma 1.5.9 refuses on a single node: the Search API, sparse vectors and BM25, SPANN, read levels, indexing status, resource names, collection fork, conditional transactions and attached functions. Two attached functions of Chroma Cloud stay out.">
+<!-- site-head -->
+<meta property="og:site_name" content="VecturaDB">
+<meta property="og:image" content="https://vecturadb.org/vecturadb-social-cloud-1280x640.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b1120" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon-96.png" type="image/png" sizes="96x96">
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="/assets/site.js" defer></script>
+<!-- /site-head -->
+</head>
+<body>
+<!-- site-header -->
+<svg class="sprite" aria-hidden="true"><symbol id="i-github" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></symbol></svg>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="visually-hidden">Menu</span>
+      <svg class="icon icon-stroke icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="icon icon-stroke icon-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/get-started/">Get started</a></li>
+        <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+        <li><a href="/deploy/">Deploy</a></li>
+        <li><a href="/clients/">Clients</a></li>
+        <li><a href="/news/">News</a></li>
+        <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+        <li><a class="nav-github" href="https://github.com/VecturaDB/VecturaDB"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<!-- /site-header -->
+
+<div class="container">
+  <main id="main" class="doc prose">
+<h1 id="what-vecturadb-has-beyond-chroma-159">What VecturaDB has beyond Chroma 1.5.9</h1>
+<div class="note">
+<p><strong>Disclaimer.</strong> This page is provided as is, without warranty of any kind, as stated in the Apache License 2.0. It describes what we read in the code and measured up to 4 November 2026: your data, versions and setup may behave differently. Back up your data and test on a copy first. You are responsible for your data.</p>
+<p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
+</div>
+<p>VecturaDB is a single-node server built from Chroma. It has the features of the API of distributed Chroma that Chroma 1.5.9 refuses on a single node: the Search API, sparse vectors and BM25, SPANN, read levels, indexing status, resource names, collection fork, conditional transactions and attached functions. Two attached functions of Chroma Cloud stay out.</p>
+<p>VecturaDB is an independent project, not affiliated with Chroma. We read the code of distributed Chroma at commit 52ce844, the main branch of Chroma on 22 October 2026, and of Chroma 1.5.9 on a single node. This page lists each feature that the first has and the second does not, as it is in VecturaDB 1.0.0-preview.6.</p>
+<h2 id="at-a-glance">At a glance</h2>
+<div class="table" tabindex="0"><table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Chroma 1.5.9, single node</th>
+<th>VecturaDB 1.0.0-preview.6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Search API: dense and sparse ranks, RRF, select</td>
+<td><code>Search operation is not implemented for local executor</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Group by in a search</td>
+<td>The same error</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Sparse vector indexes and BM25</td>
+<td><code>Sparse vector indexing is not enabled in local</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Sparse vectors in the metadata</td>
+<td><code>Sparse vector is not supported for local chroma</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>SPANN index</td>
+<td>A collection that asks for SPANN gets HNSW</td>
+<td>Yes, for the collections that ask for it</td>
+</tr>
+<tr>
+<td>Read levels of a search</td>
+<td>Refused with the Search API</td>
+<td>Yes, on SPANN collections</td>
+</tr>
+<tr>
+<td>Indexing status</td>
+<td><code>Method scout_logs is not implemented</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Resource name of a tenant, collection by CRN</td>
+<td>The name is not saved; a collection by CRN closes the connection</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Collection fork and fork count</td>
+<td><code>Collection forking is unsupported for local chroma</code></td>
+<td>Yes, as a copy</td>
+</tr>
+<tr>
+<td>Conditional transactions</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Attached functions</td>
+<td>Refused</td>
+<td>Yes, except <code>http_generate</code> and <code>http_currents</code></td>
+</tr>
+<tr>
+<td>Databases: get several by id, get one by id, count</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table></div>
+<p>The errors in the middle column are those of Chroma 1.5.9 with the Python client <code>chromadb</code> 1.5.9, on 4 November 2026.</p>
+<h2 id="search-api-bm25-and-hybrid-search">Search API, BM25 and hybrid search</h2>
+<p>A search ranks records by a dense vector, a sparse vector or both, merged with RRF. The client computes the BM25 vectors from the documents.</p>
+<div class="hl"><pre tabindex="0"><span></span><code><span class="n">hybrid</span> <span class="o">=</span> <span class="n">Rrf</span><span class="p">(</span>
+    <span class="n">ranks</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">Knn</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">return_rank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1000</span><span class="p">),</span>
+        <span class="n">Knn</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s2">&quot;apple pie&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;doc_bm25&quot;</span><span class="p">,</span> <span class="n">return_rank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1000</span><span class="p">),</span>
+    <span class="p">],</span>
+    <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span>
+    <span class="n">k</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">Search</span><span class="p">()</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">K</span><span class="p">(</span><span class="s2">&quot;topic&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;tech&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">hybrid</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div>
+
+<p>The full example, with Python, JavaScript and .NET: <a href="/leaving-chroma-cloud/hybrid-search-without-chroma-cloud">Hybrid search on your own server</a>.</p>
+<h2 id="group-by">Group by</h2>
+<p>A search can keep the best records of each value of a metadata key.</p>
+<div class="hl"><pre tabindex="0"><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">chromadb.execution.expression</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroupBy</span><span class="p">,</span> <span class="n">MinK</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+    <span class="n">Search</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">Knn</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>
+    <span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="n">GroupBy</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="n">K</span><span class="p">(</span><span class="s2">&quot;topic&quot;</span><span class="p">),</span> <span class="n">aggregate</span><span class="o">=</span><span class="n">MinK</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="n">K</span><span class="o">.</span><span class="n">SCORE</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
+    <span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h2 id="sparse-vectors-in-the-metadata">Sparse vectors in the metadata</h2>
+<div class="hl"><pre tabindex="0"><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">chromadb.api.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparseVector</span>
+
+<span class="n">collection</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">],</span>
+    <span class="n">embeddings</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
+    <span class="n">metadatas</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;terms&quot;</span><span class="p">:</span> <span class="n">SparseVector</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])}],</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h2 id="spann">SPANN</h2>
+<p>HNSW stays the default, as in Chroma 1.5.9. A collection that asks for SPANN in its configuration or schema gets a SPANN index. Writes go to the files of the index later, as the compactor of distributed Chroma does, and reads see them at once.</p>
+<p>In our tests on one Azure Standard_D8ads_v6 VM (3 November 2026), at commit b64c37f66, before this release, with 1,000 records a second asked for 12 minutes, two runs each:</p>
+<div class="table" tabindex="0"><table>
+<thead>
+<tr>
+<th></th>
+<th>VecturaDB</th>
+<th>Distributed Chroma 52ce844</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Records written</td>
+<td>717,300 / 720,000</td>
+<td>573,700 / 573,400</td>
+</tr>
+<tr>
+<td>Writes refused for backpressure (429)</td>
+<td>1 / 0</td>
+<td>10 / 15</td>
+</tr>
+</tbody>
+</table></div>
+<p>Distributed Chroma ran on a single-node Kubernetes cluster on the same VM, with all its services. This is a result on one VM, not against a cluster. Recall@10 on 200,000 records: 0.9947 for VecturaDB (Azure Standard_D8ads_v7) and 0.9953 for distributed Chroma (Azure Standard_D8ads_v6).</p>
+<p>To turn SPANN off, set <code>executor: local: spann: false</code>: every collection then gets HNSW.</p>
+<h2 id="read-levels">Read levels</h2>
+<p>A search of a SPANN collection takes the read level of distributed Chroma.</p>
+<div class="hl"><pre tabindex="0"><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">chromadb.api.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReadLevel</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">Search</span><span class="p">()</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">Knn</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">read_level</span><span class="o">=</span><span class="n">ReadLevel</span><span class="o">.</span><span class="n">INDEX_ONLY</span><span class="p">)</span>
+</code></pre></div>
+
+<ul>
+<li><code>index_and_wal</code>, the default, sees every write.</li>
+<li><code>index_only</code> answers what the last flush holds.</li>
+<li><code>index_and_bounded_wal</code> also reads a bounded number of records written after it.</li>
+</ul>
+<h2 id="indexing-status">Indexing status</h2>
+<div class="hl"><pre tabindex="0"><span></span><code><span class="n">status</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">get_indexing_status</span><span class="p">()</span>
+<span class="c1"># IndexingStatus(num_indexed_ops=3, num_unindexed_ops=0, total_ops=3, op_indexing_progress=1.0)</span>
+</code></pre></div>
+
+<h2 id="resource-names-and-crn">Resource names and CRN</h2>
+<p>A tenant takes a resource name once, and a collection can be read by its CRN, <code>&lt;resource name&gt;:&lt;database&gt;:&lt;collection&gt;</code>.</p>
+<div class="hl"><pre tabindex="0"><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>PATCH<span class="w"> </span>http://127.0.0.1:8000/api/v2/tenants/default_tenant<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;resource_name&quot;: &quot;acme&quot;}&#39;</span>
+curl<span class="w"> </span>http://127.0.0.1:8000/api/v2/collections/acme:default_database:docs
+</code></pre></div>
+
+<h2 id="collection-fork">Collection fork</h2>
+<div class="hl"><pre tabindex="0"><span></span><code><span class="n">copy</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">fork</span><span class="p">(</span><span class="s2">&quot;docs-copy&quot;</span><span class="p">)</span>
+<span class="n">collection</span><span class="o">.</span><span class="n">fork_count</span><span class="p">()</span>  <span class="c1"># 1</span>
+</code></pre></div>
+
+<h2 id="conditional-transactions">Conditional transactions</h2>
+<p>A transaction reads records, buffers writes, and commits them only if no record it read or writes changed after its reads.</p>
+<div class="hl"><pre tabindex="0"><span></span><code><span class="n">txn</span> <span class="o">=</span> <span class="n">accounts</span><span class="o">.</span><span class="n">conditional</span><span class="p">()</span>
+<span class="n">balance</span> <span class="o">=</span> <span class="n">txn</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="s2">&quot;alice&quot;</span><span class="p">,</span> <span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;metadatas&quot;</span><span class="p">])[</span><span class="s2">&quot;metadatas&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;balance&quot;</span><span class="p">]</span>
+<span class="n">txn</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="s2">&quot;alice&quot;</span><span class="p">,</span> <span class="n">metadatas</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;balance&quot;</span><span class="p">:</span> <span class="n">balance</span> <span class="o">-</span> <span class="mi">30</span><span class="p">})</span>
+<span class="n">txn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</code></pre></div>
+
+<p>If another client writes <code>alice</code> between the read and the commit, the commit raises <code>ConditionalWriteConflictError</code> (409) and writes nothing. <code>collection.conditional().run(callback)</code> starts the transaction again by itself. They are on by default, as on Chroma Cloud.</p>
+<p>They need a client with <code>conditional()</code>: the Python package <code>VecturaDB</code> (<code>pip install VecturaDB</code>), or the JavaScript client in <code>clients/new-js</code> of the VecturaDB repository, which is not on npm. The published clients <code>chromadb</code> 1.5.9 on PyPI and <code>chromadb</code> 3.5.0 on npm do not have them.</p>
+<p>In our tests on one Azure Standard_E8as_v7 VM (3 and 4 November 2026), at commit 955e14e74, six servers ran for 6 hours with 8 workers incrementing counters in transactions, half of them with <code>kill -9</code> every 20 to 90 s: 0 wrong counters.</p>
+<h2 id="attached-functions">Attached functions</h2>
+<p>A function computes from the records of a collection and writes to its output collection.</p>
+<div class="hl"><pre tabindex="0"><span></span><code><span class="n">collection</span><span class="o">.</span><span class="n">attach_function</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;counter&quot;</span><span class="p">,</span>
+    <span class="n">function</span><span class="o">=</span><span class="n">RECORD_COUNTER_FUNCTION</span><span class="p">,</span>
+    <span class="n">output_collection</span><span class="o">=</span><span class="s2">&quot;counts&quot;</span><span class="p">,</span>
+    <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><code>record_counter</code>, <code>statistics</code> and <code>revision_history</code> run after each apply of the records of their input. <code>count_to_file_async</code> runs later, from its queue, and writes a file in the data path or on S3.</p>
+<p>The Python packages <code>VecturaDB</code> and <code>chromadb</code> 1.5.9 have <code>attach_function</code>. The JavaScript client <code>chromadb</code> 3.5.0 does not.</p>
+<p>In our tests on one Azure Standard_D8ds_v6 VM (4 November 2026), at commit f20b36d2, with <code>record_counter</code> on each collection, VecturaDB did 20.4% to 21.0% more operations than Chroma 1.5.9, which runs no function, under the same load: 3 runs of 6 minutes, 0 wrong answers on either side. <code>record_counter</code> reached the final count 1.5 to 1.8 s after the end of the load.</p>
+<h2 id="differences-from-distributed-chroma">Differences from distributed Chroma</h2>
+<ul>
+<li><strong>Fork.</strong> A fork copies the files of the collection, so it takes time and disk space in proportion to the collection. Distributed Chroma makes a fork share the files of its source, and writes new files only for what changes.</li>
+<li><strong>Read levels.</strong> On the single node, filters and sparse ranks read the current data of the records below <code>index_and_wal</code>. A filter judges a record updated after the flush by its new metadata, and leaves out a record deleted after it.</li>
+<li><strong>Indexing status.</strong> Distributed Chroma counts the operations of its log; the single node counts the records, so 3 adds and then 2 deletes count 1 and not 5.</li>
+<li><strong>Version of an HNSW collection.</strong> It goes up with each write, as the single node applies the write before it answers. Distributed Chroma raises it later, with each compaction.</li>
+<li><strong>Count of a SPANN collection.</strong> In our tests on one Azure Standard_D8ads_v6 VM (3 November 2026), at commit b64c37f66, before this release, with about 2,300,000 records, a count at rest took 317 to 328 ms, against 160 to 218 ms for distributed Chroma 52ce844. One run each.</li>
+<li><strong>Attached functions and Chroma 1.5.9.</strong> Chroma 1.5.9 opens a data path with attached functions, but does not run them. A synchronous function catches up once VecturaDB opens the data path again. An asynchronous function misses the deletes and updates that Chroma 1.5.9 made to records that already existed: detach it and attach it again with a new file to count again.</li>
+<li><strong>A synchronous function that stops.</strong> After 5 failures in a row, distributed Chroma stops compacting the collection, and a compaction asked by hand starts it again. On the single node the function stops, and starts again when detached with its output collection and attached again, which computes its output again from the records: <code>revision_history</code> then loses the revisions it archived.</li>
+<li><strong><code>http_generate</code> and <code>http_currents</code>.</strong> They are part of Foundations, a service of Chroma Cloud. They can be attached, but each run fails, and they stop after 5 failures.</li>
+<li><strong>Conditional transactions.</strong> Some answers differ from those of Chroma Cloud: see <a href="https://github.com/VecturaDB/VecturaDB#conditional-transactions">the README</a>.</li>
+</ul>
+<h2 id="differences-from-chroma-159">Differences from Chroma 1.5.9</h2>
+<p>On an idle server, a get by id is slower than on Chroma 1.5.9. Under writes it is faster. In our tests on one Azure Standard_E8s_v7 VM (4 November 2026), at commit ac50984b5, on HNSW with 100,000 records, two runs each:</p>
+<div class="table" tabindex="0"><table>
+<thead>
+<tr>
+<th>Median, ms</th>
+<th>Chroma 1.5.9</th>
+<th>VecturaDB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Idle, 1 id</td>
+<td>1.04 / 1.08</td>
+<td>1.20 / 1.20</td>
+</tr>
+<tr>
+<td>Under writes, 1 id, p99</td>
+<td>35.10 / 37.06</td>
+<td>4.11 / 4.13</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="what-stays-out-and-why">What stays out, and why</h2>
+<p>These are services or products of Chroma Cloud, not features of the database:</p>
+<ul>
+<li><strong>Quotas.</strong> The limits of a Chroma Cloud account, answered with 422 <code>Quota exceeded</code>. The open-source code of distributed Chroma does not enforce them.</li>
+<li><strong>Accounts and billing.</strong> VecturaDB has API keys of its own, set in its configuration.</li>
+<li><strong>Foundations.</strong> A service of Chroma Cloud for teams of agents. It needs hosted services, and distributed Chroma leaves it off by default.</li>
+<li><strong><code>http_generate</code> and <code>http_currents</code>.</strong> The two attached functions of Foundations: see above.</li>
+</ul>
+<p>Some parts of distributed Chroma exist to run it on several services, and have no use on one node: the counter of failed compactions, the two-phase garbage collection of versions, and the system database across regions.</p>
+<p>The hosted embedding functions <code>chroma-cloud-qwen</code> and <code>chroma-cloud-splade</code> ran on the servers of Chroma Cloud. The Python package <code>VecturaDB</code> computes them on your machine, with the same names and configuration.</p>
+  </main>
+</div>
+
+<!-- site-footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+        <p>Vector database compatible with the Chroma API, bringing Chroma Cloud's features to open source.</p>
+      </div>
+      <div class="footer-col">
+        <h2>Docs</h2>
+        <ul>
+          <li><a href="/get-started/">Get started</a></li>
+          <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+          <li><a href="/clients/">Clients</a></li>
+          <li><a href="/deploy/">Deploy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/VecturaDB/VecturaDB">GitHub</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/security/policy">Security policy</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/blob/main/LICENSE">License</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Packages</h2>
+        <ul>
+          <li><a href="https://pypi.org/project/VecturaDB/">PyPI</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/pkgs/container/vecturadb">Docker image</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Independent project. Not affiliated with, endorsed by or sponsored by Chroma Inc. CHROMA is a registered trademark of Chroma Inc., used here only to describe compatibility. <a href="/#about">About</a></p>
+      <p>Apache License 2.0</p>
+    </div>
+  </div>
+</footer>
+<!-- /site-footer -->
+</body>
+</html>
