@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Leaving Chroma Cloud · VecturaDB</title>
-<meta name="description" content="Chroma Cloud stops accepting writes on 22 November 2026. It stops serving reads on 22 December 2026.">
+<meta name="description" content="Chroma Cloud stops accepting writes on 7 December 2026. It stops serving reads on 22 December 2026.">
 <link rel="canonical" href="https://vecturadb.org/leaving-chroma-cloud/">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://vecturadb.org/leaving-chroma-cloud/">
 <meta property="og:title" content="Leaving Chroma Cloud">
-<meta property="og:description" content="Chroma Cloud stops accepting writes on 22 November 2026. It stops serving reads on 22 December 2026.">
+<meta property="og:description" content="Chroma Cloud stops accepting writes on 7 December 2026. It stops serving reads on 22 December 2026.">
 <!-- site-head -->
 <meta property="og:site_name" content="VecturaDB">
 <meta property="og:image" content="https://vecturadb.org/vecturadb-social-cloud-1280x640.png">
@@ -76,7 +76,7 @@
 <p><strong>Disclaimer.</strong> These guides and the scripts they link are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 25 October and 2 November 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.</p>
 <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
 </div>
-<p>Chroma Cloud stops accepting writes on 22 November 2026. It stops serving reads on 22 December 2026.</p>
+<p>Chroma Cloud stops accepting writes on 7 December 2026. It stops serving reads on 22 December 2026.</p>
 <p><strong>In our tests no data was lost.</strong> On each of the three destinations every record arrived with its document, metadata, embedding and URI, and <code>verify.py</code> found every record the same as on Chroma Cloud. What depends on the destination:</p>
 <ul>
 <li>the settings of the dense index arrive on Chroma distributed and on VecturaDB, SPANN as on Chroma Cloud; Chroma 1.5.9 uses HNSW with its default settings;</li>
