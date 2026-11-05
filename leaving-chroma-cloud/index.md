@@ -19,7 +19,7 @@ These guides take you from Chroma Cloud to the place you choose, with tools we t
   * the `vecturadb` CLI, which copies your collections out of Chroma Cloud;
   * `verify.py`, which compares every copied collection with Chroma Cloud;
   * for .NET, the ChromaDotNet libraries: client, Local, Aspire and Testcontainers;
-  * for Docker, Python and JavaScript, VecturaDB itself, when you need what only Chroma Cloud had.
+  * for Docker, Python and JavaScript, VecturaDB itself, when you need the features of Chroma Cloud, that is, of distributed Chroma.
 
 VecturaDB is an independent project, not affiliated with Chroma. Chroma itself is a first-class destination here, and for many users it is the right one.
 
