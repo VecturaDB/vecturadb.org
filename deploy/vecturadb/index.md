@@ -4,11 +4,11 @@ Source: https://vecturadb.org/deploy/vecturadb/
 
 # Deploy VecturaDB, in your own cloud
 
-VecturaDB 1.0.0-preview.3.post1, built from Chroma, created by a template in your own cloud account, with HTTPS and API keys. Your data stays in your account, and the cloud bills you directly.
+VecturaDB 1.0.0-preview.7, built from Chroma, created by a template in your own cloud account, with HTTPS and API keys. Your data stays in your account, and the cloud bills you directly.
 
 ## Choose your cloud
 
-### [Azure →A template for your Azure subscription: a VM with backups.](https://vecturadb.org/deploy/vecturadb/azure/) ### [AWS →A template for your AWS account: one EC2 instance with snapshots of its data.](https://vecturadb.org/deploy/vecturadb/aws/)
+### [Azure →A template for your Azure subscription: a VM with backups.](https://vecturadb.org/deploy/vecturadb/azure/) ### [AWS →A template for your AWS account: one EC2 instance with snapshots of its data.](https://vecturadb.org/deploy/vecturadb/aws/) ### [Google Cloud →A template for your Google Cloud project: one Compute Engine VM with snapshots of its data.](https://vecturadb.org/deploy/vecturadb/gcp/)
 
 **The templates are free and open source (Apache 2.0).** You pay only your cloud, which bills you directly: no fee from us.
 

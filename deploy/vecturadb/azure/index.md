@@ -19,15 +19,15 @@ Estimated Azure cost
 Standard_B2pts_v2 with its disks and public IP, whatever the use.
 
   * Always on: no wait at the first request
-  * Over HTTPS: a query in 2.6 ms, an add in 112 ms
+  * On the VM itself: a query in 1.8 ms, an add in 17.7 ms
   * Backups of the data disk every 24 hours, kept 7 days
   * API keys: the form asks for one
 
-[Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2FcreateUiDefinition.vecturadb.json) [Details](https://vecturadb.org/deploy/vecturadb/azure/vm/)
+[Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fvm%2FcreateUiDefinition.vecturadb.json) [Details](https://vecturadb.org/deploy/vecturadb/azure/vm/)
 
 **The template is free and open source (Apache 2.0).** You pay only Azure, which bills you directly: no fee from us.
 
-Times: medians in our tests with VecturaDB 1.0.0-preview.3.post1, from a client in the same region. Cost: an estimate with the Azure list prices of westeurope in USD, on 26 October 2026, without the snapshots of the backups. The details are on the [page of the template](https://vecturadb.org/deploy/vecturadb/azure/vm/).
+Times: medians in our tests with VecturaDB 1.0.0-preview.7, on the VM itself. Cost: an estimate with the Azure list prices of westeurope in USD, on 26 October 2026, without the snapshots of the backups. The details are on the [page of the template](https://vecturadb.org/deploy/vecturadb/azure/vm/).
 
 ## How it works
 
@@ -37,7 +37,7 @@ Deploy to Azure opens the form of the template in the Azure portal, in your subs
 
   2. ### Create
 
-Review the settings and create. In our tests the VM was ready in 158 seconds, with HTTPS.
+Review the settings and create. In our tests the VM was ready in 190 seconds, with HTTPS.
 
   3. ### Connect
 
@@ -52,7 +52,7 @@ Open Outputs: `url` is the address of your server, over HTTPS. The Chroma client
 
 Python, `chromadb` 1.5.9: the connection we ran against the template with VecturaDB. Without the key, the server answers 401.
 
-**Disclaimer.** The templates and their scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.3.post1 on 27 and 29 October 2026 in westeurope: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
+**Disclaimer.** The templates and their scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.7 on 5 November 2026 in westeurope: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
 
 Not sure about your case? [Open an issue in the VecturaDB repository](https://github.com/VecturaDB/VecturaDB/issues/new), describe your data and your setup, and we will take a look on a best-effort basis.
 

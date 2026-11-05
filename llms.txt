@@ -38,12 +38,14 @@ Notes for assistants:
 
 ## Deploy in your own cloud
 
-- [Deploy Chroma or VecturaDB in your own cloud](https://vecturadb.org/deploy/index.md): templates for Azure and AWS, with HTTPS.
+- [Deploy Chroma or VecturaDB in your own cloud](https://vecturadb.org/deploy/index.md): templates for Azure, AWS and Google Cloud, with HTTPS.
 - [VecturaDB on an Azure VM](https://vecturadb.org/deploy/vecturadb/azure/vm/index.md)
 - [VecturaDB on an AWS EC2 instance](https://vecturadb.org/deploy/vecturadb/aws/vm/index.md)
+- [VecturaDB on a Google Cloud VM](https://vecturadb.org/deploy/vecturadb/gcp/vm/index.md)
 - [Chroma or VecturaDB on an Azure VM](https://vecturadb.org/deploy/chroma/azure/vm/index.md)
 - [Chroma on Azure Container Apps](https://vecturadb.org/deploy/chroma/azure/container-apps/index.md)
 - [Chroma or VecturaDB on an AWS EC2 instance](https://vecturadb.org/deploy/chroma/aws/vm/index.md)
+- [Chroma or VecturaDB on a Google Cloud VM](https://vecturadb.org/deploy/chroma/gcp/vm/index.md)
 
 ## Optional
 

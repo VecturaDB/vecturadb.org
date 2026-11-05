@@ -79,7 +79,7 @@
 <h1 id="chroma-or-vecturadb-on-an-azure-vm">Chroma or VecturaDB on an Azure VM</h1>
 <p class="lead-doc">One server in your own Azure subscription, with its data on a managed disk, HTTPS, allowed IP addresses and backups. From about 14&nbsp;USD a month on your Azure bill.</p>
 <div class="actions">
-<a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2FcreateUiDefinition.json">Deploy to Azure</a>
+<a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fvm%2FcreateUiDefinition.json">Deploy to Azure</a>
 <a class="btn btn-secondary" href="/deploy/chroma/azure/#compare">Compare with Container Apps</a>
 </div>
 <div class="note">
@@ -104,7 +104,7 @@
 <p>The template runs one of two servers:</p>
 <ul>
 <li><strong>Chroma 1.5.9</strong>, the open-source single-node server (<code>ghcr.io/chroma-core/chroma:1.5.9</code>);</li>
-<li><strong>VecturaDB 1.0.0-preview.3.post1</strong>, built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys.</li>
+<li><strong>VecturaDB 1.0.0-preview.7</strong>, built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys.</li>
 </ul>
 <p>Both keep the Chroma API: the Chroma clients connect with the URL of the deployment. In our tests the Python (chromadb 1.5.9) and JavaScript (chromadb 3.5.0) clients and a .NET client gave the same results on the two servers.</p>
 <div class="table table-fit" tabindex="0"><table>
@@ -122,8 +122,8 @@
 </table></div>
 
 <h2 id="deploy">Deploy</h2>
-<p><a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2FcreateUiDefinition.json">Deploy to Azure</a></p>
-<p>The button opens the form of the Azure portal with the template of the tag <code>azure-v1.2.0</code>. When the portal shows “Your deployment is complete”, open <strong>Outputs</strong> in the menu on the left: <code>url</code> is the address of the server, for the clients.</p>
+<p><a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fvm%2FcreateUiDefinition.json">Deploy to Azure</a></p>
+<p>The button opens the form of the Azure portal with the template of the tag <code>azure-v1.3.0</code>. When the portal shows “Your deployment is complete”, open <strong>Outputs</strong> in the menu on the left: <code>url</code> is the address of the server, for the clients.</p>
 <div class="table table-kv" tabindex="0"><table>
 <thead>
 <tr><th>In our tests</th><th>Time</th></tr>
@@ -136,10 +136,10 @@
 <p>With the Azure CLI:</p>
 <pre tabindex="0"><code>az group create -n my-chroma -l westeurope
 az deployment group create -g my-chroma \
-  --template-uri https://raw.githubusercontent.com/VecturaDB/VecturaDB.Deploy/azure-v1.2.0/azure/vm/azuredeploy.json \
+  --template-uri https://raw.githubusercontent.com/VecturaDB/VecturaDB.Deploy/azure-v1.3.0/azure/vm/azuredeploy.json \
   -p access=allowed-ips allowedIpRanges='["203.0.113.10/32"]' \
      adminPublicKey="$(cat ~/.ssh/id_ed25519.pub)"</code></pre>
-<p>For VecturaDB with an API key, add <code>engine=vecturadb apiKey=&lt;your key&gt;</code>. The template, its scripts and its README are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.2.0/azure/vm"><code>azure/vm</code></a>.</p>
+<p>For VecturaDB with an API key, add <code>engine=vecturadb apiKey=&lt;your key&gt;</code>. The template, its scripts and its README are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.3.0/azure/vm"><code>azure/vm</code></a>.</p>
 
 <h2 id="access-and-https">Access and HTTPS</h2>
 <div class="table table-fit" tabindex="0"><table>
@@ -235,7 +235,6 @@ az disk delete -g my-chroma -n &lt;restored disk&gt;</code></pre>
 <tr><th>In our tests</th><th>Time</th></tr>
 </thead>
 <tbody>
-<tr><td>Switch from Chroma 1.5.9 to VecturaDB, which read the collections written by Chroma</td><td>67-68&nbsp;s</td></tr>
 <tr><td>Restart of the VM (<code>az vm restart</code>)</td><td>73&nbsp;s</td></tr>
 <tr><td>From the restart to the first answer of the server</td><td>11&nbsp;s</td></tr>
 </tbody>
@@ -274,7 +273,7 @@ az group delete -n $RG --yes</code></pre>
 <li>With the backup instance still there, the deletion of the group failed after 438&nbsp;seconds. Everything else was gone, and the group and the vault stayed.</li>
 <li>With the backup instance deleted and soft delete still on, the instance stayed soft deleted for 14&nbsp;days, and so did the vault and the group. Microsoft says that snapshots still there during those days are billed (<a href="https://learn.microsoft.com/en-us/azure/backup/secure-by-default">soft delete for Azure Backup</a>).</li>
 </ul>
-<p>The <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.2.0/azure/vm#delete-everything">README of the template</a> also says how to get out of the soft-deleted state before the 14&nbsp;days.</p>
+<p>The <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.3.0/azure/vm#delete-everything">README of the template</a> also says how to get out of the soft-deleted state before the 14&nbsp;days.</p>
 
 <h2 id="limits">Limits</h2>
 <ul>
