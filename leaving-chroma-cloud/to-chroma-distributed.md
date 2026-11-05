@@ -54,12 +54,12 @@ The `chroma` CLI is inside the image `chromadb/chroma:1.5.9`. It needs your Chro
 
 `host.docker.internal` reaches the port-forward of the host with Docker Desktop. Repeat `--collections` once per collection:
 
-  * `--all` does not work against Chroma Cloud with this CLI. It asks for 10000 collections in one call, and Chroma Cloud answers `422 Quota exceeded`. Our script [list_for_copy.py](https://github.com/VecturaDB/VecturaDB/blob/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/list_for_copy.py) prints the `--collections` options for every collection of a database.
+  * `--all` does not work against Chroma Cloud with this CLI. It asks for 10000 collections in one call, and Chroma Cloud answers `422 Quota exceeded`. Our script [list_for_copy.py](https://github.com/VecturaDB/VecturaDB/blob/96f2fff1e412e3e6d71594de9d2fbf7edd86b965/migration/leaving-chroma-cloud/list_for_copy.py) prints the `--collections` options for every collection of a database.
   * The CLI exits with code 0 even when the copy fails. Read its output: each collection ends with `Copy Completed!` or with an error.
 
 What arrives: everything. Records, documents, metadata, embeddings, URIs, the metadata of the collection, its schema with sparse and BM25 indexes, and its SPANN settings. Four test collections took 4 seconds.
 
-Collections created with the old `hnsw:*` settings in their metadata fail: `Cannot set both collection config and schema simultaneously`. Copy those with our script [copy_without_sparse.py](https://github.com/VecturaDB/VecturaDB/blob/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/copy_without_sparse.py). It writes the sparse vectors to a file instead of the collection, so use it only for those collections.
+Collections created with the old `hnsw:*` settings in their metadata fail: `Cannot set both collection config and schema simultaneously`. Copy those with our script [copy_without_sparse.py](https://github.com/VecturaDB/VecturaDB/blob/96f2fff1e412e3e6d71594de9d2fbf7edd86b965/migration/leaving-chroma-cloud/copy_without_sparse.py). It writes the sparse vectors to a file instead of the collection, so use it only for those collections.
 
 ## 3\. Switch the client
 
@@ -115,10 +115,10 @@ Distributed Chroma has no API keys: the frontend accepted requests with no key a
 
 ## 5\. Check
 
-[verify.py](https://github.com/VecturaDB/VecturaDB/blob/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/verify.py) compares each collection on both sides: count, ids, documents, metadata with the sparse vectors, URIs, embeddings, and the distances of three dense queries.
+[verify.py](https://github.com/VecturaDB/VecturaDB/blob/96f2fff1e412e3e6d71594de9d2fbf7edd86b965/migration/leaving-chroma-cloud/verify.py) compares each collection on both sides: count, ids, documents, metadata with the sparse vectors, URIs, embeddings, and the distances of three dense queries.
     
     
-    curl -O https://raw.githubusercontent.com/VecturaDB/VecturaDB/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/verify.py
+    curl -O https://raw.githubusercontent.com/VecturaDB/VecturaDB/96f2fff1e412e3e6d71594de9d2fbf7edd86b965/migration/leaving-chroma-cloud/verify.py
     pip install chromadb==1.5.9
     export CHROMA_API_KEY=<key> CHROMA_TENANT=<tenant> CHROMA_DATABASE=<database>
     python verify.py 127.0.0.1 8000 <name> <name>

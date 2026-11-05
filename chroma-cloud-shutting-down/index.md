@@ -41,7 +41,7 @@ VecturaDB is an independent project, not affiliated with Chroma. The full list o
 
 ## Copy your collections
 
-Each guide has the copy command for its destination. [verify.py](https://github.com/VecturaDB/VecturaDB/blob/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/verify.py) then compares each collection with Chroma Cloud: count, ids, documents, metadata, URIs, embeddings and three dense queries.
+Each guide has the copy command for its destination. [verify.py](https://github.com/VecturaDB/VecturaDB/blob/96f2fff1e412e3e6d71594de9d2fbf7edd86b965/migration/leaving-chroma-cloud/verify.py) then compares each collection with Chroma Cloud: count, ids, documents, metadata, URIs, embeddings and three dense queries.
 
 The `chroma copy --all` command of the Chroma CLI asks Chroma Cloud for 10000 collections in one call, and Chroma Cloud answers `422 Quota exceeded`. The `vecturadb copy --all` command reads every collection. It copies them all into VecturaDB, and into Chroma 1.5.9 all but the collections with sparse vectors.
 

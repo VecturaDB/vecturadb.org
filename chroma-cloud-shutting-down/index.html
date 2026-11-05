@@ -151,7 +151,7 @@
 <li><strong>Several nodes:</strong> distributed Chroma on Kubernetes.</li>
 </ul>
 <h2 id="copy-your-collections">Copy your collections</h2>
-<p>Each guide has the copy command for its destination. <a href="https://github.com/VecturaDB/VecturaDB/blob/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/verify.py">verify.py</a> then compares each collection with Chroma Cloud: count, ids, documents, metadata, URIs, embeddings and three dense queries.</p>
+<p>Each guide has the copy command for its destination. <a href="https://github.com/VecturaDB/VecturaDB/blob/96f2fff1e412e3e6d71594de9d2fbf7edd86b965/migration/leaving-chroma-cloud/verify.py">verify.py</a> then compares each collection with Chroma Cloud: count, ids, documents, metadata, URIs, embeddings and three dense queries.</p>
 <p>The <code>chroma copy --all</code> command of the Chroma CLI asks Chroma Cloud for 10000 collections in one call, and Chroma Cloud answers <code>422 Quota exceeded</code>. The <code>vecturadb copy --all</code> command reads every collection. It copies them all into VecturaDB, and into Chroma 1.5.9 all but the collections with sparse vectors.</p>
 <h2 id="hosted-embedding-models">Hosted embedding models</h2>
 <p><code>chroma-cloud-qwen</code> and <code>chroma-cloud-splade</code> run on the servers of Chroma Cloud and stop with it. <a href="/leaving-chroma-cloud/hosted-embedding-models">Hosted embedding models</a> runs the same open models on your machine.</p>

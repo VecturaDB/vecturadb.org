@@ -34,7 +34,7 @@ The copy runs with the `vecturadb` CLI, from the image of VecturaDB. It reads Ch
 
 `--all` copies every collection of the database, one after the other. In our run it read all 21 collections of our test database, and copied 16 of them. The CLI in the Chroma image does not get that far: it asks for 10000 collections in one call, and Chroma Cloud answers `422 Quota exceeded`.
 
-A collection that fails does not stop the copy. At the end the CLI lists each collection it did not copy, with the error, and exits with code 1. To copy some collections only, use `--collections <name>`, once per collection, instead of `--all`. Our script [list_for_copy.py](https://github.com/VecturaDB/VecturaDB/blob/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/list_for_copy.py) prints those options for every collection of a database.
+A collection that fails does not stop the copy. At the end the CLI lists each collection it did not copy, with the error, and exits with code 1. To copy some collections only, use `--collections <name>`, once per collection, instead of `--all`. Our script [list_for_copy.py](https://github.com/VecturaDB/VecturaDB/blob/96f2fff1e412e3e6d71594de9d2fbf7edd86b965/migration/leaving-chroma-cloud/list_for_copy.py) prints those options for every collection of a database.
 
 What arrives: every record, with its document, metadata, embedding and URI, and the metadata of the collection. The settings of the dense index do not arrive: Chroma Cloud uses SPANN, Chroma 1.5.9 uses HNSW with its default settings.
 
@@ -46,10 +46,10 @@ Collections with sparse vectors fail, because Chroma 1.5.9 cannot store them:
   * collections with more than one sparse vector index: `At most one sparse vector index is allowed for the collection`;
   * collections with sparse vectors in their metadata: `Sparse vector is not supported for local chroma`. The CLI leaves such a collection empty on Chroma 1.5.9: delete it before the script, for example with `client.delete_collection("<name>")`.
 
-Copy these with our script [copy_without_sparse.py](https://github.com/VecturaDB/VecturaDB/blob/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/copy_without_sparse.py):
+Copy these with our script [copy_without_sparse.py](https://github.com/VecturaDB/VecturaDB/blob/96f2fff1e412e3e6d71594de9d2fbf7edd86b965/migration/leaving-chroma-cloud/copy_without_sparse.py):
     
     
-    curl -O https://raw.githubusercontent.com/VecturaDB/VecturaDB/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/copy_without_sparse.py
+    curl -O https://raw.githubusercontent.com/VecturaDB/VecturaDB/96f2fff1e412e3e6d71594de9d2fbf7edd86b965/migration/leaving-chroma-cloud/copy_without_sparse.py
     pip install chromadb==1.5.9
     export CHROMA_API_KEY=<key> CHROMA_TENANT=<tenant> CHROMA_DATABASE=<database>
     python copy_without_sparse.py 127.0.0.1 8000 <name> <name>
@@ -155,10 +155,10 @@ On Chroma 1.5.9 only the dense model matters: SPLADE vectors are sparse, and Chr
 
 ## 5\. Check
 
-[verify.py](https://github.com/VecturaDB/VecturaDB/blob/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/verify.py) compares each collection on both sides: count, ids, documents, metadata, URIs, embeddings, and the distances of three dense queries.
+[verify.py](https://github.com/VecturaDB/VecturaDB/blob/96f2fff1e412e3e6d71594de9d2fbf7edd86b965/migration/leaving-chroma-cloud/verify.py) compares each collection on both sides: count, ids, documents, metadata, URIs, embeddings, and the distances of three dense queries.
     
     
-    curl -O https://raw.githubusercontent.com/VecturaDB/VecturaDB/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/verify.py
+    curl -O https://raw.githubusercontent.com/VecturaDB/VecturaDB/96f2fff1e412e3e6d71594de9d2fbf7edd86b965/migration/leaving-chroma-cloud/verify.py
     python verify.py 127.0.0.1 8000 <name> <name>
     
 
