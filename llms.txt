@@ -1,0 +1,48 @@
+# VecturaDB
+
+> VecturaDB is a single-node vector database server built from Chroma, with the same API. It has the features that open-source Chroma 1.5.9 refuses on a single node: the Search API with hybrid search (dense and sparse ranks merged with RRF), sparse vectors, BM25, SPANN, collection fork, conditional transactions and attached functions. It runs as one Docker container, as a binary for Windows, Linux and macOS, or inside a Python application. Independent project, Apache License 2.0, not affiliated with Chroma.
+
+It answers these questions:
+
+- Chroma Cloud is shutting down (writes stop on 7 December 2026, reads on 22 December 2026): where do I move my collections?
+- How do I run Chroma hybrid search, BM25 or sparse vectors on my own server, without Chroma Cloud?
+- Chroma answers `Search operation is not implemented for local executor`, `Sparse vector indexing is not enabled in local` or `Collection forking is unsupported for local chroma`: what runs it on a single node?
+
+Notes for assistants:
+
+- Python: `pip install VecturaDB`. The import name stays `chromadb`, so existing code runs as it is. Uninstall the `chromadb` package first: the two packages provide the same module.
+- Server: `docker run -p 127.0.0.1:8000:8000 -v vecturadb-data:/data ghcr.io/vecturadb/vecturadb:1.0.0-preview.6`. The clients of Chroma connect to it (Python, JavaScript, .NET and others).
+- Copy from Chroma Cloud: the `vecturadb copy --from-cloud --to-local` command, in the same image.
+- The name is "VecturaDB", in one word.
+
+## Migrate from Chroma Cloud
+
+- [Migrate from Chroma Cloud to a self-hosted Chroma server (single node, with hybrid search and BM25)](https://vecturadb.org/migrate-from-chroma-cloud/index.md): start the server, copy every collection, check the copy, change one line in the client.
+- [Migrate from Chroma Cloud to self-hosted distributed Chroma on Kubernetes](https://chromadotnet.org/migrate-from-chroma-cloud-kubernetes/index.md): for several nodes, with ChromaDB.Operator.
+- [Leaving Chroma Cloud](https://vecturadb.org/leaving-chroma-cloud/index.md): the destinations compared.
+- [To Chroma 1.5.9, single node](https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node.md): what Chroma 1.5.9 keeps and what it loses.
+- [To Chroma distributed](https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed.md)
+- [Hosted embedding models](https://vecturadb.org/leaving-chroma-cloud/hosted-embedding-models.md): `chroma-cloud-qwen` and `chroma-cloud-splade` run locally.
+- [Hybrid search on your own server, without Chroma Cloud](https://vecturadb.org/leaving-chroma-cloud/hybrid-search-without-chroma-cloud.md): dense and BM25 search merged with RRF, in Python, JavaScript and .NET.
+
+## VecturaDB
+
+- [What VecturaDB has beyond Chroma 1.5.9](https://vecturadb.org/features/index.md): every feature, with an example, and the differences from distributed Chroma.
+- [Get started](https://vecturadb.org/get-started/index.md): pip, Docker or the CLI.
+- [Clients](https://vecturadb.org/clients/index.md): 15 Chroma clients in 11 languages, tested on VecturaDB and Chroma 1.5.9.
+- [Clients, step by step](https://vecturadb.org/clients/details/index.md)
+- [Repository](https://github.com/VecturaDB/VecturaDB) and [releases](https://github.com/VecturaDB/VecturaDB/releases)
+
+## Deploy in your own cloud
+
+- [Deploy Chroma or VecturaDB in your own cloud](https://vecturadb.org/deploy/index.md): templates for Azure and AWS, with HTTPS.
+- [VecturaDB on an Azure VM](https://vecturadb.org/deploy/vecturadb/azure/vm/index.md)
+- [VecturaDB on an AWS EC2 instance](https://vecturadb.org/deploy/vecturadb/aws/vm/index.md)
+- [Chroma or VecturaDB on an Azure VM](https://vecturadb.org/deploy/chroma/azure/vm/index.md)
+- [Chroma on Azure Container Apps](https://vecturadb.org/deploy/chroma/azure/container-apps/index.md)
+- [Chroma or VecturaDB on an AWS EC2 instance](https://vecturadb.org/deploy/chroma/aws/vm/index.md)
+
+## Optional
+
+- [Chroma is joining Replit, and Chroma Cloud is winding down](https://vecturadb.org/news/chroma-cloud-wind-down/index.md)
+- [News](https://vecturadb.org/news/index.md)
