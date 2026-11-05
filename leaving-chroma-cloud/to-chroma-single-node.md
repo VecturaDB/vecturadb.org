@@ -56,7 +56,7 @@ Copy the other collections with `--collections`, and these with our script [copy
 
 It copies the records, documents, metadata, embeddings and URIs into a collection with the same name, metadata and distance. Chroma 1.5.9 cannot store sparse vectors at all, not even as plain metadata. So the script writes them to `<name>.sparse.jsonl`, one line per record, and they are not lost.
 
-On Chroma 1.5.9 those collections lose their sparse and BM25 search. Dense search, filters and the documents stay. If you need them, see [To VecturaDB](https://vecturadb.org/leaving-chroma-cloud/to-vecturadb): the same copy keeps them.
+On Chroma 1.5.9 those collections lose their sparse and BM25 search. Dense search, filters and the documents stay. If you need them, see [To VecturaDB](https://vecturadb.org/migrate-from-chroma-cloud/): the same copy keeps them.
 
 ## 3\. Switch the client
 
@@ -144,7 +144,7 @@ For tests, [ChromaDotNet.Testcontainers](https://chromadotnet.org/libraries/test
 
 ### The API keys
 
-Chroma 1.5.9 has no API keys: the server accepts every request. Keep it on a private network, or behind a proxy that checks a key. [VecturaDB](https://vecturadb.org/leaving-chroma-cloud/to-vecturadb) checks keys as Chroma Cloud did.
+Chroma 1.5.9 has no API keys: the server accepts every request. Keep it on a private network, or behind a proxy that checks a key. [VecturaDB](https://vecturadb.org/migrate-from-chroma-cloud/) checks keys as Chroma Cloud did.
 
 ## 4\. Hosted embedding models
 

@@ -66,7 +66,6 @@
       <li><a href="/leaving-chroma-cloud/">Overview</a></li>
       <li><a href="/leaving-chroma-cloud/to-chroma-single-node">To Chroma 1.5.9, single node</a></li>
       <li><a href="/leaving-chroma-cloud/to-chroma-distributed">To Chroma distributed</a></li>
-      <li><a href="/leaving-chroma-cloud/to-vecturadb">To VecturaDB</a></li>
       <li><a href="/leaving-chroma-cloud/hosted-embedding-models" aria-current="page">Hosted embedding models</a></li>
       <li><a href="/leaving-chroma-cloud/hybrid-search-without-chroma-cloud">Hybrid search on your own server</a></li>
     </ul>
@@ -139,16 +138,16 @@
 <div class="hl"><pre tabindex="0"><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">chromadb.utils.embedding_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">SentenceTransformerEmbeddingFunction</span>
 
 <span class="n">qwen</span> <span class="o">=</span> <span class="n">SentenceTransformerEmbeddingFunction</span><span class="p">(</span>
-    <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;Qwen/Qwen3-Embedding-0.6B&quot;</span><span class="p">,</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s2">"Qwen/Qwen3-Embedding-0.6B"</span><span class="p">,</span>
     <span class="n">normalize_embeddings</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;dtype&quot;</span><span class="p">:</span> <span class="s2">&quot;float32&quot;</span><span class="p">},</span>
+    <span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"dtype"</span><span class="p">:</span> <span class="s2">"float32"</span><span class="p">},</span>
 <span class="p">)</span>
 </code></pre></div>
 
 <p>It needs <code>pip install sentence-transformers</code>.</p>
 <p>A collection created on Chroma Cloud with <code>task=None</code> stores no usable embedding function: its configuration says <code>legacy</code>. Opened without a function, it gets Chroma's default model, which has 384 dimensions, and a text query fails with <code>Collection expecting embedding with dimension of 1024, got 384</code>. Pass the function each time you open the collection, or store it once:</p>
-<div class="hl"><pre tabindex="0"><span></span><code><span class="n">collection</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="s2">&quot;&lt;name&gt;&quot;</span><span class="p">,</span> <span class="n">embedding_function</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="n">collection</span><span class="o">.</span><span class="n">modify</span><span class="p">(</span><span class="n">configuration</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;embedding_function&quot;</span><span class="p">:</span> <span class="n">qwen</span><span class="p">})</span>
+<div class="hl"><pre tabindex="0"><span></span><code><span class="n">collection</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="s2">"&lt;name&gt;"</span><span class="p">,</span> <span class="n">embedding_function</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">collection</span><span class="o">.</span><span class="n">modify</span><span class="p">(</span><span class="n">configuration</span><span class="o">=</span><span class="p">{</span><span class="s2">"embedding_function"</span><span class="p">:</span> <span class="n">qwen</span><span class="p">})</span>
 </code></pre></div>
 
 <p>After that, <code>client.get_collection("&lt;name&gt;")</code> loads the local Qwen from the configuration.</p>
@@ -159,15 +158,15 @@
 
 <span class="k">class</span><span class="w"> </span><span class="nc">QwenWithInstruction</span><span class="p">(</span><span class="n">SentenceTransformerEmbeddingFunction</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instruction</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;Qwen/Qwen3-Embedding-0.6B&quot;</span><span class="p">,</span> <span class="n">normalize_embeddings</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                         <span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;dtype&quot;</span><span class="p">:</span> <span class="s2">&quot;float32&quot;</span><span class="p">})</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s2">"Qwen/Qwen3-Embedding-0.6B"</span><span class="p">,</span> <span class="n">normalize_embeddings</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                         <span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"dtype"</span><span class="p">:</span> <span class="s2">"float32"</span><span class="p">})</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">instruction</span> <span class="o">=</span> <span class="n">instruction</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">embed_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;Instruct: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">instruction</span><span class="si">}</span><span class="se">\n</span><span class="s2">Query:</span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">])</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">([</span><span class="sa">f</span><span class="s2">"Instruct: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">instruction</span><span class="si">}</span><span class="se">\n</span><span class="s2">Query:</span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">])</span>
 
 
-<span class="n">qwen</span> <span class="o">=</span> <span class="n">QwenWithInstruction</span><span class="p">(</span><span class="s2">&quot;Given a question about coding, retrieval code or passage that can solve user&#39;s question&quot;</span><span class="p">)</span>
+<span class="n">qwen</span> <span class="o">=</span> <span class="n">QwenWithInstruction</span><span class="p">(</span><span class="s2">"Given a question about coding, retrieval code or passage that can solve user's question"</span><span class="p">)</span>
 </code></pre></div>
 
 <p>The instruction above is the one of <code>nl_to_code</code> in the Python client. With it, the 4 queries gave Chroma Cloud's ranking.</p>
@@ -177,15 +176,15 @@
 <li><code>client.get_collection(name).modify(...)</code> fails: <code>Cannot update embedding function: incompatible types</code>;</li>
 <li>this works:</li>
 </ul>
-<div class="hl"><pre tabindex="0"><span></span><code><span class="n">collection</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="s2">&quot;&lt;name&gt;&quot;</span><span class="p">,</span> <span class="n">embedding_function</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="n">collection</span><span class="o">.</span><span class="n">modify</span><span class="p">(</span><span class="n">configuration</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;embedding_function&quot;</span><span class="p">:</span> <span class="n">qwen</span><span class="p">})</span>
+<div class="hl"><pre tabindex="0"><span></span><code><span class="n">collection</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="s2">"&lt;name&gt;"</span><span class="p">,</span> <span class="n">embedding_function</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">collection</span><span class="o">.</span><span class="n">modify</span><span class="p">(</span><span class="n">configuration</span><span class="o">=</span><span class="p">{</span><span class="s2">"embedding_function"</span><span class="p">:</span> <span class="n">qwen</span><span class="p">})</span>
 </code></pre></div>
 
 <p>The stored configuration keeps the model, not the instruction. For queries, pass <code>QwenWithInstruction</code> when you open the collection.</p>
 <h2 id="splade">SPLADE</h2>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">chromadb.utils.embedding_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastembedSparseEmbeddingFunction</span>
 
-<span class="n">splade</span> <span class="o">=</span> <span class="n">FastembedSparseEmbeddingFunction</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;prithivida/Splade_PP_en_v1&quot;</span><span class="p">)</span>
+<span class="n">splade</span> <span class="o">=</span> <span class="n">FastembedSparseEmbeddingFunction</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s2">"prithivida/Splade_PP_en_v1"</span><span class="p">)</span>
 </code></pre></div>
 
 <p>It needs <code>pip install fastembed</code>. Only a destination with sparse vectors can use it: VecturaDB or Chroma distributed.</p>
@@ -194,13 +193,13 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">chromadb.base_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparseVector</span>
 
 <span class="c1"># Search: embed the query locally</span>
-<span class="n">q</span> <span class="o">=</span> <span class="n">splade</span><span class="o">.</span><span class="n">embed_query</span><span class="p">([</span><span class="s2">&quot;what is the capital of France&quot;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">results</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">Search</span><span class="p">()</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">Knn</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">SparseVector</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="n">q</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">q</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;&lt;sparse key&gt;&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">splade</span><span class="o">.</span><span class="n">embed_query</span><span class="p">([</span><span class="s2">"what is the capital of France"</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">Search</span><span class="p">()</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">Knn</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">SparseVector</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="n">q</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">q</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="s2">"&lt;sparse key&gt;"</span><span class="p">))</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 
 <span class="c1"># Add: put the sparse vector in the metadata, and the client does not call Chroma Cloud</span>
-<span class="n">v</span> <span class="o">=</span> <span class="n">splade</span><span class="p">([</span><span class="s2">&quot;Rome is the capital of Italy&quot;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">collection</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;new1&quot;</span><span class="p">],</span> <span class="n">documents</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Rome is the capital of Italy&quot;</span><span class="p">],</span> <span class="n">embeddings</span><span class="o">=</span><span class="p">[</span><span class="n">dense_vector</span><span class="p">],</span>
-               <span class="n">metadatas</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;&lt;sparse key&gt;&quot;</span><span class="p">:</span> <span class="n">SparseVector</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">values</span><span class="p">)}])</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">splade</span><span class="p">([</span><span class="s2">"Rome is the capital of Italy"</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">collection</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">"new1"</span><span class="p">],</span> <span class="n">documents</span><span class="o">=</span><span class="p">[</span><span class="s2">"Rome is the capital of Italy"</span><span class="p">],</span> <span class="n">embeddings</span><span class="o">=</span><span class="p">[</span><span class="n">dense_vector</span><span class="p">],</span>
+               <span class="n">metadatas</span><span class="o">=</span><span class="p">[{</span><span class="s2">"&lt;sparse key&gt;"</span><span class="p">:</span> <span class="n">SparseVector</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">values</span><span class="p">)}])</span>
 </code></pre></div>
   </main>
 </div>

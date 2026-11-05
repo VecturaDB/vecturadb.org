@@ -31,7 +31,7 @@ We ran every command and every line of code in these guides against Chroma Cloud
 
 If you use sparse vectors, BM25, the Search API or hybrid search, the single-node Chroma 1.5.9 cannot hold those collections: you need Chroma distributed or VecturaDB.
 
-| Chroma 1.5.9, single node | Chroma distributed | VecturaDB 1.0.0-preview.5  
+| Chroma 1.5.9, single node | Chroma distributed | VecturaDB 1.0.0-preview.6  
 ---|---|---|---  
 Dense search | Yes | Yes | Yes  
 Metadata filters | Yes | Yes | Yes  
@@ -62,11 +62,11 @@ Source: [Distributed Chroma, Chroma documentation](https://docs.trychroma.com/re
 
 You use | To Chroma 1.5.9 | To Chroma distributed | To VecturaDB  
 ---|---|---|---  
-.NET | [ChromaDotNet.Client](https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node#net); [ChromaDotNet.Local, without Docker](https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node#net-without-docker); [Aspire](https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node#aspire); [Testcontainers](https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node#testcontainers) | [ChromaDotNet.Client](https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed#3-switch-the-client) | [ChromaDotNet.Client](https://vecturadb.org/leaving-chroma-cloud/to-vecturadb#net); [Aspire](https://vecturadb.org/leaving-chroma-cloud/to-vecturadb#aspire); [Testcontainers](https://vecturadb.org/leaving-chroma-cloud/to-vecturadb#testcontainers)  
-Python | [`chromadb`](https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node#python) | [`chromadb`](https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed#3-switch-the-client) | [`pip install VecturaDB`](https://vecturadb.org/leaving-chroma-cloud/to-vecturadb#python), also without a server  
-JavaScript and TypeScript | [`chromadb` on npm](https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node#javascript) | [`chromadb` on npm](https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed#3-switch-the-client) | [`chromadb` on npm, with VecturaDB as the server](https://vecturadb.org/leaving-chroma-cloud/to-vecturadb#javascript)  
-Another language | your Chroma client, unchanged | your Chroma client, unchanged | [the clients we tested](https://vecturadb.org/leaving-chroma-cloud/to-vecturadb#other-languages)  
-Docker | [`chromadb/chroma:1.5.9`](https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node#1-start-chroma) |  | [`ghcr.io/vecturadb/vecturadb`](https://vecturadb.org/leaving-chroma-cloud/to-vecturadb#1-start-vecturadb)  
+.NET | [ChromaDotNet.Client](https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node#net); [ChromaDotNet.Local, without Docker](https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node#net-without-docker); [Aspire](https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node#aspire); [Testcontainers](https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node#testcontainers) | [ChromaDotNet.Client](https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed#3-switch-the-client) | [ChromaDotNet.Client](https://vecturadb.org/migrate-from-chroma-cloud/#net); [Aspire](https://chromadotnet.org/libraries/aspire/); [Testcontainers](https://chromadotnet.org/libraries/testcontainers/)  
+Python | [`chromadb`](https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node#python) | [`chromadb`](https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed#3-switch-the-client) | [`pip install VecturaDB`](https://vecturadb.org/migrate-from-chroma-cloud/#python), also without a server  
+JavaScript and TypeScript | [`chromadb` on npm](https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node#javascript) | [`chromadb` on npm](https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed#3-switch-the-client) | [`chromadb` on npm, with VecturaDB as the server](https://vecturadb.org/migrate-from-chroma-cloud/#javascript)  
+Another language | your Chroma client, unchanged | your Chroma client, unchanged | [the clients we tested](https://vecturadb.org/clients/)  
+Docker | [`chromadb/chroma:1.5.9`](https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node#1-start-chroma) |  | [`ghcr.io/vecturadb/vecturadb`](https://vecturadb.org/migrate-from-chroma-cloud/#1-start-the-server)  
   
 On every path you copy with the CLI of VecturaDB and check with `verify.py`. The guide to Chroma distributed still copies with the CLI of Chroma: we have not yet run the CLI of VecturaDB against a distributed cluster.
 
@@ -75,6 +75,6 @@ On every path you copy with the CLI of VecturaDB and check with `verify.py`. The
 Each guide has the same five steps: start the destination (or, for Chroma distributed, reach it), copy the data, switch the client, replace the hosted embedding models, check the result.
 
   * [To Chroma 1.5.9, single node](https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node)
-  * [To Chroma distributed](https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed)
-  * [To VecturaDB](https://vecturadb.org/leaving-chroma-cloud/to-vecturadb)
+  * [To Chroma distributed](https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed); with ChromaDB.Operator: [Migrate from Chroma Cloud to self-hosted distributed Chroma on Kubernetes](https://chromadotnet.org/migrate-from-chroma-cloud-kubernetes/)
+  * [To VecturaDB](https://vecturadb.org/migrate-from-chroma-cloud/)
   * [Hosted embedding models](https://vecturadb.org/leaving-chroma-cloud/hosted-embedding-models), shared by the three guides
