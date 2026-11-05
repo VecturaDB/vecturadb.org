@@ -1,6 +1,6 @@
 Source: https://vecturadb.org/
 
-[Latest release: 1.0.0-preview.5](https://github.com/VecturaDB/VecturaDB/releases/tag/v1.0.0-preview.5)
+[Latest release: 1.0.0-preview.7](https://github.com/VecturaDB/VecturaDB/releases/tag/v1.0.0-preview.7)
 
 # Vector database compatible with the Chroma API, bringing Chroma Cloud's features to open source.
 
@@ -191,16 +191,11 @@ Leaving Chroma Cloud
 
 Chroma Cloud is winding down: it stops accepting writes on 7 December 2026 and stops serving reads on 22 December 2026.
 
-The CLI copies collections from Chroma Cloud into a running VecturaDB:
-    
-    
-    chroma login --api-key <your Chroma Cloud API key>
-    chroma copy --from-cloud --to-local --host http://localhost:8000 --db <database> --all
-    
+The `vecturadb copy` command copies collections from Chroma Cloud into a running VecturaDB, sparse and BM25 indexes included: see [Migrate from Chroma Cloud](https://vecturadb.org/migrate-from-chroma-cloud/).
 
 [Read the guides](https://vecturadb.org/leaving-chroma-cloud/)
 
-### [To Chroma 1.5.9, single node →The open-source single-node server.](https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node) ### [To Chroma distributed →The open-source multi-service deployment, run on Kubernetes.](https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed) ### [To VecturaDB →A single-node server built from Chroma, with Chroma Cloud's sparse vectors, BM25, hybrid search and collection fork.](https://vecturadb.org/leaving-chroma-cloud/to-vecturadb) ### [Hosted embedding models →Shared by the three guides.](https://vecturadb.org/leaving-chroma-cloud/hosted-embedding-models)
+### [To Chroma 1.5.9, single node →The open-source single-node server.](https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node) ### [To Chroma distributed →The open-source multi-service deployment, run on Kubernetes.](https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed) ### [To VecturaDB →A single-node server built from Chroma, with Chroma Cloud's sparse vectors, BM25, hybrid search and collection fork.](https://vecturadb.org/migrate-from-chroma-cloud/) ### [Hosted embedding models →Shared by the three guides.](https://vecturadb.org/leaving-chroma-cloud/hosted-embedding-models)
 
 About
 

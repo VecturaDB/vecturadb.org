@@ -82,9 +82,9 @@ pip<span class="w"> </span>install<span class="w"> </span>VecturaDB
     <p>The <code>VecturaDB</code> package keeps the import name <code>chromadb</code>, so existing code runs as it is.</p>
     <pre tabindex="0"><code class="language-python" data-snippet="client"><span class="kn">import</span><span class="w"> </span><span class="nn">chromadb</span>
 
-<span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
 </code></pre>
-    <p>While only previews exist, <code>pip install VecturaDB</code> installs the newest preview. Once <code>1.0.0</code> is out, install a preview with its exact version, for example <code>pip install VecturaDB==1.0.0rc4</code>: <code>--pre</code> takes the previews of the dependencies too, and a preview of httpx breaks the client.</p>
+    <p>While only previews exist, <code>pip install VecturaDB</code> installs the newest preview. Once <code>1.0.0</code> is out, install a preview with its exact version, for example <code>pip install VecturaDB==1.0.0rc7</code>: <code>--pre</code> takes the previews of the dependencies too, and a preview of httpx breaks the client.</p>
 
     <h3 id="packages-that-depend-on-chromadb">Packages that depend on chromadb</h3>
     <p><code>VecturaDB</code> and <code>chromadb</code> install the same modules, so they cannot be installed side by side. Packages that declare a dependency on <code>chromadb</code>, such as <code>langchain-chroma</code>, make pip install <code>chromadb</code> too, and its files replace those of VecturaDB. Install those packages first and VecturaDB last:</p>
@@ -104,22 +104,15 @@ pip<span class="w"> </span>install<span class="w"> </span>--force-reinstall<span
     <h2 id="cli">CLI</h2>
     <p>Linux (x86_64 and arm64) and macOS (x64 and arm64):</p>
     <pre tabindex="0"><code class="language-bash">curl<span class="w"> </span>-sSL<span class="w"> </span>https://raw.githubusercontent.com/VecturaDB/VecturaDB/main/rust/cli/install/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
-chroma<span class="w"> </span>run<span class="w"> </span>--path<span class="w"> </span>./data
+vecturadb<span class="w"> </span>run<span class="w"> </span>--path<span class="w"> </span>./data
 </code></pre>
     <p>Windows (x64), in PowerShell:</p>
     <pre tabindex="0"><code class="language-powershell"><span class="nb">iex </span><span class="p">((</span><span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">DownloadString</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/VecturaDB/VecturaDB/main/rust/cli/install/install.ps1&#39;</span><span class="p">))</span>
 </code></pre>
-    <p>The scripts install the newest release, previews included. Every binary is also in the <a href="https://github.com/VecturaDB/VecturaDB/releases">releases</a>. The binary keeps the name <code>chroma</code>.</p>
+    <p>The scripts install the newest release, previews included. Every binary is also in the <a href="https://github.com/VecturaDB/VecturaDB/releases">releases</a>. The command is <code>vecturadb</code>; with <code>VECTURADB_CHROMA_ALIAS=1</code> in the environment of the script, it is also installed as <code>chroma</code>.</p>
 
     <h2 id="moving-data-out-of-chroma-cloud">Moving data out of Chroma Cloud</h2>
-    <p>Guides for every destination, Chroma included: <a href="/leaving-chroma-cloud/">Leaving Chroma Cloud</a>.</p>
-    <p>The CLI copies collections from Chroma Cloud into a running VecturaDB:</p>
-    <pre tabindex="0"><code class="language-bash">chroma<span class="w"> </span>login<span class="w"> </span>--api-key<span class="w"> </span>&lt;your<span class="w"> </span>Chroma<span class="w"> </span>Cloud<span class="w"> </span>API<span class="w"> </span>key&gt;
-chroma<span class="w"> </span>copy<span class="w"> </span>--from-cloud<span class="w"> </span>--to-local<span class="w"> </span>--host<span class="w"> </span>http://localhost:8000<span class="w"> </span>--db<span class="w"> </span>&lt;database&gt;<span class="w"> </span>--all
-</code></pre>
-    <p>To copy only some collections, use <code>--collections &lt;name&gt;</code> once per collection instead of <code>--all</code>. The collections must not exist yet in VecturaDB.</p>
-    <p>The copy stops at the first collection it cannot create. The collections copied before it stay in VecturaDB: copy the rest with <code>--collections</code>. Collections whose metadata holds the legacy <code>hnsw:*</code> settings fail with <code>Cannot set both collection config and schema simultaneously</code>; Chroma gives the same error.</p>
-    <p>What arrives: every record with its document, metadata, embedding and URI, the metadata of the collection, and its schema, sparse and BM25 indexes included. Sparse and BM25 searches give the same scores as on Chroma Cloud. The settings of the dense index do not arrive: Chroma Cloud uses SPANN, VecturaDB uses HNSW with its default settings.</p>
+    <p>The <code>vecturadb copy</code> command copies collections from Chroma Cloud into a running VecturaDB, sparse and BM25 indexes included: see <a href="/migrate-from-chroma-cloud/">Migrate from Chroma Cloud</a>. Guides for every destination, Chroma included: <a href="/leaving-chroma-cloud/">Leaving Chroma Cloud</a>.</p>
 
     <h2 id="telemetry">Telemetry</h2>
     <p>Off by default. <code>ANONYMIZED_TELEMETRY=TRUE</code> turns on the anonymized telemetry inherited from Chroma, in the Python package only. The server binary sends none.</p>

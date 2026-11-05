@@ -10,7 +10,7 @@ Not sure about your case? [Open an issue in the VecturaDB repository](https://gi
 
 Chroma 1.5.9 on a single node has no hybrid search. VecturaDB does: it is a single-node server built from Chroma, and it merges dense search and BM25 search with the Search API. It runs as one container, as a binary, or inside a Python application, with your Chroma clients.
 
-VecturaDB is an independent project, not affiliated with Chroma. We ran every command and every line of code below on 5 November 2026, against VecturaDB 1.0.0-preview.6. Chroma distributed has hybrid search too, on Kubernetes: see the [overview](https://vecturadb.org/leaving-chroma-cloud/).
+VecturaDB is an independent project, not affiliated with Chroma. We ran every command and every line of code below on 5 November 2026, against VecturaDB 1.0.0-preview.7. Chroma distributed has hybrid search too, on Kubernetes: see the [overview](https://vecturadb.org/leaving-chroma-cloud/).
 
 ## The errors on Chroma 1.5.9
 
@@ -23,7 +23,7 @@ Call the Search API inside Python | `Search is not implemented for Local Chroma`
 ## 1\. Start VecturaDB
     
     
-    docker run -d --name vecturadb -p 127.0.0.1:8000:8000 -v ./vecturadb-data:/data ghcr.io/vecturadb/vecturadb:1.0.0-preview.6
+    docker run -d --name vecturadb -p 127.0.0.1:8000:8000 -v ./vecturadb-data:/data ghcr.io/vecturadb/vecturadb:1.0.0-preview.7
     
 
 To run it without Docker, see [Start the server](https://vecturadb.org/migrate-from-chroma-cloud/#1-start-the-server).
