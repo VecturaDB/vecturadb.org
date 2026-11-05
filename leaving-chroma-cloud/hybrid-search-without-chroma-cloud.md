@@ -4,13 +4,13 @@ Source: https://vecturadb.org/leaving-chroma-cloud/hybrid-search-without-chroma-
 
 # Hybrid search on your own server, without Chroma Cloud
 
-**Disclaimer.** This guide is provided as is, without warranty of any kind, as stated in the Apache License 2.0. It describes what we measured on 4 November 2026: your data, versions and setup may behave differently. Back up your data and test on a copy first. You are responsible for your data and for every migration you run.
+**Disclaimer.** This guide is provided as is, without warranty of any kind, as stated in the Apache License 2.0. It describes what we measured on 4 and 5 November 2026: your data, versions and setup may behave differently. Back up your data and test on a copy first. You are responsible for your data and for every migration you run.
 
 Not sure about your case? [Open an issue in the VecturaDB repository](https://github.com/VecturaDB/VecturaDB/issues/new), describe your data and your setup, and we will take a look on a best-effort basis.
 
 Chroma 1.5.9 on a single node has no hybrid search. VecturaDB does: it is a single-node server built from Chroma, and it merges dense search and BM25 search with the Search API. It runs as one container, as a binary, or inside a Python application, with your Chroma clients.
 
-VecturaDB is an independent project, not affiliated with Chroma. We ran every command and every line of code below on 4 November 2026, against VecturaDB 1.0.0-preview.5. Chroma distributed has hybrid search too, on Kubernetes: see the [overview](https://vecturadb.org/leaving-chroma-cloud/).
+VecturaDB is an independent project, not affiliated with Chroma. We ran every command and every line of code below on 5 November 2026, against VecturaDB 1.0.0-preview.6. Chroma distributed has hybrid search too, on Kubernetes: see the [overview](https://vecturadb.org/leaving-chroma-cloud/).
 
 ## The errors on Chroma 1.5.9
 
@@ -23,10 +23,10 @@ Call the Search API inside Python | `Search is not implemented for Local Chroma`
 ## 1\. Start VecturaDB
     
     
-    docker run -d --name vecturadb -p 127.0.0.1:8000:8000 -v ./vecturadb-data:/data ghcr.io/vecturadb/vecturadb:1.0.0-preview.5
+    docker run -d --name vecturadb -p 127.0.0.1:8000:8000 -v ./vecturadb-data:/data ghcr.io/vecturadb/vecturadb:1.0.0-preview.6
     
 
-To run it without Docker, see [Start VecturaDB](https://vecturadb.org/leaving-chroma-cloud/to-vecturadb#1-start-vecturadb).
+To run it without Docker, see [Start the server](https://vecturadb.org/migrate-from-chroma-cloud/#1-start-the-server).
 
 ## 2\. Create the index and search
 
@@ -216,7 +216,7 @@ Before indexing, Chroma Cloud answers differently:
 
 The example of this page, on Chroma Cloud with the Python client, was indexed after 32 minutes. It then gave `pie` -0.016666668 and `fox` -0.011758428, as on VecturaDB. Right after the writes it gave `fox` -0.016393442.
 
-In our tests we compared 698 searches with the Python client `chromadb` 1.5.9, 349 on HNSW and 349 on SPANN, on three sets of generated documents from 200 to 12,300 records, also after updates and deletions. Searches with `read_level` `index_only` are not among them: VecturaDB 1.0.0-preview.5 also returns records not indexed yet. Every search gave the same records in the same order, with scores within 0.00001.
+In our tests on 4 November 2026, on VecturaDB 1.0.0-preview.5, we compared 698 searches with the Python client `chromadb` 1.5.9, 349 on HNSW and 349 on SPANN, on three sets of generated documents from 200 to 12,300 records, also after updates and deletions. Searches with `read_level` `index_only` are not among them. Every search gave the same records in the same order, with scores within 0.00001.
 
 Answers can still differ, because dense search is approximate. With HNSW, on 2,000 vectors in 10 groups loaded 12 times, a query between two groups found 4 to 10 of its 10 true neighbours. Chroma 1.5.9 did the same. `Rrf` without `default` then gave 0 to 8 records where Chroma Cloud gave 3. With `ef_search` 500, the same query found all 10 on each of the 12 loads.
 
@@ -229,4 +229,4 @@ We did not test:
 
 ## Your data on Chroma Cloud
 
-Chroma Cloud stops accepting writes on 7 December 2026, and stops serving reads on 22 December 2026. To move your collections, follow [Leaving Chroma Cloud: to VecturaDB](https://vecturadb.org/leaving-chroma-cloud/to-vecturadb).
+Chroma Cloud stops accepting writes on 7 December 2026, and stops serving reads on 22 December 2026. To move your collections, follow [Migrate from Chroma Cloud to a self-hosted Chroma server](https://vecturadb.org/migrate-from-chroma-cloud/).

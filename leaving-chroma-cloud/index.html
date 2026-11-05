@@ -66,7 +66,6 @@
       <li><a href="/leaving-chroma-cloud/" aria-current="page">Overview</a></li>
       <li><a href="/leaving-chroma-cloud/to-chroma-single-node">To Chroma 1.5.9, single node</a></li>
       <li><a href="/leaving-chroma-cloud/to-chroma-distributed">To Chroma distributed</a></li>
-      <li><a href="/leaving-chroma-cloud/to-vecturadb">To VecturaDB</a></li>
       <li><a href="/leaving-chroma-cloud/hosted-embedding-models">Hosted embedding models</a></li>
       <li><a href="/leaving-chroma-cloud/hybrid-search-without-chroma-cloud">Hybrid search on your own server</a></li>
     </ul>
@@ -102,7 +101,7 @@
 <th></th>
 <th>Chroma 1.5.9, single node</th>
 <th>Chroma distributed</th>
-<th>VecturaDB 1.0.0-preview.5</th>
+<th>VecturaDB 1.0.0-preview.6</th>
 </tr>
 </thead>
 <tbody>
@@ -203,31 +202,31 @@
 <td>.NET</td>
 <td><a href="to-chroma-single-node#net">ChromaDotNet.Client</a>; <a href="to-chroma-single-node#net-without-docker">ChromaDotNet.Local, without Docker</a>; <a href="to-chroma-single-node#aspire">Aspire</a>; <a href="to-chroma-single-node#testcontainers">Testcontainers</a></td>
 <td><a href="to-chroma-distributed#3-switch-the-client">ChromaDotNet.Client</a></td>
-<td><a href="to-vecturadb#net">ChromaDotNet.Client</a>; <a href="to-vecturadb#aspire">Aspire</a>; <a href="to-vecturadb#testcontainers">Testcontainers</a></td>
+<td><a href="https://vecturadb.org/migrate-from-chroma-cloud/#net">ChromaDotNet.Client</a>; <a href="https://chromadotnet.org/libraries/aspire/">Aspire</a>; <a href="https://chromadotnet.org/libraries/testcontainers/">Testcontainers</a></td>
 </tr>
 <tr>
 <td>Python</td>
 <td><a href="to-chroma-single-node#python"><code>chromadb</code></a></td>
 <td><a href="to-chroma-distributed#3-switch-the-client"><code>chromadb</code></a></td>
-<td><a href="to-vecturadb#python"><code>pip install VecturaDB</code></a>, also without a server</td>
+<td><a href="https://vecturadb.org/migrate-from-chroma-cloud/#python"><code>pip install VecturaDB</code></a>, also without a server</td>
 </tr>
 <tr>
 <td>JavaScript and TypeScript</td>
 <td><a href="to-chroma-single-node#javascript"><code>chromadb</code> on npm</a></td>
 <td><a href="to-chroma-distributed#3-switch-the-client"><code>chromadb</code> on npm</a></td>
-<td><a href="to-vecturadb#javascript"><code>chromadb</code> on npm, with VecturaDB as the server</a></td>
+<td><a href="https://vecturadb.org/migrate-from-chroma-cloud/#javascript"><code>chromadb</code> on npm, with VecturaDB as the server</a></td>
 </tr>
 <tr>
 <td>Another language</td>
 <td>your Chroma client, unchanged</td>
 <td>your Chroma client, unchanged</td>
-<td><a href="to-vecturadb#other-languages">the clients we tested</a></td>
+<td><a href="https://vecturadb.org/clients/">the clients we tested</a></td>
 </tr>
 <tr>
 <td>Docker</td>
 <td><a href="to-chroma-single-node#1-start-chroma"><code>chromadb/chroma:1.5.9</code></a></td>
 <td></td>
-<td><a href="to-vecturadb#1-start-vecturadb"><code>ghcr.io/vecturadb/vecturadb</code></a></td>
+<td><a href="https://vecturadb.org/migrate-from-chroma-cloud/#1-start-the-server"><code>ghcr.io/vecturadb/vecturadb</code></a></td>
 </tr>
 </tbody>
 </table></div>
@@ -236,8 +235,8 @@
 <p>Each guide has the same five steps: start the destination (or, for Chroma distributed, reach it), copy the data, switch the client, replace the hosted embedding models, check the result.</p>
 <ul>
 <li><a href="to-chroma-single-node">To Chroma 1.5.9, single node</a></li>
-<li><a href="to-chroma-distributed">To Chroma distributed</a></li>
-<li><a href="to-vecturadb">To VecturaDB</a></li>
+<li><a href="to-chroma-distributed">To Chroma distributed</a>; with ChromaDB.Operator: <a href="https://chromadotnet.org/migrate-from-chroma-cloud-kubernetes/">Migrate from Chroma Cloud to self-hosted distributed Chroma on Kubernetes</a></li>
+<li><a href="https://vecturadb.org/migrate-from-chroma-cloud/">To VecturaDB</a></li>
 <li><a href="hosted-embedding-models">Hosted embedding models</a>, shared by the three guides</li>
 </ul>
   </main>
