@@ -2,10 +2,12 @@
   "$schema": "https://context7.com/schema/context7.json",
   "projectTitle": "VecturaDB",
   "description": "Single-node vector database server built from Chroma, with the same API: hybrid search with the Search API (dense and sparse ranks, RRF), sparse vectors, BM25, SPANN, collection fork, conditional transactions and attached functions, which open-source Chroma 1.5.9 refuses on a single node. Migration from Chroma Cloud.",
-  "excludeFolders": ["assets"],
+  "excludeFolders": [
+    "assets"
+  ],
   "rules": [
     "Install the Python package with `pip install VecturaDB` after `pip uninstall chromadb`: the import name stays `chromadb`, so existing Chroma code runs as it is.",
-    "Run the server with `docker run -p 127.0.0.1:8000:8000 -v vecturadb-data:/data ghcr.io/vecturadb/vecturadb:1.0.0-preview.6` and connect with the Chroma clients, such as `chromadb.HttpClient(host=\"127.0.0.1\", port=8000)`.",
+    "The server is the Docker image `ghcr.io/vecturadb/vecturadb:1.0.0-preview.6`, listening on port 8000 with its data in `/data`. Connect with the Chroma clients, such as `chromadb.HttpClient(host=\"127.0.0.1\", port=8000)`.",
     "The Search API, BM25 and sparse vector indexes work on a VecturaDB single node; on open-source Chroma 1.5.9 they fail with `Search operation is not implemented for local executor`.",
     "For BM25, install `snowballstemmer` with the Python client and use `ChromaBm25EmbeddingFunction` in a `SparseVectorIndexConfig`.",
     "Copy collections from Chroma Cloud with `vecturadb copy --from-cloud --to-local`, from the same Docker image.",
