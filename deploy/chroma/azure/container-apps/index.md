@@ -6,7 +6,7 @@ Source: https://vecturadb.org/deploy/chroma/azure/container-apps/
 
 Chroma 1.5.9 on Azure Container Apps, with the data on an Azure Files share. The app scales to zero when nobody uses it, so it costs almost nothing on idle days.
 
-[Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json) [Compare with the VM](https://vecturadb.org/deploy/chroma/azure/#compare)
+[Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json) [Compare with the VM](https://vecturadb.org/deploy/chroma/azure/#compare)
 
 **For a few hours of use a day.** For a server in use all day, the [VM template](https://vecturadb.org/deploy/chroma/azure/vm/) is cheaper, faster and needs no manual step at updates: it is the one we recommend.
 
@@ -41,9 +41,9 @@ The server reaches the share through two mounts:
 
 ## Deploy
 
-[Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json)
+[Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json)
 
-The button opens the form of the Azure portal with the template of the tag `azure-v1.2.0`. When the portal shows “Your deployment is complete”, open **Outputs** in the menu on the left: `url` is the address of the server, for the clients.
+The button opens the form of the Azure portal with the template of the tag `azure-v1.3.0`. When the portal shows “Your deployment is complete”, open **Outputs** in the menu on the left: `url` is the address of the server, for the clients.
 
 In our tests| Time  
 ---|---  
@@ -54,10 +54,10 @@ With the Azure CLI:
     
     az group create -n my-chroma -l westeurope
     az deployment group create -g my-chroma \
-      --template-uri https://raw.githubusercontent.com/VecturaDB/VecturaDB.Deploy/azure-v1.2.0/azure/container-apps/azuredeploy.json \
+      --template-uri https://raw.githubusercontent.com/VecturaDB/VecturaDB.Deploy/azure-v1.3.0/azure/container-apps/azuredeploy.json \
       -p allowedIpRanges='["203.0.113.10/32"]'
 
-The template and its README are in the [VecturaDB.Deploy repository](https://github.com/VecturaDB/VecturaDB.Deploy), under [`azure/container-apps`](https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.2.0/azure/container-apps).
+The template and its README are in the [VecturaDB.Deploy repository](https://github.com/VecturaDB/VecturaDB.Deploy), under [`azure/container-apps`](https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.3.0/azure/container-apps).
 
 ## Access and HTTPS
 

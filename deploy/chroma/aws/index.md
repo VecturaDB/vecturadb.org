@@ -23,7 +23,7 @@ t4g.micro with its volumes and public IPv4, whatever the use.
   * Snapshots of the data volume every 24 hours, kept 7 days
   * Chroma 1.5.9, or VecturaDB with API keys
 
-[Launch Stack](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.0.0%2Fvm%2Ftemplate.yaml&stackName=chroma) [Details](https://vecturadb.org/deploy/chroma/aws/vm/)
+[Launch Stack](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.1.0%2Fvm%2Ftemplate.yaml&stackName=chroma) [Details](https://vecturadb.org/deploy/chroma/aws/vm/)
 
 **The template is free and open source (Apache 2.0).** You pay only AWS, which bills you directly: no fee from us.
 

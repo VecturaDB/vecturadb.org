@@ -6,9 +6,9 @@ Source: https://vecturadb.org/deploy/vecturadb/azure/vm/
 
 One VecturaDB server in your own Azure subscription, with its data on a managed disk, HTTPS, API keys, allowed IP addresses and backups. From about 14 USD a month on your Azure bill.
 
-[Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2FcreateUiDefinition.vecturadb.json) [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.2.0/azure/vm)
+[Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fvm%2FcreateUiDefinition.vecturadb.json) [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.3.0/azure/vm)
 
-**Disclaimer.** This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.3.post1 on 27 and 29 October 2026 in westeurope: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
+**Disclaimer.** This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.7 on 5 November 2026 in westeurope: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
 
 Not sure about your case? [Open an issue in the VecturaDB repository](https://github.com/VecturaDB/VecturaDB/issues/new), describe your data and your setup, and we will take a look on a best-effort basis.
 
@@ -25,7 +25,7 @@ On this page
 
 ## What it creates
 
-The template runs **VecturaDB 1.0.0-preview.3.post1** (`ghcr.io/vecturadb/vecturadb:1.0.0-preview.3.post1`), built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys. The same template can also run Chroma 1.5.9.
+The template runs **VecturaDB 1.0.0-preview.7** (`ghcr.io/vecturadb/vecturadb:1.0.0-preview.7`), built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys. The same template can also run Chroma 1.5.9.
 
 VecturaDB keeps the Chroma API: the Chroma clients connect with the URL of the deployment and the API key. In our tests the Python client (chromadb 1.5.9) worked over HTTPS with the key, and VecturaDB answered 401 without it.
 
@@ -40,25 +40,25 @@ Backup vault| Only with backups on: Azure Disk Backup of the data disk
   
 ## Deploy
 
-[Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2FcreateUiDefinition.vecturadb.json)
+[Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fvm%2FcreateUiDefinition.vecturadb.json)
 
-The button opens the form of the Azure portal with the template of the tag `azure-v1.2.0`, VecturaDB already chosen and `vecturadb` as the name. The form asks for the API key. When the portal shows “Your deployment is complete”, open **Outputs** in the menu on the left: `url` is the address of the server, for the clients.
+The button opens the form of the Azure portal with the template of the tag `azure-v1.3.0`, VecturaDB already chosen and `vecturadb` as the name. The form asks for the API key. When the portal shows “Your deployment is complete”, open **Outputs** in the menu on the left: `url` is the address of the server, for the clients.
 
 In our tests| Time  
 ---|---  
-Deployment from zero, until Caddy held the certificate| 158 s  
+Deployment from zero, until Caddy held the certificate| 190 s  
   
 With the Azure CLI:
     
     
     az group create -n my-vecturadb -l westeurope
     az deployment group create -g my-vecturadb \
-      --template-uri https://raw.githubusercontent.com/VecturaDB/VecturaDB.Deploy/azure-v1.2.0/azure/vm/azuredeploy.json \
+      --template-uri https://raw.githubusercontent.com/VecturaDB/VecturaDB.Deploy/azure-v1.3.0/azure/vm/azuredeploy.json \
       -p name=vecturadb engine=vecturadb apiKey=<your key> \
          access=allowed-ips allowedIpRanges='["203.0.113.10/32"]' \
          adminPublicKey="$(cat ~/.ssh/id_ed25519.pub)"
 
-The template, its scripts and its README are in the [VecturaDB.Deploy repository](https://github.com/VecturaDB/VecturaDB.Deploy), under [`azure/vm`](https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.2.0/azure/vm).
+The template, its scripts and its README are in the [VecturaDB.Deploy repository](https://github.com/VecturaDB/VecturaDB.Deploy), under [`azure/vm`](https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.3.0/azure/vm).
 
 ## Access and HTTPS
 
@@ -74,13 +74,12 @@ Internal| Nothing from the internet; port 8000 inside the virtual network| http:
   * Ports 22 and 8000 stay closed.
   * The deployment ends only when Caddy holds the certificate.
 
-Over HTTPS, from a VM in the same region (median, Standard_B2pts_v2, 27 October 2026)| Time  
+On the VM itself, against the server without Caddy (median, Standard_B2pts_v2, 5 November 2026)| Time  
 ---|---  
-Heartbeat| 1.15 ms  
-Query| 2.6 ms  
-Get| 2.8 ms  
-Add of 2 records| 112 ms  
-8 concurrent writers, in all| 16.8 s  
+Query| 1.8 ms  
+Get| 1.8 ms  
+Add of 2 records| 17.7 ms  
+8 concurrent writers, in all| 2.5 s  
   
 ## Cost
 
@@ -122,13 +121,13 @@ Standard_B1ms| 1, 2 GiB| 17.52| 3.60| 3.65| 24.77
 
 In our tests| Time  
 ---|---  
-On-demand backup, until the recovery point| 175 s  
-Restore to a new disk| 53 s  
-Attach at LUN 1| 10 s  
-`restore.sh`| 33 s  
-Detach and delete| 13 s  
+On-demand backup, until the recovery point| 176 s  
+Restore to a new disk| 62 s  
+Attach at LUN 1| 9-11 s  
+`restore.sh`| 33-36 s  
+Detach and delete| 25 s  
   
-After the restore VecturaDB held the data of the backup, 250 records, and not the collection written after it.
+After the restore VecturaDB held the data of the backup, 250 records, and not the collection written after it. A snapshot of the data disk taken right after a restore, restored in turn, held every collection.
 
 ## Updates
 
@@ -162,10 +161,10 @@ Deleting the resource group deletes the deployment, the snapshots of the backups
 In our tests, with the CLI| Time  
 ---|---  
 Soft delete off| 2 s  
-Backup instance gone| 87 s  
+Backup instance gone| 93 s  
 Resource group gone| 126 s  
   
-The [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.2.0/azure/vm#delete-everything) also says how to get out of the soft-deleted state, if you deleted the backup instance with soft delete on.
+The [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.3.0/azure/vm#delete-everything) also says how to get out of the soft-deleted state, if you deleted the backup instance with soft delete on.
 
 ## Limits
 

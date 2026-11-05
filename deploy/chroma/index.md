@@ -8,7 +8,7 @@ The open-source Chroma 1.5.9 server, or VecturaDB built from it, created by a te
 
 ## Choose your cloud
 
-### [Azure →Templates for your Azure subscription: a VM with backups, or Container Apps that scales to zero.](https://vecturadb.org/deploy/chroma/azure/) ### [AWS →A template for your AWS account: one EC2 instance with snapshots of its data.](https://vecturadb.org/deploy/chroma/aws/)
+### [Azure →Templates for your Azure subscription: a VM with backups, or Container Apps that scales to zero.](https://vecturadb.org/deploy/chroma/azure/) ### [AWS →A template for your AWS account: one EC2 instance with snapshots of its data.](https://vecturadb.org/deploy/chroma/aws/) ### [Google Cloud →A template for your Google Cloud project: one Compute Engine VM with snapshots of its data.](https://vecturadb.org/deploy/chroma/gcp/)
 
 **The templates are free and open source (Apache 2.0).** You pay only your cloud, which bills you directly: no fee from us.
 
@@ -20,7 +20,7 @@ Both servers keep the Chroma API, so the Chroma clients connect with the URL of 
 
 The open-source single-node server, from the image `ghcr.io/chroma-core/chroma:1.5.9`.
 
-### [VecturaDB 1.0.0-preview.3.post1 →Built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys.](https://vecturadb.org/deploy/vecturadb/)
+### [VecturaDB 1.0.0-preview.7 →Built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys.](https://vecturadb.org/deploy/vecturadb/)
 
 **Disclaimer.** The templates and their scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The page of each cloud gives the numbers we measured there: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
 

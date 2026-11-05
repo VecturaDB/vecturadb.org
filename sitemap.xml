@@ -54,51 +54,51 @@
   </url>
   <url>
     <loc>https://vecturadb.org/deploy/</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-11-05</lastmod>
   </url>
   <url>
     <loc>https://vecturadb.org/deploy/chroma/</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-11-05</lastmod>
   </url>
   <url>
     <loc>https://vecturadb.org/deploy/chroma/azure/</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-11-05</lastmod>
   </url>
   <url>
     <loc>https://vecturadb.org/deploy/chroma/azure/vm/</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-11-05</lastmod>
   </url>
   <url>
     <loc>https://vecturadb.org/deploy/chroma/azure/container-apps/</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-11-05</lastmod>
   </url>
   <url>
     <loc>https://vecturadb.org/deploy/chroma/aws/</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-11-05</lastmod>
   </url>
   <url>
     <loc>https://vecturadb.org/deploy/chroma/aws/vm/</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-11-05</lastmod>
   </url>
   <url>
     <loc>https://vecturadb.org/deploy/vecturadb/</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-11-05</lastmod>
   </url>
   <url>
     <loc>https://vecturadb.org/deploy/vecturadb/azure/</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-11-05</lastmod>
   </url>
   <url>
     <loc>https://vecturadb.org/deploy/vecturadb/azure/vm/</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-11-05</lastmod>
   </url>
   <url>
     <loc>https://vecturadb.org/deploy/vecturadb/aws/</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-11-05</lastmod>
   </url>
   <url>
     <loc>https://vecturadb.org/deploy/vecturadb/aws/vm/</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-11-05</lastmod>
   </url>
   <url>
     <loc>https://vecturadb.org/chroma-cloud-shutting-down/</loc>
@@ -110,6 +110,22 @@
   </url>
   <url>
     <loc>https://vecturadb.org/search-operation-is-not-implemented-for-local-executor/</loc>
+    <lastmod>2026-11-05</lastmod>
+  </url>
+  <url>
+    <loc>https://vecturadb.org/deploy/chroma/gcp/</loc>
+    <lastmod>2026-11-05</lastmod>
+  </url>
+  <url>
+    <loc>https://vecturadb.org/deploy/chroma/gcp/vm/</loc>
+    <lastmod>2026-11-05</lastmod>
+  </url>
+  <url>
+    <loc>https://vecturadb.org/deploy/vecturadb/gcp/</loc>
+    <lastmod>2026-11-05</lastmod>
+  </url>
+  <url>
+    <loc>https://vecturadb.org/deploy/vecturadb/gcp/vm/</loc>
     <lastmod>2026-11-05</lastmod>
   </url>
 </urlset>

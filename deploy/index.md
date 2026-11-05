@@ -18,6 +18,12 @@ One EC2 instance with snapshots of its data, for Chroma 1.5.9 or VecturaDB.
 
 [Chroma](https://vecturadb.org/deploy/chroma/aws/) [VecturaDB](https://vecturadb.org/deploy/vecturadb/aws/)
 
+### Google Cloud
+
+One Compute Engine VM with snapshots of its data, for Chroma 1.5.9 or VecturaDB, from Cloud Shell.
+
+[Chroma](https://vecturadb.org/deploy/chroma/gcp/) [VecturaDB](https://vecturadb.org/deploy/vecturadb/gcp/)
+
 **The templates are free and open source (Apache 2.0).** You pay only your cloud, which bills you directly: no fee from us.
 
 ## Why your own cloud

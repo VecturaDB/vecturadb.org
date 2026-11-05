@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VecturaDB on a Google Cloud VM · VecturaDB</title>
+<meta name="description" content="A Terraform template for VecturaDB on one Compute Engine VM, with HTTPS, API keys and snapshots: what it creates, the cost, restore and deletion.">
+<link rel="canonical" href="https://vecturadb.org/deploy/vecturadb/gcp/vm/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://vecturadb.org/deploy/vecturadb/gcp/vm/">
+<meta property="og:title" content="VecturaDB on a Google Cloud VM">
+<meta property="og:description" content="A Terraform template for VecturaDB on one Compute Engine VM, with HTTPS, API keys and snapshots: what it creates, the cost, restore and deletion.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "VecturaDB", "item": "https://vecturadb.org/"}, {"@type": "ListItem", "position": 2, "name": "Deploy", "item": "https://vecturadb.org/deploy/"}, {"@type": "ListItem", "position": 3, "name": "VecturaDB", "item": "https://vecturadb.org/deploy/vecturadb/"}, {"@type": "ListItem", "position": 4, "name": "Google Cloud", "item": "https://vecturadb.org/deploy/vecturadb/gcp/"}, {"@type": "ListItem", "position": 5, "name": "VM", "item": "https://vecturadb.org/deploy/vecturadb/gcp/vm/"}]}</script>
+<!-- site-head -->
+<meta property="og:site_name" content="VecturaDB">
+<meta property="og:image" content="https://vecturadb.org/vecturadb-social-cloud-1280x640.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b1120" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon-96.png" type="image/png" sizes="96x96">
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="/assets/site.js" defer></script>
+<!-- /site-head -->
+</head>
+<body>
+<!-- site-header -->
+<svg class="sprite" aria-hidden="true"><symbol id="i-github" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></symbol></svg>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="visually-hidden">Menu</span>
+      <svg class="icon icon-stroke icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="icon icon-stroke icon-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/get-started/">Get started</a></li>
+        <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+        <li><a href="/deploy/" aria-current="page">Deploy</a></li>
+        <li><a href="/clients/">Clients</a></li>
+        <li><a href="/news/">News</a></li>
+        <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+        <li><a class="nav-github" href="https://github.com/VecturaDB/VecturaDB"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<!-- /site-header -->
+
+<div class="container doc-layout">
+  <aside class="doc-aside" aria-label="Deploy">
+    <h2>Deploy</h2>
+    <ul>
+      <li><a href="/deploy/">Overview</a></li>
+      <li><a href="/deploy/vecturadb/">VecturaDB</a></li>
+      <li><a href="/deploy/vecturadb/gcp/">Google Cloud</a>
+        <ul>
+          <li><a href="/deploy/vecturadb/gcp/vm/" aria-current="page">VM</a></li>
+        </ul>
+      </li>
+    </ul>
+  </aside>
+  <main id="main" class="doc prose">
+<nav class="crumb" aria-label="Breadcrumb"><a href="/deploy/">Deploy</a> / <a href="/deploy/vecturadb/">VecturaDB</a> / <a href="/deploy/vecturadb/gcp/">Google Cloud</a></nav>
+<h1 id="vecturadb-on-a-google-cloud-vm">VecturaDB on a Google Cloud VM</h1>
+<p class="lead-doc">One VecturaDB server in your own Google Cloud project, with its data on a disk of its own, HTTPS, API keys, allowed IP addresses and snapshots. From about 13&nbsp;USD a month on your Google Cloud bill.</p>
+<div class="actions">
+<a class="btn btn-primary" href="https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&amp;cloudshell_git_branch=gcp-v1.0.0&amp;cloudshell_workspace=gcp%2Fvm&amp;cloudshell_tutorial=tutorial-vecturadb.md">Open in Cloud Shell</a>
+<a class="btn btn-secondary" href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/gcp-v1.0.0/gcp/vm">README of the template</a>
+</div>
+<div class="note">
+<p><strong>Disclaimer.</strong> This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.7 on 5 November 2026 in europe-west1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.</p>
+<p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
+</div>
+<nav class="toc" aria-label="On this page">
+<p class="toc-title">On this page</p>
+<ol>
+<li><a href="#what-it-creates">What it creates</a></li>
+<li><a href="#deploy">Deploy</a></li>
+<li><a href="#access-and-https">Access and HTTPS</a></li>
+<li><a href="#cost">Cost</a></li>
+<li><a href="#backups-and-restore">Backups and restore</a></li>
+<li><a href="#updates">Updates</a></li>
+<li><a href="#delete-everything">Delete everything</a></li>
+<li><a href="#limits">Limits</a></li>
+</ol>
+</nav>
+
+<h2 id="what-it-creates">What it creates</h2>
+<p>The template runs <strong>VecturaDB 1.0.0-preview.7</strong> (<code>ghcr.io/vecturadb/vecturadb:1.0.0-preview.7</code>), built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys. The same template can also run Chroma 1.5.9.</p>
+<p>VecturaDB keeps the Chroma API: the Chroma clients connect with the <code>url</code> output and the API key. In our tests the Python client (chromadb 1.5.9) worked over HTTPS with the key, and VecturaDB refused the requests without it.</p>
+<div class="table table-fit" tabindex="0"><table>
+<thead>
+<tr><th>Resource</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr><td>Compute Engine VM, Ubuntu 24.04</td><td>Docker runs the server; Caddy serves HTTPS in front of it</td></tr>
+<tr><td>Data disk, pd-balanced</td><td>Mounted at <code>/var/lib/chroma</code>; 16&nbsp;GB by default</td></tr>
+<tr><td>VPC, subnet and firewall rules</td><td>10.42.0.0/24; the rules open only what the access mode needs</td></tr>
+<tr><td>Static external IP address</td><td>The address for HTTPS, and the way out to the package and image registries</td></tr>
+<tr><td>Service account of the VM</td><td>No role in the project; it may read only the secret of the API key</td></tr>
+<tr><td>Snapshot schedule</td><td>Only with backups on: snapshots of the data disk</td></tr>
+<tr><td>Secret Manager secret</td><td>The API key</td></tr>
+</tbody>
+</table></div>
+
+<h2 id="deploy">Deploy</h2>
+<p><a class="btn btn-primary" href="https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&amp;cloudshell_git_branch=gcp-v1.0.0&amp;cloudshell_workspace=gcp%2Fvm&amp;cloudshell_tutorial=tutorial-vecturadb.md">Open in Cloud Shell</a></p>
+<p>Google Cloud has no form that creates a deployment from a link. The button opens Cloud Shell, the terminal of the Google Cloud console, with the template of the tag <code>gcp-v1.0.0</code> and a guide on the side, with VecturaDB already chosen, which runs Terraform step by step.</p>
+<ol>
+<li>Google asks to confirm the clone of the repository. Without “Trust repo”, Cloud Shell is temporary: its files are deleted at the end of the session, and it has no credentials until the guide signs you in. In a temporary Cloud Shell <code>gcloud auth login</code> first says that you are already authenticated: answer <code>Y</code>.</li>
+<li>The guide turns on the APIs that the template uses, installs Terraform, and creates a Cloud Storage bucket for the state of Terraform, <code>&lt;project id&gt;-chroma-tfstate</code>, with versioning and without public access.</li>
+<li>You give the IP address of your computer and the API key, then <code>terraform apply</code> creates everything. The settings file goes to the bucket too, next to the state; the key goes to Secret Manager only. The key is optional with the allowed IP addresses, and required for public access.</li>
+</ol>
+<p>To change a setting or delete the deployment later, open the guide again: it gets the state and the settings back from the bucket.</p>
+<div class="table table-kv" tabindex="0"><table>
+<thead>
+<tr><th>In our tests</th><th>Time</th></tr>
+</thead>
+<tbody>
+<tr><td>Deployment from zero, until the server answered over HTTPS</td><td>376-626&nbsp;s</td></tr>
+<tr><td>Terraform installed in Cloud Shell</td><td>about 40&nbsp;s</td></tr>
+</tbody>
+</table></div>
+<p>Most of the creation is the first boot of the VM, which installs Docker and Caddy from the package repositories, so its time depends on them. In the test of 626&nbsp;seconds the first boot took 6&nbsp;minutes 29&nbsp;seconds, and the list of the Ubuntu packages alone 2&nbsp;minutes 6&nbsp;seconds.</p>
+<p>With Terraform 1.11 or later on your computer:</p>
+<pre tabindex="0"><code>cd gcp/vm
+gcloud services enable compute.googleapis.com iam.googleapis.com secretmanager.googleapis.com storage.googleapis.com
+gcloud storage buckets create gs://&lt;bucket&gt; --location=europe-west1 --uniform-bucket-level-access --public-access-prevention
+terraform init -backend-config=bucket=&lt;bucket&gt; -backend-config=prefix=vecturadb
+export TF_VAR_project_id=&lt;project id&gt; TF_VAR_api_key=&lt;your key&gt;
+terraform apply -parallelism=2 -var-file=vecturadb.tfvars -var 'allowed_ip_ranges=["203.0.113.10/32"]'</code></pre>
+<p>Give the key again at every apply: an apply without it removes the key. The template and its README are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/gcp-v1.0.0/gcp/vm"><code>gcp/vm</code></a>.</p>
+<p>The commands run Terraform with two operations at a time: in our tests from Cloud Shell, with the default of 10, 5 plans out of 11 failed with a refused connection to the Google APIs, and with 2 none out of 11.</p>
+
+<h2 id="access-and-https">Access and HTTPS</h2>
+<div class="table table-fit" tabindex="0"><table>
+<thead>
+<tr><th>Access</th><th>What is open</th><th>Address</th></tr>
+</thead>
+<tbody>
+<tr><td>Allowed IP addresses</td><td>443 from your IP ranges; 80 for the certificate only</td><td>https://, with the external IP or your domain</td></tr>
+<tr><td>Public</td><td>443 and 80 from anywhere; only with an API key</td><td>https://</td></tr>
+<tr><td>Internal</td><td>Nothing from the internet; port 8000 inside the VPC</td><td>http://, on the private address</td></tr>
+</tbody>
+</table></div>
+<ul>
+<li>Caddy gets a Let's Encrypt certificate and forwards to the server on 127.0.0.1.</li>
+<li>Without a domain, the certificate is for the external IP itself, and Caddy renews it.</li>
+<li>Port 80 answers only the challenge of the certificate. There is no SSH: the agent of the VM reads its settings from the metadata of the VM.</li>
+<li><code>terraform apply</code> ends only when Caddy holds the certificate and the server answers.</li>
+<li>Every request needs the API key, in the <code>x-chroma-token</code> header. The key goes to Secret Manager as a write-only value: it is not in the state of Terraform, nor in the settings file. The VM writes it to a file readable by root only.</li>
+</ul>
+
+<h2 id="cost">Cost</h2>
+<p>The sizes of the template, with the list prices of europe-west1 in USD for 730&nbsp;hours a month, on 4 November 2026:</p>
+<div class="table" tabindex="0"><table>
+<thead>
+<tr><th>Size</th><th>CPU, memory</th><th>VM</th><th>Boot disk 10&nbsp;GB</th><th>Data disk 16&nbsp;GB</th><th>External IP</th><th>Total a month</th></tr>
+</thead>
+<tbody>
+<tr><td>e2-micro (default)</td><td>2 shared vCPU, 1&nbsp;GB</td><td>6.73</td><td>1.00</td><td>1.60</td><td>3.65</td><td>12.98</td></tr>
+<tr><td>e2-small</td><td>2 shared vCPU, 2&nbsp;GB</td><td>13.45</td><td>1.00</td><td>1.60</td><td>3.65</td><td>19.70</td></tr>
+<tr><td>e2-medium</td><td>2 shared vCPU, 4&nbsp;GB</td><td>26.91</td><td>1.00</td><td>1.60</td><td>3.65</td><td>33.16</td></tr>
+</tbody>
+</table></div>
+<ul>
+<li>We tested only e2-micro.</li>
+<li>The e2 shared-core types run at a fraction of a vCPU and burst above it for short periods: e2-micro at 0.25 of a vCPU, e2-small at 0.5, e2-medium at 1. A server that is busy all the time needs a larger size.</li>
+<li>The API key adds the secret: 0.06&nbsp;USD a month beyond the 6 free secret versions of the billing account, and 0.03&nbsp;USD per 10,000 accesses beyond the first 10,000. The VM reads the key at every configuration.</li>
+<li>Not in the table: outbound traffic, the snapshots of the backups and the bucket of the state, a few KB.</li>
+</ul>
+
+<h2 id="backups-and-restore">Backups and restore</h2>
+<ul>
+<li>With backups on, the default, a snapshot schedule of Compute Engine takes snapshots of the data disk every 24&nbsp;hours, or every 4, 6, 8 or 12&nbsp;hours, and keeps them 7&nbsp;days.</li>
+<li>The snapshots are billed at 0.05&nbsp;USD per GB a month in europe-west1, for the data they hold.</li>
+<li><strong>The snapshots are not part of the deployment:</strong> <code>terraform destroy</code> leaves them.</li>
+<li>The snapshots are taken while the server runs, so a restored disk is like a disk after a power cut: the restore checks its file system before it uses it.</li>
+</ul>
+<h3 id="restore">Restore</h3>
+<p>In the folder of the template, after <code>terraform init</code> with the same bucket and folder:</p>
+<pre tabindex="0"><code>gcloud compute snapshots list --filter="labels.chroma-backup=vecturadb"
+./restore.sh &lt;snapshot name&gt;</code></pre>
+<p><code>restore.sh</code> creates a disk from the snapshot and attaches it to the VM. Then the agent of the VM stops the server, replaces the data with the data of the snapshot, and starts the server again. In the end the script detaches and deletes the disk. <strong>The data written after the snapshot is lost:</strong> take a snapshot first if you may want it back. The data disk stays the same, so the snapshots go on.</p>
+<div class="table table-kv" tabindex="0"><table>
+<thead>
+<tr><th>In our tests</th><th>Time</th></tr>
+</thead>
+<tbody>
+<tr><td>Snapshot by hand</td><td>32-48&nbsp;s</td></tr>
+<tr><td>Disk from the snapshot</td><td>23-26&nbsp;s</td></tr>
+<tr><td>Attach</td><td>6-20&nbsp;s</td></tr>
+<tr><td>Copy on the VM, until the server answers</td><td>7-9&nbsp;s</td></tr>
+<tr><td>Detach and delete</td><td>8-9&nbsp;s</td></tr>
+</tbody>
+</table></div>
+<p>With VecturaDB 1.0.0-preview.7, as with Chroma 1.5.9, after each restore the server held all the collections of the snapshot, also the one written right before it.</p>
+
+<h2 id="updates">Updates</h2>
+<ul>
+<li>To change the server, its image, the access or the key, open the guide again, change the settings and apply: the agent of the VM pulls the image, stops the old container and starts the new one, with the data on the data disk. An apply that changes none of them does not restart the server.</li>
+<li>The server does not answer during the switch.</li>
+<li>An apply never replaces the VM, so it never moves the data disk.</li>
+<li>Docker starts only once the data disk is mounted: a VM that boots without it serves nothing, rather than an empty database.</li>
+<li>Ubuntu installs its security updates by itself. Caddy comes from its own repository, which they leave out.</li>
+</ul>
+<p>In our tests a switch from Chroma 1.5.9 to VecturaDB with an API key took 33&nbsp;seconds, and VecturaDB read the collections written by Chroma. A new key took 25&nbsp;seconds, and afterwards the client could no longer connect with the old key.</p>
+
+<h2 id="delete-everything">Delete everything</h2>
+<p><code>terraform destroy</code> deletes the VM, the data disk, the network, the IP address, the service account and the secret. The snapshots stay: delete them after the VM, so that no new snapshot comes after the cleanup. Then delete the state and the settings in the bucket. The last step of the guide has the same commands.</p>
+<pre tabindex="0"><code>terraform destroy -parallelism=2 -var-file=vecturadb.tfvars
+for s in $(gcloud compute snapshots list --filter="labels.chroma-backup=vecturadb" --format="value(name)"); do gcloud compute snapshots delete $s --quiet; done
+gcloud storage rm --recursive --all-versions gs://$BUCKET/vecturadb</code></pre>
+<p>In our tests <code>terraform destroy</code> took 109-141&nbsp;seconds from a computer; afterwards nothing of the deployment was left in the project.</p>
+
+<h2 id="limits">Limits</h2>
+<ul>
+<li>One VM and one disk: no high availability.</li>
+<li>While the VM restarts or an update switches the container, the server does not answer.</li>
+<li>The snapshots are in the same region.</li>
+<li>The certificate of an IP address is valid for about 6&nbsp;days: Caddy renews it while the VM runs.</li>
+</ul>
+
+<div class="note">
+<p>VecturaDB is an independent fork of Chroma, under the Apache License 2.0. The original code is copyright Chroma Inc. and its contributors.</p>
+<p>Not affiliated with, endorsed by or sponsored by Chroma Inc. CHROMA is a registered trademark of Chroma Inc., used here only to describe compatibility.</p>
+</div>
+  </main>
+</div>
+
+<!-- site-footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+        <p>Vector database compatible with the Chroma API, bringing Chroma Cloud's features to open source.</p>
+      </div>
+      <div class="footer-col">
+        <h2>Docs</h2>
+        <ul>
+          <li><a href="/get-started/">Get started</a></li>
+          <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+          <li><a href="/clients/">Clients</a></li>
+          <li><a href="/deploy/">Deploy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/VecturaDB/VecturaDB">GitHub</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/security/policy">Security policy</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/blob/main/LICENSE">License</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Packages</h2>
+        <ul>
+          <li><a href="https://pypi.org/project/VecturaDB/">PyPI</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/pkgs/container/vecturadb">Docker image</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Independent project. Not affiliated with, endorsed by or sponsored by Chroma Inc. CHROMA is a registered trademark of Chroma Inc., used here only to describe compatibility. <a href="/#about">About</a></p>
+      <p>Apache License 2.0</p>
+    </div>
+  </div>
+</footer>
+<!-- /site-footer -->
+</body>
+</html>

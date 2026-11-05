@@ -81,18 +81,18 @@
           <p class="choice-cost-note">Standard_B2pts_v2 with its disks and public IP, whatever the use.</p>
           <ul class="choice-list">
             <li>Always on: no wait at the first request</li>
-            <li>Over HTTPS: a query in 2.6&nbsp;ms, an add in 112&nbsp;ms</li>
+            <li>On the VM itself: a query in 1.8&nbsp;ms, an add in 17.7&nbsp;ms</li>
             <li>Backups of the data disk every 24&nbsp;hours, kept 7&nbsp;days</li>
             <li>API keys: the form asks for one</li>
           </ul>
           <div class="actions">
-            <a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.2.0%2Fazure%2Fvm%2FcreateUiDefinition.vecturadb.json" aria-label="Deploy to Azure: the VM template with VecturaDB">Deploy to Azure</a>
+            <a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fvm%2FcreateUiDefinition.vecturadb.json" aria-label="Deploy to Azure: the VM template with VecturaDB">Deploy to Azure</a>
             <a class="btn btn-secondary" href="/deploy/vecturadb/azure/vm/" aria-label="Details of the VM template with VecturaDB">Details</a>
           </div>
         </article>
       </div>
       <p class="free-note"><span><strong>The template is free and open source (Apache 2.0).</strong> You pay only Azure, which bills you directly: no fee from us.</span></p>
-      <p class="fine-print">Times: medians in our tests with VecturaDB 1.0.0-preview.3.post1, from a client in the same region. Cost: an estimate with the Azure list prices of westeurope in USD, on 26 October 2026, without the snapshots of the backups. The details are on the <a href="/deploy/vecturadb/azure/vm/">page of the template</a>.</p>
+      <p class="fine-print">Times: medians in our tests with VecturaDB 1.0.0-preview.7, on the VM itself. Cost: an estimate with the Azure list prices of westeurope in USD, on 26 October 2026, without the snapshots of the backups. The details are on the <a href="/deploy/vecturadb/azure/vm/">page of the template</a>.</p>
     </div>
   </section>
 
@@ -101,7 +101,7 @@
       <h2 id="how-title">How it works</h2>
       <ol class="steps">
         <li><h3>Open the form</h3><p>Deploy to Azure opens the form of the template in the Azure portal, in your subscription, with VecturaDB already chosen. You choose the region, a name, the size, the API key and the IP addresses that may connect.</p></li>
-        <li><h3>Create</h3><p>Review the settings and create. In our tests the VM was ready in 158&nbsp;seconds, with HTTPS.</p></li>
+        <li><h3>Create</h3><p>Review the settings and create. In our tests the VM was ready in 190&nbsp;seconds, with HTTPS.</p></li>
         <li><h3>Connect</h3><p>Open Outputs: <code>url</code> is the address of your server, over HTTPS. The Chroma clients connect to it with the API key.</p></li>
       </ol>
       <div class="code-card steps-code">
@@ -117,7 +117,7 @@ client = chromadb.HttpClient(host="&lt;the host in url&gt;", port=443, ssl=True,
   <section class="section section-compact" aria-label="Disclaimer and trademarks">
     <div class="container">
       <div class="landing-note">
-        <p><strong>Disclaimer.</strong> The templates and their scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.3.post1 on 27 and 29 October 2026 in westeurope: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.</p>
+        <p><strong>Disclaimer.</strong> The templates and their scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.7 on 5 November 2026 in westeurope: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.</p>
         <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
         <p>VecturaDB is an independent fork of Chroma, under the Apache License 2.0. The original code is copyright Chroma Inc. and its contributors. Not affiliated with, endorsed by or sponsored by Chroma Inc. CHROMA is a registered trademark of Chroma Inc., used here only to describe compatibility.</p>
       </div>
