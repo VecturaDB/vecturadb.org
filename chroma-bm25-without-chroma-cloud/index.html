@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chroma BM25 search on your own server, without Chroma Cloud · VecturaDB</title>
+<meta name="description" content="Open-source Chroma 1.5.9 refuses BM25 on a single node: Sparse vector indexing is not enabled in local. VecturaDB, a single-node server built from Chroma with the same API, runs BM25 indexes and the Search API with the Chroma clients for Python, JavaScript and .NET. Distributed Chroma on Kubernetes runs them too.">
+<link rel="canonical" href="https://vecturadb.org/chroma-bm25-without-chroma-cloud/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://vecturadb.org/chroma-bm25-without-chroma-cloud/">
+<meta property="og:title" content="Chroma BM25 search on your own server, without Chroma Cloud">
+<meta property="og:description" content="Open-source Chroma 1.5.9 refuses BM25 on a single node: Sparse vector indexing is not enabled in local. VecturaDB, a single-node server built from Chroma with the same API, runs BM25 indexes and the Search API with the Chroma clients for Python, JavaScript and .NET. Distributed Chroma on Kubernetes runs them too.">
+<!-- site-head -->
+<meta property="og:site_name" content="VecturaDB">
+<meta property="og:image" content="https://vecturadb.org/vecturadb-social-cloud-1280x640.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b1120" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon-96.png" type="image/png" sizes="96x96">
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="/assets/site.js" defer></script>
+<!-- /site-head -->
+</head>
+<body>
+<!-- site-header -->
+<svg class="sprite" aria-hidden="true"><symbol id="i-github" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></symbol></svg>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="visually-hidden">Menu</span>
+      <svg class="icon icon-stroke icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="icon icon-stroke icon-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/get-started/">Get started</a></li>
+        <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+        <li><a href="/deploy/">Deploy</a></li>
+        <li><a href="/clients/">Clients</a></li>
+        <li><a href="/news/">News</a></li>
+        <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+        <li><a class="nav-github" href="https://github.com/VecturaDB/VecturaDB"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<!-- /site-header -->
+
+<div class="container">
+  <main id="main" class="doc prose">
+<h1 id="chroma-bm25-search-on-your-own-server-without-chroma-cloud">Chroma BM25 search on your own server, without Chroma Cloud</h1>
+<div class="note">
+<p><strong>Disclaimer.</strong> This page is provided as is, without warranty of any kind, as stated in the Apache License 2.0. Your data, versions and setup may behave differently. Back up your data and test on a copy first. You are responsible for your data.</p>
+<p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
+</div>
+<p>Open-source Chroma 1.5.9 refuses BM25 on a single node: <code>Sparse vector indexing is not enabled in local</code>. VecturaDB, a single-node server built from Chroma with the same API, runs BM25 indexes and the Search API with the Chroma clients for Python, JavaScript and .NET. Distributed Chroma on Kubernetes runs them too.</p>
+<p>VecturaDB is an independent project, not affiliated with Chroma.</p>
+<h2 id="the-errors-on-chroma-159">The errors on Chroma 1.5.9</h2>
+<div class="table" tabindex="0"><table>
+<thead>
+<tr>
+<th>What you do</th>
+<th>What Chroma 1.5.9 answers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Create a BM25 or sparse vector index</td>
+<td><code>Failed to reconcile schema: Invalid schema input: Sparse vector indexing is not enabled in local</code></td>
+</tr>
+<tr>
+<td>Search with the Search API</td>
+<td><code>Error executing plan: Not implemented: Search operation is not implemented for local executor</code></td>
+</tr>
+<tr>
+<td>Put a sparse vector in the metadata</td>
+<td><code>Unimplemented: Sparse vector is not supported for local chroma: &lt;key&gt;</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="1-start-vecturadb">1. Start VecturaDB</h2>
+<div class="hl"><pre tabindex="0"><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>vecturadb<span class="w"> </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:8000:8000<span class="w"> </span>-v<span class="w"> </span>vecturadb-data:/data<span class="w"> </span>ghcr.io/vecturadb/vecturadb:1.0.0-preview.6
+</code></pre></div>
+
+<p>The binary for Windows, Linux and macOS is in the <a href="https://github.com/VecturaDB/VecturaDB/releases">releases</a>. In Python, the <code>VecturaDB</code> package also runs without a server.</p>
+<h2 id="2-create-a-bm25-index-and-search">2. Create a BM25 index and search</h2>
+<p>The client computes the BM25 vectors from the documents. The dense vectors come from your embedding model: the examples use three short ones.</p>
+<h3 id="python">Python</h3>
+<div class="hl"><pre tabindex="0"><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>VecturaDB<span class="w"> </span>snowballstemmer
+</code></pre></div>
+
+<p>The <code>VecturaDB</code> package keeps the import name <code>chromadb</code>: uninstall <code>chromadb</code> first. With a server, <code>chromadb</code> 1.5.9 works too. <code>snowballstemmer</code> is for BM25.</p>
+<div class="hl"><pre tabindex="0"><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">chromadb</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chromadb</span><span class="w"> </span><span class="kn">import</span> <span class="n">K</span><span class="p">,</span> <span class="n">Knn</span><span class="p">,</span> <span class="n">Schema</span><span class="p">,</span> <span class="n">Search</span><span class="p">,</span> <span class="n">SparseVectorIndexConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chromadb.utils.embedding_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChromaBm25EmbeddingFunction</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">"127.0.0.1"</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
+
+<span class="n">schema</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">()</span>
+<span class="n">schema</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">SparseVectorIndexConfig</span><span class="p">(</span>
+        <span class="n">source_key</span><span class="o">=</span><span class="n">K</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span>
+        <span class="n">embedding_function</span><span class="o">=</span><span class="n">ChromaBm25EmbeddingFunction</span><span class="p">(),</span>
+        <span class="n">bm25</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">key</span><span class="o">=</span><span class="s2">"doc_bm25"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">collection</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">create_collection</span><span class="p">(</span><span class="s2">"articles"</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">,</span> <span class="n">embedding_function</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">collection</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">"fox"</span><span class="p">,</span> <span class="s2">"pie"</span><span class="p">,</span> <span class="s2">"ml"</span><span class="p">],</span>
+    <span class="n">embeddings</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>
+    <span class="n">documents</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">"The quick brown fox jumps over the lazy dog"</span><span class="p">,</span>
+        <span class="s2">"Grandma bakes an apple pie every Sunday"</span><span class="p">,</span>
+        <span class="s2">"Machine learning is a subset of artificial intelligence"</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+    <span class="n">Search</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">Knn</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s2">"apple pie"</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">"doc_bm25"</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">K</span><span class="o">.</span><span class="n">SCORE</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">"ids"</span><span class="p">],</span> <span class="n">results</span><span class="p">[</span><span class="s2">"scores"</span><span class="p">])</span>
+</code></pre></div>
+
+<p>Without a server, <code>chromadb.PersistentClient(path="./vecturadb-data")</code> runs the same code inside your application, with the <code>VecturaDB</code> package.</p>
+<h3 id="javascript">JavaScript</h3>
+<div class="hl"><pre tabindex="0"><span></span><code>npm<span class="w"> </span>install<span class="w"> </span>chromadb@3.5.0<span class="w"> </span>@chroma-core/chroma-bm25
+</code></pre></div>
+
+<div class="hl"><pre tabindex="0"><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">ChromaClient</span><span class="p">,</span><span class="w"> </span><span class="nx">K</span><span class="p">,</span><span class="w"> </span><span class="nx">Knn</span><span class="p">,</span><span class="w"> </span><span class="nx">Schema</span><span class="p">,</span><span class="w"> </span><span class="nx">Search</span><span class="p">,</span><span class="w"> </span><span class="nx">SparseVectorIndexConfig</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"chromadb"</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">ChromaBm25EmbeddingFunction</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"@chroma-core/chroma-bm25"</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">ChromaClient</span><span class="p">({</span><span class="w"> </span><span class="nx">host</span><span class="o">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="p">,</span><span class="w"> </span><span class="nx">port</span><span class="o">:</span><span class="w"> </span><span class="mf">8000</span><span class="p">,</span><span class="w"> </span><span class="nx">ssl</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">});</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">schema</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Schema</span><span class="p">();</span>
+<span class="nx">schema</span><span class="p">.</span><span class="nx">createIndex</span><span class="p">(</span>
+<span class="w">  </span><span class="ow">new</span><span class="w"> </span><span class="nx">SparseVectorIndexConfig</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">sourceKey</span><span class="o">:</span><span class="w"> </span><span class="nx">K</span><span class="p">.</span><span class="nx">DOCUMENT</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">embeddingFunction</span><span class="o">:</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">ChromaBm25EmbeddingFunction</span><span class="p">(),</span>
+<span class="w">    </span><span class="nx">bm25</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="p">}),</span>
+<span class="w">  </span><span class="s2">"doc_bm25"</span><span class="p">,</span>
+<span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">collection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">createCollection</span><span class="p">({</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"articles"</span><span class="p">,</span><span class="w"> </span><span class="nx">schema</span><span class="p">,</span><span class="w"> </span><span class="nx">embeddingFunction</span><span class="o">:</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="p">});</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">collection</span><span class="p">.</span><span class="nx">add</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">ids</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"fox"</span><span class="p">,</span><span class="w"> </span><span class="s2">"pie"</span><span class="p">,</span><span class="w"> </span><span class="s2">"ml"</span><span class="p">],</span>
+<span class="w">  </span><span class="nx">embeddings</span><span class="o">:</span><span class="w"> </span><span class="p">[[</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">0</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">0</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">1</span><span class="p">]],</span>
+<span class="w">  </span><span class="nx">documents</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"The quick brown fox jumps over the lazy dog"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Grandma bakes an apple pie every Sunday"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Machine learning is a subset of artificial intelligence"</span><span class="p">,</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="p">});</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">collection</span><span class="p">.</span><span class="nx">search</span><span class="p">(</span>
+<span class="w">  </span><span class="ow">new</span><span class="w"> </span><span class="nx">Search</span><span class="p">().</span><span class="nx">rank</span><span class="p">(</span><span class="nx">Knn</span><span class="p">({</span><span class="w"> </span><span class="nx">query</span><span class="o">:</span><span class="w"> </span><span class="s2">"apple pie"</span><span class="p">,</span><span class="w"> </span><span class="nx">key</span><span class="o">:</span><span class="w"> </span><span class="s2">"doc_bm25"</span><span class="w"> </span><span class="p">})).</span><span class="nx">limit</span><span class="p">(</span><span class="mf">3</span><span class="p">).</span><span class="nx">select</span><span class="p">(</span><span class="nx">K</span><span class="p">.</span><span class="nx">DOCUMENT</span><span class="p">,</span><span class="w"> </span><span class="nx">K</span><span class="p">.</span><span class="nx">SCORE</span><span class="p">),</span>
+<span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">results</span><span class="p">.</span><span class="nx">ids</span><span class="p">,</span><span class="w"> </span><span class="nx">results</span><span class="p">.</span><span class="nx">scores</span><span class="p">);</span>
+</code></pre></div>
+
+<h3 id="net">.NET</h3>
+<p><a href="https://www.nuget.org/packages/ChromaDotNet.Client">ChromaDotNet.Client</a> 2.18.1:</p>
+<div class="hl"><pre tabindex="0"><span></span><code>dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w"> </span>ChromaDotNet.Client
+</code></pre></div>
+
+<div class="hl"><pre tabindex="0"><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">ChromaDB.Client</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">ChromaDB.Client.Models</span><span class="p">;</span>
+
+<span class="k">using</span><span class="w"> </span><span class="nn">var</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ChromaClient</span><span class="p">(</span><span class="s">"http://127.0.0.1:8000"</span><span class="p">);</span>
+
+<span class="kt">var</span><span class="w"> </span><span class="n">collection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">CreateCollectionAsync</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">ChromaCollectionDefinition</span><span class="p">(</span><span class="s">"articles"</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">Schema</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ChromaCollectionSchema</span><span class="p">().</span><span class="n">WithSparseVectorIndex</span><span class="p">(</span><span class="s">"doc_bm25"</span><span class="p">,</span><span class="w"> </span><span class="n">ChromaSearchKeys</span><span class="p">.</span><span class="n">Document</span><span class="p">,</span><span class="w"> </span><span class="n">bm25</span><span class="p">:</span><span class="w"> </span><span class="k">true</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ChromaBm25</span><span class="p">().</span><span class="n">Reference</span><span class="p">),</span>
+<span class="p">});</span>
+<span class="kt">var</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">GetCollectionClient</span><span class="p">(</span><span class="n">collection</span><span class="p">);</span>
+<span class="k">await</span><span class="w"> </span><span class="n">articles</span><span class="p">.</span><span class="n">AddAsync</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">ChromaRecords</span><span class="p">([</span><span class="s">"fox"</span><span class="p">,</span><span class="w"> </span><span class="s">"pie"</span><span class="p">,</span><span class="w"> </span><span class="s">"ml"</span><span class="p">])</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">Embeddings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="k">new</span><span class="w"> </span><span class="kt">float</span><span class="p">[]</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">float</span><span class="p">[]</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">float</span><span class="p">[]</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">}],</span>
+<span class="w">    </span><span class="n">Documents</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">[</span>
+<span class="na">        "The quick brown fox jumps over the lazy dog",</span>
+<span class="na">        "Grandma bakes an apple pie every Sunday",</span>
+<span class="na">        "Machine learning is a subset of artificial intelligence",</span>
+<span class="na">    ]</span><span class="p">,</span>
+<span class="p">});</span>
+
+<span class="kt">var</span><span class="w"> </span><span class="n">results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">articles</span><span class="p">.</span><span class="n">SearchAsync</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">ChromaSearch</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">Rank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ChromaRank</span><span class="p">.</span><span class="n">SparseKnn</span><span class="p">(</span><span class="s">"apple pie"</span><span class="p">,</span><span class="w"> </span><span class="s">"doc_bm25"</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Select</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">ChromaSearchKeys</span><span class="p">.</span><span class="n">Document</span><span class="p">,</span><span class="w"> </span><span class="n">ChromaSearchKeys</span><span class="p">.</span><span class="n">Score</span><span class="p">],</span>
+<span class="p">});</span>
+<span class="k">foreach</span><span class="w"> </span><span class="p">(</span><span class="kt">var</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">results</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">$"{result.Id} {result.Score}"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="3-read-the-result">3. Read the result</h2>
+<p>With each of the three clients:</p>
+<div class="table" tabindex="0"><table>
+<thead>
+<tr>
+<th>Record</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pie</code></td>
+<td>-4.4985623</td>
+</tr>
+</tbody>
+</table></div>
+<p>The lowest score comes first. Only the records with a term of the query come back: <code>fox</code> and <code>ml</code> have neither "apple" nor "pie".</p>
+<h2 id="collections-copied-from-chroma-cloud">Collections copied from Chroma Cloud</h2>
+<p>A collection copied with the <code>vecturadb copy</code> command keeps its BM25 index. To search it, find the key of the index:</p>
+<div class="hl"><pre tabindex="0"><span></span><code><span class="n">collection</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="s2">"&lt;name&gt;"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">types</span> <span class="ow">in</span> <span class="n">collection</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+       <span class="k">if</span> <span class="n">types</span><span class="o">.</span><span class="n">sparse_vector</span> <span class="ow">and</span> <span class="n">types</span><span class="o">.</span><span class="n">sparse_vector</span><span class="o">.</span><span class="n">sparse_vector_index</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">bm25</span><span class="p">])</span>
+</code></pre></div>
+
+<p>Then search with <code>Knn(query="&lt;text&gt;", key="&lt;key&gt;")</code>. The copy: <a href="/migrate-from-chroma-cloud/">Migrate from Chroma Cloud</a>.</p>
+<h2 id="hybrid-search">Hybrid search</h2>
+<p>To merge BM25 with dense search, see <a href="/leaving-chroma-cloud/hybrid-search-without-chroma-cloud">Hybrid search on your own server</a>.</p>
+<h2 id="on-kubernetes">On Kubernetes</h2>
+<p>Distributed Chroma runs BM25 too: see <a href="https://chromadotnet.org/migrate-from-chroma-cloud-kubernetes/">Migrate from Chroma Cloud to self-hosted distributed Chroma on Kubernetes</a>.</p>
+  </main>
+</div>
+
+<!-- site-footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+        <p>Vector database compatible with the Chroma API, bringing Chroma Cloud's features to open source.</p>
+      </div>
+      <div class="footer-col">
+        <h2>Docs</h2>
+        <ul>
+          <li><a href="/get-started/">Get started</a></li>
+          <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+          <li><a href="/clients/">Clients</a></li>
+          <li><a href="/deploy/">Deploy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/VecturaDB/VecturaDB">GitHub</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/security/policy">Security policy</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/blob/main/LICENSE">License</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Packages</h2>
+        <ul>
+          <li><a href="https://pypi.org/project/VecturaDB/">PyPI</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/pkgs/container/vecturadb">Docker image</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Independent project. Not affiliated with, endorsed by or sponsored by Chroma Inc. CHROMA is a registered trademark of Chroma Inc., used here only to describe compatibility. <a href="/#about">About</a></p>
+      <p>Apache License 2.0</p>
+    </div>
+  </div>
+</footer>
+<!-- /site-footer -->
+</body>
+</html>

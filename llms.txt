@@ -17,6 +17,9 @@ Notes for assistants:
 
 ## Migrate from Chroma Cloud
 
+- [Chroma Cloud is shutting down: where to move your collections](https://vecturadb.org/chroma-cloud-shutting-down/index.md): the dates, and the three self-hosted destinations that keep the Chroma API.
+- [Chroma BM25 search on your own server, without Chroma Cloud](https://vecturadb.org/chroma-bm25-without-chroma-cloud/index.md): a BM25 index and search in Python, JavaScript and .NET.
+- [Search operation is not implemented for local executor: the Chroma error and the fix](https://vecturadb.org/search-operation-is-not-implemented-for-local-executor/index.md): the error in each client, and the other errors of the single node.
 - [Migrate from Chroma Cloud to a self-hosted Chroma server (single node, with hybrid search and BM25)](https://vecturadb.org/migrate-from-chroma-cloud/index.md): start the server, copy every collection, check the copy, change one line in the client.
 - [Migrate from Chroma Cloud to self-hosted distributed Chroma on Kubernetes](https://chromadotnet.org/migrate-from-chroma-cloud-kubernetes/index.md): for several nodes, with ChromaDB.Operator.
 - [Leaving Chroma Cloud](https://vecturadb.org/leaving-chroma-cloud/index.md): the destinations compared.

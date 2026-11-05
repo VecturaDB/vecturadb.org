@@ -100,4 +100,16 @@
     <loc>https://vecturadb.org/deploy/vecturadb/aws/vm/</loc>
     <lastmod>2026-10-29</lastmod>
   </url>
+  <url>
+    <loc>https://vecturadb.org/chroma-cloud-shutting-down/</loc>
+    <lastmod>2026-11-05</lastmod>
+  </url>
+  <url>
+    <loc>https://vecturadb.org/chroma-bm25-without-chroma-cloud/</loc>
+    <lastmod>2026-11-05</lastmod>
+  </url>
+  <url>
+    <loc>https://vecturadb.org/search-operation-is-not-implemented-for-local-executor/</loc>
+    <lastmod>2026-11-05</lastmod>
+  </url>
 </urlset>
