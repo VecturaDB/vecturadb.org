@@ -10,7 +10,7 @@ Not sure about your case? [Open an issue in the VecturaDB repository](https://gi
 
 Chroma 1.5.9 is the open-source Chroma server. It runs as one container, inside a Python application, or, in .NET, inside your application with ChromaDotNet.Local. It keeps dense search, metadata filters and document filters. It has no sparse vectors, no BM25, no Search API and no collection fork.
 
-VecturaDB, which wrote this guide, is not affiliated with Chroma. We ran every command below on 2 November 2026, against Chroma Cloud and against `chromadb/chroma:1.5.9`, and the copy again on 5 November 2026 with VecturaDB 1.0.0-preview.6.
+VecturaDB, which wrote this guide, is not affiliated with Chroma. We ran every command below on 2 November 2026, against Chroma Cloud and against `chromadb/chroma:1.5.9`, and the copy again on 5 November 2026 with VecturaDB 1.0.0-preview.7.
 
 ## 1\. Start Chroma
     
@@ -27,7 +27,7 @@ The copy runs with the `vecturadb` CLI, from the image of VecturaDB. It reads Ch
     
     
     export CHROMA_API_KEY=<your Chroma Cloud API key>
-    docker run --rm --network chroma-net -e CHROMA_API_KEY --entrypoint bash ghcr.io/vecturadb/vecturadb:1.0.0-preview.6 -c \
+    docker run --rm --network chroma-net -e CHROMA_API_KEY --entrypoint bash ghcr.io/vecturadb/vecturadb:1.0.0-preview.7 -c \
       'vecturadb login --api-key "$CHROMA_API_KEY" --profile cloud &&
        vecturadb copy --from-cloud --to-local --host http://chroma:8000 --db <database> --all'
     
@@ -43,6 +43,7 @@ What arrives: every record, with its document, metadata, embedding and URI, and 
 Collections with sparse vectors fail, because Chroma 1.5.9 cannot store them:
 
   * collections with a sparse vector index or a BM25 index: `Sparse vector indexing is not enabled in local`;
+  * collections with more than one sparse vector index: `At most one sparse vector index is allowed for the collection`;
   * collections with sparse vectors in their metadata: `Sparse vector is not supported for local chroma`. The CLI leaves such a collection empty on Chroma 1.5.9: delete it before the script, for example with `client.delete_collection("<name>")`.
 
 Copy these with our script [copy_without_sparse.py](https://github.com/VecturaDB/VecturaDB/blob/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/copy_without_sparse.py):

@@ -64,7 +64,7 @@
   <section class="hero">
     <div class="container hero-grid">
       <div>
-        <a class="pill" href="https://github.com/VecturaDB/VecturaDB/releases/tag/v1.0.0-preview.5"><span class="dot" aria-hidden="true"></span>Latest release: 1.0.0-preview.5</a>
+        <a class="pill" href="https://github.com/VecturaDB/VecturaDB/releases/tag/v1.0.0-preview.7"><span class="dot" aria-hidden="true"></span>Latest release: 1.0.0-preview.7</a>
         <h1>Vector database compatible with the Chroma API, bringing <span class="grad">Chroma Cloud's features to open source</span>.</h1>
         <p class="lead">Sparse vectors, BM25, the Search API, hybrid search included, collection fork and API keys work on the single node.</p>
         <p class="hero-note">Independent project. Not affiliated with, endorsed by or sponsored by Chroma Inc. CHROMA is a registered trademark of Chroma Inc., used here only to describe compatibility.</p>
@@ -276,16 +276,13 @@ chroma<span class="w"> </span>run<span class="w"> </span>--path<span class="w"> 
         <p class="eyebrow">Leaving Chroma Cloud</p>
         <h2 id="leaving-title">Guides for every destination, Chroma included</h2>
         <p>Chroma Cloud is winding down: it stops accepting writes on 7 December 2026 and stops serving reads on 22 December 2026.</p>
-        <p>The CLI copies collections from Chroma Cloud into a running VecturaDB:</p>
-        <div class="code-card"><pre tabindex="0"><code class="language-bash">chroma<span class="w"> </span>login<span class="w"> </span>--api-key<span class="w"> </span>&lt;your<span class="w"> </span>Chroma<span class="w"> </span>Cloud<span class="w"> </span>API<span class="w"> </span>key&gt;
-chroma<span class="w"> </span>copy<span class="w"> </span>--from-cloud<span class="w"> </span>--to-local<span class="w"> </span>--host<span class="w"> </span>http://localhost:8000<span class="w"> </span>--db<span class="w"> </span>&lt;database&gt;<span class="w"> </span>--all
-</code></pre></div>
+        <p>The <code>vecturadb copy</code> command copies collections from Chroma Cloud into a running VecturaDB, sparse and BM25 indexes included: see <a href="/migrate-from-chroma-cloud/">Migrate from Chroma Cloud</a>.</p>
         <div class="actions"><a class="btn btn-primary" href="/leaving-chroma-cloud/">Read the guides</a></div>
       </div>
       <div class="cards">
         <a class="card" href="/leaving-chroma-cloud/to-chroma-single-node"><h3>To Chroma 1.5.9, single node <span class="arrow" aria-hidden="true">→</span></h3><p>The open-source single-node server.</p></a>
         <a class="card" href="/leaving-chroma-cloud/to-chroma-distributed"><h3>To Chroma distributed <span class="arrow" aria-hidden="true">→</span></h3><p>The open-source multi-service deployment, run on Kubernetes.</p></a>
-        <a class="card" href="/leaving-chroma-cloud/to-vecturadb"><h3>To VecturaDB <span class="arrow" aria-hidden="true">→</span></h3><p>A single-node server built from Chroma, with Chroma Cloud's sparse vectors, BM25, hybrid search and collection fork.</p></a>
+        <a class="card" href="/migrate-from-chroma-cloud/"><h3>To VecturaDB <span class="arrow" aria-hidden="true">→</span></h3><p>A single-node server built from Chroma, with Chroma Cloud's sparse vectors, BM25, hybrid search and collection fork.</p></a>
         <a class="card" href="/leaving-chroma-cloud/hosted-embedding-models"><h3>Hosted embedding models <span class="arrow" aria-hidden="true">→</span></h3><p>Shared by the three guides.</p></a>
       </div>
     </div>

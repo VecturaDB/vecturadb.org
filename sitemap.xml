@@ -2,15 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://vecturadb.org/</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
   </url>
   <url>
     <loc>https://vecturadb.org/get-started/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-05</lastmod>
   </url>
   <url>
     <loc>https://vecturadb.org/features/</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
   </url>
   <url>
     <loc>https://vecturadb.org/clients/</loc>
@@ -22,11 +22,11 @@
   </url>
   <url>
     <loc>https://vecturadb.org/leaving-chroma-cloud/</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
   </url>
   <url>
     <loc>https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-05</lastmod>
   </url>
   <url>
     <loc>https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed</loc>
@@ -42,7 +42,7 @@
   </url>
   <url>
     <loc>https://vecturadb.org/leaving-chroma-cloud/hybrid-search-without-chroma-cloud</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
   </url>
   <url>
     <loc>https://vecturadb.org/news/</loc>

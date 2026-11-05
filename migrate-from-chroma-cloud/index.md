@@ -10,7 +10,7 @@ Chroma Cloud stops accepting writes on 7 December 2026 and stops serving reads o
 
 VecturaDB is a single-node server built from Chroma, with the same API, that has those features: the Search API with dense and sparse ranks and RRF, sparse vectors, BM25, SPANN, collection fork, conditional transactions and attached functions. The full list: [What VecturaDB has](https://vecturadb.org/features/). It is an independent project, not affiliated with Chroma.
 
-We ran every step below on 5 November 2026, with VecturaDB 1.0.0-preview.6 in Docker on Windows, against our Chroma Cloud database: 21 collections, with sparse, BM25, SPANN and legacy `hnsw:*` collections among them.
+We ran every step below on 5 November 2026, with VecturaDB 1.0.0-preview.7 in Docker on Windows, against our Chroma Cloud database: 21 collections, with sparse, BM25, SPANN and legacy `hnsw:*` collections among them.
 
 Need several nodes? Run distributed Chroma on your own Kubernetes: see [Migrate from Chroma Cloud to self-hosted distributed Chroma on Kubernetes](https://chromadotnet.org/migrate-from-chroma-cloud-kubernetes/).
 
@@ -18,7 +18,7 @@ Need several nodes? Run distributed Chroma on your own Kubernetes: see [Migrate 
     
     
     docker network create vecturadb-net
-    docker run -d --name vecturadb --network vecturadb-net -p 127.0.0.1:8000:8000 -v vecturadb-data:/data ghcr.io/vecturadb/vecturadb:1.0.0-preview.6
+    docker run -d --name vecturadb --network vecturadb-net -p 127.0.0.1:8000:8000 -v vecturadb-data:/data ghcr.io/vecturadb/vecturadb:1.0.0-preview.7
     
 
 The data lives in the Docker volume `vecturadb-data`. `-p 127.0.0.1:8000:8000` publishes the port on this machine only. Without Docker, the `vecturadb` binary for Windows, Linux and macOS is in the [releases](https://github.com/VecturaDB/VecturaDB/releases).
@@ -29,7 +29,7 @@ The `vecturadb` CLI is in the same image. It needs your Chroma Cloud API key and
     
     
     export CHROMA_API_KEY=<your Chroma Cloud API key>
-    docker run --rm --network vecturadb-net -e CHROMA_API_KEY --entrypoint bash ghcr.io/vecturadb/vecturadb:1.0.0-preview.6 -c \
+    docker run --rm --network vecturadb-net -e CHROMA_API_KEY --entrypoint bash ghcr.io/vecturadb/vecturadb:1.0.0-preview.7 -c \
       'vecturadb login --api-key "$CHROMA_API_KEY" --profile cloud &&
        vecturadb copy --from-cloud --to-local --host http://vecturadb:8000 --db <database> --all'
     
@@ -85,7 +85,7 @@ The `VecturaDB` package keeps the import name `chromadb`, so your code runs as i
     client = chromadb.HttpClient(host="127.0.0.1", port=8000)
     
 
-In our run, with `VecturaDB` 1.0.0rc6, the client listed the 21 collections, and BM25 and hybrid searches answered on the copied data.
+In our run, with `VecturaDB` 1.0.0rc7, the client listed the 21 collections, and BM25 and hybrid searches answered on the copied data.
 
 ### JavaScript
 
@@ -125,7 +125,7 @@ Other languages: [Clients](https://vecturadb.org/clients/).
 
 ### API keys
 
-Without API keys the server accepts every request, like open-source Chroma. With a file of users and keys it checks the `x-chroma-token` header, as Chroma Cloud does: see [API keys](https://github.com/VecturaDB/VecturaDB/blob/v1.0.0-preview.6/docs/mintlify/guides/deploy/client-server-mode.mdx#api-keys). The server does not serve HTTPS: put a TLS proxy in front of it to expose it beyond your machine.
+Without API keys the server accepts every request, like open-source Chroma. With a file of users and keys it checks the `x-chroma-token` header, as Chroma Cloud does: see [API keys](https://github.com/VecturaDB/VecturaDB/blob/v1.0.0-preview.7/docs/mintlify/guides/deploy/client-server-mode.mdx#api-keys). The server does not serve HTTPS: put a TLS proxy in front of it to expose it beyond your machine.
 
 ## Going back to Chroma 1.5.9
 

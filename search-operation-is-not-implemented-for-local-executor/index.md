@@ -30,7 +30,7 @@ JavaScript `chromadb` 3.5.0 | `ChromaServerError: Error executing plan: Not impl
 Start VecturaDB:
     
     
-    docker run -d --name vecturadb -p 127.0.0.1:8000:8000 -v vecturadb-data:/data ghcr.io/vecturadb/vecturadb:1.0.0-preview.6
+    docker run -d --name vecturadb -p 127.0.0.1:8000:8000 -v vecturadb-data:/data ghcr.io/vecturadb/vecturadb:1.0.0-preview.7
     
 
 Point your client at it. The rest of the code does not change:
