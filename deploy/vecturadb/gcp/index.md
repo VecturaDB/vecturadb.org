@@ -23,7 +23,7 @@ e2-micro with its disks and external IP, whatever the use. The API key adds 0.06
   * Snapshots of the data disk every 24 hours, kept 7 days
   * API keys, kept in Secret Manager and not in the state of Terraform
 
-[Open in Cloud Shell](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&cloudshell_git_branch=gcp-v1.0.0&cloudshell_workspace=gcp%2Fvm&cloudshell_tutorial=tutorial-vecturadb.md) [Details](https://vecturadb.org/deploy/vecturadb/gcp/vm/)
+[Open in Cloud Shell](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&cloudshell_git_branch=gcp-v1.0.1&cloudshell_workspace=gcp%2Fvm&cloudshell_tutorial=tutorial-vecturadb.md) [Details](https://vecturadb.org/deploy/vecturadb/gcp/vm/)
 
 **The template is free and open source (Apache 2.0).** You pay only Google Cloud, which bills you directly: no fee from us.
 

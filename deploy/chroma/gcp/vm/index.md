@@ -6,7 +6,7 @@ Source: https://vecturadb.org/deploy/chroma/gcp/vm/
 
 One server in your own Google Cloud project, with its data on a disk of its own, HTTPS, allowed IP addresses and snapshots. From about 13 USD a month on your Google Cloud bill.
 
-[Open in Cloud Shell](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&cloudshell_git_branch=gcp-v1.0.0&cloudshell_workspace=gcp%2Fvm&cloudshell_tutorial=tutorial-chroma.md) [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/gcp-v1.0.0/gcp/vm)
+[Open in Cloud Shell](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&cloudshell_git_branch=gcp-v1.0.1&cloudshell_workspace=gcp%2Fvm&cloudshell_tutorial=tutorial-chroma.md) [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/gcp-v1.0.1/gcp/vm)
 
 **Disclaimer.** This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured on 5 November 2026 in europe-west1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
 
@@ -44,11 +44,11 @@ Secret Manager secret| Only VecturaDB with an API key
   
 ## Deploy
 
-[Open in Cloud Shell](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&cloudshell_git_branch=gcp-v1.0.0&cloudshell_workspace=gcp%2Fvm&cloudshell_tutorial=tutorial-chroma.md)
+[Open in Cloud Shell](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&cloudshell_git_branch=gcp-v1.0.1&cloudshell_workspace=gcp%2Fvm&cloudshell_tutorial=tutorial-chroma.md)
 
-Google Cloud has no form that creates a deployment from a link. The button opens Cloud Shell, the terminal of the Google Cloud console, with the template of the tag `gcp-v1.0.0` and a guide on the side, which runs Terraform step by step.
+Google Cloud has no form that creates a deployment from a link. The button opens Cloud Shell, the terminal of the Google Cloud console, with the template of the tag `gcp-v1.0.1` and a guide on the side, which runs Terraform step by step.
 
-  1. Google asks to confirm the clone of the repository. Without “Trust repo”, Cloud Shell is temporary: its files are deleted at the end of the session, and it has no credentials until the guide signs you in. In a temporary Cloud Shell `gcloud auth login` first says that you are already authenticated: answer `Y`.
+  1. Google asks to confirm the clone of the repository. Without “Trust repo”, Cloud Shell is temporary: its files are deleted at the end of the session, and it has no credentials until the guide signs you in. If Google asks to authorize Cloud Shell when it opens, it is not needed: click outside it to close it, the guide signs you in. In a temporary Cloud Shell `gcloud auth login` first says that you are already authenticated: answer `Y`.
   2. The guide turns on the APIs that the template uses, installs Terraform, and creates a Cloud Storage bucket for the state of Terraform, `<project id>-chroma-tfstate`, with versioning and without public access.
   3. You give the IP address of your computer, then `terraform apply` creates everything. The settings file goes to the bucket too, next to the state.
 
@@ -71,7 +71,7 @@ With Terraform 1.11 or later on your computer:
     export TF_VAR_project_id=<project id>
     terraform apply -parallelism=2 -var-file=chroma.tfvars -var 'allowed_ip_ranges=["203.0.113.10/32"]'
 
-For VecturaDB with an API key, use `vecturadb.tfvars` and `export TF_VAR_api_key=<your key>` first. The template and its README are in the [VecturaDB.Deploy repository](https://github.com/VecturaDB/VecturaDB.Deploy), under [`gcp/vm`](https://github.com/VecturaDB/VecturaDB.Deploy/tree/gcp-v1.0.0/gcp/vm).
+For VecturaDB with an API key, use `vecturadb.tfvars` and `export TF_VAR_api_key=<your key>` first. The template and its README are in the [VecturaDB.Deploy repository](https://github.com/VecturaDB/VecturaDB.Deploy), under [`gcp/vm`](https://github.com/VecturaDB/VecturaDB.Deploy/tree/gcp-v1.0.1/gcp/vm).
 
 The commands run Terraform with two operations at a time: in our tests from Cloud Shell, with the default of 10, 5 plans out of 11 failed with a refused connection to the Google APIs, and with 2 none out of 11.
 
@@ -146,9 +146,7 @@ In our tests a switch from Chroma 1.5.9 to VecturaDB with an API key took 33 sec
 `terraform destroy` deletes the VM, the data disk, the network, the IP address, the service account and the secret. The snapshots stay: delete them after the VM, so that no new snapshot comes after the cleanup. Then delete the state and the settings in the bucket. The last step of the guide has the same commands.
     
     
-    terraform destroy -parallelism=2 -var-file=chroma.tfvars
-    for s in $(gcloud compute snapshots list --filter="labels.chroma-backup=chroma" --format="value(name)"); do gcloud compute snapshots delete $s --quiet; done
-    gcloud storage rm --recursive --all-versions gs://$BUCKET/chroma
+    terraform destroy -parallelism=2 -var-file=chroma.tfvars && for s in $(gcloud compute snapshots list --filter="labels.chroma-backup=chroma" --format="value(name)" --verbosity=error); do gcloud compute snapshots delete $s --quiet; done && gcloud storage rm --recursive --all-versions gs://$BUCKET/chroma
 
 In our tests `terraform destroy` took 109-141 seconds from a computer; afterwards nothing of the deployment was left in the project.
 
