@@ -78,8 +78,8 @@
 <h1 id="vecturadb-on-a-google-cloud-vm">VecturaDB on a Google Cloud VM</h1>
 <p class="lead-doc">One VecturaDB server in your own Google Cloud project, with its data on a disk of its own, HTTPS, API keys, allowed IP addresses and snapshots. From about 13&nbsp;USD a month on your Google Cloud bill.</p>
 <div class="actions">
-<a class="btn btn-primary" href="https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&amp;cloudshell_git_branch=gcp-v1.0.0&amp;cloudshell_workspace=gcp%2Fvm&amp;cloudshell_tutorial=tutorial-vecturadb.md">Open in Cloud Shell</a>
-<a class="btn btn-secondary" href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/gcp-v1.0.0/gcp/vm">README of the template</a>
+<a class="btn btn-primary" href="https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&amp;cloudshell_git_branch=gcp-v1.0.1&amp;cloudshell_workspace=gcp%2Fvm&amp;cloudshell_tutorial=tutorial-vecturadb.md">Open in Cloud Shell</a>
+<a class="btn btn-secondary" href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/gcp-v1.0.1/gcp/vm">README of the template</a>
 </div>
 <div class="note">
 <p><strong>Disclaimer.</strong> This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.7 on 5 November 2026 in europe-west1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.</p>
@@ -118,10 +118,10 @@
 </table></div>
 
 <h2 id="deploy">Deploy</h2>
-<p><a class="btn btn-primary" href="https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&amp;cloudshell_git_branch=gcp-v1.0.0&amp;cloudshell_workspace=gcp%2Fvm&amp;cloudshell_tutorial=tutorial-vecturadb.md">Open in Cloud Shell</a></p>
-<p>Google Cloud has no form that creates a deployment from a link. The button opens Cloud Shell, the terminal of the Google Cloud console, with the template of the tag <code>gcp-v1.0.0</code> and a guide on the side, with VecturaDB already chosen, which runs Terraform step by step.</p>
+<p><a class="btn btn-primary" href="https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&amp;cloudshell_git_branch=gcp-v1.0.1&amp;cloudshell_workspace=gcp%2Fvm&amp;cloudshell_tutorial=tutorial-vecturadb.md">Open in Cloud Shell</a></p>
+<p>Google Cloud has no form that creates a deployment from a link. The button opens Cloud Shell, the terminal of the Google Cloud console, with the template of the tag <code>gcp-v1.0.1</code> and a guide on the side, with VecturaDB already chosen, which runs Terraform step by step.</p>
 <ol>
-<li>Google asks to confirm the clone of the repository. Without “Trust repo”, Cloud Shell is temporary: its files are deleted at the end of the session, and it has no credentials until the guide signs you in. In a temporary Cloud Shell <code>gcloud auth login</code> first says that you are already authenticated: answer <code>Y</code>.</li>
+<li>Google asks to confirm the clone of the repository. Without “Trust repo”, Cloud Shell is temporary: its files are deleted at the end of the session, and it has no credentials until the guide signs you in. If Google asks to authorize Cloud Shell when it opens, it is not needed: click outside it to close it, the guide signs you in. In a temporary Cloud Shell <code>gcloud auth login</code> first says that you are already authenticated: answer <code>Y</code>.</li>
 <li>The guide turns on the APIs that the template uses, installs Terraform, and creates a Cloud Storage bucket for the state of Terraform, <code>&lt;project id&gt;-chroma-tfstate</code>, with versioning and without public access.</li>
 <li>You give the IP address of your computer and the API key, then <code>terraform apply</code> creates everything. The settings file goes to the bucket too, next to the state; the key goes to Secret Manager only. The key is optional with the allowed IP addresses, and required for public access.</li>
 </ol>
@@ -143,7 +143,7 @@ gcloud storage buckets create gs://&lt;bucket&gt; --location=europe-west1 --unif
 terraform init -backend-config=bucket=&lt;bucket&gt; -backend-config=prefix=vecturadb
 export TF_VAR_project_id=&lt;project id&gt; TF_VAR_api_key=&lt;your key&gt;
 terraform apply -parallelism=2 -var-file=vecturadb.tfvars -var 'allowed_ip_ranges=["203.0.113.10/32"]'</code></pre>
-<p>Give the key again at every apply: an apply without it removes the key. The template and its README are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/gcp-v1.0.0/gcp/vm"><code>gcp/vm</code></a>.</p>
+<p>Give the key again at every apply: an apply without it removes the key. The template and its README are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/gcp-v1.0.1/gcp/vm"><code>gcp/vm</code></a>.</p>
 <p>The commands run Terraform with two operations at a time: in our tests from Cloud Shell, with the default of 10, 5 plans out of 11 failed with a refused connection to the Google APIs, and with 2 none out of 11.</p>
 
 <h2 id="access-and-https">Access and HTTPS</h2>
@@ -223,7 +223,7 @@ terraform apply -parallelism=2 -var-file=vecturadb.tfvars -var 'allowed_ip_range
 <h2 id="delete-everything">Delete everything</h2>
 <p><code>terraform destroy</code> deletes the VM, the data disk, the network, the IP address, the service account and the secret. The snapshots stay: delete them after the VM, so that no new snapshot comes after the cleanup. Then delete the state and the settings in the bucket. The last step of the guide has the same commands.</p>
 <pre tabindex="0"><code>terraform destroy -parallelism=2 -var-file=vecturadb.tfvars
-for s in $(gcloud compute snapshots list --filter="labels.chroma-backup=vecturadb" --format="value(name)"); do gcloud compute snapshots delete $s --quiet; done
+for s in $(gcloud compute snapshots list --filter="labels.chroma-backup=vecturadb" --format="value(name)" --verbosity=error); do gcloud compute snapshots delete $s --quiet; done
 gcloud storage rm --recursive --all-versions gs://$BUCKET/vecturadb</code></pre>
 <p>In our tests <code>terraform destroy</code> took 109-141&nbsp;seconds from a computer; afterwards nothing of the deployment was left in the project.</p>
 

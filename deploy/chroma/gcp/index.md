@@ -23,7 +23,7 @@ e2-micro with its disks and external IP, whatever the use.
   * Snapshots of the data disk every 24 hours, kept 7 days
   * Chroma 1.5.9, or VecturaDB with API keys
 
-[Open in Cloud Shell](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&cloudshell_git_branch=gcp-v1.0.0&cloudshell_workspace=gcp%2Fvm&cloudshell_tutorial=tutorial-chroma.md) [Details](https://vecturadb.org/deploy/chroma/gcp/vm/)
+[Open in Cloud Shell](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&cloudshell_git_branch=gcp-v1.0.1&cloudshell_workspace=gcp%2Fvm&cloudshell_tutorial=tutorial-chroma.md) [Details](https://vecturadb.org/deploy/chroma/gcp/vm/)
 
 **The template is free and open source (Apache 2.0).** You pay only Google Cloud, which bills you directly: no fee from us.
 
