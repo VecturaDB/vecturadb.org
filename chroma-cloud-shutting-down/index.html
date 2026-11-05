@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chroma Cloud is shutting down: where to move your collections · VecturaDB</title>
+<meta name="description" content="Chroma Cloud stops accepting writes on 7 December 2026 and stops serving reads on 22 December 2026. Open-source Chroma stays available under the Apache License 2.0. Three self-hosted destinations keep the Chroma API: Chroma 1.5.9 on a single node, distributed Chroma on Kubernetes, and VecturaDB. Your code changes only the line that creates the client.">
+<link rel="canonical" href="https://vecturadb.org/chroma-cloud-shutting-down/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://vecturadb.org/chroma-cloud-shutting-down/">
+<meta property="og:title" content="Chroma Cloud is shutting down: where to move your collections">
+<meta property="og:description" content="Chroma Cloud stops accepting writes on 7 December 2026 and stops serving reads on 22 December 2026. Open-source Chroma stays available under the Apache License 2.0. Three self-hosted destinations keep the Chroma API: Chroma 1.5.9 on a single node, distributed Chroma on Kubernetes, and VecturaDB. Your code changes only the line that creates the client.">
+<!-- site-head -->
+<meta property="og:site_name" content="VecturaDB">
+<meta property="og:image" content="https://vecturadb.org/vecturadb-social-cloud-1280x640.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b1120" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon-96.png" type="image/png" sizes="96x96">
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="/assets/site.js" defer></script>
+<!-- /site-head -->
+</head>
+<body>
+<!-- site-header -->
+<svg class="sprite" aria-hidden="true"><symbol id="i-github" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></symbol></svg>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="visually-hidden">Menu</span>
+      <svg class="icon icon-stroke icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="icon icon-stroke icon-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/get-started/">Get started</a></li>
+        <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+        <li><a href="/deploy/">Deploy</a></li>
+        <li><a href="/clients/">Clients</a></li>
+        <li><a href="/news/">News</a></li>
+        <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+        <li><a class="nav-github" href="https://github.com/VecturaDB/VecturaDB"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<!-- /site-header -->
+
+<div class="container">
+  <main id="main" class="doc prose">
+<h1 id="chroma-cloud-is-shutting-down-where-to-move-your-collections">Chroma Cloud is shutting down: where to move your collections</h1>
+<div class="note">
+<p><strong>Disclaimer.</strong> This page is provided as is, without warranty of any kind, as stated in the Apache License 2.0. Your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.</p>
+<p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
+</div>
+<p>Chroma Cloud stops accepting writes on 7 December 2026 and stops serving reads on 22 December 2026. Open-source Chroma stays available under the Apache License 2.0. Three self-hosted destinations keep the Chroma API: Chroma 1.5.9 on a single node, distributed Chroma on Kubernetes, and VecturaDB. Your code changes only the line that creates the client.</p>
+<h2 id="the-dates">The dates</h2>
+<div class="table" tabindex="0"><table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Chroma Cloud</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>7 December 2026</td>
+<td>Read-only: it no longer creates, updates or deletes data.</td>
+</tr>
+<tr>
+<td>22 December 2026</td>
+<td>It no longer serves reads.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Source: <a href="https://www.trychroma.com/cloud-wind-down">Chroma Cloud wind-down timeline</a>, Chroma, 23 October 2026.</p>
+<p>Move the writes of your applications before 7 December 2026. Copy your collections before 22 December 2026. A copy made after 7 December 2026 holds every write, since Chroma Cloud accepts none after that date.</p>
+<h2 id="the-three-destinations">The three destinations</h2>
+<div class="table" tabindex="0"><table>
+<thead>
+<tr>
+<th></th>
+<th>Chroma 1.5.9, single node</th>
+<th>Distributed Chroma</th>
+<th>VecturaDB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What it is</td>
+<td>The open-source Chroma server</td>
+<td>The open-source, multi-service form of Chroma that Chroma Cloud is built on</td>
+<td>A single-node server built from Chroma, with the same API</td>
+</tr>
+<tr>
+<td>What you run</td>
+<td>One container, or <code>pip install chromadb</code></td>
+<td>Kubernetes, with a SQL database and object storage</td>
+<td>One container, a binary, or <code>pip install VecturaDB</code></td>
+</tr>
+<tr>
+<td>Dense search, metadata and document filters</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Search API, hybrid search (RRF), sparse vectors, BM25</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Collection fork</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes, as a copy</td>
+</tr>
+<tr>
+<td>API keys</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Guide</td>
+<td><a href="/leaving-chroma-cloud/to-chroma-single-node">To Chroma 1.5.9</a></td>
+<td><a href="https://chromadotnet.org/migrate-from-chroma-cloud-kubernetes/">With ChromaDB.Operator</a>; <a href="/leaving-chroma-cloud/to-chroma-distributed">with the Helm chart</a></td>
+<td><a href="/migrate-from-chroma-cloud/">To VecturaDB</a></td>
+</tr>
+</tbody>
+</table></div>
+<p>VecturaDB is an independent project, not affiliated with Chroma. The full list of its features: <a href="/features/">What VecturaDB has</a>.</p>
+<h2 id="which-one">Which one</h2>
+<ul>
+<li><strong>Only dense search, with metadata and document filters:</strong> Chroma 1.5.9 is enough.</li>
+<li><strong>The Search API, hybrid search, sparse vectors or BM25, on one server:</strong> VecturaDB. Chroma 1.5.9 refuses them with <code>Search operation is not implemented for local executor</code> and <code>Sparse vector indexing is not enabled in local</code>: see <a href="/search-operation-is-not-implemented-for-local-executor/">the error and the fix</a>.</li>
+<li><strong>Several nodes:</strong> distributed Chroma on Kubernetes.</li>
+</ul>
+<h2 id="copy-your-collections">Copy your collections</h2>
+<p>Each guide has the copy command for its destination. <a href="https://github.com/VecturaDB/VecturaDB/blob/eeec42dbacd6ab2d4efec2b6a899dac25f0846d0/migration/leaving-chroma-cloud/verify.py">verify.py</a> then compares each collection with Chroma Cloud: count, ids, documents, metadata, URIs, embeddings and three dense queries.</p>
+<p>The <code>chroma copy --all</code> command of the Chroma CLI asks Chroma Cloud for 10000 collections in one call, and Chroma Cloud answers <code>422 Quota exceeded</code>. The <code>vecturadb copy --all</code> command reads every collection. It copies them all into VecturaDB, and into Chroma 1.5.9 all but the collections with sparse vectors.</p>
+<h2 id="hosted-embedding-models">Hosted embedding models</h2>
+<p><code>chroma-cloud-qwen</code> and <code>chroma-cloud-splade</code> run on the servers of Chroma Cloud and stop with it. <a href="/leaving-chroma-cloud/hosted-embedding-models">Hosted embedding models</a> runs the same open models on your machine.</p>
+  </main>
+</div>
+
+<!-- site-footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/vecturadb-mark-auto.svg" alt="" width="30" height="30"><span><span class="w-vectura">Vectura</span><span class="w-db">DB</span></span></a>
+        <p>Vector database compatible with the Chroma API, bringing Chroma Cloud's features to open source.</p>
+      </div>
+      <div class="footer-col">
+        <h2>Docs</h2>
+        <ul>
+          <li><a href="/get-started/">Get started</a></li>
+          <li><a href="/leaving-chroma-cloud/">Guides</a></li>
+          <li><a href="/clients/">Clients</a></li>
+          <li><a href="/deploy/">Deploy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/VecturaDB/VecturaDB">GitHub</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/releases">Releases</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/security/policy">Security policy</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/blob/main/LICENSE">License</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Packages</h2>
+        <ul>
+          <li><a href="https://pypi.org/project/VecturaDB/">PyPI</a></li>
+          <li><a href="https://github.com/VecturaDB/VecturaDB/pkgs/container/vecturadb">Docker image</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Independent project. Not affiliated with, endorsed by or sponsored by Chroma Inc. CHROMA is a registered trademark of Chroma Inc., used here only to describe compatibility. <a href="/#about">About</a></p>
+      <p>Apache License 2.0</p>
+    </div>
+  </div>
+</footer>
+<!-- /site-footer -->
+</body>
+</html>
