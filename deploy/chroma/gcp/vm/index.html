@@ -226,9 +226,7 @@ terraform apply -parallelism=2 -var-file=chroma.tfvars -var 'allowed_ip_ranges=[
 
 <h2 id="delete-everything">Delete everything</h2>
 <p><code>terraform destroy</code> deletes the VM, the data disk, the network, the IP address, the service account and the secret. The snapshots stay: delete them after the VM, so that no new snapshot comes after the cleanup. Then delete the state and the settings in the bucket. The last step of the guide has the same commands.</p>
-<pre tabindex="0"><code>terraform destroy -parallelism=2 -var-file=chroma.tfvars
-for s in $(gcloud compute snapshots list --filter="labels.chroma-backup=chroma" --format="value(name)" --verbosity=error); do gcloud compute snapshots delete $s --quiet; done
-gcloud storage rm --recursive --all-versions gs://$BUCKET/chroma</code></pre>
+<pre tabindex="0"><code>terraform destroy -parallelism=2 -var-file=chroma.tfvars &amp;&amp; for s in $(gcloud compute snapshots list --filter="labels.chroma-backup=chroma" --format="value(name)" --verbosity=error); do gcloud compute snapshots delete $s --quiet; done &amp;&amp; gcloud storage rm --recursive --all-versions gs://$BUCKET/chroma</code></pre>
 <p>In our tests <code>terraform destroy</code> took 109-141&nbsp;seconds from a computer; afterwards nothing of the deployment was left in the project.</p>
 
 <h2 id="limits">Limits</h2>

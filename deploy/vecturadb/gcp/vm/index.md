@@ -143,9 +143,7 @@ In our tests a switch from Chroma 1.5.9 to VecturaDB with an API key took 33 sec
 `terraform destroy` deletes the VM, the data disk, the network, the IP address, the service account and the secret. The snapshots stay: delete them after the VM, so that no new snapshot comes after the cleanup. Then delete the state and the settings in the bucket. The last step of the guide has the same commands.
     
     
-    terraform destroy -parallelism=2 -var-file=vecturadb.tfvars
-    for s in $(gcloud compute snapshots list --filter="labels.chroma-backup=vecturadb" --format="value(name)" --verbosity=error); do gcloud compute snapshots delete $s --quiet; done
-    gcloud storage rm --recursive --all-versions gs://$BUCKET/vecturadb
+    terraform destroy -parallelism=2 -var-file=vecturadb.tfvars && for s in $(gcloud compute snapshots list --filter="labels.chroma-backup=vecturadb" --format="value(name)" --verbosity=error); do gcloud compute snapshots delete $s --quiet; done && gcloud storage rm --recursive --all-versions gs://$BUCKET/vecturadb
 
 In our tests `terraform destroy` took 109-141 seconds from a computer; afterwards nothing of the deployment was left in the project.
 
