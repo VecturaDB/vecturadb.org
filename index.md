@@ -2,7 +2,7 @@ Source: https://vecturadb.org/
 
 [Latest release: 1.0.0-preview.7](https://github.com/VecturaDB/VecturaDB/releases/tag/v1.0.0-preview.7)
 
-# Vector database compatible with the Chroma API, bringing Chroma Cloud's features to open source.
+# Vector database compatible with the Chroma API: the features of Chroma Cloud, that is, of distributed Chroma, on a single node.
 
 Sparse vectors, BM25, the Search API, hybrid search included, collection fork and API keys work on the single node.
 
@@ -43,9 +43,9 @@ Linux and macOS. For Windows, see [Get started](https://vecturadb.org/get-starte
 
 Features
 
-## Chroma Cloud's features, on a single node
+## The features of Chroma Cloud, that is, of distributed Chroma, on a single node
 
-Some features of Chroma exist only in Chroma Cloud and in its distributed version: sparse vectors, the BM25 index and hybrid search. VecturaDB brings them to the single-node database, the one that runs with Docker, as a server, or inside a Python application, so that they stay available to everyone, as open source.
+Some features of Chroma exist only in distributed Chroma, the one Chroma Cloud runs on: sparse vectors, the BM25 index and hybrid search. VecturaDB brings them to the single-node database, the one that runs with Docker, as a server, or inside a Python application.
 
 ### Sparse vectors
 
@@ -195,7 +195,7 @@ The `vecturadb copy` command copies collections from Chroma Cloud into a running
 
 [Read the guides](https://vecturadb.org/leaving-chroma-cloud/)
 
-### [To Chroma 1.5.9, single node →The open-source single-node server.](https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node) ### [To Chroma distributed →The open-source multi-service deployment, run on Kubernetes.](https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed) ### [To VecturaDB →A single-node server built from Chroma, with Chroma Cloud's sparse vectors, BM25, hybrid search and collection fork.](https://vecturadb.org/migrate-from-chroma-cloud/) ### [Hosted embedding models →Shared by the three guides.](https://vecturadb.org/leaving-chroma-cloud/hosted-embedding-models)
+### [To Chroma 1.5.9, single node →The open-source single-node server.](https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node) ### [To Chroma distributed →The open-source multi-service deployment, run on Kubernetes.](https://vecturadb.org/leaving-chroma-cloud/to-chroma-distributed) ### [To VecturaDB →A single-node server built from Chroma, with the sparse vectors, BM25, hybrid search and collection fork of Chroma Cloud, that is, of distributed Chroma.](https://vecturadb.org/migrate-from-chroma-cloud/) ### [Hosted embedding models →Shared by the three guides.](https://vecturadb.org/leaving-chroma-cloud/hosted-embedding-models)
 
 About
 
