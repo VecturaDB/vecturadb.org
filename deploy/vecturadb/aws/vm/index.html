@@ -78,11 +78,11 @@
 <h1 id="vecturadb-on-an-aws-ec2-instance">VecturaDB on an AWS EC2 instance</h1>
 <p class="lead-doc">One VecturaDB server in your own AWS account, with its data on an EBS volume, HTTPS, API keys, allowed IP addresses and snapshots. From about 12.50&nbsp;USD a month on your AWS bill.</p>
 <div class="actions">
-<a class="btn btn-primary" href="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.1.0%2Fvm%2Ftemplate.yaml&amp;stackName=vecturadb&amp;param_Engine=vecturadb">Launch Stack</a>
-<a class="btn btn-secondary" href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.1.0/aws/vm">README of the template</a>
+<a class="btn btn-primary" href="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.2.1%2Fvm%2Ftemplate.yaml&amp;stackName=vecturadb&amp;param_Engine=vecturadb">Launch Stack</a>
+<a class="btn btn-secondary" href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.2.1/aws/vm">README of the template</a>
 </div>
 <div class="note">
-<p><strong>Disclaimer.</strong> This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.7 on 5 November 2026 in eu-west-1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.</p>
+<p><strong>Disclaimer.</strong> This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.8 on 6 November 2026 in eu-west-1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.</p>
 <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
 </div>
 <nav class="toc" aria-label="On this page">
@@ -100,7 +100,7 @@
 </nav>
 
 <h2 id="what-it-creates">What it creates</h2>
-<p>The template runs <strong>VecturaDB 1.0.0-preview.7</strong> (<code>ghcr.io/vecturadb/vecturadb:1.0.0-preview.7</code>), built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys. The same template can also run Chroma 1.5.9.</p>
+<p>The template runs <strong>VecturaDB 1.0.0-preview.8</strong> (<code>ghcr.io/vecturadb/vecturadb:1.0.0-preview.8</code>), built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys. The same template can also run Chroma 1.5.9.</p>
 <p>VecturaDB keeps the Chroma API: the Chroma clients connect with the URL of the stack and the API key. In our tests the Python client (chromadb 1.5.9) worked over HTTPS with the key, and VecturaDB answered 401 without it.</p>
 <div class="table table-fit" tabindex="0"><table>
 <thead>
@@ -120,8 +120,8 @@
 </table></div>
 
 <h2 id="deploy">Deploy</h2>
-<p><a class="btn btn-primary" href="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.1.0%2Fvm%2Ftemplate.yaml&amp;stackName=vecturadb&amp;param_Engine=vecturadb">Launch Stack</a></p>
-<p>The button opens the quick-create page of CloudFormation in eu-west-1, with the template of the tag <code>aws-v1.1.0</code>, VecturaDB already chosen and <code>vecturadb</code> as the name of the stack. CloudFormation reads templates from Amazon S3, so the button uses a copy of the template in a public bucket.</p>
+<p><a class="btn btn-primary" href="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.2.1%2Fvm%2Ftemplate.yaml&amp;stackName=vecturadb&amp;param_Engine=vecturadb">Launch Stack</a></p>
+<p>The button opens the quick-create page of CloudFormation in eu-west-1, with the template of the tag <code>aws-v1.2.1</code>, VecturaDB already chosen and <code>vecturadb</code> as the name of the stack. CloudFormation reads templates from Amazon S3, so the button uses a copy of the template in a public bucket.</p>
 <ol>
 <li>Fill the parameters, in three groups: Server (images, instance type, size of the data volume), Access (access mode, allowed IP ranges, API key, domain, email for Let's Encrypt) and Backups. The API key is required for public access.</li>
 <li>Under “Capabilities and transforms”, tick the three acknowledgements: IAM resources, IAM resources with custom names, and <code>CAPABILITY_AUTO_EXPAND</code>.</li>
@@ -132,20 +132,20 @@
 <tr><th>In our tests</th><th>Time</th></tr>
 </thead>
 <tbody>
-<tr><td>Stack from zero, until the server answered over HTTPS</td><td>402-496&nbsp;s</td></tr>
+<tr><td>Stack from zero, until the server answered over HTTPS</td><td>521&nbsp;s</td></tr>
 </tbody>
 </table></div>
 <p>Most of the creation is the first boot of the instance, which installs Docker and Caddy. A new instance in standard credit mode has no CPU credits yet, so it runs at the baseline CPU: in our tests the credit balance was 0 during the first boot.</p>
 <p>With the AWS CLI:</p>
 <pre tabindex="0"><code>aws cloudformation create-stack --region eu-west-1 --stack-name my-vecturadb \
-  --template-url https://vecturadb-deploy.s3.eu-west-1.amazonaws.com/aws-v1.1.0/vm/template.yaml \
+  --template-url https://vecturadb-deploy.s3.eu-west-1.amazonaws.com/aws-v1.2.1/vm/template.yaml \
   --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND \
   --parameters ParameterKey=Engine,ParameterValue=vecturadb ParameterKey=ApiKey,ParameterValue=&lt;your key&gt; \
                ParameterKey=Access,ParameterValue=allowed-ips \
                ParameterKey=AllowedIpRanges,ParameterValue=203.0.113.10/32
 aws cloudformation wait stack-create-complete --region eu-west-1 --stack-name my-vecturadb
 aws cloudformation describe-stacks --region eu-west-1 --stack-name my-vecturadb --query "Stacks[0].Outputs"</code></pre>
-<p>The template and its README are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.1.0/aws/vm"><code>aws/vm</code></a>.</p>
+<p>The template and its README are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.2.1/aws/vm"><code>aws/vm</code></a>.</p>
 
 <h2 id="access-and-https">Access and HTTPS</h2>
 <div class="table table-fit" tabindex="0"><table>
@@ -170,9 +170,9 @@ aws cloudformation describe-stacks --region eu-west-1 --stack-name my-vecturadb 
 <tr><th>On the instance, against the server on 127.0.0.1, with the API key (median of 20 runs, t4g.micro)</th><th>Time</th></tr>
 </thead>
 <tbody>
-<tr><td>Query</td><td>2.4-2.5&nbsp;ms</td></tr>
-<tr><td>Get</td><td>2.5-2.6&nbsp;ms</td></tr>
-<tr><td>Add of 2 records</td><td>18.4-18.6&nbsp;ms</td></tr>
+<tr><td>Query</td><td>2.4&nbsp;ms</td></tr>
+<tr><td>Get</td><td>2.3&nbsp;ms</td></tr>
+<tr><td>Add of 2 records</td><td>17.2&nbsp;ms</td></tr>
 <tr><td>8 concurrent writers, in all</td><td>2.1&nbsp;s</td></tr>
 </tbody>
 </table></div>
@@ -193,7 +193,7 @@ aws cloudformation describe-stacks --region eu-west-1 --stack-name my-vecturadb 
 <li>With internal access the Elastic IP stays: it is the way out to the internet, as there is no NAT gateway.</li>
 <li>Not in the table: outbound traffic and the snapshots of the backups.</li>
 <li>The t4g and t3 types have a baseline CPU and earn credits below it: 10% of each vCPU for t4g.micro and t3.micro, 20% for the small and medium sizes (<a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html">the credit table</a>). The stack sets the standard credit mode: without credits the CPU stays at the baseline, and nothing is billed beyond the price of the instance. A server that is busy all the time needs a larger size.</li>
-<li>With 1&nbsp;GiB of memory, VecturaDB used 46-48&nbsp;MiB after our operations bench, with 432-451&nbsp;MiB available on the instance. We measured only small collections: VecturaDB keeps its vector index in memory, so a large collection needs a larger size.</li>
+<li>With 1&nbsp;GiB of memory, VecturaDB used 49&nbsp;MiB after our operations bench, with 449&nbsp;MiB available on the instance. We measured only small collections: VecturaDB keeps its vector index in memory, so a large collection needs a larger size.</li>
 </ul>
 
 <h2 id="backups-and-restore">Backups and restore</h2>
@@ -229,18 +229,39 @@ aws ec2 delete-volume --volume-id $VOLUME</code></pre>
 <tr><th>In our tests</th><th>Time</th></tr>
 </thead>
 <tbody>
-<tr><td>Snapshot by hand, until completed</td><td>35-64&nbsp;s</td></tr>
-<tr><td>Volume from the snapshot</td><td>6-19&nbsp;s</td></tr>
-<tr><td>Attach</td><td>4-7&nbsp;s</td></tr>
-<tr><td><code>RestoreDocument</code>, with 5 MB of data</td><td>12-15&nbsp;s</td></tr>
-<tr><td>Detach and delete</td><td>20-26&nbsp;s</td></tr>
+<tr><td>Snapshot by hand, until completed</td><td>50&nbsp;s</td></tr>
+<tr><td>Volume from the snapshot</td><td>18-19&nbsp;s</td></tr>
+<tr><td>Attach</td><td>4-5&nbsp;s</td></tr>
+<tr><td><code>RestoreDocument</code>, with 5 MB of data</td><td>10-13&nbsp;s</td></tr>
+<tr><td>Detach and delete</td><td>21&nbsp;s</td></tr>
 </tbody>
 </table></div>
 <p>After the restore VecturaDB held the collection of 250 records written before the snapshot, and none of the records written after it. A snapshot taken right after a restore, restored in turn, also held the collection written between the two.</p>
 
 <h2 id="updates">Updates</h2>
 <ul>
-<li>To change the server, its image, the key or the access, update the stack with the new parameters: Systems Manager pulls the image, stops the old container and starts the new one, with the data on the data volume. An update that changes none of them does not restart the server.</li>
+<li>To change the server, its image, the key or the access, update the stack with the template of the release from the bucket, and the new values: Systems Manager pulls the image, stops the old container and starts the new one, with the data on the data volume. An update that changes none of them does not restart the server.</li>
+<li>In our tests an update that kept the template in use (<code>--use-previous-template</code>) and changed only <code>VecturaDBImage</code> did nothing: CloudFormation answered “No updates are to be performed”. With the AWS CLI, list every parameter of the template in a file, the new values with <code>ParameterValue</code> and the others with <code>UsePreviousValue</code>, for example <code>parameters.json</code> for another image of VecturaDB:
+<pre tabindex="0"><code>[
+  {"ParameterKey": "Engine", "UsePreviousValue": true},
+  {"ParameterKey": "ChromaImage", "UsePreviousValue": true},
+  {"ParameterKey": "VecturaDBImage", "ParameterValue": "ghcr.io/vecturadb/vecturadb:1.0.0-preview.8"},
+  {"ParameterKey": "InstanceType", "UsePreviousValue": true},
+  {"ParameterKey": "DataVolumeSizeGB", "UsePreviousValue": true},
+  {"ParameterKey": "Access", "UsePreviousValue": true},
+  {"ParameterKey": "AllowedIpRanges", "UsePreviousValue": true},
+  {"ParameterKey": "ApiKey", "UsePreviousValue": true},
+  {"ParameterKey": "DomainName", "UsePreviousValue": true},
+  {"ParameterKey": "AcmeEmail", "UsePreviousValue": true},
+  {"ParameterKey": "Backup", "UsePreviousValue": true},
+  {"ParameterKey": "BackupEveryHours", "UsePreviousValue": true},
+  {"ParameterKey": "BackupRetentionDays", "UsePreviousValue": true}
+]</code></pre>
+<pre tabindex="0"><code>aws cloudformation update-stack --region eu-west-1 --stack-name my-vecturadb \
+  --template-url https://vecturadb-deploy.s3.eu-west-1.amazonaws.com/aws-v1.2.1/vm/template.yaml \
+  --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND --parameters file://parameters.json
+aws cloudformation wait stack-update-complete --region eu-west-1 --stack-name my-vecturadb</code></pre></li>
+<li>We tested the update with the AWS CLI only, not in the console. In our tests the update of the image took 35&nbsp;seconds, and the server held all the records written before it.</li>
 <li>The server does not answer during the switch.</li>
 <li>An update never replaces the instance, so it never moves the data volume. A change between t4g (Arm) and t3 (x86) needs a new stack and a restore.</li>
 <li>Docker starts only once the data volume is mounted: an instance that boots without it serves nothing, rather than an empty database.</li>
@@ -261,7 +282,7 @@ for s in $(aws ec2 describe-snapshots --region eu-west-1 --owner-ids self \
     --filters Name=tag:chroma-backup,Values=my-vecturadb --query "Snapshots[].SnapshotId" --output text); do
   aws ec2 delete-snapshot --region eu-west-1 --snapshot-id $s
 done</code></pre>
-<p>In our tests the deletion of the stack took 64-66&nbsp;seconds, with the CLI, and afterwards nothing of the stack was left in the region, the secret with the API key included.</p>
+<p>In our tests the deletion of the stack took 64&nbsp;seconds, with the CLI, and afterwards nothing of the stack was left in the region, the secret with the API key included.</p>
 
 <h2 id="limits">Limits</h2>
 <ul>

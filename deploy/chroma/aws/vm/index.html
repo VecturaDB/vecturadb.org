@@ -78,8 +78,8 @@
 <h1 id="chroma-or-vecturadb-on-an-aws-ec2-instance">Chroma or VecturaDB on an AWS EC2 instance</h1>
 <p class="lead-doc">One server in your own AWS account, with its data on an EBS volume, HTTPS, allowed IP addresses and snapshots. From about 12.50&nbsp;USD a month on your AWS bill.</p>
 <div class="actions">
-<a class="btn btn-primary" href="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.1.0%2Fvm%2Ftemplate.yaml&amp;stackName=chroma">Launch Stack</a>
-<a class="btn btn-secondary" href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.1.0/aws/vm">README of the template</a>
+<a class="btn btn-primary" href="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.2.1%2Fvm%2Ftemplate.yaml&amp;stackName=chroma">Launch Stack</a>
+<a class="btn btn-secondary" href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.2.1/aws/vm">README of the template</a>
 </div>
 <div class="note">
 <p><strong>Disclaimer.</strong> This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured on 29 October 2026 in eu-west-1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.</p>
@@ -103,7 +103,7 @@
 <p>The template runs one of two servers:</p>
 <ul>
 <li><strong>Chroma 1.5.9</strong>, the open-source single-node server (<code>ghcr.io/chroma-core/chroma:1.5.9</code>);</li>
-<li><strong>VecturaDB 1.0.0-preview.7</strong>, built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys.</li>
+<li><strong>VecturaDB 1.0.0-preview.8</strong>, built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys.</li>
 </ul>
 <p>Both keep the Chroma API: the Chroma clients connect with the URL of the stack. In our tests the Python (chromadb 1.5.9) and JavaScript (chromadb 3.5.0) clients and a .NET client gave the same results on the two servers.</p>
 <div class="table table-fit" tabindex="0"><table>
@@ -124,8 +124,8 @@
 </table></div>
 
 <h2 id="deploy">Deploy</h2>
-<p><a class="btn btn-primary" href="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.1.0%2Fvm%2Ftemplate.yaml&amp;stackName=chroma">Launch Stack</a></p>
-<p>The button opens the quick-create page of CloudFormation in eu-west-1, with the template of the tag <code>aws-v1.1.0</code> and the name of the stack already filled in. CloudFormation reads templates from Amazon S3, so the button uses a copy of the template in a public bucket.</p>
+<p><a class="btn btn-primary" href="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.2.1%2Fvm%2Ftemplate.yaml&amp;stackName=chroma">Launch Stack</a></p>
+<p>The button opens the quick-create page of CloudFormation in eu-west-1, with the template of the tag <code>aws-v1.2.1</code> and the name of the stack already filled in. CloudFormation reads templates from Amazon S3, so the button uses a copy of the template in a public bucket.</p>
 <ol>
 <li>Fill the parameters, in three groups: Server (engine, images, instance type, size of the data volume), Access (access mode, allowed IP ranges, API key, domain, email for Let's Encrypt) and Backups.</li>
 <li>Under “Capabilities and transforms”, tick the three acknowledgements: IAM resources, IAM resources with custom names, and <code>CAPABILITY_AUTO_EXPAND</code>.</li>
@@ -134,13 +134,13 @@
 <p>Most of the creation is the first boot of the instance, which installs Docker and Caddy.</p>
 <p>With the AWS CLI:</p>
 <pre tabindex="0"><code>aws cloudformation create-stack --region eu-west-1 --stack-name my-chroma \
-  --template-url https://vecturadb-deploy.s3.eu-west-1.amazonaws.com/aws-v1.1.0/vm/template.yaml \
+  --template-url https://vecturadb-deploy.s3.eu-west-1.amazonaws.com/aws-v1.2.1/vm/template.yaml \
   --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND \
   --parameters ParameterKey=Access,ParameterValue=allowed-ips \
                ParameterKey=AllowedIpRanges,ParameterValue=203.0.113.10/32
 aws cloudformation wait stack-create-complete --region eu-west-1 --stack-name my-chroma
 aws cloudformation describe-stacks --region eu-west-1 --stack-name my-chroma --query "Stacks[0].Outputs"</code></pre>
-<p>For VecturaDB with an API key, add <code>ParameterKey=Engine,ParameterValue=vecturadb ParameterKey=ApiKey,ParameterValue=&lt;your key&gt;</code>. The template and its README are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.1.0/aws/vm"><code>aws/vm</code></a>.</p>
+<p>For VecturaDB with an API key, add <code>ParameterKey=Engine,ParameterValue=vecturadb ParameterKey=ApiKey,ParameterValue=&lt;your key&gt;</code>. The template and its README are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.2.1/aws/vm"><code>aws/vm</code></a>.</p>
 
 <h2 id="access-and-https">Access and HTTPS</h2>
 <div class="table table-fit" tabindex="0"><table>
@@ -222,7 +222,28 @@ aws ec2 delete-volume --volume-id $VOLUME</code></pre>
 
 <h2 id="updates">Updates</h2>
 <ul>
-<li>To change the server, its image or the access, update the stack with the new parameters: Systems Manager pulls the image, stops the old container and starts the new one, with the data on the data volume. An update that changes none of them does not restart the server.</li>
+<li>To change the server, its image or the access, update the stack with the template of the release from the bucket, and the new values: Systems Manager pulls the image, stops the old container and starts the new one, with the data on the data volume. An update that changes none of them does not restart the server.</li>
+<li>In our tests an update that kept the template in use (<code>--use-previous-template</code>) and changed only <code>VecturaDBImage</code> did nothing: CloudFormation answered “No updates are to be performed”. With the AWS CLI, list every parameter of the template in a file, the new values with <code>ParameterValue</code> and the others with <code>UsePreviousValue</code>, for example <code>parameters.json</code> for another image of VecturaDB:
+<pre tabindex="0"><code>[
+  {"ParameterKey": "Engine", "UsePreviousValue": true},
+  {"ParameterKey": "ChromaImage", "UsePreviousValue": true},
+  {"ParameterKey": "VecturaDBImage", "ParameterValue": "ghcr.io/vecturadb/vecturadb:1.0.0-preview.8"},
+  {"ParameterKey": "InstanceType", "UsePreviousValue": true},
+  {"ParameterKey": "DataVolumeSizeGB", "UsePreviousValue": true},
+  {"ParameterKey": "Access", "UsePreviousValue": true},
+  {"ParameterKey": "AllowedIpRanges", "UsePreviousValue": true},
+  {"ParameterKey": "ApiKey", "UsePreviousValue": true},
+  {"ParameterKey": "DomainName", "UsePreviousValue": true},
+  {"ParameterKey": "AcmeEmail", "UsePreviousValue": true},
+  {"ParameterKey": "Backup", "UsePreviousValue": true},
+  {"ParameterKey": "BackupEveryHours", "UsePreviousValue": true},
+  {"ParameterKey": "BackupRetentionDays", "UsePreviousValue": true}
+]</code></pre>
+<pre tabindex="0"><code>aws cloudformation update-stack --region eu-west-1 --stack-name my-chroma \
+  --template-url https://vecturadb-deploy.s3.eu-west-1.amazonaws.com/aws-v1.2.1/vm/template.yaml \
+  --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND --parameters file://parameters.json
+aws cloudformation wait stack-update-complete --region eu-west-1 --stack-name my-chroma</code></pre></li>
+<li>We tested the update with the AWS CLI only, not in the console. In our tests the update of the image took 35&nbsp;seconds, and the server held all the records written before it.</li>
 <li>The server does not answer during the switch.</li>
 <li>An update never replaces the instance, so it never moves the data volume. A change between t4g (Arm) and t3 (x86) needs a new stack and a restore.</li>
 <li>Docker starts only once the data volume is mounted: an instance that boots without it serves nothing, rather than an empty database.</li>

@@ -23,7 +23,7 @@ e2-micro with its disks and external IP, whatever the use. The API key adds 0.06
   * Snapshots of the data disk every 24 hours, kept 7 days
   * API keys, kept in Secret Manager and not in the state of Terraform
 
-[Open in Cloud Shell](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&cloudshell_git_branch=gcp-v1.0.1&cloudshell_workspace=gcp%2Fvm&cloudshell_tutorial=tutorial-vecturadb.md) [Details](https://vecturadb.org/deploy/vecturadb/gcp/vm/)
+[Open in Cloud Shell](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&cloudshell_git_branch=gcp-v1.1.0&cloudshell_workspace=gcp%2Fvm&cloudshell_tutorial=tutorial-vecturadb.md) [Details](https://vecturadb.org/deploy/vecturadb/gcp/vm/)
 
 **The template is free and open source (Apache 2.0).** You pay only Google Cloud, which bills you directly: no fee from us.
 
@@ -37,7 +37,7 @@ The button opens Cloud Shell, the terminal of your Google Cloud console, with th
 
   2. ### Follow the guide
 
-Choose the project, then run the commands of the guide: they install Terraform, keep its state in a bucket of your project, ask the IP address that may connect and the API key, and create everything. In our tests the server answered over HTTPS in 6 to 11 minutes.
+Choose the project, then run the commands of the guide: they install Terraform, keep its state in a bucket of your project, ask the IP address that may connect and the API key, and create everything. In our tests the server answered over HTTPS in 7 to 9 minutes.
 
   3. ### Connect
 
@@ -52,7 +52,7 @@ The `url` output is the address of your server, over HTTPS. The Chroma clients c
 
 Python, `chromadb` 1.5.9: the connection we ran against the template with VecturaDB. Without the key, the server refuses the requests.
 
-**Disclaimer.** The templates and their scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.7 on 5 November 2026 in europe-west1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
+**Disclaimer.** The templates and their scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.8 on 6 November 2026 in europe-west1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
 
 Not sure about your case? [Open an issue in the VecturaDB repository](https://github.com/VecturaDB/VecturaDB/issues/new), describe your data and your setup, and we will take a look on a best-effort basis.
 
