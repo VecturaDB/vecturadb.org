@@ -74,11 +74,11 @@
     <p class="crumb"><a href="./">Leaving Chroma Cloud</a></p>
 <h1 id="hybrid-search-on-your-own-server-without-chroma-cloud">Hybrid search on your own server, without Chroma Cloud</h1>
 <div class="note">
-<p><strong>Disclaimer.</strong> This guide is provided as is, without warranty of any kind, as stated in the Apache License 2.0. It describes what we measured on 4 and 5 November 2026: your data, versions and setup may behave differently. Back up your data and test on a copy first. You are responsible for your data and for every migration you run.</p>
+<p><strong>Disclaimer.</strong> This guide is provided as is, without warranty of any kind, as stated in the Apache License 2.0. It describes what we measured on 4 and 6 November 2026: your data, versions and setup may behave differently. Back up your data and test on a copy first. You are responsible for your data and for every migration you run.</p>
 <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
 </div>
 <p>Chroma 1.5.9 on a single node has no hybrid search. VecturaDB does: it is a single-node server built from Chroma, and it merges dense search and BM25 search with the Search API. It runs as one container, as a binary, or inside a Python application, with your Chroma clients.</p>
-<p>VecturaDB is an independent project, not affiliated with Chroma. We ran every command and every line of code below on 5 November 2026, against VecturaDB 1.0.0-preview.7. Chroma distributed has hybrid search too, on Kubernetes: see the <a href="./">overview</a>.</p>
+<p>VecturaDB is an independent project, not affiliated with Chroma. We ran every command and every line of code below on 6 November 2026, against VecturaDB 1.0.0-preview.8. Chroma distributed has hybrid search too, on Kubernetes: see the <a href="./">overview</a>.</p>
 <h2 id="the-errors-on-chroma-159">The errors on Chroma 1.5.9</h2>
 <div class="table" tabindex="0"><table>
 <thead>
@@ -103,7 +103,7 @@
 </tbody>
 </table></div>
 <h2 id="1-start-vecturadb">1. Start VecturaDB</h2>
-<div class="hl"><pre tabindex="0"><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>vecturadb<span class="w"> </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:8000:8000<span class="w"> </span>-v<span class="w"> </span>./vecturadb-data:/data<span class="w"> </span>ghcr.io/vecturadb/vecturadb:1.0.0-preview.7
+<div class="hl"><pre tabindex="0"><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>vecturadb<span class="w"> </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:8000:8000<span class="w"> </span>-v<span class="w"> </span>./vecturadb-data:/data<span class="w"> </span>ghcr.io/vecturadb/vecturadb:1.0.0-preview.8
 </code></pre></div>
 
 <p>To run it without Docker, see <a href="https://vecturadb.org/migrate-from-chroma-cloud/#1-start-the-server">Start the server</a>.</p>

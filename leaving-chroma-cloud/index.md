@@ -31,7 +31,7 @@ We ran every command and every line of code in these guides against Chroma Cloud
 
 If you use sparse vectors, BM25, the Search API or hybrid search, the single-node Chroma 1.5.9 cannot hold those collections: you need Chroma distributed or VecturaDB.
 
-| Chroma 1.5.9, single node | Chroma distributed | VecturaDB 1.0.0-preview.7  
+| Chroma 1.5.9, single node | Chroma distributed | VecturaDB 1.0.0-preview.8  
 ---|---|---|---  
 Dense search | Yes | Yes | Yes  
 Metadata filters | Yes | Yes | Yes  

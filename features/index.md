@@ -8,11 +8,11 @@ Not sure about your case? [Open an issue in the VecturaDB repository](https://gi
 
 VecturaDB is a single-node server built from Chroma. It has the features of the API of distributed Chroma that Chroma 1.5.9 refuses on a single node: the Search API, sparse vectors and BM25, SPANN, read levels, indexing status, resource names, collection fork, conditional transactions and attached functions. Two attached functions of Chroma Cloud stay out.
 
-VecturaDB is an independent project, not affiliated with Chroma. We read the code of distributed Chroma at commit 52ce844, the main branch of Chroma on 22 October 2026, and of Chroma 1.5.9 on a single node. This page lists each feature that the first has and the second does not, as it is in VecturaDB 1.0.0-preview.7.
+VecturaDB is an independent project, not affiliated with Chroma. We read the code of distributed Chroma at commit 52ce844, the main branch of Chroma on 22 October 2026, and of Chroma 1.5.9 on a single node. This page lists each feature that the first has and the second does not, as it is in VecturaDB 1.0.0-preview.8.
 
 ## At a glance
 
-Feature | Chroma 1.5.9, single node | VecturaDB 1.0.0-preview.7  
+Feature | Chroma 1.5.9, single node | VecturaDB 1.0.0-preview.8  
 ---|---|---  
 Search API: dense and sparse ranks, RRF, select | `Search operation is not implemented for local executor` | Yes  
 Group by in a search | The same error | Yes  
