@@ -82,7 +82,7 @@
 <a class="btn btn-secondary" href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/gcp-v1.1.0/gcp/vm">README of the template</a>
 </div>
 <div class="note">
-<p><strong>Disclaimer.</strong> This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured on 5 November 2026 in europe-west1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.</p>
+<p><strong>Disclaimer.</strong> This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured on 5 and 6 November 2026 in europe-west1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.</p>
 <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
 </div>
 <nav class="toc" aria-label="On this page">
@@ -209,10 +209,10 @@ terraform apply -parallelism=2 -var-file=chroma.tfvars -var 'allowed_ip_ranges=[
 <tr><td>Disk from the snapshot</td><td>23-26&nbsp;s</td></tr>
 <tr><td>Attach</td><td>6-20&nbsp;s</td></tr>
 <tr><td>Copy on the VM, until the server answers</td><td>7-9&nbsp;s</td></tr>
-<tr><td>Detach and delete</td><td>8-9&nbsp;s</td></tr>
+<tr><td>Detach and delete</td><td>8-10&nbsp;s</td></tr>
 </tbody>
 </table></div>
-<p>With Chroma 1.5.9 and with VecturaDB 1.0.0-preview.7, after each restore the server held all the collections of the snapshot, also the one written right before it.</p>
+<p>With Chroma 1.5.9 and with VecturaDB 1.0.0-preview.8, after each restore the server held all the collections of the snapshot, also the one written right before it.</p>
 
 <h2 id="updates">Updates</h2>
 <ul>
@@ -222,12 +222,12 @@ terraform apply -parallelism=2 -var-file=chroma.tfvars -var 'allowed_ip_ranges=[
 <li>Docker starts only once the data disk is mounted: a VM that boots without it serves nothing, rather than an empty database.</li>
 <li>Ubuntu installs its security updates by itself. Caddy comes from its own repository, which they leave out.</li>
 </ul>
-<p>In our tests a switch from Chroma 1.5.9 to VecturaDB with an API key took 33&nbsp;seconds, and VecturaDB read the collections written by Chroma.</p>
+<p>In our tests a switch from Chroma 1.5.9 to VecturaDB with an API key took 25&nbsp;seconds, and VecturaDB read the collections written by Chroma.</p>
 
 <h2 id="delete-everything">Delete everything</h2>
 <p><code>terraform destroy</code> deletes the VM, the data disk, the network, the IP address, the service account and the secret. The snapshots stay: delete them after the VM, so that no new snapshot comes after the cleanup. Then delete the state and the settings in the bucket. The last step of the guide has the same commands.</p>
 <pre tabindex="0"><code>terraform destroy -parallelism=2 -var-file=chroma.tfvars &amp;&amp; for s in $(gcloud compute snapshots list --filter="labels.chroma-backup=chroma" --format="value(name)" --verbosity=error); do gcloud compute snapshots delete $s --quiet; done &amp;&amp; gcloud storage rm --recursive --all-versions gs://$BUCKET/chroma</code></pre>
-<p>In our tests <code>terraform destroy</code> took 109-141&nbsp;seconds from a computer; afterwards nothing of the deployment was left in the project.</p>
+<p>In our tests <code>terraform destroy</code> took 99-141&nbsp;seconds from a computer; afterwards nothing of the deployment was left in the project.</p>
 
 <h2 id="limits">Limits</h2>
 <ul>

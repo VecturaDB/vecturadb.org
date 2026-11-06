@@ -8,7 +8,7 @@ One server in your own Google Cloud project, with its data on a disk of its own,
 
 [Open in Cloud Shell](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&cloudshell_git_branch=gcp-v1.1.0&cloudshell_workspace=gcp%2Fvm&cloudshell_tutorial=tutorial-chroma.md) [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/gcp-v1.1.0/gcp/vm)
 
-**Disclaimer.** This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured on 5 November 2026 in europe-west1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
+**Disclaimer.** This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured on 5 and 6 November 2026 in europe-west1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
 
 Not sure about your case? [Open an issue in the VecturaDB repository](https://github.com/VecturaDB/VecturaDB/issues/new), describe your data and your setup, and we will take a look on a best-effort basis.
 
@@ -127,9 +127,9 @@ Snapshot by hand| 32-48 s
 Disk from the snapshot| 23-26 s  
 Attach| 6-20 s  
 Copy on the VM, until the server answers| 7-9 s  
-Detach and delete| 8-9 s  
+Detach and delete| 8-10 s  
   
-With Chroma 1.5.9 and with VecturaDB 1.0.0-preview.7, after each restore the server held all the collections of the snapshot, also the one written right before it.
+With Chroma 1.5.9 and with VecturaDB 1.0.0-preview.8, after each restore the server held all the collections of the snapshot, also the one written right before it.
 
 ## Updates
 
@@ -139,7 +139,7 @@ With Chroma 1.5.9 and with VecturaDB 1.0.0-preview.7, after each restore the ser
   * Docker starts only once the data disk is mounted: a VM that boots without it serves nothing, rather than an empty database.
   * Ubuntu installs its security updates by itself. Caddy comes from its own repository, which they leave out.
 
-In our tests a switch from Chroma 1.5.9 to VecturaDB with an API key took 33 seconds, and VecturaDB read the collections written by Chroma.
+In our tests a switch from Chroma 1.5.9 to VecturaDB with an API key took 25 seconds, and VecturaDB read the collections written by Chroma.
 
 ## Delete everything
 
@@ -148,7 +148,7 @@ In our tests a switch from Chroma 1.5.9 to VecturaDB with an API key took 33 sec
     
     terraform destroy -parallelism=2 -var-file=chroma.tfvars && for s in $(gcloud compute snapshots list --filter="labels.chroma-backup=chroma" --format="value(name)" --verbosity=error); do gcloud compute snapshots delete $s --quiet; done && gcloud storage rm --recursive --all-versions gs://$BUCKET/chroma
 
-In our tests `terraform destroy` took 109-141 seconds from a computer; afterwards nothing of the deployment was left in the project.
+In our tests `terraform destroy` took 99-141 seconds from a computer; afterwards nothing of the deployment was left in the project.
 
 ## Limits
 

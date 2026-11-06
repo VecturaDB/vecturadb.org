@@ -81,18 +81,18 @@
           <p class="choice-cost-note">t4g.micro with its volumes and public IPv4, whatever the use. The API key adds 0.40&nbsp;USD a month.</p>
           <ul class="choice-list">
             <li>Always on: no wait at the first request</li>
-            <li>On the instance: a query in 2.4-2.5&nbsp;ms, an add in 18.4-18.6&nbsp;ms</li>
+            <li>On the instance: a query in 2.4&nbsp;ms, an add in 17.2&nbsp;ms</li>
             <li>Snapshots of the data volume every 24&nbsp;hours, kept 7&nbsp;days</li>
             <li>API keys, kept in AWS Secrets Manager</li>
           </ul>
           <div class="actions">
-            <a class="btn btn-primary" href="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.2.0%2Fvm%2Ftemplate.yaml&amp;stackName=vecturadb&amp;param_Engine=vecturadb" aria-label="Launch Stack: the AWS EC2 template with VecturaDB">Launch Stack</a>
+            <a class="btn btn-primary" href="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.2.1%2Fvm%2Ftemplate.yaml&amp;stackName=vecturadb&amp;param_Engine=vecturadb" aria-label="Launch Stack: the AWS EC2 template with VecturaDB">Launch Stack</a>
             <a class="btn btn-secondary" href="/deploy/vecturadb/aws/vm/" aria-label="Details of the AWS EC2 template with VecturaDB">Details</a>
           </div>
         </article>
       </div>
       <p class="free-note"><span><strong>The template is free and open source (Apache 2.0).</strong> You pay only AWS, which bills you directly: no fee from us.</span></p>
-      <p class="fine-print">Times: medians in our tests with VecturaDB 1.0.0-preview.7, against the server on the instance itself. Cost: an estimate with the AWS list prices of eu-west-1 in USD, on 29 October 2026, without the snapshots of the backups. The details are on the <a href="/deploy/vecturadb/aws/vm/">page of the template</a>.</p>
+      <p class="fine-print">Times: medians in our tests with VecturaDB 1.0.0-preview.8, against the server on the instance itself. Cost: an estimate with the AWS list prices of eu-west-1 in USD, on 29 October 2026, without the snapshots of the backups. The details are on the <a href="/deploy/vecturadb/aws/vm/">page of the template</a>.</p>
     </div>
   </section>
 
@@ -101,7 +101,7 @@
       <h2 id="how-title">How it works</h2>
       <ol class="steps">
         <li><h3>Open the form</h3><p>Launch Stack opens the quick-create page of CloudFormation in eu-west-1, in your AWS account, with VecturaDB already chosen. You choose the API key, the instance type, the access and the IP addresses that may connect.</p></li>
-        <li><h3>Create</h3><p>Tick the three acknowledgements and create the stack. In our tests it was ready in 402-496&nbsp;seconds, with HTTPS.</p></li>
+        <li><h3>Create</h3><p>Tick the three acknowledgements and create the stack. In our tests it was ready in 521&nbsp;seconds, with HTTPS.</p></li>
         <li><h3>Connect</h3><p>Open the Outputs tab: <code>Url</code> is the address of your server, over HTTPS. The Chroma clients connect to it with the API key.</p></li>
       </ol>
       <div class="code-card steps-code">
@@ -117,7 +117,7 @@ client = chromadb.HttpClient(host="&lt;the host in Url&gt;", port=443, ssl=True,
   <section class="section section-compact" aria-label="Disclaimer and trademarks">
     <div class="container">
       <div class="landing-note">
-        <p><strong>Disclaimer.</strong> The templates and their scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.7 on 5 November 2026 in eu-west-1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.</p>
+        <p><strong>Disclaimer.</strong> The templates and their scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.8 on 6 November 2026 in eu-west-1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.</p>
         <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
         <p>VecturaDB is an independent fork of Chroma, under the Apache License 2.0. The original code is copyright Chroma Inc. and its contributors. Not affiliated with, endorsed by or sponsored by Chroma Inc. CHROMA is a registered trademark of Chroma Inc., used here only to describe compatibility.</p>
       </div>

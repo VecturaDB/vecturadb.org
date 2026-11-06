@@ -8,7 +8,7 @@ One VecturaDB server in your own Azure subscription, with its data on a managed 
 
 [Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.4.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.4.0%2Fazure%2Fvm%2FcreateUiDefinition.vecturadb.json) [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.4.0/azure/vm)
 
-**Disclaimer.** This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.7 on 5 November 2026 in westeurope: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
+**Disclaimer.** This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.8 on 6 November 2026 in westeurope: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
 
 Not sure about your case? [Open an issue in the VecturaDB repository](https://github.com/VecturaDB/VecturaDB/issues/new), describe your data and your setup, and we will take a look on a best-effort basis.
 
@@ -74,13 +74,15 @@ Internal| Nothing from the internet; port 8000 inside the virtual network| http:
   * Ports 22 and 8000 stay closed.
   * The deployment ends only when Caddy holds the certificate.
 
-On the VM itself, against the server without Caddy (median, Standard_B2pts_v2, 5 November 2026)| Time  
+On the VM itself, against the server without Caddy (medians, Standard_B2pts_v2, 6 November 2026, three runs on two VMs)| Time  
 ---|---  
-Query| 1.8 ms  
-Get| 1.8 ms  
-Add of 2 records| 17.7 ms  
-8 concurrent writers, in all| 2.5 s  
+Query| 1.7-2.0 ms  
+Get| 1.7-2.1 ms  
+Add of 2 records| 21.1-37.4 ms  
+8 concurrent writers, in all| 2.6-5.4 s  
   
+On two VMs of the same size the writes differed by up to two times, with the same reads.
+
 ## Cost
 
 The sizes we tested, with the list prices of westeurope in USD for 730 hours a month, on 26 October 2026:
@@ -121,11 +123,11 @@ Standard_B1ms| 1, 2 GiB| 17.52| 3.60| 3.65| 24.77
 
 In our tests| Time  
 ---|---  
-On-demand backup, until the recovery point| 176 s  
-Restore to a new disk| 62 s  
-Attach at LUN 1| 9-11 s  
-`restore.sh`| 33-36 s  
-Detach and delete| 25 s  
+On-demand backup, until the recovery point| 189 s  
+Restore to a new disk| 50 s  
+Attach at LUN 1| 8 s  
+`restore.sh`| 33 s  
+Detach and delete| 11-41 s  
   
 After the restore VecturaDB held the data of the backup, 250 records, and not the collection written after it. A snapshot of the data disk taken right after a restore, restored in turn, held every collection.
 
@@ -161,8 +163,8 @@ Deleting the resource group deletes the deployment, the snapshots of the backups
 In our tests, with the CLI| Time  
 ---|---  
 Soft delete off| 2 s  
-Backup instance gone| 93 s  
-Resource group gone| 126 s  
+Backup instance gone| 95-103 s  
+Resource group gone| 125-126 s  
   
 The [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.4.0/azure/vm#delete-everything) also says how to get out of the soft-deleted state, if you deleted the backup instance with soft delete on.
 

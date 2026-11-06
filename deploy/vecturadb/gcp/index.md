@@ -37,7 +37,7 @@ The button opens Cloud Shell, the terminal of your Google Cloud console, with th
 
   2. ### Follow the guide
 
-Choose the project, then run the commands of the guide: they install Terraform, keep its state in a bucket of your project, ask the IP address that may connect and the API key, and create everything. In our tests the server answered over HTTPS in 6 to 11 minutes.
+Choose the project, then run the commands of the guide: they install Terraform, keep its state in a bucket of your project, ask the IP address that may connect and the API key, and create everything. In our tests the server answered over HTTPS in 7 to 9 minutes.
 
   3. ### Connect
 
@@ -52,7 +52,7 @@ The `url` output is the address of your server, over HTTPS. The Chroma clients c
 
 Python, `chromadb` 1.5.9: the connection we ran against the template with VecturaDB. Without the key, the server refuses the requests.
 
-**Disclaimer.** The templates and their scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.7 on 5 November 2026 in europe-west1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
+**Disclaimer.** The templates and their scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.8 on 6 November 2026 in europe-west1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
 
 Not sure about your case? [Open an issue in the VecturaDB repository](https://github.com/VecturaDB/VecturaDB/issues/new), describe your data and your setup, and we will take a look on a best-effort basis.
 

@@ -8,7 +8,7 @@ One VecturaDB server in your own Google Cloud project, with its data on a disk o
 
 [Open in Cloud Shell](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&cloudshell_git_branch=gcp-v1.1.0&cloudshell_workspace=gcp%2Fvm&cloudshell_tutorial=tutorial-vecturadb.md) [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/gcp-v1.1.0/gcp/vm)
 
-**Disclaimer.** This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.7 on 5 November 2026 in europe-west1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
+**Disclaimer.** This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.8 on 6 November 2026 in europe-west1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
 
 Not sure about your case? [Open an issue in the VecturaDB repository](https://github.com/VecturaDB/VecturaDB/issues/new), describe your data and your setup, and we will take a look on a best-effort basis.
 
@@ -53,10 +53,10 @@ To change a setting or delete the deployment later, open the guide again: it get
 
 In our tests| Time  
 ---|---  
-Deployment from zero, until the server answered over HTTPS| 376-626 s  
-Terraform installed in Cloud Shell| about 40 s  
+Deployment from zero, until the server answered over HTTPS| 465-532 s  
+Terraform installed in Cloud Shell, on 5 November| about 40 s  
   
-Most of the creation is the first boot of the VM, which installs Docker and Caddy from the package repositories, so its time depends on them. In the test of 626 seconds the first boot took 6 minutes 29 seconds, and the list of the Ubuntu packages alone 2 minutes 6 seconds.
+Most of the creation is the first boot of the VM, which installs Docker and Caddy from the package repositories, so its time depends on them.
 
 With Terraform 1.11 or later on your computer:
     
@@ -120,13 +120,13 @@ In the folder of the template, after `terraform init` with the same bucket and f
 
 In our tests| Time  
 ---|---  
-Snapshot by hand| 32-48 s  
-Disk from the snapshot| 23-26 s  
-Attach| 6-20 s  
-Copy on the VM, until the server answers| 7-9 s  
+Snapshot by hand| 39-43 s  
+Disk from the snapshot| 24-26 s  
+Attach| 6 s  
+Copy on the VM, until the server answers| 8 s  
 Detach and delete| 8-9 s  
   
-With VecturaDB 1.0.0-preview.7, as with Chroma 1.5.9, after each restore the server held all the collections of the snapshot, also the one written right before it.
+With VecturaDB 1.0.0-preview.8, as with Chroma 1.5.9, after each restore the server held all the collections of the snapshot, also the one written right before it.
 
 ## Updates
 
@@ -136,7 +136,7 @@ With VecturaDB 1.0.0-preview.7, as with Chroma 1.5.9, after each restore the ser
   * Docker starts only once the data disk is mounted: a VM that boots without it serves nothing, rather than an empty database.
   * Ubuntu installs its security updates by itself. Caddy comes from its own repository, which they leave out.
 
-In our tests a switch from Chroma 1.5.9 to VecturaDB with an API key took 33 seconds, and VecturaDB read the collections written by Chroma. A new key took 25 seconds, and afterwards the client could no longer connect with the old key.
+In our tests a switch from Chroma 1.5.9 to VecturaDB with an API key took 25 seconds, and VecturaDB read the collections written by Chroma. A new key took 23 seconds, and afterwards the client could no longer connect with the old key.
 
 ## Delete everything
 
@@ -145,7 +145,7 @@ In our tests a switch from Chroma 1.5.9 to VecturaDB with an API key took 33 sec
     
     terraform destroy -parallelism=2 -var-file=vecturadb.tfvars && for s in $(gcloud compute snapshots list --filter="labels.chroma-backup=vecturadb" --format="value(name)" --verbosity=error); do gcloud compute snapshots delete $s --quiet; done && gcloud storage rm --recursive --all-versions gs://$BUCKET/vecturadb
 
-In our tests `terraform destroy` took 109-141 seconds from a computer; afterwards nothing of the deployment was left in the project.
+In our tests `terraform destroy` took 99-134 seconds from a computer; afterwards nothing of the deployment was left in the project.
 
 ## Limits
 
