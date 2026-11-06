@@ -64,7 +64,7 @@
   <section class="hero">
     <div class="container hero-grid">
       <div>
-        <a class="pill" href="https://github.com/VecturaDB/VecturaDB/releases/tag/v1.0.0-preview.7"><span class="dot" aria-hidden="true"></span>Latest release: 1.0.0-preview.7</a>
+        <a class="pill" href="https://github.com/VecturaDB/VecturaDB/releases/tag/v1.0.0-preview.8"><span class="dot" aria-hidden="true"></span>Latest release: 1.0.0-preview.8</a>
         <h1>Vector database compatible with the Chroma API: <span class="grad">the features of Chroma Cloud</span>, that is, of distributed Chroma, on a single node.</h1>
         <p class="lead">Sparse vectors, BM25, the Search API, hybrid search included, collection fork and API keys work on the single node.</p>
         <p class="hero-note">Independent project. Not affiliated with, endorsed by or sponsored by Chroma Inc. CHROMA is a registered trademark of Chroma Inc., used here only to describe compatibility.</p>
@@ -138,7 +138,7 @@ chroma<span class="w"> </span>run<span class="w"> </span>--path<span class="w"> 
 <span class="kn">from</span><span class="w"> </span><span class="nn">chromadb</span><span class="w"> </span><span class="kn">import</span> <span class="n">K</span><span class="p">,</span> <span class="n">Knn</span><span class="p">,</span> <span class="n">Schema</span><span class="p">,</span> <span class="n">Search</span><span class="p">,</span> <span class="n">SparseVectorIndexConfig</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">chromadb.base_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparseVector</span>
 
-<span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
 
 <span class="n">schema</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">()</span>
 <span class="n">schema</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">SparseVectorIndexConfig</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;sparse&quot;</span><span class="p">)</span>
@@ -176,7 +176,7 @@ chroma<span class="w"> </span>run<span class="w"> </span>--path<span class="w"> 
 <span class="kn">from</span><span class="w"> </span><span class="nn">chromadb</span><span class="w"> </span><span class="kn">import</span> <span class="n">K</span><span class="p">,</span> <span class="n">Knn</span><span class="p">,</span> <span class="n">Schema</span><span class="p">,</span> <span class="n">Search</span><span class="p">,</span> <span class="n">SparseVectorIndexConfig</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">chromadb.utils.embedding_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChromaBm25EmbeddingFunction</span>
 
-<span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
 
 <span class="n">schema</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">()</span>
 <span class="n">schema</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span>
@@ -220,7 +220,7 @@ chroma<span class="w"> </span>run<span class="w"> </span>--path<span class="w"> 
           <div class="code-card"><pre tabindex="0"><code class="language-python" data-snippet="hybrid"><span class="kn">import</span><span class="w"> </span><span class="nn">chromadb</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">chromadb</span><span class="w"> </span><span class="kn">import</span> <span class="n">K</span><span class="p">,</span> <span class="n">Knn</span><span class="p">,</span> <span class="n">Rrf</span><span class="p">,</span> <span class="n">Search</span>
 
-<span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
 <span class="c1"># The &quot;docs&quot; collection of the BM25 example</span>
 <span class="n">collection</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="s2">&quot;docs&quot;</span><span class="p">)</span>
 
@@ -250,7 +250,7 @@ chroma<span class="w"> </span>run<span class="w"> </span>--path<span class="w"> 
           </div>
           <div class="code-card"><pre tabindex="0"><code class="language-python" data-snippet="fork"><span class="kn">import</span><span class="w"> </span><span class="nn">chromadb</span>
 
-<span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
 <span class="n">collection</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="s2">&quot;docs&quot;</span><span class="p">)</span>
 
 <span class="n">experiment</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">fork</span><span class="p">(</span><span class="s2">&quot;docs-experiment&quot;</span><span class="p">)</span>

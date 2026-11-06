@@ -1,6 +1,6 @@
 Source: https://vecturadb.org/
 
-[Latest release: 1.0.0-preview.7](https://github.com/VecturaDB/VecturaDB/releases/tag/v1.0.0-preview.7)
+[Latest release: 1.0.0-preview.8](https://github.com/VecturaDB/VecturaDB/releases/tag/v1.0.0-preview.8)
 
 # Vector database compatible with the Chroma API: the features of Chroma Cloud, that is, of distributed Chroma, on a single node.
 
@@ -58,7 +58,7 @@ In our tests, collections copied from Chroma Cloud gave the same sparse scores a
     from chromadb import K, Knn, Schema, Search, SparseVectorIndexConfig
     from chromadb.base_types import SparseVector
     
-    client = chromadb.HttpClient(host="localhost", port=8000)
+    client = chromadb.HttpClient(host="127.0.0.1", port=8000)
     
     schema = Schema()
     schema.create_index(config=SparseVectorIndexConfig(), key="sparse")
@@ -96,7 +96,7 @@ In our tests, collections copied from Chroma Cloud gave the same BM25 scores as 
     from chromadb import K, Knn, Schema, Search, SparseVectorIndexConfig
     from chromadb.utils.embedding_functions import ChromaBm25EmbeddingFunction
     
-    client = chromadb.HttpClient(host="localhost", port=8000)
+    client = chromadb.HttpClient(host="127.0.0.1", port=8000)
     
     schema = Schema()
     schema.create_index(
@@ -140,7 +140,7 @@ Hybrid search merges a dense ranking and a BM25 ranking with Reciprocal Rank Fus
     import chromadb
     from chromadb import K, Knn, Rrf, Search
     
-    client = chromadb.HttpClient(host="localhost", port=8000)
+    client = chromadb.HttpClient(host="127.0.0.1", port=8000)
     # The "docs" collection of the BM25 example
     collection = client.get_collection("docs")
     
@@ -170,7 +170,7 @@ On the single node the fork is a full copy of the records, not copy-on-write.
     
     import chromadb
     
-    client = chromadb.HttpClient(host="localhost", port=8000)
+    client = chromadb.HttpClient(host="127.0.0.1", port=8000)
     collection = client.get_collection("docs")
     
     experiment = collection.fork("docs-experiment")

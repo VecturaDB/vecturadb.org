@@ -7,7 +7,7 @@
   ],
   "rules": [
     "Install the Python package with `pip install VecturaDB` after `pip uninstall chromadb`: the import name stays `chromadb`, so existing Chroma code runs as it is.",
-    "The VecturaDB server is the Docker image ghcr.io/vecturadb/vecturadb, tag 1.0.0-preview.7, on port 8000. Every Chroma client connects to it as to a Chroma server.",
+    "The VecturaDB server is the Docker image ghcr.io/vecturadb/vecturadb, tag 1.0.0-preview.8, on port 8000. Every Chroma client connects to it as to a Chroma server.",
     "The Search API, BM25 and sparse vector indexes work on a VecturaDB single node; on open-source Chroma 1.5.9 they fail with `Search operation is not implemented for local executor`.",
     "For BM25, install `snowballstemmer` with the Python client and use `ChromaBm25EmbeddingFunction` in a `SparseVectorIndexConfig`.",
     "Copy collections from Chroma Cloud with `vecturadb copy --from-cloud --to-local`, from the same Docker image.",

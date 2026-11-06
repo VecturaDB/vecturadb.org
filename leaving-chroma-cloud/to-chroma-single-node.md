@@ -4,13 +4,13 @@ Source: https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node
 
 # Leaving Chroma Cloud: to Chroma 1.5.9, single node
 
-**Disclaimer.** These guides and the scripts they link are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 2 and 5 November 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.
+**Disclaimer.** These guides and the scripts they link are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 2 and 6 November 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.
 
 Not sure about your case? [Open an issue in the VecturaDB repository](https://github.com/VecturaDB/VecturaDB/issues/new), describe your data and your setup, and we will take a look on a best-effort basis.
 
 Chroma 1.5.9 is the open-source Chroma server. It runs as one container, inside a Python application, or, in .NET, inside your application with ChromaDotNet.Local. It keeps dense search, metadata filters and document filters. It has no sparse vectors, no BM25, no Search API and no collection fork.
 
-VecturaDB, which wrote this guide, is not affiliated with Chroma. We ran every command below on 2 November 2026, against Chroma Cloud and against `chromadb/chroma:1.5.9`, and the copy again on 5 November 2026 with VecturaDB 1.0.0-preview.7.
+VecturaDB, which wrote this guide, is not affiliated with Chroma. We ran every command below on 2 November 2026, against Chroma Cloud and against `chromadb/chroma:1.5.9`, and the copy again on 6 November 2026 with VecturaDB 1.0.0-preview.8.
 
 ## 1\. Start Chroma
     
@@ -27,7 +27,7 @@ The copy runs with the `vecturadb` CLI, from the image of VecturaDB. It reads Ch
     
     
     export CHROMA_API_KEY=<your Chroma Cloud API key>
-    docker run --rm --network chroma-net -e CHROMA_API_KEY --entrypoint bash ghcr.io/vecturadb/vecturadb:1.0.0-preview.7 -c \
+    docker run --rm --network chroma-net -e CHROMA_API_KEY --entrypoint bash ghcr.io/vecturadb/vecturadb:1.0.0-preview.8 -c \
       'vecturadb login --api-key "$CHROMA_API_KEY" --profile cloud &&
        vecturadb copy --from-cloud --to-local --host http://chroma:8000 --db <database> --all'
     
