@@ -6,7 +6,7 @@ Source: https://vecturadb.org/deploy/vecturadb/aws/vm/
 
 One VecturaDB server in your own AWS account, with its data on an EBS volume, HTTPS, API keys, allowed IP addresses and snapshots. From about 12.50 USD a month on your AWS bill.
 
-[Launch Stack](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.1.0%2Fvm%2Ftemplate.yaml&stackName=vecturadb&param_Engine=vecturadb) [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.1.0/aws/vm)
+[Launch Stack](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.2.0%2Fvm%2Ftemplate.yaml&stackName=vecturadb&param_Engine=vecturadb) [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.2.0/aws/vm)
 
 **Disclaimer.** This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.7 on 5 November 2026 in eu-west-1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
 
@@ -25,7 +25,7 @@ On this page
 
 ## What it creates
 
-The template runs **VecturaDB 1.0.0-preview.7** (`ghcr.io/vecturadb/vecturadb:1.0.0-preview.7`), built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys. The same template can also run Chroma 1.5.9.
+The template runs **VecturaDB 1.0.0-preview.8** (`ghcr.io/vecturadb/vecturadb:1.0.0-preview.8`), built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys. The same template can also run Chroma 1.5.9.
 
 VecturaDB keeps the Chroma API: the Chroma clients connect with the URL of the stack and the API key. In our tests the Python client (chromadb 1.5.9) worked over HTTPS with the key, and VecturaDB answered 401 without it.
 
@@ -43,9 +43,9 @@ Data Lifecycle Manager policy| Only with backups on: snapshots of the data volum
   
 ## Deploy
 
-[Launch Stack](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.1.0%2Fvm%2Ftemplate.yaml&stackName=vecturadb&param_Engine=vecturadb)
+[Launch Stack](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.2.0%2Fvm%2Ftemplate.yaml&stackName=vecturadb&param_Engine=vecturadb)
 
-The button opens the quick-create page of CloudFormation in eu-west-1, with the template of the tag `aws-v1.1.0`, VecturaDB already chosen and `vecturadb` as the name of the stack. CloudFormation reads templates from Amazon S3, so the button uses a copy of the template in a public bucket.
+The button opens the quick-create page of CloudFormation in eu-west-1, with the template of the tag `aws-v1.2.0`, VecturaDB already chosen and `vecturadb` as the name of the stack. CloudFormation reads templates from Amazon S3, so the button uses a copy of the template in a public bucket.
 
   1. Fill the parameters, in three groups: Server (images, instance type, size of the data volume), Access (access mode, allowed IP ranges, API key, domain, email for Let's Encrypt) and Backups. The API key is required for public access.
   2. Under “Capabilities and transforms”, tick the three acknowledgements: IAM resources, IAM resources with custom names, and `CAPABILITY_AUTO_EXPAND`.
@@ -61,7 +61,7 @@ With the AWS CLI:
     
     
     aws cloudformation create-stack --region eu-west-1 --stack-name my-vecturadb \
-      --template-url https://vecturadb-deploy.s3.eu-west-1.amazonaws.com/aws-v1.1.0/vm/template.yaml \
+      --template-url https://vecturadb-deploy.s3.eu-west-1.amazonaws.com/aws-v1.2.0/vm/template.yaml \
       --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND \
       --parameters ParameterKey=Engine,ParameterValue=vecturadb ParameterKey=ApiKey,ParameterValue=<your key> \
                    ParameterKey=Access,ParameterValue=allowed-ips \
@@ -69,7 +69,7 @@ With the AWS CLI:
     aws cloudformation wait stack-create-complete --region eu-west-1 --stack-name my-vecturadb
     aws cloudformation describe-stacks --region eu-west-1 --stack-name my-vecturadb --query "Stacks[0].Outputs"
 
-The template and its README are in the [VecturaDB.Deploy repository](https://github.com/VecturaDB/VecturaDB.Deploy), under [`aws/vm`](https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.1.0/aws/vm).
+The template and its README are in the [VecturaDB.Deploy repository](https://github.com/VecturaDB/VecturaDB.Deploy), under [`aws/vm`](https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.2.0/aws/vm).
 
 ## Access and HTTPS
 

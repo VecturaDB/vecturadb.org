@@ -23,7 +23,7 @@ Standard_B2pts_v2 with its disks and public IP, whatever the use.
   * Backups of the data disk every 24 hours, kept 7 days
   * API keys: the form asks for one
 
-[Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fvm%2FcreateUiDefinition.vecturadb.json) [Details](https://vecturadb.org/deploy/vecturadb/azure/vm/)
+[Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.4.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.4.0%2Fazure%2Fvm%2FcreateUiDefinition.vecturadb.json) [Details](https://vecturadb.org/deploy/vecturadb/azure/vm/)
 
 **The template is free and open source (Apache 2.0).** You pay only Azure, which bills you directly: no fee from us.
 

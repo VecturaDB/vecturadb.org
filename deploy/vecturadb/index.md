@@ -4,7 +4,7 @@ Source: https://vecturadb.org/deploy/vecturadb/
 
 # Deploy VecturaDB, in your own cloud
 
-VecturaDB 1.0.0-preview.7, built from Chroma, created by a template in your own cloud account, with HTTPS and API keys. Your data stays in your account, and the cloud bills you directly.
+VecturaDB 1.0.0-preview.8, built from Chroma, created by a template in your own cloud account, with HTTPS and API keys. Your data stays in your account, and the cloud bills you directly.
 
 ## Choose your cloud
 

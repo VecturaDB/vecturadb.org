@@ -25,7 +25,7 @@ Standard_B2pts_v2 with its disks and public IP, whatever the use.
   * Backups of the data disk every 24 hours, kept 7 days
   * Chroma 1.5.9, or VecturaDB with API keys
 
-[Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fvm%2FcreateUiDefinition.json) [Details](https://vecturadb.org/deploy/chroma/azure/vm/)
+[Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.4.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.4.0%2Fazure%2Fvm%2FcreateUiDefinition.json) [Details](https://vecturadb.org/deploy/chroma/azure/vm/)
 
 ### Container Apps
 
@@ -42,7 +42,7 @@ Within the free grant of Container Apps. Azure Files apart: 0.06 USD per GB a mo
   * HTTPS on its Azure address, open only to your IP addresses
   * Chroma 1.5.9
 
-[Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json) [Details](https://vecturadb.org/deploy/chroma/azure/container-apps/)
+[Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.4.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.4.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json) [Details](https://vecturadb.org/deploy/chroma/azure/container-apps/)
 
 **The templates are free and open source (Apache 2.0).** You pay only Azure, which bills you directly: no fee from us.
 
@@ -69,7 +69,7 @@ Query, median| 2.5 ms| 5.2-5.7 ms
 Add, median| 112 ms| 434-448 ms  
 First request after a pause| No pause: always on| 26-32 s, after about 10 minutes without requests  
 Deployment from zero| 157-220 s| 15-18 min  
-Deploy| [Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fvm%2FcreateUiDefinition.json)| [Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.3.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json)  
+Deploy| [Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.4.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.4.0%2Fazure%2Fvm%2FcreateUiDefinition.json)| [Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.4.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.4.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json)  
   
 Costs estimated with the Azure list prices of westeurope in USD, on 26 and 27 October 2026: the VM is a Standard_B2pts_v2; Container Apps has 0.5 CPU and 1 GiB, within the free grant, which the whole subscription shares. Not in the estimates: Azure Files for Container Apps, the snapshots of the backups for the VM. The details are on the pages of the [VM](https://vecturadb.org/deploy/chroma/azure/vm/) and of [Container Apps](https://vecturadb.org/deploy/chroma/azure/container-apps/).
 

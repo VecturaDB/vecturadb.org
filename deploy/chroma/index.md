@@ -20,7 +20,7 @@ Both servers keep the Chroma API, so the Chroma clients connect with the URL of 
 
 The open-source single-node server, from the image `ghcr.io/chroma-core/chroma:1.5.9`.
 
-### [VecturaDB 1.0.0-preview.7 →Built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys.](https://vecturadb.org/deploy/vecturadb/)
+### [VecturaDB 1.0.0-preview.8 →Built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys.](https://vecturadb.org/deploy/vecturadb/)
 
 **Disclaimer.** The templates and their scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The page of each cloud gives the numbers we measured there: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
 

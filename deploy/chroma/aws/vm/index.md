@@ -6,7 +6,7 @@ Source: https://vecturadb.org/deploy/chroma/aws/vm/
 
 One server in your own AWS account, with its data on an EBS volume, HTTPS, allowed IP addresses and snapshots. From about 12.50 USD a month on your AWS bill.
 
-[Launch Stack](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.1.0%2Fvm%2Ftemplate.yaml&stackName=chroma) [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.1.0/aws/vm)
+[Launch Stack](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.2.0%2Fvm%2Ftemplate.yaml&stackName=chroma) [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.2.0/aws/vm)
 
 **Disclaimer.** This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured on 29 October 2026 in eu-west-1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
 
@@ -28,7 +28,7 @@ On this page
 The template runs one of two servers:
 
   * **Chroma 1.5.9** , the open-source single-node server (`ghcr.io/chroma-core/chroma:1.5.9`);
-  * **VecturaDB 1.0.0-preview.7** , built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys.
+  * **VecturaDB 1.0.0-preview.8** , built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys.
 
 Both keep the Chroma API: the Chroma clients connect with the URL of the stack. In our tests the Python (chromadb 1.5.9) and JavaScript (chromadb 3.5.0) clients and a .NET client gave the same results on the two servers.
 
@@ -46,9 +46,9 @@ Data Lifecycle Manager policy| Only with backups on: snapshots of the data volum
   
 ## Deploy
 
-[Launch Stack](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.1.0%2Fvm%2Ftemplate.yaml&stackName=chroma)
+[Launch Stack](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.2.0%2Fvm%2Ftemplate.yaml&stackName=chroma)
 
-The button opens the quick-create page of CloudFormation in eu-west-1, with the template of the tag `aws-v1.1.0` and the name of the stack already filled in. CloudFormation reads templates from Amazon S3, so the button uses a copy of the template in a public bucket.
+The button opens the quick-create page of CloudFormation in eu-west-1, with the template of the tag `aws-v1.2.0` and the name of the stack already filled in. CloudFormation reads templates from Amazon S3, so the button uses a copy of the template in a public bucket.
 
   1. Fill the parameters, in three groups: Server (engine, images, instance type, size of the data volume), Access (access mode, allowed IP ranges, API key, domain, email for Let's Encrypt) and Backups.
   2. Under “Capabilities and transforms”, tick the three acknowledgements: IAM resources, IAM resources with custom names, and `CAPABILITY_AUTO_EXPAND`.
@@ -60,14 +60,14 @@ With the AWS CLI:
     
     
     aws cloudformation create-stack --region eu-west-1 --stack-name my-chroma \
-      --template-url https://vecturadb-deploy.s3.eu-west-1.amazonaws.com/aws-v1.1.0/vm/template.yaml \
+      --template-url https://vecturadb-deploy.s3.eu-west-1.amazonaws.com/aws-v1.2.0/vm/template.yaml \
       --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND \
       --parameters ParameterKey=Access,ParameterValue=allowed-ips \
                    ParameterKey=AllowedIpRanges,ParameterValue=203.0.113.10/32
     aws cloudformation wait stack-create-complete --region eu-west-1 --stack-name my-chroma
     aws cloudformation describe-stacks --region eu-west-1 --stack-name my-chroma --query "Stacks[0].Outputs"
 
-For VecturaDB with an API key, add `ParameterKey=Engine,ParameterValue=vecturadb ParameterKey=ApiKey,ParameterValue=<your key>`. The template and its README are in the [VecturaDB.Deploy repository](https://github.com/VecturaDB/VecturaDB.Deploy), under [`aws/vm`](https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.1.0/aws/vm).
+For VecturaDB with an API key, add `ParameterKey=Engine,ParameterValue=vecturadb ParameterKey=ApiKey,ParameterValue=<your key>`. The template and its README are in the [VecturaDB.Deploy repository](https://github.com/VecturaDB/VecturaDB.Deploy), under [`aws/vm`](https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.2.0/aws/vm).
 
 ## Access and HTTPS
 
