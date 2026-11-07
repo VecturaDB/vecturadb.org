@@ -6,7 +6,7 @@ Source: https://vecturadb.org/deploy/chroma/gcp/vm/
 
 One server in your own Google Cloud project, with its data on a disk of its own, HTTPS, allowed IP addresses and snapshots. From about 13 USD a month on your Google Cloud bill.
 
-[Open in Cloud Shell](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&cloudshell_git_branch=gcp-v1.1.0&cloudshell_workspace=gcp%2Fvm&cloudshell_tutorial=tutorial-chroma.md) [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/gcp-v1.1.0/gcp/vm)
+[Open in Cloud Shell](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&cloudshell_git_branch=gcp-v1.1.1&cloudshell_workspace=gcp%2Fvm&cloudshell_tutorial=tutorial-chroma.md) [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/gcp-v1.1.1/gcp/vm)
 
 **Disclaimer.** This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured on 5 and 6 November 2026 in europe-west1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
 
@@ -44,9 +44,9 @@ Secret Manager secret| Only VecturaDB with an API key
   
 ## Deploy
 
-[Open in Cloud Shell](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&cloudshell_git_branch=gcp-v1.1.0&cloudshell_workspace=gcp%2Fvm&cloudshell_tutorial=tutorial-chroma.md)
+[Open in Cloud Shell](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FVecturaDB%2FVecturaDB.Deploy&cloudshell_git_branch=gcp-v1.1.1&cloudshell_workspace=gcp%2Fvm&cloudshell_tutorial=tutorial-chroma.md)
 
-Google Cloud has no form that creates a deployment from a link. The button opens Cloud Shell, the terminal of the Google Cloud console, with the template of the tag `gcp-v1.1.0` and a guide on the side, which runs Terraform step by step.
+Google Cloud has no form that creates a deployment from a link. The button opens Cloud Shell, the terminal of the Google Cloud console, with the template of the tag `gcp-v1.1.1` and a guide on the side, which runs Terraform step by step.
 
   1. Google asks to confirm the clone of the repository. Without “Trust repo”, Cloud Shell is temporary: its files are deleted at the end of the session, and it has no credentials until the guide signs you in. If Google asks to authorize Cloud Shell when it opens, it is not needed: click outside it to close it, the guide signs you in. In a temporary Cloud Shell `gcloud auth login` first says that you are already authenticated: answer `Y`.
   2. The guide turns on the APIs that the template uses, installs Terraform, and creates a Cloud Storage bucket for the state of Terraform, `<project id>-chroma-tfstate`, with versioning and without public access.
@@ -71,7 +71,7 @@ With Terraform 1.11 or later on your computer:
     export TF_VAR_project_id=<project id>
     terraform apply -parallelism=2 -var-file=chroma.tfvars -var 'allowed_ip_ranges=["203.0.113.10/32"]'
 
-For VecturaDB with an API key, use `vecturadb.tfvars` and `export TF_VAR_api_key=<your key>` first. The template and its README are in the [VecturaDB.Deploy repository](https://github.com/VecturaDB/VecturaDB.Deploy), under [`gcp/vm`](https://github.com/VecturaDB/VecturaDB.Deploy/tree/gcp-v1.1.0/gcp/vm).
+For VecturaDB with an API key, use `vecturadb.tfvars` and `export TF_VAR_api_key=<your key>` first. The template and its README are in the [VecturaDB.Deploy repository](https://github.com/VecturaDB/VecturaDB.Deploy), under [`gcp/vm`](https://github.com/VecturaDB/VecturaDB.Deploy/tree/gcp-v1.1.1/gcp/vm).
 
 The commands run Terraform with two operations at a time: in our tests from Cloud Shell, with the default of 10, 5 plans out of 11 failed with a refused connection to the Google APIs, and with 2 none out of 11.
 
@@ -110,6 +110,7 @@ e2-medium| 2 shared vCPU, 4 GB| 26.91| 1.00| 1.60| 3.65| 33.16
   * The snapshots are billed at 0.05 USD per GB a month in europe-west1, for the data they hold.
   * **The snapshots are not part of the deployment:** `terraform destroy` leaves them.
   * The snapshots are taken while the server runs, so a restored disk is like a disk after a power cut: the restore checks its file system before it uses it.
+  * A snapshot taken while the server saves the index of a collection can give that collection back broken, as a power cut would. It can happen to a collection of more than 1,000 records, where the server starts saving its index, with Chroma 1.5.9 and with VecturaDB. In our tests of 6 November 2026 it happened twice, each time to a collection of 2,000 records added a few seconds before the backup: on AWS with VecturaDB (“Error creating hnsw segment writer”) and on Container Apps with Chroma 1.5.9 (“Error getting embedding”). So take an on-demand snapshot while nobody writes. The scheduled ones are set at 02:00 UTC: keep the writes away from that hour.
 
 ### Restore
 

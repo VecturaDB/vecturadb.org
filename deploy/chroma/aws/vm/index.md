@@ -6,7 +6,7 @@ Source: https://vecturadb.org/deploy/chroma/aws/vm/
 
 One server in your own AWS account, with its data on an EBS volume, HTTPS, allowed IP addresses and snapshots. From about 12.50 USD a month on your AWS bill.
 
-[Launch Stack](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.2.1%2Fvm%2Ftemplate.yaml&stackName=chroma) [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.2.1/aws/vm)
+[Launch Stack](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.2.2%2Fvm%2Ftemplate.yaml&stackName=chroma) [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.2.2/aws/vm)
 
 **Disclaimer.** This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured on 29 October 2026 in eu-west-1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
 
@@ -46,9 +46,9 @@ Data Lifecycle Manager policy| Only with backups on: snapshots of the data volum
   
 ## Deploy
 
-[Launch Stack](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.2.1%2Fvm%2Ftemplate.yaml&stackName=chroma)
+[Launch Stack](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.2.2%2Fvm%2Ftemplate.yaml&stackName=chroma)
 
-The button opens the quick-create page of CloudFormation in eu-west-1, with the template of the tag `aws-v1.2.1` and the name of the stack already filled in. CloudFormation reads templates from Amazon S3, so the button uses a copy of the template in a public bucket.
+The button opens the quick-create page of CloudFormation in eu-west-1, with the template of the tag `aws-v1.2.2` and the name of the stack already filled in. CloudFormation reads templates from Amazon S3, so the button uses a copy of the template in a public bucket.
 
   1. Fill the parameters, in three groups: Server (engine, images, instance type, size of the data volume), Access (access mode, allowed IP ranges, API key, domain, email for Let's Encrypt) and Backups.
   2. Under “Capabilities and transforms”, tick the three acknowledgements: IAM resources, IAM resources with custom names, and `CAPABILITY_AUTO_EXPAND`.
@@ -60,14 +60,14 @@ With the AWS CLI:
     
     
     aws cloudformation create-stack --region eu-west-1 --stack-name my-chroma \
-      --template-url https://vecturadb-deploy.s3.eu-west-1.amazonaws.com/aws-v1.2.1/vm/template.yaml \
+      --template-url https://vecturadb-deploy.s3.eu-west-1.amazonaws.com/aws-v1.2.2/vm/template.yaml \
       --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND \
       --parameters ParameterKey=Access,ParameterValue=allowed-ips \
                    ParameterKey=AllowedIpRanges,ParameterValue=203.0.113.10/32
     aws cloudformation wait stack-create-complete --region eu-west-1 --stack-name my-chroma
     aws cloudformation describe-stacks --region eu-west-1 --stack-name my-chroma --query "Stacks[0].Outputs"
 
-For VecturaDB with an API key, add `ParameterKey=Engine,ParameterValue=vecturadb ParameterKey=ApiKey,ParameterValue=<your key>`. The template and its README are in the [VecturaDB.Deploy repository](https://github.com/VecturaDB/VecturaDB.Deploy), under [`aws/vm`](https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.2.1/aws/vm).
+For VecturaDB with an API key, add `ParameterKey=Engine,ParameterValue=vecturadb ParameterKey=ApiKey,ParameterValue=<your key>`. The template and its README are in the [VecturaDB.Deploy repository](https://github.com/VecturaDB/VecturaDB.Deploy), under [`aws/vm`](https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.2.2/aws/vm).
 
 ## Access and HTTPS
 
@@ -111,6 +111,7 @@ t4g.small (Arm)| 2, 2 GiB| 13.43| 0.70| 1.41| 3.65| 19.19
   * Data Lifecycle Manager has no fee. The snapshots are billed at 0.05 USD per GB a month in eu-west-1: the first one for the used part of the volume, the next ones for the changes.
   * **The snapshots are not part of the stack:** deleting the stack leaves them.
   * The snapshots are taken while the server runs, so a restored volume is like a volume after a power cut.
+  * A snapshot taken while the server saves the index of a collection can give that collection back broken, as a power cut would. It can happen to a collection of more than 1,000 records, where the server starts saving its index, with Chroma 1.5.9 and with VecturaDB. In our tests of 6 November 2026 it happened twice, each time to a collection of 2,000 records added a few seconds before the backup: on AWS with VecturaDB (“Error creating hnsw segment writer”) and on Container Apps with Chroma 1.5.9 (“Error getting embedding”). So take an on-demand snapshot while nobody writes. The scheduled ones are set at 02:00 UTC: keep the writes away from that hour.
 
 ### Restore
 
@@ -159,7 +160,7 @@ t4g.small (Arm)| 2, 2 GiB| 13.43| 0.70| 1.41| 3.65| 19.19
         ]
         
         aws cloudformation update-stack --region eu-west-1 --stack-name my-chroma \
-          --template-url https://vecturadb-deploy.s3.eu-west-1.amazonaws.com/aws-v1.2.1/vm/template.yaml \
+          --template-url https://vecturadb-deploy.s3.eu-west-1.amazonaws.com/aws-v1.2.2/vm/template.yaml \
           --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND --parameters file://parameters.json
         aws cloudformation wait stack-update-complete --region eu-west-1 --stack-name my-chroma
 
