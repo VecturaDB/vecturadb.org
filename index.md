@@ -45,7 +45,7 @@ Features
 
 ## The features of Chroma Cloud, that is, of distributed Chroma, on a single node
 
-Some features of Chroma exist only in distributed Chroma, the one Chroma Cloud runs on: sparse vectors, the BM25 index and hybrid search. VecturaDB brings them to the single-node database, the one that runs with Docker, as a server, or inside a Python application.
+Some features of Chroma exist only in distributed Chroma, the one Chroma Cloud runs on: sparse vectors, the BM25 index and hybrid search. VecturaDB brings them to the single-node database, the one that runs with Docker, as a server, or inside a Python application. Each feature, with how it is tested: [What VecturaDB has beyond Chroma 1.5.9](https://vecturadb.org/features/).
 
 ### Sparse vectors
 
