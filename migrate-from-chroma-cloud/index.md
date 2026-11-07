@@ -8,7 +8,7 @@ Not sure about your case? [Open an issue in the VecturaDB repository](https://gi
 
 Chroma Cloud stops accepting writes on 7 December 2026 and stops serving reads on 22 December 2026 ([Chroma's notice](https://www.trychroma.com/cloud-wind-down)). Open-source Chroma 1.5.9 runs on your own server, but on a single node it refuses the Search API, sparse vector indexes and BM25: `Search operation is not implemented for local executor`. If your app uses hybrid search on Chroma Cloud, it does not run there as it is.
 
-VecturaDB is a single-node server built from Chroma, with the same API, that has those features: the Search API with dense and sparse ranks and RRF, sparse vectors, BM25, SPANN, collection fork, conditional transactions and attached functions. The full list: [What VecturaDB has](https://vecturadb.org/features/). It is an independent project, not affiliated with Chroma.
+VecturaDB is a single-node server built from Chroma, with the same API, that has those features: the Search API with dense and sparse ranks and RRF, sparse vectors, BM25, SPANN, collection fork, conditional transactions and attached functions. The full list, each feature with how it is tested: [What VecturaDB has](https://vecturadb.org/features/). It is an independent project, not affiliated with Chroma.
 
 We ran every step below on 6 November 2026, with VecturaDB 1.0.0-preview.8 in Docker on Windows, against our Chroma Cloud database: 21 collections, with sparse, BM25, SPANN and legacy `hnsw:*` collections among them.
 

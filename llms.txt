@@ -30,7 +30,7 @@ Notes for assistants:
 
 ## VecturaDB
 
-- [What VecturaDB has beyond Chroma 1.5.9](https://vecturadb.org/features/index.md): every feature, with an example, and the differences from distributed Chroma.
+- [What VecturaDB has beyond Chroma 1.5.9](https://vecturadb.org/features/index.md): every feature, with an example and how it is tested, and the differences from distributed Chroma.
 - [Get started](https://vecturadb.org/get-started/index.md): pip, Docker or the CLI.
 - [Clients](https://vecturadb.org/clients/index.md): 15 Chroma clients in 11 languages, tested on VecturaDB and Chroma 1.5.9.
 - [Clients, step by step](https://vecturadb.org/clients/details/index.md)
