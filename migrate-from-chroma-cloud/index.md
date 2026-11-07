@@ -2,7 +2,7 @@ Source: https://vecturadb.org/migrate-from-chroma-cloud/
 
 # Migrate from Chroma Cloud to a self-hosted Chroma server (single node, with hybrid search and BM25)
 
-**Disclaimer.** This guide is provided as is, without warranty of any kind, as stated in the Apache License 2.0. It describes what we ran on 6 November 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.
+**Disclaimer.** This guide is provided as is, without warranty of any kind, as stated in the Apache License 2.0. It describes what we ran on 6 and 7 November 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.
 
 Not sure about your case? [Open an issue in the VecturaDB repository](https://github.com/VecturaDB/VecturaDB/issues/new), describe your data and your setup, and we will take a look on a best-effort basis.
 
@@ -47,7 +47,17 @@ The copy waits when the server asks it to, when a server fails and when the netw
     Collection mgr-test-copy-bm25 is already copied
     
 
-A collection that is the same is left alone. For the others the CLI asks what to do. Where nobody can answer, add `--resume --yes` to add the records it does not have, or `--force --yes` to make it an exact copy of Chroma Cloud: `--force` also removes the records that are not on Chroma Cloud. Run it once more just before 7 December 2026, to take the last writes.
+A collection with no differences is left alone. For the others the CLI asks what to do. Where nobody can answer, add `--resume --yes` to add the records it does not have, or `--force --yes` to make it an exact copy of Chroma Cloud: `--force` also removes the records that are not on Chroma Cloud.
+
+With 1.0.0-preview.8, a record with a URI counts as different when the copy runs again, even when it is the same. The CLI reads Chroma Cloud with a search, which returns the URI inside the metadata, and reads VecturaDB with a get, which returns the URI apart. In our test of 7 November 2026, the second copy of a collection with 50 records with a URI gave:
+    
+    
+    Collection mgr-test-copy-plain is already on the target: 200 records the same, 0 missing, 50 different, 0 only on the target. For example, the metadata of record r0 is different
+    
+
+Where nobody can answer, the CLI then leaves the collection as it is and exits with code 1. `--force --yes` writes those records again, and the next copy counts them as different again. Check the collection with verify.py instead, as in step 3: if it answers `ALL OK`, the copy is right, and you can ignore those lines.
+
+Run it once more just before 7 December 2026, to take the last writes, and check the result with verify.py.
 
 ## 3\. Check the copy
 

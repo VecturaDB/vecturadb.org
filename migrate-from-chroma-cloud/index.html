@@ -63,7 +63,7 @@
   <main id="main" class="doc prose">
 <h1 id="migrate-from-chroma-cloud-to-a-self-hosted-chroma-server-single-node-with-hybrid-search-and-bm25">Migrate from Chroma Cloud to a self-hosted Chroma server (single node, with hybrid search and BM25)</h1>
 <div class="note">
-<p><strong>Disclaimer.</strong> This guide is provided as is, without warranty of any kind, as stated in the Apache License 2.0. It describes what we ran on 6 November 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.</p>
+<p><strong>Disclaimer.</strong> This guide is provided as is, without warranty of any kind, as stated in the Apache License 2.0. It describes what we ran on 6 and 7 November 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.</p>
 <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
 </div>
 <p>Chroma Cloud stops accepting writes on 7 December 2026 and stops serving reads on 22 December 2026 (<a href="https://www.trychroma.com/cloud-wind-down">Chroma's notice</a>). Open-source Chroma 1.5.9 runs on your own server, but on a single node it refuses the Search API, sparse vector indexes and BM25: <code>Search operation is not implemented for local executor</code>. If your app uses hybrid search on Chroma Cloud, it does not run there as it is.</p>
@@ -92,7 +92,13 @@ docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </
 Collection mgr-test-copy-bm25 is already copied
 </code></pre></div>
 
-<p>A collection that is the same is left alone. For the others the CLI asks what to do. Where nobody can answer, add <code>--resume --yes</code> to add the records it does not have, or <code>--force --yes</code> to make it an exact copy of Chroma Cloud: <code>--force</code> also removes the records that are not on Chroma Cloud. Run it once more just before 7 December 2026, to take the last writes.</p>
+<p>A collection with no differences is left alone. For the others the CLI asks what to do. Where nobody can answer, add <code>--resume --yes</code> to add the records it does not have, or <code>--force --yes</code> to make it an exact copy of Chroma Cloud: <code>--force</code> also removes the records that are not on Chroma Cloud.</p>
+<p>With 1.0.0-preview.8, a record with a URI counts as different when the copy runs again, even when it is the same. The CLI reads Chroma Cloud with a search, which returns the URI inside the metadata, and reads VecturaDB with a get, which returns the URI apart. In our test of 7 November 2026, the second copy of a collection with 50 records with a URI gave:</p>
+<div class="hl"><pre tabindex="0"><span></span><code>Collection mgr-test-copy-plain is already on the target: 200 records the same, 0 missing, 50 different, 0 only on the target. For example, the metadata of record r0 is different
+</code></pre></div>
+
+<p>Where nobody can answer, the CLI then leaves the collection as it is and exits with code 1. <code>--force --yes</code> writes those records again, and the next copy counts them as different again. Check the collection with verify.py instead, as in step 3: if it answers <code>ALL OK</code>, the copy is right, and you can ignore those lines.</p>
+<p>Run it once more just before 7 December 2026, to take the last writes, and check the result with verify.py.</p>
 <h2 id="3-check-the-copy">3. Check the copy</h2>
 <p><a href="https://github.com/VecturaDB/VecturaDB/blob/96f2fff1e412e3e6d71594de9d2fbf7edd86b965/migration/leaving-chroma-cloud/verify.py">verify.py</a> compares a collection on both sides: count, ids, documents, metadata with the sparse vectors, URIs, embeddings, and the distances of three dense queries.</p>
 <div class="hl"><pre tabindex="0"><span></span><code>curl<span class="w"> </span>-O<span class="w"> </span>https://raw.githubusercontent.com/VecturaDB/VecturaDB/96f2fff1e412e3e6d71594de9d2fbf7edd86b965/migration/leaving-chroma-cloud/verify.py
