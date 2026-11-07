@@ -100,7 +100,7 @@
 </nav>
 
 <h2 id="what-it-creates">What it creates</h2>
-<p>The template runs <strong>VecturaDB 1.0.0-preview.8</strong> (<code>ghcr.io/vecturadb/vecturadb:1.0.0-preview.8</code>), built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys. The same template can also run Chroma 1.5.9.</p>
+<p>The template runs <strong>VecturaDB 1.0.0-preview.8</strong> (<code>ghcr.io/vecturadb/vecturadb:1.0.0-preview.8</code>), built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys. The same template can also run Chroma 1.5.9, which cannot read the SPANN collections that VecturaDB wrote: see <a href="#updates">Updates</a>.</p>
 <p>VecturaDB keeps the Chroma API: the Chroma clients connect with the URL of the deployment and the API key. In our tests the Python client (chromadb 1.5.9) worked over HTTPS with the key, and VecturaDB answered 401 without it.</p>
 <div class="table table-fit" tabindex="0"><table>
 <thead>
@@ -223,6 +223,7 @@ az disk delete -g my-vecturadb -n &lt;restored disk&gt;</code></pre>
 <h2 id="updates">Updates</h2>
 <ul>
 <li>To change the server, its image, the key or the access, deploy the template again: it stops the old container and starts the new one, with the data on the data disk.</li>
+<li>Chroma 1.5.9 cannot read the SPANN collections that VecturaDB wrote: after a change from VecturaDB to Chroma 1.5.9, <code>count</code>, <code>get</code> and <code>query</code> on them fail with <code>Collection is missing HNSW configuration</code>. An <code>add</code> to them answers <code>Error in compaction: Error constructing hnsw segment reader: Error creating hnsw segment reader: Collection is missing HNSW configuration</code>, yet the record is written. The HNSW collections stay readable, and VecturaDB reads them all again, the records added by Chroma 1.5.9 included.</li>
 <li>The server does not answer during the switch.</li>
 <li>Docker starts only once the data disk is mounted: a VM that boots without it serves nothing, rather than an empty database.</li>
 <li>Ubuntu installs its security updates by itself. Caddy comes from its own repository: you update it.</li>

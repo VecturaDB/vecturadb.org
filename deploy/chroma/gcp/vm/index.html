@@ -218,6 +218,7 @@ terraform apply -parallelism=2 -var-file=chroma.tfvars -var 'allowed_ip_ranges=[
 <h2 id="updates">Updates</h2>
 <ul>
 <li>To change the server, its image, the access or the key, open the guide again, change the settings and apply: the agent of the VM pulls the image, stops the old container and starts the new one, with the data on the data disk. An apply that changes none of them does not restart the server.</li>
+<li>Chroma 1.5.9 cannot read the SPANN collections that VecturaDB wrote: after a change from VecturaDB to Chroma 1.5.9, <code>count</code>, <code>get</code> and <code>query</code> on them fail with <code>Collection is missing HNSW configuration</code>. An <code>add</code> to them answers <code>Error in compaction: Error constructing hnsw segment reader: Error creating hnsw segment reader: Collection is missing HNSW configuration</code>, yet the record is written. The HNSW collections stay readable, and VecturaDB reads them all again, the records added by Chroma 1.5.9 included.</li>
 <li>The server does not answer during the switch.</li>
 <li>An apply never replaces the VM, so it never moves the data disk.</li>
 <li>Docker starts only once the data disk is mounted: a VM that boots without it serves nothing, rather than an empty database.</li>

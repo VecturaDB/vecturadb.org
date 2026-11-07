@@ -136,6 +136,7 @@ After the restore the server held the data of the backup, and not the data writt
 ## Updates
 
   * To change the server, its image or the access, deploy the template again: it stops the old container and starts the new one, with the data on the data disk.
+  * Chroma 1.5.9 cannot read the SPANN collections that VecturaDB wrote: after a change from VecturaDB to Chroma 1.5.9, `count`, `get` and `query` on them fail with `Collection is missing HNSW configuration`. An `add` to them answers `Error in compaction: Error constructing hnsw segment reader: Error creating hnsw segment reader: Collection is missing HNSW configuration`, yet the record is written. The HNSW collections stay readable, and VecturaDB reads them all again, the records added by Chroma 1.5.9 included.
   * The server does not answer during the switch.
   * Docker starts only once the data disk is mounted: a VM that boots without it serves nothing, rather than an empty database.
   * Ubuntu installs its security updates by itself. Caddy comes from its own repository: you update it.

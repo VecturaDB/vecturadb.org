@@ -141,6 +141,7 @@ t4g.small (Arm)| 2, 2 GiB| 13.43| 0.70| 1.41| 3.65| 19.19
 ## Updates
 
   * To change the server, its image or the access, update the stack with the template of the release from the bucket, and the new values: Systems Manager pulls the image, stops the old container and starts the new one, with the data on the data volume. An update that changes none of them does not restart the server.
+  * Chroma 1.5.9 cannot read the SPANN collections that VecturaDB wrote: after a change from VecturaDB to Chroma 1.5.9, `count`, `get` and `query` on them fail with `Collection is missing HNSW configuration`. An `add` to them answers `Error in compaction: Error constructing hnsw segment reader: Error creating hnsw segment reader: Collection is missing HNSW configuration`, yet the record is written. The HNSW collections stay readable, and VecturaDB reads them all again, the records added by Chroma 1.5.9 included.
   * In our tests an update that kept the template in use (`--use-previous-template`) and changed only `VecturaDBImage` did nothing: CloudFormation answered “No updates are to be performed”. With the AWS CLI, list every parameter of the template in a file, the new values with `ParameterValue` and the others with `UsePreviousValue`, for example `parameters.json` for another image of VecturaDB: 
         
         [

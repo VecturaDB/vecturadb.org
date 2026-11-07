@@ -227,6 +227,7 @@ az disk delete -g my-chroma -n &lt;restored disk&gt;</code></pre>
 <h2 id="updates">Updates</h2>
 <ul>
 <li>To change the server, its image or the access, deploy the template again: it stops the old container and starts the new one, with the data on the data disk.</li>
+<li>Chroma 1.5.9 cannot read the SPANN collections that VecturaDB wrote: after a change from VecturaDB to Chroma 1.5.9, <code>count</code>, <code>get</code> and <code>query</code> on them fail with <code>Collection is missing HNSW configuration</code>. An <code>add</code> to them answers <code>Error in compaction: Error constructing hnsw segment reader: Error creating hnsw segment reader: Collection is missing HNSW configuration</code>, yet the record is written. The HNSW collections stay readable, and VecturaDB reads them all again, the records added by Chroma 1.5.9 included.</li>
 <li>The server does not answer during the switch.</li>
 <li>Docker starts only once the data disk is mounted: a VM that boots without it serves nothing, rather than an empty database.</li>
 <li>Ubuntu installs its security updates by itself. Caddy comes from its own repository: you update it.</li>
