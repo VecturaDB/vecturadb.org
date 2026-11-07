@@ -224,6 +224,7 @@ aws ec2 delete-volume --volume-id $VOLUME</code></pre>
 <h2 id="updates">Updates</h2>
 <ul>
 <li>To change the server, its image or the access, update the stack with the template of the release from the bucket, and the new values: Systems Manager pulls the image, stops the old container and starts the new one, with the data on the data volume. An update that changes none of them does not restart the server.</li>
+<li>Chroma 1.5.9 cannot read the SPANN collections that VecturaDB wrote: after a change from VecturaDB to Chroma 1.5.9, <code>count</code>, <code>get</code> and <code>query</code> on them fail with <code>Collection is missing HNSW configuration</code>. An <code>add</code> to them answers <code>Error in compaction: Error constructing hnsw segment reader: Error creating hnsw segment reader: Collection is missing HNSW configuration</code>, yet the record is written. The HNSW collections stay readable, and VecturaDB reads them all again, the records added by Chroma 1.5.9 included.</li>
 <li>In our tests an update that kept the template in use (<code>--use-previous-template</code>) and changed only <code>VecturaDBImage</code> did nothing: CloudFormation answered “No updates are to be performed”. With the AWS CLI, list every parameter of the template in a file, the new values with <code>ParameterValue</code> and the others with <code>UsePreviousValue</code>, for example <code>parameters.json</code> for another image of VecturaDB:
 <pre tabindex="0"><code>[
   {"ParameterKey": "Engine", "UsePreviousValue": true},

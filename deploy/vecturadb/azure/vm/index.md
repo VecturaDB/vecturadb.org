@@ -25,7 +25,7 @@ On this page
 
 ## What it creates
 
-The template runs **VecturaDB 1.0.0-preview.8** (`ghcr.io/vecturadb/vecturadb:1.0.0-preview.8`), built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys. The same template can also run Chroma 1.5.9.
+The template runs **VecturaDB 1.0.0-preview.8** (`ghcr.io/vecturadb/vecturadb:1.0.0-preview.8`), built from Chroma, with sparse vectors, BM25, hybrid search, collection fork and API keys. The same template can also run Chroma 1.5.9, which cannot read the SPANN collections that VecturaDB wrote: see Updates.
 
 VecturaDB keeps the Chroma API: the Chroma clients connect with the URL of the deployment and the API key. In our tests the Python client (chromadb 1.5.9) worked over HTTPS with the key, and VecturaDB answered 401 without it.
 
@@ -135,6 +135,7 @@ After the restore VecturaDB held the data of the backup, 250 records, and not th
 ## Updates
 
   * To change the server, its image, the key or the access, deploy the template again: it stops the old container and starts the new one, with the data on the data disk.
+  * Chroma 1.5.9 cannot read the SPANN collections that VecturaDB wrote: after a change from VecturaDB to Chroma 1.5.9, `count`, `get` and `query` on them fail with `Collection is missing HNSW configuration`. An `add` to them answers `Error in compaction: Error constructing hnsw segment reader: Error creating hnsw segment reader: Collection is missing HNSW configuration`, yet the record is written. The HNSW collections stay readable, and VecturaDB reads them all again, the records added by Chroma 1.5.9 included.
   * The server does not answer during the switch.
   * Docker starts only once the data disk is mounted: a VM that boots without it serves nothing, rather than an empty database.
   * Ubuntu installs its security updates by itself. Caddy comes from its own repository: you update it.
