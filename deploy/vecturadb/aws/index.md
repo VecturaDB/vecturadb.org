@@ -23,7 +23,7 @@ t4g.micro with its volumes and public IPv4, whatever the use. The API key adds 0
   * Snapshots of the data volume every 24 hours, kept 7 days
   * API keys, kept in AWS Secrets Manager
 
-[Launch Stack](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.2.1%2Fvm%2Ftemplate.yaml&stackName=vecturadb&param_Engine=vecturadb) [Details](https://vecturadb.org/deploy/vecturadb/aws/vm/)
+[Launch Stack](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.2.2%2Fvm%2Ftemplate.yaml&stackName=vecturadb&param_Engine=vecturadb) [Details](https://vecturadb.org/deploy/vecturadb/aws/vm/)
 
 **The template is free and open source (Apache 2.0).** You pay only AWS, which bills you directly: no fee from us.
 

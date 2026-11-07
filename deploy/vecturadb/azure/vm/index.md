@@ -6,7 +6,7 @@ Source: https://vecturadb.org/deploy/vecturadb/azure/vm/
 
 One VecturaDB server in your own Azure subscription, with its data on a managed disk, HTTPS, API keys, allowed IP addresses and backups. From about 14 USD a month on your Azure bill.
 
-[Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.5.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.5.0%2Fazure%2Fvm%2FcreateUiDefinition.vecturadb.json) [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.5.0/azure/vm)
+[Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.5.1%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.5.1%2Fazure%2Fvm%2FcreateUiDefinition.vecturadb.json) [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.5.1/azure/vm)
 
 **Disclaimer.** This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.8 on 6 November 2026 in westeurope: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
 
@@ -40,9 +40,9 @@ Backup vault| Only with backups on: Azure Disk Backup of the data disk
   
 ## Deploy
 
-[Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.5.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.5.0%2Fazure%2Fvm%2FcreateUiDefinition.vecturadb.json)
+[Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.5.1%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.5.1%2Fazure%2Fvm%2FcreateUiDefinition.vecturadb.json)
 
-The button opens the form of the Azure portal with the template of the tag `azure-v1.5.0`, VecturaDB already chosen and `vecturadb` as the name. The form asks for the API key. When the portal shows “Your deployment is complete”, open **Outputs** in the menu on the left: `url` is the address of the server, for the clients.
+The button opens the form of the Azure portal with the template of the tag `azure-v1.5.1`, VecturaDB already chosen and `vecturadb` as the name. The form asks for the API key. When the portal shows “Your deployment is complete”, open **Outputs** in the menu on the left: `url` is the address of the server, for the clients.
 
 In our tests| Time  
 ---|---  
@@ -53,12 +53,12 @@ With the Azure CLI:
     
     az group create -n my-vecturadb -l westeurope
     az deployment group create -g my-vecturadb \
-      --template-uri https://raw.githubusercontent.com/VecturaDB/VecturaDB.Deploy/azure-v1.5.0/azure/vm/azuredeploy.json \
+      --template-uri https://raw.githubusercontent.com/VecturaDB/VecturaDB.Deploy/azure-v1.5.1/azure/vm/azuredeploy.json \
       -p name=vecturadb engine=vecturadb apiKey=<your key> \
          access=allowed-ips allowedIpRanges='["203.0.113.10/32"]' \
          adminPublicKey="$(cat ~/.ssh/id_ed25519.pub)"
 
-The template, its scripts and its README are in the [VecturaDB.Deploy repository](https://github.com/VecturaDB/VecturaDB.Deploy), under [`azure/vm`](https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.5.0/azure/vm).
+The template, its scripts and its README are in the [VecturaDB.Deploy repository](https://github.com/VecturaDB/VecturaDB.Deploy), under [`azure/vm`](https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.5.1/azure/vm).
 
 ## Access and HTTPS
 
@@ -105,6 +105,7 @@ Standard_B1ms| 1, 2 GiB| 17.52| 3.60| 3.65| 24.77
   * Azure Disk Backup has no fee per protected disk. The snapshots are billed at the price of standard storage, 0.05 USD per GB a month in westeurope: the first one for the used part of the disk, the next ones for the changes.
   * Soft delete is on: deleted backups stay 14 days.
   * The snapshots are taken while the server runs, so a restored disk is like a disk after a power cut. In our tests its file system recovered its journal, and VecturaDB started on it with all the data of the backup.
+  * A snapshot taken while the server saves the index of a collection can give that collection back broken, as a power cut would. It can happen to a collection of more than 1,000 records, where the server starts saving its index, with Chroma 1.5.9 and with VecturaDB. In our tests of 6 November 2026 it happened twice, each time to a collection of 2,000 records added a few seconds before the backup: on AWS with VecturaDB (“Error creating hnsw segment writer”) and on Container Apps with Chroma 1.5.9 (“Error getting embedding”). So take an on-demand backup while nobody writes. The scheduled ones are set at 02:00 UTC: keep the writes away from that hour.
 
 ### Restore
 
@@ -166,7 +167,7 @@ Soft delete off| 2 s
 Backup instance gone| 95-103 s  
 Resource group gone| 125-126 s  
   
-The [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.5.0/azure/vm#delete-everything) also says how to get out of the soft-deleted state, if you deleted the backup instance with soft delete on.
+The [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.5.1/azure/vm#delete-everything) also says how to get out of the soft-deleted state, if you deleted the backup instance with soft delete on.
 
 ## Limits
 

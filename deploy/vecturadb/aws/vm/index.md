@@ -6,7 +6,7 @@ Source: https://vecturadb.org/deploy/vecturadb/aws/vm/
 
 One VecturaDB server in your own AWS account, with its data on an EBS volume, HTTPS, API keys, allowed IP addresses and snapshots. From about 12.50 USD a month on your AWS bill.
 
-[Launch Stack](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.2.1%2Fvm%2Ftemplate.yaml&stackName=vecturadb&param_Engine=vecturadb) [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.2.1/aws/vm)
+[Launch Stack](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.2.2%2Fvm%2Ftemplate.yaml&stackName=vecturadb&param_Engine=vecturadb) [README of the template](https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.2.2/aws/vm)
 
 **Disclaimer.** This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.8 on 6 November 2026 in eu-west-1: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.
 
@@ -43,9 +43,9 @@ Data Lifecycle Manager policy| Only with backups on: snapshots of the data volum
   
 ## Deploy
 
-[Launch Stack](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.2.1%2Fvm%2Ftemplate.yaml&stackName=vecturadb&param_Engine=vecturadb)
+[Launch Stack](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https%3A%2F%2Fvecturadb-deploy.s3.eu-west-1.amazonaws.com%2Faws-v1.2.2%2Fvm%2Ftemplate.yaml&stackName=vecturadb&param_Engine=vecturadb)
 
-The button opens the quick-create page of CloudFormation in eu-west-1, with the template of the tag `aws-v1.2.1`, VecturaDB already chosen and `vecturadb` as the name of the stack. CloudFormation reads templates from Amazon S3, so the button uses a copy of the template in a public bucket.
+The button opens the quick-create page of CloudFormation in eu-west-1, with the template of the tag `aws-v1.2.2`, VecturaDB already chosen and `vecturadb` as the name of the stack. CloudFormation reads templates from Amazon S3, so the button uses a copy of the template in a public bucket.
 
   1. Fill the parameters, in three groups: Server (images, instance type, size of the data volume), Access (access mode, allowed IP ranges, API key, domain, email for Let's Encrypt) and Backups. The API key is required for public access.
   2. Under “Capabilities and transforms”, tick the three acknowledgements: IAM resources, IAM resources with custom names, and `CAPABILITY_AUTO_EXPAND`.
@@ -61,7 +61,7 @@ With the AWS CLI:
     
     
     aws cloudformation create-stack --region eu-west-1 --stack-name my-vecturadb \
-      --template-url https://vecturadb-deploy.s3.eu-west-1.amazonaws.com/aws-v1.2.1/vm/template.yaml \
+      --template-url https://vecturadb-deploy.s3.eu-west-1.amazonaws.com/aws-v1.2.2/vm/template.yaml \
       --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND \
       --parameters ParameterKey=Engine,ParameterValue=vecturadb ParameterKey=ApiKey,ParameterValue=<your key> \
                    ParameterKey=Access,ParameterValue=allowed-ips \
@@ -69,7 +69,7 @@ With the AWS CLI:
     aws cloudformation wait stack-create-complete --region eu-west-1 --stack-name my-vecturadb
     aws cloudformation describe-stacks --region eu-west-1 --stack-name my-vecturadb --query "Stacks[0].Outputs"
 
-The template and its README are in the [VecturaDB.Deploy repository](https://github.com/VecturaDB/VecturaDB.Deploy), under [`aws/vm`](https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.2.1/aws/vm).
+The template and its README are in the [VecturaDB.Deploy repository](https://github.com/VecturaDB/VecturaDB.Deploy), under [`aws/vm`](https://github.com/VecturaDB/VecturaDB.Deploy/tree/aws-v1.2.2/aws/vm).
 
 ## Access and HTTPS
 
@@ -113,6 +113,7 @@ t4g.small (Arm)| 2, 2 GiB| 13.43| 0.70| 1.41| 3.65| 19.19
   * Data Lifecycle Manager has no fee. The snapshots are billed at 0.05 USD per GB a month in eu-west-1: the first one for the used part of the volume, the next ones for the changes.
   * **The snapshots are not part of the stack:** deleting the stack leaves them.
   * The snapshots are taken while the server runs, so a restored volume is like a volume after a power cut. In our tests its file system recovered its journal, and VecturaDB started on it with all the data of the snapshot.
+  * A snapshot taken while the server saves the index of a collection can give that collection back broken, as a power cut would. It can happen to a collection of more than 1,000 records, where the server starts saving its index, with Chroma 1.5.9 and with VecturaDB. In our tests of 6 November 2026 it happened twice, each time to a collection of 2,000 records added a few seconds before the backup: on AWS with VecturaDB (“Error creating hnsw segment writer”) and on Container Apps with Chroma 1.5.9 (“Error getting embedding”). So take an on-demand snapshot while nobody writes. The scheduled ones are set at 02:00 UTC: keep the writes away from that hour.
 
 ### Restore
 
@@ -171,7 +172,7 @@ After the restore VecturaDB held the collection of 250 records written before th
         ]
         
         aws cloudformation update-stack --region eu-west-1 --stack-name my-vecturadb \
-          --template-url https://vecturadb-deploy.s3.eu-west-1.amazonaws.com/aws-v1.2.1/vm/template.yaml \
+          --template-url https://vecturadb-deploy.s3.eu-west-1.amazonaws.com/aws-v1.2.2/vm/template.yaml \
           --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND --parameters file://parameters.json
         aws cloudformation wait stack-update-complete --region eu-west-1 --stack-name my-vecturadb
 
