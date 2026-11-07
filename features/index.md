@@ -97,7 +97,9 @@ Distributed Chroma ran on a single-node Kubernetes cluster on the same VM, with 
 
 To turn SPANN off, set `executor: local: spann: false`: every collection then gets HNSW.
 
-**Tested.** In our tests on 7 November 2026, a collection with no index settings got HNSW. A collection that asked for SPANN in its configuration got SPANN, and so did one that asked for it in its schema. A query of a SPANN collection returned the nearest records. In the CI, more than 100 tests run on SPANN collections, among them reads after deletes and after a restart (`a_spann_collection_reads_back_its_records`).
+Chroma 1.5.9 cannot read a SPANN collection. On a data path written by VecturaDB, Chroma 1.5.9 lists it, but `count`, `get` and `query` fail with `Collection is missing HNSW configuration`. The HNSW collections stay readable, and VecturaDB reads every collection again afterwards.
+
+**Tested.** In our tests on 7 November 2026, a collection with no index settings got HNSW. A collection that asked for SPANN in its configuration got SPANN, and so did one that asked for it in its schema. A query of a SPANN collection returned the nearest records. In another run on the same day, VecturaDB wrote a data folder with two HNSW collections, one of them with a BM25 index, and three SPANN collections, one of them with 300 records already indexed. Chroma 1.5.9 then opened it, in Docker: it listed every collection, but `count`, `get` and `query` failed on the three SPANN collections. On the HNSW collections they returned the records, and an add went through. VecturaDB then read every collection again, the add included. In the CI, more than 100 tests run on SPANN collections, among them reads after deletes and after a restart (`a_spann_collection_reads_back_its_records`).
 
 ## Read levels
 
@@ -211,6 +213,8 @@ On VecturaDB, `00000000-0000-0000-0000-000000000000` is the id of `default_datab
   * **Conditional transactions.** Some answers differ from those of Chroma Cloud: see [the README](https://github.com/VecturaDB/VecturaDB#conditional-transactions).
 
 ## Differences from Chroma 1.5.9
+
+Chroma 1.5.9 cannot read the SPANN collections of a data path: see SPANN.
 
 On an idle server, a get by id is slower than on Chroma 1.5.9. Under writes it is faster. In our tests on one Azure Standard_E8s_v7 VM (4 November 2026), at commit ac50984b5, on HNSW with 100,000 records, two runs each:
 
