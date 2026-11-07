@@ -77,14 +77,14 @@
   <main id="main" class="doc prose">
 <nav class="crumb" aria-label="Breadcrumb"><a href="/deploy/">Deploy</a> / <a href="/deploy/chroma/">Chroma</a> / <a href="/deploy/chroma/azure/">Azure</a></nav>
 <h1 id="chroma-on-azure-container-apps">Chroma on Azure Container Apps</h1>
-<p class="lead-doc">Chroma 1.5.9 on Azure Container Apps, with the data on an Azure Files share. The app scales to zero when nobody uses it, so it costs almost nothing on idle days.</p>
+<p class="lead-doc">Chroma 1.5.9 on Azure Container Apps, with the data on an Azure Files share and backups with Azure Backup. The app scales to zero when nobody uses it, so on idle days you pay almost only for the storage and the backups.</p>
 <div class="actions">
-<a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.4.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.4.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json">Deploy to Azure</a>
+<a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.5.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.5.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json">Deploy to Azure</a>
 <a class="btn btn-secondary" href="/deploy/chroma/azure/#compare">Compare with the VM</a>
 </div>
 <div class="note">
 <p><strong>For a few hours of use a day.</strong> For a server in use all day, the <a href="/deploy/chroma/azure/vm/">VM template</a> is cheaper, faster and needs no manual step at updates: it is the one we recommend.</p>
-<p><strong>Disclaimer.</strong> This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured on 25, 26, 27 and 28 October 2026 in westeurope: your region, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.</p>
+<p><strong>Disclaimer.</strong> This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured on 25, 26, 27 and 28 October and on 6 and 7 November 2026 in westeurope: your region, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.</p>
 <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
 </div>
 <nav class="toc" aria-label="On this page">
@@ -111,6 +111,7 @@
 <tr><td>Container Apps environment</td><td>Consumption plan</td></tr>
 <tr><td>Storage account and file share</td><td>SMB, transaction optimized, 100&nbsp;GiB quota; soft delete of the share, 7&nbsp;days</td></tr>
 <tr><td>Log Analytics workspace</td><td>The logs of the app, 30&nbsp;days by default</td></tr>
+<tr><td>Recovery Services vault</td><td>Only with backups on: Azure Backup of the share, with the snapshots in the storage account</td></tr>
 </tbody>
 </table></div>
 <p>The server reaches the share through two mounts:</p>
@@ -120,8 +121,8 @@
 </ul>
 
 <h2 id="deploy">Deploy</h2>
-<p><a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.4.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.4.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json">Deploy to Azure</a></p>
-<p>The button opens the form of the Azure portal with the template of the tag <code>azure-v1.4.0</code>. When the portal shows “Your deployment is complete”, open <strong>Outputs</strong> in the menu on the left: <code>url</code> is the address of the server, for the clients.</p>
+<p><a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.5.0%2Fazure%2Fcontainer-apps%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.5.0%2Fazure%2Fcontainer-apps%2FcreateUiDefinition.json">Deploy to Azure</a></p>
+<p>The button opens the form of the Azure portal with the template of the tag <code>azure-v1.5.0</code>. When the portal shows “Your deployment is complete”, open <strong>Outputs</strong> in the menu on the left: <code>url</code> is the address of the server, for the clients.</p>
 <div class="table table-kv" tabindex="0"><table>
 <thead>
 <tr><th>In our tests</th><th>Time</th></tr>
@@ -133,9 +134,9 @@
 <p>With the Azure CLI:</p>
 <pre tabindex="0"><code>az group create -n my-chroma -l westeurope
 az deployment group create -g my-chroma \
-  --template-uri https://raw.githubusercontent.com/VecturaDB/VecturaDB.Deploy/azure-v1.4.0/azure/container-apps/azuredeploy.json \
+  --template-uri https://raw.githubusercontent.com/VecturaDB/VecturaDB.Deploy/azure-v1.5.0/azure/container-apps/azuredeploy.json \
   -p allowedIpRanges='["203.0.113.10/32"]'</code></pre>
-<p>The template and its README are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.4.0/azure/container-apps"><code>azure/container-apps</code></a>.</p>
+<p>The template and its README are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.5.0/azure/container-apps"><code>azure/container-apps</code></a>.</p>
 
 <h2 id="access-and-https">Access and HTTPS</h2>
 <div class="table table-fit" tabindex="0"><table>
@@ -175,19 +176,55 @@ az deployment group create -g my-chroma \
 <tr><td>Azure Files, the stored data</td><td>0.06&nbsp;USD per GB a month</td></tr>
 <tr><td>Azure Files, the transactions of the writes</td><td>About 0.03&nbsp;USD for every 1,000 writes; reads cost almost nothing</td></tr>
 <tr><td>A replica that waits without requests</td><td>About 27 transactions a minute</td></tr>
+<tr><td>Azure Backup, with backups on (the default)</td><td>5&nbsp;USD a month for the share, at the list prices of westeurope on 6 November 2026; Azure Files bills the snapshots at 0.06&nbsp;USD per GB a month, for the data that changed</td></tr>
 <tr><td>Log Analytics</td><td>The logs it receives</td></tr>
 </tbody>
 </table></div>
 <p>Other apps in the same subscription use the same free grant.</p>
 
 <h2 id="backups-and-restore">Backups and restore</h2>
-<p><strong>No backups:</strong> the template does not back up the share. Soft delete keeps a deleted share for 7&nbsp;days, but it does not bring back data that was changed or deleted inside it. For backups, use the <a href="/deploy/chroma/azure/vm/#backups-and-restore">VM template</a>.</p>
+<p>With backups on, the default, Azure Backup takes a snapshot of the share every 24&nbsp;hours, the first of the day at 02:00 UTC, and keeps it 7&nbsp;days. A backup every 4, 6, 8, 12 or 24&nbsp;hours, up to 200 snapshots: 200&nbsp;days with a backup every 24&nbsp;hours, 99 every 12, 65 every 8, 49 every 6 and 32 every 4. The snapshots stay in the storage account, next to the share.</p>
+<p>Azure Backup puts a delete lock on the storage account, so that nobody deletes the account or the share by mistake. The lock goes away when the account is unregistered from the vault. The soft delete of Azure Backup does not cover the snapshots of a share; the share has a soft delete of its own, 7&nbsp;days.</p>
+<p><strong>Take the backups while nobody writes.</strong> A snapshot taken while the server saves the index of a collection holds that index halfway, as a power cut would. In our tests a backup taken a few seconds after 2,000 records were added gave that collection back broken: after the restore it answered “Error getting embedding”. This is how Chroma 1.5.9 behaves after a power cut with more than 1,000 records in a collection, not a fault of Azure Backup. The backups taken with the server stopped came back whole, the collections of 1,500 and 2,000 records included.</p>
+<ul>
+<li><strong>The scheduled backup</strong> starts within 2&nbsp;hours of 02:00 UTC. If nobody uses the app then, it has no replica, and the backup holds files that nothing is writing.</li>
+<li><strong>An on-demand backup:</strong> deactivate the revision first, and activate it again after the backup.</li>
+</ul>
+<pre tabindex="0"><code>REV=$(az containerapp revision list -g my-chroma -n chroma --query "[0].name" -o tsv)
+ACCOUNT=$(az storage account list -g my-chroma --query "[0].name" -o tsv)
+az containerapp revision deactivate -g my-chroma -n chroma --revision $REV
+JOB=$(az backup protection backup-now -g my-chroma -v chroma-backup -c $ACCOUNT -i data \
+  --backup-management-type AzureStorage --workload-type AzureFileShare --query name -o tsv)
+az backup job wait -g my-chroma -v chroma-backup -n $JOB
+az containerapp revision activate -g my-chroma -n chroma --revision $REV</code></pre>
+<p>To restore, with the revision deactivated as above, restore a recovery point to the original location of the share, overwriting the files, then activate the revision:</p>
+<pre tabindex="0"><code>az backup recoverypoint list -g my-chroma -v chroma-backup -c $ACCOUNT -i data \
+  --backup-management-type AzureStorage --workload-type AzureFileShare -o table
+JOB=$(az backup restore restore-azurefileshare -g my-chroma -v chroma-backup -c $ACCOUNT -i data -r &lt;recovery point&gt; \
+  --resolve-conflict Overwrite --restore-mode OriginalLocation --query name -o tsv)
+az backup job wait -g my-chroma -v chroma-backup -n $JOB
+az containerapp revision activate -g my-chroma -n chroma --revision $REV</code></pre>
+<p>In the portal the same restore is Restore Share in the backup item of the share, with Original Location and Overwrite (<a href="https://learn.microsoft.com/en-us/azure/backup/restore-afs">Microsoft's steps</a>); we tested it with the Azure CLI only.</p>
+<p><strong>The data written after the backup is lost:</strong> take an on-demand backup first if you may want it back. The restore overwrites the files of the backup and leaves the others: the folders of the collections created after the backup stay in the share, and the server does not use them.</p>
+<div class="table table-kv" tabindex="0"><table>
+<thead>
+<tr><th>In our tests</th><th>Time</th></tr>
+</thead>
+<tbody>
+<tr><td>Deactivation of the revision, until no replica</td><td>35-43&nbsp;s</td></tr>
+<tr><td>On-demand backup, the job</td><td>3-5&nbsp;s</td></tr>
+<tr><td>Restore to the original location, the job</td><td>33-188&nbsp;s</td></tr>
+<tr><td>Activation, until the server answers</td><td>25-45&nbsp;s</td></tr>
+</tbody>
+</table></div>
+<p>After the restores the server held the collections of the backup, with all their records, and not the ones written after it. The next backup worked on the same share.</p>
 
 <h2 id="updates">Updates</h2>
 <p>A new deployment, with other settings or another image, creates a new revision. Its replica waits for the lock held by the old one, and the deployment ends anyway.</p>
 <ul>
 <li><strong>While the app is in use:</strong> deactivate the old revision, the one that is not Activating, within 5&nbsp;minutes.</li>
 <li><strong>While the app has no replica</strong>, about 10&nbsp;minutes after the last request: nothing to do. Nothing holds the lock, and the old revision goes away by itself.</li>
+<li><strong>With backups on:</strong> add <code>backupAlreadyOn=true</code> to every new deployment; in the portal, tick “The backups are already on” in Backups. The share stays protected as it is, and only the schedule and the days kept are applied again. Without it, Azure Backup starts two configure jobs on the share at the same time, and one of them fails; the share stays protected anyway. Never on the first deployment: the share would not be protected.</li>
 </ul>
 <pre tabindex="0"><code>az containerapp revision list -g my-chroma -n chroma --query "[?properties.active].{name:name, state:properties.runningState}" -o table
 az containerapp revision deactivate -g my-chroma -n chroma --revision &lt;the old revision, the one that is not Activating&gt;</code></pre>
@@ -200,22 +237,37 @@ az containerapp revision deactivate -g my-chroma -n chroma --revision &lt;the ol
 <tr><td>No answer after the deactivation, until the new revision serves</td><td>About 6&nbsp;s</td></tr>
 <tr><td>Wait after which the new revision shows Failed</td><td>5&nbsp;min</td></tr>
 <tr><td>Start of a Failed revision, after a later deactivation</td><td>22&nbsp;s</td></tr>
+<tr><td>A new deployment with <code>backupAlreadyOn=true</code>; the configure job of the policy</td><td>36-100&nbsp;s; 1-5&nbsp;min</td></tr>
 </tbody>
 </table></div>
+<p>A new deployment with the Azure CLI, the backups on, and the parameters of the first deployment:</p>
+<pre tabindex="0"><code>az deployment group create -g my-chroma \
+  --template-uri https://raw.githubusercontent.com/VecturaDB/VecturaDB.Deploy/azure-v1.5.0/azure/container-apps/azuredeploy.json \
+  -p allowedIpRanges='["203.0.113.10/32"]' backupAlreadyOn=true</code></pre>
 
 <h2 id="delete-everything">Delete everything</h2>
-<p>There is no backup vault here: deleting the resource group deletes the whole deployment. In the portal, open the resource group and select Delete resource group. Type the name of the group, select Delete, then Delete again to confirm. With the Azure CLI:</p>
-<pre tabindex="0"><code>az group delete -n my-chroma --yes</code></pre>
+<p>Without backups, deleting the resource group deletes the whole deployment. With backups on, two things stop the deletion first: the lock of Azure Backup on the storage account, and the share protected in the vault. So stop the protection and delete its backup data, unregister the storage account, which also removes the lock, then delete the group:</p>
+<pre tabindex="0"><code>ACCOUNT=$(az storage account list -g my-chroma --query "[0].name" -o tsv)
+az backup protection disable -g my-chroma -v chroma-backup -c $ACCOUNT -i data \
+  --backup-management-type AzureStorage --workload-type AzureFileShare --delete-backup-data true --yes
+az backup container unregister -g my-chroma -v chroma-backup -c $ACCOUNT --backup-management-type AzureStorage --yes
+az lock list -g my-chroma -o table
+az group delete -n my-chroma --yes</code></pre>
+<p>In our tests <code>az backup container unregister</code> answered <code>CloudInternalError</code> every time, but the account was unregistered: the lock was gone at once, and the group was then deleted. Before the deletion of the group, <code>az lock list</code> must show no lock.</p>
+<p>In the portal: in the vault <code>chroma-backup</code>, stop the backup of the share with Delete Backup Data, then unregister the storage account under Backup Infrastructure (<a href="https://learn.microsoft.com/en-us/azure/backup/manage-afs-backup#stop-protection-on-a-file-share">Microsoft's steps</a>). Then open the resource group and select Delete resource group. Type the name of the group, select Delete, then Delete again to confirm. We tested the deletion with the Azure CLI only.</p>
 <div class="table table-kv" tabindex="0"><table>
 <thead>
 <tr><th>In our tests</th><th>Time</th></tr>
 </thead>
 <tbody>
-<tr><td>Deletion of the resource group, most of it for the Container Apps environment</td><td>27-30&nbsp;min (1632-1810&nbsp;s)</td></tr>
+<tr><td>Protection stopped, backup data deleted</td><td>33-104&nbsp;s</td></tr>
+<tr><td>Storage account unregistered</td><td>18-44&nbsp;s</td></tr>
+<tr><td>Deletion of the resource group, most of it for the Container Apps environment</td><td>27-30&nbsp;min (1632-1817&nbsp;s)</td></tr>
 </tbody>
 </table></div>
-<p>Two things stay recoverable for 14&nbsp;days after the deletion, as Azure does for these resources, and then go away:</p>
+<p>Three things stay recoverable for 14&nbsp;days after the deletion, as Azure does for these resources, and then go away:</p>
 <ul>
+<li>the vault, empty, in soft delete: Azure purges it 14&nbsp;days after the protection was stopped (<a href="https://learn.microsoft.com/en-us/azure/backup/secure-by-default">soft delete for Azure Backup</a>);</li>
 <li>the storage account, with the share and the data in it (<a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-account-recover">recover a deleted storage account</a>);</li>
 <li>the Log Analytics workspace, with the logs (<a href="https://learn.microsoft.com/en-us/azure/azure-monitor/logs/delete-workspace">delete and recover a workspace</a>).</li>
 </ul>
@@ -228,7 +280,8 @@ az containerapp revision deactivate -g my-chroma -n chroma --revision &lt;the ol
 <li>After about 10&nbsp;minutes without requests the app scales to zero, and the next request waits: set the timeout of your client above that.</li>
 <li>One replica at most: no horizontal scale.</li>
 <li>Slower than the VM: the data sits on a network share.</li>
-<li>No backups, and no API keys.</li>
+<li>No API keys.</li>
+<li>Take the backups while nobody writes: see <a href="#backups-and-restore">Backups and restore</a>.</li>
 <li>A lock can outlive its replica: see <a href="#a-lock-left-by-a-lost-replica">A lock left by a lost replica</a>.</li>
 </ul>
 <div class="table table-kv" tabindex="0"><table>
