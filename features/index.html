@@ -207,7 +207,8 @@
 </table></div>
 <p>Distributed Chroma ran on a single-node Kubernetes cluster on the same VM, with all its services. This is a result on one VM, not against a cluster. Recall@10 on 200,000 records: 0.9947 for VecturaDB (Azure Standard_D8ads_v7) and 0.9953 for distributed Chroma (Azure Standard_D8ads_v6).</p>
 <p>To turn SPANN off, set <code>executor: local: spann: false</code>: every collection then gets HNSW.</p>
-<p><strong>Tested.</strong> In our tests on 7 November 2026, a collection with no index settings got HNSW. A collection that asked for SPANN in its configuration got SPANN, and so did one that asked for it in its schema. A query of a SPANN collection returned the nearest records. In the CI, more than 100 tests run on SPANN collections, among them reads after deletes and after a restart (<code>a_spann_collection_reads_back_its_records</code>).</p>
+<p>Chroma 1.5.9 cannot read a SPANN collection. On a data path written by VecturaDB, Chroma 1.5.9 lists it, but <code>count</code>, <code>get</code> and <code>query</code> fail with <code>Collection is missing HNSW configuration</code>. The HNSW collections stay readable, and VecturaDB reads every collection again afterwards.</p>
+<p><strong>Tested.</strong> In our tests on 7 November 2026, a collection with no index settings got HNSW. A collection that asked for SPANN in its configuration got SPANN, and so did one that asked for it in its schema. A query of a SPANN collection returned the nearest records. In another run on the same day, VecturaDB wrote a data folder with two HNSW collections, one of them with a BM25 index, and three SPANN collections, one of them with 300 records already indexed. Chroma 1.5.9 then opened it, in Docker: it listed every collection, but <code>count</code>, <code>get</code> and <code>query</code> failed on the three SPANN collections. On the HNSW collections they returned the records, and an add went through. VecturaDB then read every collection again, the add included. In the CI, more than 100 tests run on SPANN collections, among them reads after deletes and after a restart (<code>a_spann_collection_reads_back_its_records</code>).</p>
 <h2 id="read-levels">Read levels</h2>
 <p>A search of a SPANN collection takes the read level of distributed Chroma.</p>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">chromadb.api.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReadLevel</span>
@@ -288,6 +289,7 @@ curl<span class="w"> </span>http://127.0.0.1:8000/api/v2/tenants/default_tenant/
 <li><strong>Conditional transactions.</strong> Some answers differ from those of Chroma Cloud: see <a href="https://github.com/VecturaDB/VecturaDB#conditional-transactions">the README</a>.</li>
 </ul>
 <h2 id="differences-from-chroma-159">Differences from Chroma 1.5.9</h2>
+<p>Chroma 1.5.9 cannot read the SPANN collections of a data path: see <a href="#spann">SPANN</a>.</p>
 <p>On an idle server, a get by id is slower than on Chroma 1.5.9. Under writes it is faster. In our tests on one Azure Standard_E8s_v7 VM (4 November 2026), at commit ac50984b5, on HNSW with 100,000 records, two runs each:</p>
 <div class="table" tabindex="0"><table>
 <thead>
