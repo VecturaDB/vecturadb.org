@@ -23,7 +23,7 @@ Client | Message
 Python `chromadb` 1.5.9, with a server | `chromadb.errors.ChromaError: Error executing plan: Not implemented: Search operation is not implemented for local executor`  
 Python `chromadb` 1.5.9, `PersistentClient` | `NotImplementedError: Search is not implemented for Local Chroma`  
 JavaScript `chromadb` 3.5.0 | `ChromaServerError: Error executing plan: Not implemented: Search operation is not implemented for local executor`  
-.NET [ChromaDotNet.Client](https://www.nuget.org/packages/ChromaDotNet.Client) 2.18.1 | `ChromaDB.Client.ChromaException: Error executing plan: Not implemented: Search operation is not implemented for local executor`  
+.NET [ChromaDotNet.Client](https://www.nuget.org/packages/ChromaDotNet.Client) 2.20.0 | `ChromaDB.Client.ChromaException: Error executing plan: Not implemented: Search operation is not implemented for local executor`  
   
 ## Fix: run the same code on VecturaDB
 
