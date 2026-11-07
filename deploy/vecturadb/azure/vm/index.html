@@ -78,8 +78,8 @@
 <h1 id="vecturadb-on-an-azure-vm">VecturaDB on an Azure VM</h1>
 <p class="lead-doc">One VecturaDB server in your own Azure subscription, with its data on a managed disk, HTTPS, API keys, allowed IP addresses and backups. From about 14&nbsp;USD a month on your Azure bill.</p>
 <div class="actions">
-<a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.4.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.4.0%2Fazure%2Fvm%2FcreateUiDefinition.vecturadb.json">Deploy to Azure</a>
-<a class="btn btn-secondary" href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.4.0/azure/vm">README of the template</a>
+<a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.5.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.5.0%2Fazure%2Fvm%2FcreateUiDefinition.vecturadb.json">Deploy to Azure</a>
+<a class="btn btn-secondary" href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.5.0/azure/vm">README of the template</a>
 </div>
 <div class="note">
 <p><strong>Disclaimer.</strong> This template and its scripts are provided as is, without warranty of any kind, as stated in the Apache License 2.0. The numbers on this page are what we measured with VecturaDB 1.0.0-preview.8 on 6 November 2026 in westeurope: your region, sizes, data and versions may behave differently. You are responsible for your data: back it up, and test a restore on a copy before you rely on it.</p>
@@ -117,8 +117,8 @@
 </table></div>
 
 <h2 id="deploy">Deploy</h2>
-<p><a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.4.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.4.0%2Fazure%2Fvm%2FcreateUiDefinition.vecturadb.json">Deploy to Azure</a></p>
-<p>The button opens the form of the Azure portal with the template of the tag <code>azure-v1.4.0</code>, VecturaDB already chosen and <code>vecturadb</code> as the name. The form asks for the API key. When the portal shows “Your deployment is complete”, open <strong>Outputs</strong> in the menu on the left: <code>url</code> is the address of the server, for the clients.</p>
+<p><a class="btn btn-primary" href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.5.0%2Fazure%2Fvm%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FVecturaDB%2FVecturaDB.Deploy%2Fazure-v1.5.0%2Fazure%2Fvm%2FcreateUiDefinition.vecturadb.json">Deploy to Azure</a></p>
+<p>The button opens the form of the Azure portal with the template of the tag <code>azure-v1.5.0</code>, VecturaDB already chosen and <code>vecturadb</code> as the name. The form asks for the API key. When the portal shows “Your deployment is complete”, open <strong>Outputs</strong> in the menu on the left: <code>url</code> is the address of the server, for the clients.</p>
 <div class="table table-kv" tabindex="0"><table>
 <thead>
 <tr><th>In our tests</th><th>Time</th></tr>
@@ -130,11 +130,11 @@
 <p>With the Azure CLI:</p>
 <pre tabindex="0"><code>az group create -n my-vecturadb -l westeurope
 az deployment group create -g my-vecturadb \
-  --template-uri https://raw.githubusercontent.com/VecturaDB/VecturaDB.Deploy/azure-v1.4.0/azure/vm/azuredeploy.json \
+  --template-uri https://raw.githubusercontent.com/VecturaDB/VecturaDB.Deploy/azure-v1.5.0/azure/vm/azuredeploy.json \
   -p name=vecturadb engine=vecturadb apiKey=&lt;your key&gt; \
      access=allowed-ips allowedIpRanges='["203.0.113.10/32"]' \
      adminPublicKey="$(cat ~/.ssh/id_ed25519.pub)"</code></pre>
-<p>The template, its scripts and its README are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.4.0/azure/vm"><code>azure/vm</code></a>.</p>
+<p>The template, its scripts and its README are in the <a href="https://github.com/VecturaDB/VecturaDB.Deploy">VecturaDB.Deploy repository</a>, under <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.5.0/azure/vm"><code>azure/vm</code></a>.</p>
 
 <h2 id="access-and-https">Access and HTTPS</h2>
 <div class="table table-fit" tabindex="0"><table>
@@ -254,7 +254,7 @@ az group delete -n $RG --yes</code></pre>
 <tr><td>Resource group gone</td><td>125-126&nbsp;s</td></tr>
 </tbody>
 </table></div>
-<p>The <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.4.0/azure/vm#delete-everything">README of the template</a> also says how to get out of the soft-deleted state, if you deleted the backup instance with soft delete on.</p>
+<p>The <a href="https://github.com/VecturaDB/VecturaDB.Deploy/tree/azure-v1.5.0/azure/vm#delete-everything">README of the template</a> also says how to get out of the soft-deleted state, if you deleted the backup instance with soft delete on.</p>
 
 <h2 id="limits">Limits</h2>
 <ul>
