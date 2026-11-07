@@ -113,7 +113,7 @@ In our run, `count` and `query` answered on a copied collection.
 
 ### .NET
 
-[ChromaDotNet.Client](https://chromadotnet.org/libraries/client/) 2.18.1:
+[ChromaDotNet.Client](https://chromadotnet.org/libraries/client/) 2.20.0:
     
     
     using ChromaDB.Client;

@@ -4,7 +4,7 @@ Source: https://vecturadb.org/leaving-chroma-cloud/to-chroma-single-node
 
 # Leaving Chroma Cloud: to Chroma 1.5.9, single node
 
-**Disclaimer.** These guides and the scripts they link are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 2 and 6 November 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.
+**Disclaimer.** These guides and the scripts they link are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 2, 6 and 7 November 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.
 
 Not sure about your case? [Open an issue in the VecturaDB repository](https://github.com/VecturaDB/VecturaDB/issues/new), describe your data and your setup, and we will take a look on a best-effort basis.
 
@@ -91,7 +91,7 @@ The examples use `127.0.0.1`. With Docker Desktop on Windows, `localhost` went t
 
 ### .NET
 
-[ChromaDotNet.Client](https://chromadotnet.org/libraries/client/) 2.18.1:
+[ChromaDotNet.Client](https://chromadotnet.org/libraries/client/) 2.20.0:
     
     
     using ChromaDB.Client;

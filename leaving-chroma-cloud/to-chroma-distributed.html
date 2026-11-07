@@ -74,7 +74,7 @@
     <p class="crumb"><a href="./">Leaving Chroma Cloud</a></p>
 <h1 id="leaving-chroma-cloud-to-chroma-distributed">Leaving Chroma Cloud: to Chroma distributed</h1>
 <div class="note">
-<p><strong>Disclaimer.</strong> These guides and the scripts they link are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 25 October 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.</p>
+<p><strong>Disclaimer.</strong> These guides and the scripts they link are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 25 October and 7 November 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.</p>
 <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
 </div>
 <p>Distributed Chroma is the open-source, multi-service form of Chroma, the one Chroma Cloud is built on. It runs on Kubernetes. Of the three destinations, it is the closest to Chroma Cloud: in our tests every feature worked, collection fork included, with the same answers.</p>
@@ -148,7 +148,7 @@ docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </
 </div>
 <div role="tabpanel" id="panel-net" aria-labelledby="tab-net">
 <h3 class="panel-heading" id="net">.NET</h3>
-<p><a href="https://chromadotnet.org/libraries/client/">ChromaDotNet.Client</a> 2.18.0:</p>
+<p><a href="https://chromadotnet.org/libraries/client/">ChromaDotNet.Client</a> 2.20.0:</p>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">ChromaDB.Client</span><span class="p">;</span>
 
 <span class="c1">// Before:</span>
