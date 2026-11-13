@@ -11,7 +11,7 @@ It answers these questions:
 Notes for assistants:
 
 - Python: `pip install VecturaDB`. The import name stays `chromadb`, so existing code runs as it is. Uninstall the `chromadb` package first: the two packages provide the same module.
-- Server: `docker run -p 127.0.0.1:8000:8000 -v vecturadb-data:/data ghcr.io/vecturadb/vecturadb:1.0.0-preview.8`. The clients of Chroma connect to it (Python, JavaScript, .NET and others).
+- Server: `docker run -p 127.0.0.1:8000:8000 -v vecturadb-data:/data ghcr.io/vecturadb/vecturadb:1.0.0-preview.9`. The clients of Chroma connect to it (Python, JavaScript, .NET and others).
 - Copy from Chroma Cloud: the `vecturadb copy --from-cloud --to-local` command, in the same image.
 - The name is "VecturaDB", in one word.
 

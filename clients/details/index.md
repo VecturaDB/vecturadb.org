@@ -6,7 +6,7 @@ Source: https://vecturadb.org/clients/details/
 
 Each Chroma client we ran against VecturaDB and against Chroma 1.5.9: the result of each step on the two servers, the notes and the defects of the client. The summary, one row for each client, is on the [Clients](https://vecturadb.org/clients/) page.
 
-**Disclaimer.** These results are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 7 November 2026: your client, its version and your setup may behave differently.
+**Disclaimer.** These results are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 13 November 2026: your client, its version and your setup may behave differently.
 
 Not sure about your client? [Open an issue in the VecturaDB repository](https://github.com/VecturaDB/VecturaDB/issues/new), name the client and its version, and we will take a look on a best-effort basis.
 
@@ -42,7 +42,7 @@ On this page
 
 Works on both servers.
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 1\. Heartbeat| Passed| Passed  
 2\. Pre-flight-checks| Passed| Passed, with the server block  
@@ -56,7 +56,7 @@ Step| Chroma1.5.9| VecturaDB1.0.0-preview.8
   
 #### Features of distributed Chroma
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 Fork  
 24\. Create a collection, add 3 records| Passed| Passed  
@@ -83,7 +83,7 @@ CRN
 
 Works on both servers.
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 1\. Heartbeat| Passed| Passed  
 2\. Pre-flight-checks| Passed| Passed, with the server block  
@@ -97,7 +97,7 @@ Step| Chroma1.5.9| VecturaDB1.0.0-preview.8
   
 #### Features of distributed Chroma
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 Fork  
 24\. Create a collection, add 3 records| Passed| Passed  
@@ -124,7 +124,7 @@ CRN
 
 Works on both servers.
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 1\. Heartbeat| Passed| Passed  
 2\. Pre-flight-checks| Passed| Passed  
@@ -140,7 +140,7 @@ Step| Chroma1.5.9| VecturaDB1.0.0-preview.8
 
 #### Features of distributed Chroma
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 Fork  
 24\. Create a collection, add 3 records| Passed| Passed  
@@ -161,11 +161,11 @@ CRN
   
   * How we tested them: Features of distributed Chroma.
 
-### `CommunityToolkit.VectorData.Chroma` 1.0.2-preview
+### `CommunityToolkit.VectorData.Chroma` 1.1.0-preview
 
 Partial on both servers.
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 1\. Heartbeat| Not in the client| Not in the client  
 2\. Pre-flight-checks| Not in the client| Not in the client  
@@ -183,7 +183,7 @@ Step| Chroma1.5.9| VecturaDB1.0.0-preview.8
 
 Fails, also on Chroma 1.5.9.
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 1\. Heartbeat| Not in the client| Not in the client  
 2\. Pre-flight-checks| Not in the client| Not in the client  
@@ -204,7 +204,7 @@ Step| Chroma1.5.9| VecturaDB1.0.0-preview.8
 
 Works on both servers.
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 1\. Heartbeat| Passed| Passed  
 2\. Pre-flight-checks| Passed| Passed  
@@ -220,7 +220,7 @@ Step| Chroma1.5.9| VecturaDB1.0.0-preview.8
 
 #### Features of distributed Chroma
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 Fork  
 24\. Create a collection, add 3 records| Passed| Passed  
@@ -247,7 +247,7 @@ CRN
 
 Works on both servers.
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 1\. Heartbeat| Passed| Passed  
 2\. Pre-flight-checks| Passed| Passed, with the server block  
@@ -261,7 +261,7 @@ Step| Chroma1.5.9| VecturaDB1.0.0-preview.8
   
 #### Features of distributed Chroma
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 Fork  
 24\. Create a collection, add 3 records| Not in the client| Not in the client  
@@ -286,7 +286,7 @@ CRN
 
 Works on both servers.
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 1\. Heartbeat| Passed| Passed  
 2\. Pre-flight-checks| Passed| Passed, with the server block  
@@ -300,7 +300,7 @@ Step| Chroma1.5.9| VecturaDB1.0.0-preview.8
   
 #### Features of distributed Chroma
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 Fork  
 24\. Create a collection, add 3 records| Passed| Passed  
@@ -327,7 +327,7 @@ CRN
 
 Works on both servers.
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 1\. Heartbeat| Passed| Passed  
 2\. Pre-flight-checks| Passed| Passed, with the server block  
@@ -341,7 +341,7 @@ Step| Chroma1.5.9| VecturaDB1.0.0-preview.8
   
 #### Features of distributed Chroma
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 Fork  
 24\. Create a collection, add 3 records| Passed| Passed  
@@ -368,7 +368,7 @@ CRN
 
 Partial on both servers.
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 1\. Heartbeat| Passed| Passed  
 2\. Pre-flight-checks| Not in the client| Not in the client  
@@ -384,7 +384,7 @@ Step| Chroma1.5.9| VecturaDB1.0.0-preview.8
 
 #### VecturaDB features
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 Create a collection with a sparse vector index| Error: 400 Sparse vector indexing is not enabled in local| Passed  
 Add 3 records with BM25 vectors| Not run: no collection| Passed  
@@ -401,7 +401,7 @@ A wrong API key| Accepted| Rejected: 401 Permission denied.
 
 #### Features of distributed Chroma
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 Fork  
 24\. Create a collection, add 3 records| Passed| Passed  
@@ -426,7 +426,7 @@ CRN
 
 Fails, also on Chroma 1.5.9.
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 1\. Heartbeat| Error: 410 Gone| Error: 410 Gone  
 2\. Pre-flight-checks| Not in the client| Not in the client  
@@ -442,7 +442,7 @@ Step| Chroma1.5.9| VecturaDB1.0.0-preview.8
 
 #### VecturaDB features
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 With one API key on both servers  
 No API key| Accepted| Rejected: 401 Permission denied.  
@@ -458,7 +458,7 @@ A wrong API key| Accepted| Rejected: 401 Permission denied.
 
 Partial on both servers.
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 1\. Heartbeat| Passed| Passed  
 2\. Pre-flight-checks| Not in the client| Not in the client  
@@ -478,7 +478,7 @@ Step| Chroma1.5.9| VecturaDB1.0.0-preview.8
 
 Fails, also on Chroma 1.5.9.
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 1\. Heartbeat| Passed| Passed  
 2\. Pre-flight-checks| Passed| Passed, with the server block  
@@ -494,7 +494,7 @@ Step| Chroma1.5.9| VecturaDB1.0.0-preview.8
 
 #### Features of distributed Chroma
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 Fork  
 24\. Create a collection, add 3 records| Passed| Passed  
@@ -521,7 +521,7 @@ CRN
 
 Fails, also on Chroma 1.5.9.
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 1\. Heartbeat| Error: Gone| Error: Gone  
 2\. Pre-flight-checks| Not in the client| Not in the client  
@@ -541,7 +541,7 @@ Step| Chroma1.5.9| VecturaDB1.0.0-preview.8
 
 Fails, also on Chroma 1.5.9.
 
-Step| Chroma1.5.9| VecturaDB1.0.0-preview.8  
+Step| Chroma1.5.9| VecturaDB1.0.0-preview.9  
 ---|---|---  
 1\. Heartbeat| Error: Unsuccessful HTTP status code| Error: Unsuccessful HTTP status code  
 2\. Pre-flight-checks| Not in the client| Not in the client  
@@ -557,18 +557,18 @@ Step| Chroma1.5.9| VecturaDB1.0.0-preview.8
 
 ## Sparse vectors, BM25, Search and API keys
 
-VecturaDB also has sparse vectors, BM25, the Search API and API keys on the single node, where Chroma 1.5.9 does not have them. We tested them with the two Rust crates, against VecturaDB 1.0.0-preview.8 and against Chroma 1.5.9:
+VecturaDB also has sparse vectors, BM25, the Search API and API keys on the single node, where Chroma 1.5.9 does not have them. We tested them with the two Rust crates, against VecturaDB 1.0.0-preview.9 and against Chroma 1.5.9:
 
   * **Sparse vectors, BM25 and Search** , with `chroma` 0.15.0. On VecturaDB the crate created a collection with a sparse vector index, added 3 records with the BM25 vectors it computes from their documents, and searched them with the Search API: the dense search for [1, 0] gave r1 then r3, and the BM25 search for "apple" gave r1. Chroma 1.5.9 rejected the index with 400 "Sparse vector indexing is not enabled in local".
-  * **API keys** , with both crates. We started both servers with one API key in `CHROMA_SERVER_AUTHN_CREDENTIALS`. VecturaDB answered 401 "Permission denied." without a key and with a wrong key, and accepted the right one: `chroma` 0.15.0 sent it with `ChromaAuthMethod::cloud_api_key`, `chromadb` 2.3.0 with `TokenAuth` in the `X-Chroma-Token` header. With the right key, the other steps gave the same results as without keys. Chroma 1.5.9 has no built-in authentication: it accepted every request, with any key or none. To set up API keys, see [API keys](https://github.com/VecturaDB/VecturaDB/blob/v1.0.0-preview.8/docs/mintlify/guides/deploy/client-server-mode.mdx#api-keys).
+  * **API keys** , with both crates. We started both servers with one API key in `CHROMA_SERVER_AUTHN_CREDENTIALS`. VecturaDB answered 401 "Permission denied." without a key and with a wrong key, and accepted the right one: `chroma` 0.15.0 sent it with `ChromaAuthMethod::cloud_api_key`, `chromadb` 2.3.0 with `TokenAuth` in the `X-Chroma-Token` header. With the right key, the other steps gave the same results as without keys. Chroma 1.5.9 has no built-in authentication: it accepted every request, with any key or none. To set up API keys, see [API keys](https://github.com/VecturaDB/VecturaDB/blob/v1.0.0-preview.9/docs/mintlify/guides/deploy/client-server-mode.mdx#api-keys).
 
 ## SPANN
 
-On VecturaDB 1.0.0-preview.8, a collection that asks for SPANN gets a SPANN index on the single node. We tested it with four clients: `chromadb-client` 1.5.9 for Python, `chromadb` 3.5.0 for JavaScript, `chroma` 0.15.0 for Rust and `ChromaDotNet.Client` 2.20.0. Each client created a collection with SPANN in its configuration, added 3 records and queried [1, 0], 2 results. On VecturaDB the collection reported a SPANN index, and the query gave r1 then r3 with all four clients. Chroma 1.5.9 created an HNSW index instead, as a single Chroma server ignores the SPANN settings: the clients for Python, JavaScript and Rust went on with it, and `ChromaDotNet.Client` refused the collection and deleted it.
+On VecturaDB 1.0.0-preview.9, a collection that asks for SPANN gets a SPANN index on the single node. We tested it with four clients: `chromadb-client` 1.5.9 for Python, `chromadb` 3.5.0 for JavaScript, `chroma` 0.15.0 for Rust and `ChromaDotNet.Client` 2.20.0. Each client created a collection with SPANN in its configuration, added 3 records and queried [1, 0], 2 results. On VecturaDB the collection reported a SPANN index, and the query gave r1 then r3 with all four clients. Chroma 1.5.9 created an HNSW index instead, as a single Chroma server ignores the SPANN settings: the clients for Python, JavaScript and Rust went on with it, and `ChromaDotNet.Client` refused the collection and deleted it.
 
 ## Features of distributed Chroma
 
-Nine of the clients have calls for features of distributed Chroma, the one Chroma Cloud runs on, that Chroma 1.5.9 does not have on a single node. Each of them ran the same steps 24 to 35 against VecturaDB 1.0.0-preview.8 and against Chroma 1.5.9:
+Nine of the clients have calls for features of distributed Chroma, the one Chroma Cloud runs on, that Chroma 1.5.9 does not have on a single node. Each of them ran the same steps 24 to 35 against VecturaDB 1.0.0-preview.9 and against Chroma 1.5.9:
 
   * **Fork** : a collection of 3 records, its fork and the count of the fork, the fork count, then both collections deleted.
   * **Read levels** : a collection of 3 records, with SPANN in its configuration where the client can ask for it, then a search at `index_and_wal` and one at `index_only`.
@@ -579,7 +579,7 @@ A step that is not in the client is marked so; a step after a failed one does no
 
 ## How we tested
 
-  * The servers: `chromadb/chroma:1.5.9` and `ghcr.io/vecturadb/vecturadb:1.0.0-preview.8`, for linux/amd64, with the default command of the image. The image of VecturaDB was `sha256:6067ae3640d9f71aec4c01367f115e6b6d1f8ee6fa35e69918fe3f6e91584c46`.
+  * The servers: `chromadb/chroma:1.5.9` and `ghcr.io/vecturadb/vecturadb:1.0.0-preview.9`, for linux/amd64, with the default command of the image. The image of VecturaDB was `sha256:a934edb1bc8f431fd0c3bc2dfcf89d001f87f9086ee7b0cca22a3528b022768c`.
   * A new container for each client and each server, with an empty data folder, on a Docker network: the client reached the server at port 8000. No API keys outside the API key steps, the default tenant and database.
   * Each client ran in a container of its language, with its version pinned.
 

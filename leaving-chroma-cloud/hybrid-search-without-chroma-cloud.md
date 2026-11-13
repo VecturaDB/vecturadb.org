@@ -4,13 +4,13 @@ Source: https://vecturadb.org/leaving-chroma-cloud/hybrid-search-without-chroma-
 
 # Hybrid search on your own server, without Chroma Cloud
 
-**Disclaimer.** This guide is provided as is, without warranty of any kind, as stated in the Apache License 2.0. It describes what we measured on 4 and 6 November 2026: your data, versions and setup may behave differently. Back up your data and test on a copy first. You are responsible for your data and for every migration you run.
+**Disclaimer.** This guide is provided as is, without warranty of any kind, as stated in the Apache License 2.0. It describes what we measured on 4 and 13 November 2026: your data, versions and setup may behave differently. Back up your data and test on a copy first. You are responsible for your data and for every migration you run.
 
 Not sure about your case? [Open an issue in the VecturaDB repository](https://github.com/VecturaDB/VecturaDB/issues/new), describe your data and your setup, and we will take a look on a best-effort basis.
 
 Chroma 1.5.9 on a single node has no hybrid search. VecturaDB does: it is a single-node server built from Chroma, and it merges dense search and BM25 search with the Search API. It runs as one container, as a binary, or inside a Python application, with your Chroma clients.
 
-VecturaDB is an independent project, not affiliated with Chroma. We ran every command and every line of code below on 6 November 2026, against VecturaDB 1.0.0-preview.8. Chroma distributed has hybrid search too, on Kubernetes: see the [overview](https://vecturadb.org/leaving-chroma-cloud/).
+VecturaDB is an independent project, not affiliated with Chroma. We ran every command and every line of code below on 13 November 2026, against VecturaDB 1.0.0-preview.9. Chroma distributed has hybrid search too, on Kubernetes: see the [overview](https://vecturadb.org/leaving-chroma-cloud/).
 
 ## The errors on Chroma 1.5.9
 
@@ -23,7 +23,7 @@ Call the Search API inside Python | `Search is not implemented for Local Chroma`
 ## 1\. Start VecturaDB
     
     
-    docker run -d --name vecturadb -p 127.0.0.1:8000:8000 -v ./vecturadb-data:/data ghcr.io/vecturadb/vecturadb:1.0.0-preview.8
+    docker run -d --name vecturadb -p 127.0.0.1:8000:8000 -v ./vecturadb-data:/data ghcr.io/vecturadb/vecturadb:1.0.0-preview.9
     
 
 To run it without Docker, see [Start the server](https://vecturadb.org/migrate-from-chroma-cloud/#1-start-the-server).

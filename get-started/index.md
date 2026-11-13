@@ -19,7 +19,7 @@ The `VecturaDB` package keeps the import name `chromadb`, so existing code runs 
     client = chromadb.HttpClient(host="127.0.0.1", port=8000)
     
 
-While only previews exist, `pip install VecturaDB` installs the newest preview. Once `1.0.0` is out, install a preview with its exact version, for example `pip install VecturaDB==1.0.0rc8`: `--pre` takes the previews of the dependencies too, and a preview of httpx breaks the client.
+While only previews exist, `pip install VecturaDB` installs the newest preview. Once `1.0.0` is out, install a preview with its exact version, for example `pip install VecturaDB==1.0.0rc9`: `--pre` takes the previews of the dependencies too, and a preview of httpx breaks the client.
 
 ### Packages that depend on chromadb
 

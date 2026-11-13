@@ -2,7 +2,7 @@ Source: https://vecturadb.org/migrate-from-chroma-cloud/
 
 # Migrate from Chroma Cloud to a self-hosted Chroma server (single node, with hybrid search and BM25)
 
-**Disclaimer.** This guide is provided as is, without warranty of any kind, as stated in the Apache License 2.0. It describes what we ran on 6 and 7 November 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.
+**Disclaimer.** This guide is provided as is, without warranty of any kind, as stated in the Apache License 2.0. It describes what we ran on 13 November 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.
 
 Not sure about your case? [Open an issue in the VecturaDB repository](https://github.com/VecturaDB/VecturaDB/issues/new), describe your data and your setup, and we will take a look on a best-effort basis.
 
@@ -10,7 +10,7 @@ Chroma Cloud stops accepting writes on 7 December 2026 and stops serving reads o
 
 VecturaDB is a single-node server built from Chroma, with the same API, that has those features: the Search API with dense and sparse ranks and RRF, sparse vectors, BM25, SPANN, collection fork, conditional transactions and attached functions. The full list, each feature with how it is tested: [What VecturaDB has](https://vecturadb.org/features/). It is an independent project, not affiliated with Chroma.
 
-We ran every step below on 6 November 2026, with VecturaDB 1.0.0-preview.8 in Docker on Windows, against our Chroma Cloud database: 21 collections, with sparse, BM25, SPANN and legacy `hnsw:*` collections among them.
+We ran every step below on 13 November 2026, with VecturaDB 1.0.0-preview.9 in Docker on Windows, against our Chroma Cloud database: 21 collections, with sparse, BM25, SPANN and legacy `hnsw:*` collections among them.
 
 Need several nodes? Run distributed Chroma on your own Kubernetes: see [Migrate from Chroma Cloud to self-hosted distributed Chroma on Kubernetes](https://chromadotnet.org/migrate-from-chroma-cloud-kubernetes/).
 
@@ -18,7 +18,7 @@ Need several nodes? Run distributed Chroma on your own Kubernetes: see [Migrate 
     
     
     docker network create vecturadb-net
-    docker run -d --name vecturadb --network vecturadb-net -p 127.0.0.1:8000:8000 -v vecturadb-data:/data ghcr.io/vecturadb/vecturadb:1.0.0-preview.8
+    docker run -d --name vecturadb --network vecturadb-net -p 127.0.0.1:8000:8000 -v vecturadb-data:/data ghcr.io/vecturadb/vecturadb:1.0.0-preview.9
     
 
 The data lives in the Docker volume `vecturadb-data`. `-p 127.0.0.1:8000:8000` publishes the port on this machine only. Without Docker, the `vecturadb` binary for Windows, Linux and macOS is in the [releases](https://github.com/VecturaDB/VecturaDB/releases).
@@ -29,7 +29,7 @@ The `vecturadb` CLI is in the same image. It needs your Chroma Cloud API key and
     
     
     export CHROMA_API_KEY=<your Chroma Cloud API key>
-    docker run --rm --network vecturadb-net -e CHROMA_API_KEY --entrypoint bash ghcr.io/vecturadb/vecturadb:1.0.0-preview.8 -c \
+    docker run --rm --network vecturadb-net -e CHROMA_API_KEY --entrypoint bash ghcr.io/vecturadb/vecturadb:1.0.0-preview.9 -c \
       'vecturadb login --api-key "$CHROMA_API_KEY" --profile cloud &&
        vecturadb copy --from-cloud --to-local --host http://vecturadb:8000 --db <database> --all'
     
@@ -48,14 +48,6 @@ The copy waits when the server asks it to, when a server fails and when the netw
     
 
 A collection with no differences is left alone. For the others the CLI asks what to do. Where nobody can answer, add `--resume --yes` to add the records it does not have, or `--force --yes` to make it an exact copy of Chroma Cloud: `--force` also removes the records that are not on Chroma Cloud.
-
-With 1.0.0-preview.8, a record with a URI counts as different when the copy runs again, even when it is the same. The CLI reads Chroma Cloud with a search, which returns the URI inside the metadata, and reads VecturaDB with a get, which returns the URI apart. In our test of 7 November 2026, the second copy of a collection with 50 records with a URI gave:
-    
-    
-    Collection mgr-test-copy-plain is already on the target: 200 records the same, 0 missing, 50 different, 0 only on the target. For example, the metadata of record r0 is different
-    
-
-Where nobody can answer, the CLI then leaves the collection as it is and exits with code 1. `--force --yes` writes those records again, and the next copy counts them as different again. Check the collection with verify.py instead, as in step 3: if it answers `ALL OK`, the copy is right, and you can ignore those lines.
 
 Run it once more just before 7 December 2026, to take the last writes, and check the result with verify.py.
 
@@ -95,7 +87,7 @@ The `VecturaDB` package keeps the import name `chromadb`, so your code runs as i
     client = chromadb.HttpClient(host="127.0.0.1", port=8000)
     
 
-In our run, with `VecturaDB` 1.0.0rc8, the client listed the 21 collections, and BM25 and hybrid searches answered on the copied data.
+In our run, with `VecturaDB` 1.0.0rc9, the client listed the 21 collections, and BM25 and hybrid searches answered on the copied data.
 
 ### JavaScript
 
@@ -135,7 +127,7 @@ Other languages: [Clients](https://vecturadb.org/clients/).
 
 ### API keys
 
-Without API keys the server accepts every request, like open-source Chroma. With a file of users and keys it checks the `x-chroma-token` header, as Chroma Cloud does: see [API keys](https://github.com/VecturaDB/VecturaDB/blob/v1.0.0-preview.8/docs/mintlify/guides/deploy/client-server-mode.mdx#api-keys). The server does not serve HTTPS: put a TLS proxy in front of it to expose it beyond your machine.
+Without API keys the server accepts every request, like open-source Chroma. With a file of users and keys it checks the `x-chroma-token` header, as Chroma Cloud does: see [API keys](https://github.com/VecturaDB/VecturaDB/blob/v1.0.0-preview.9/docs/mintlify/guides/deploy/client-server-mode.mdx#api-keys). The server does not serve HTTPS: put a TLS proxy in front of it to expose it beyond your machine.
 
 ## Going back to Chroma 1.5.9
 
