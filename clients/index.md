@@ -10,12 +10,12 @@ In our tests, Chroma clients work with VecturaDB as they do with Chroma 1.5.9: w
   * Partial**Partial** : the steps the client has passed; the others are not in the client.
   * Fails**Fails** : at least one step gave an error.
 
-Client| Chroma1.5.9| VecturaDB1.0.0-preview.8| Details  
+Client| Chroma1.5.9| VecturaDB1.0.0-preview.9| Details  
 ---|---|---|---  
 Python `chromadb-client` 1.5.9| WorksWorks| WorksWorks| [Details →](https://vecturadb.org/clients/details/#python-chromadb-client)  
 JavaScript `chromadb` 3.5.0| WorksWorks| WorksWorks| [Details →](https://vecturadb.org/clients/details/#javascript-chromadb)  
 .NET `ChromaDotNet.Client` 2.20.0| WorksWorks| WorksWorks| [Details →](https://vecturadb.org/clients/details/#dotnet-chromadotnet-client)  
-.NET `CommunityToolkit.VectorData.Chroma` 1.0.2-preview| PartialPartial| PartialPartial| [Details →](https://vecturadb.org/clients/details/#dotnet-communitytoolkit-vectordata-chroma)  
+.NET `CommunityToolkit.VectorData.Chroma` 1.1.0-preview| PartialPartial| PartialPartial| [Details →](https://vecturadb.org/clients/details/#dotnet-communitytoolkit-vectordata-chroma)  
 .NET `Microsoft.SemanticKernel.Connectors.Chroma` 1.74.0-alpha| FailsFails| FailsFails| [Details →](https://vecturadb.org/clients/details/#dotnet-semantic-kernel-connector)  
 Go `github.com/amikos-tech/chroma-go` v0.4.1| WorksWorks| WorksWorks| [Details →](https://vecturadb.org/clients/details/#go-chroma-go)  
 PHP `codewithkyrian/chromadb-php` 1.0.0| WorksWorks| WorksWorks| [Details →](https://vecturadb.org/clients/details/#php-codewithkyrian-chromadb-php)  
@@ -38,7 +38,7 @@ Nine of the clients have calls for features of distributed Chroma, the one Chrom
 
 The steps of each client: [Features of distributed Chroma](https://vecturadb.org/clients/details/#features-of-distributed-chroma), in the details.
 
-**Disclaimer.** These results are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 7 November 2026: your client, its version and your setup may behave differently.
+**Disclaimer.** These results are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 13 November 2026: your client, its version and your setup may behave differently.
 
 Not sure about your client? [Open an issue in the VecturaDB repository](https://github.com/VecturaDB/VecturaDB/issues/new), name the client and its version, and we will take a look on a best-effort basis.
 

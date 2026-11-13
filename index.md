@@ -1,6 +1,6 @@
 Source: https://vecturadb.org/
 
-[Latest release: 1.0.0-preview.8](https://github.com/VecturaDB/VecturaDB/releases/tag/v1.0.0-preview.8)
+[Latest release: 1.0.0-preview.9](https://github.com/VecturaDB/VecturaDB/releases/tag/v1.0.0-preview.9)
 
 # Vector database compatible with the Chroma API: the features of Chroma Cloud, that is, of distributed Chroma, on a single node.
 
@@ -181,7 +181,7 @@ Clients
 
 ## Chroma clients, tested on VecturaDB
 
-We ran 15 Chroma clients, in 11 languages, with the same test against VecturaDB 1.0.0-preview.8 and against Chroma 1.5.9. In our tests each client gave the same result on the two servers in the steps that Chroma 1.5.9 has, failures included. In the features of distributed Chroma, the one Chroma Cloud runs on, 71 steps passed on VecturaDB and 34 failed on Chroma 1.5.9.
+We ran 15 Chroma clients, in 11 languages, with the same test against VecturaDB 1.0.0-preview.9 and against Chroma 1.5.9. In our tests each client gave the same result on the two servers in the steps that Chroma 1.5.9 has, failures included. In the features of distributed Chroma, the one Chroma Cloud runs on, 71 steps passed on VecturaDB and 34 failed on Chroma 1.5.9.
 
 [See the clients](https://vecturadb.org/clients/)
 

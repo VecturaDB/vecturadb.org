@@ -21,7 +21,7 @@ Put a sparse vector in the metadata | `Unimplemented: Sparse vector is not suppo
 ## 1\. Start VecturaDB
     
     
-    docker run -d --name vecturadb -p 127.0.0.1:8000:8000 -v vecturadb-data:/data ghcr.io/vecturadb/vecturadb:1.0.0-preview.8
+    docker run -d --name vecturadb -p 127.0.0.1:8000:8000 -v vecturadb-data:/data ghcr.io/vecturadb/vecturadb:1.0.0-preview.9
     
 
 The binary for Windows, Linux and macOS is in the [releases](https://github.com/VecturaDB/VecturaDB/releases). In Python, the `VecturaDB` package also runs without a server.
