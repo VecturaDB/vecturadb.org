@@ -117,6 +117,8 @@ In our run, `count` and `query` answered on a copied collection.
     var client = new ChromaClient(options, http);
     
 
+Tested again on 15 November 2026 with 2.22.0 against VecturaDB 1.0.0-preview.9: the client listed, counted and queried a collection.
+
 In our run, the client counted the 21 collections and the records of a copied collection.
 
 Other languages: [Clients](https://vecturadb.org/clients/).
