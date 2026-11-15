@@ -154,6 +154,7 @@ python<span class="w"> </span>copy_without_sparse.py<span class="w"> </span><spa
 <span class="k">using</span><span class="w"> </span><span class="nn">var</span><span class="w"> </span><span class="n">http</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HttpClient</span><span class="p">();</span>
 <span class="kt">var</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ChromaClient</span><span class="p">(</span><span class="n">options</span><span class="p">,</span><span class="w"> </span><span class="n">http</span><span class="p">);</span>
 </code></pre></div>
+<p>Tested again on 15 November 2026 with 2.22.0 against Chroma 1.5.9: the client listed, counted and queried a collection.</p>
 
 <h4 id="net-without-docker">.NET without Docker</h4>
 <p><a href="https://chromadotnet.org/libraries/local/">ChromaDotNet.Local</a> starts Chroma 1.5.9 inside your .NET application, without Docker. It opens a folder that <code>chromadb/chroma:1.5.9</code> wrote: in our run it found the collection, its metadata and its records, and answered a query with the same records.</p>

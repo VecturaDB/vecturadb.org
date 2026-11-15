@@ -103,6 +103,8 @@ The examples use `127.0.0.1`. With Docker Desktop on Windows, `localhost` went t
     var client = new ChromaClient(options, http);
     
 
+Tested again on 15 November 2026 with 2.22.0 against Chroma 1.5.9: the client listed, counted and queried a collection.
+
 #### .NET without Docker
 
 [ChromaDotNet.Local](https://chromadotnet.org/libraries/local/) starts Chroma 1.5.9 inside your .NET application, without Docker. It opens a folder that `chromadb/chroma:1.5.9` wrote: in our run it found the collection, its metadata and its records, and answered a query with the same records.
