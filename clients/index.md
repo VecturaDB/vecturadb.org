@@ -38,6 +38,14 @@ Nine of the clients have calls for features of distributed Chroma, the one Chrom
 
 The steps of each client: [Features of distributed Chroma](https://vecturadb.org/clients/details/#features-of-distributed-chroma), in the details.
 
+## Looking at the data
+
+[VectorDBZ](https://github.com/vectordbz/vectordbz) is a desktop app that shows the collections and records of a server, and its embeddings in 2D and 3D. It is a project of other developers, not part of VecturaDB.
+
+On 15 November 2026 we tried VectorDBZ 0.0.22 on Windows with VecturaDB 1.0.0-preview.9: it listed the collections, showed the documents and the 3D view of the embeddings.
+
+**API keys:** VectorDBZ sends no API key to a server it connects to by host and port. With API keys on, VecturaDB answered its calls with `ChromaAuthError: Unauthorized`. Use it with a server without keys, on your own machine.
+
 **Disclaimer.** These results are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 13 November 2026: your client, its version and your setup may behave differently.
 
 Not sure about your client? [Open an issue in the VecturaDB repository](https://github.com/VecturaDB/VecturaDB/issues/new), name the client and its version, and we will take a look on a best-effort basis.
