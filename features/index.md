@@ -8,11 +8,11 @@ Not sure about your case? [Open an issue in the VecturaDB repository](https://gi
 
 VecturaDB is a single-node server built from Chroma. It has the features of the API of distributed Chroma, the one Chroma Cloud runs on, that Chroma 1.5.9 refuses on a single node: the Search API, sparse vectors and BM25, SPANN, read levels, indexing status, resource names, collection fork, conditional transactions and attached functions. Two attached functions of Chroma Cloud stay out.
 
-VecturaDB is an independent project, not affiliated with Chroma. We read the code of distributed Chroma at commit 52ce844, the main branch of Chroma on 22 October 2026, and of Chroma 1.5.9 on a single node. This page lists each feature that the first has and the second does not, as it is in VecturaDB 1.0.0-preview.9.
+VecturaDB is an independent project, not affiliated with Chroma. We read the code of distributed Chroma at commit 52ce844, the main branch of Chroma on 22 October 2026, and of Chroma 1.5.9 on a single node. This page lists each feature that the first has and the second does not, as it is in VecturaDB 1.0.0-preview.10.post1.
 
 ## At a glance
 
-Feature | Chroma 1.5.9, single node | VecturaDB 1.0.0-preview.9  
+Feature | Chroma 1.5.9, single node | VecturaDB 1.0.0-preview.10.post1  
 ---|---|---  
 Search API: dense and sparse ranks, RRF, select | `Search operation is not implemented for local executor` | Yes  
 Group by in a search | The same error | Yes  
@@ -29,7 +29,7 @@ Databases: get several by id, get one by id, count | No | Yes
   
 The errors in the middle column are those of Chroma 1.5.9 with the Python client `chromadb` 1.5.9, on 4 November 2026.
 
-Each feature below ends with how it is tested. In our tests on 13 November 2026, every example on this page ran as it is on VecturaDB 1.0.0-preview.9, over HTTP: the Python examples with the Python client `chromadb` 1.5.9, the conditional transactions with the Python package `VecturaDB`, and the commands with `curl`. All 49 checks passed. At every release, the CI of VecturaDB also runs its tests and the Python tests of Chroma, in process: [the run of 1.0.0-preview.9](https://github.com/VecturaDB/VecturaDB/actions/runs/43460501198).
+Each feature below ends with how it is tested. In our tests on 16 November 2026, every example on this page ran as it is on VecturaDB 1.0.0-preview.10.post1, over HTTP: the Python examples with the Python client `chromadb` 1.5.9, the conditional transactions with the Python package `VecturaDB`, and the commands with `curl`. All 49 checks passed. At every release, the CI of VecturaDB also runs its tests and the Python tests of Chroma, in process: [the run of 1.0.0-preview.9](https://github.com/VecturaDB/VecturaDB/actions/runs/43460501198).
 
 ## Search API, BM25 and hybrid search
 
