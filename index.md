@@ -1,6 +1,6 @@
 Source: https://vecturadb.org/
 
-[Latest release: 1.0.0-preview.9](https://github.com/VecturaDB/VecturaDB/releases/tag/v1.0.0-preview.9)
+[Latest release: 1.0.0-preview.10.post1](https://github.com/VecturaDB/VecturaDB/releases/tag/v1.0.0-preview.10.post1)
 
 # Vector database compatible with the Chroma API: the features of Chroma Cloud, that is, of distributed Chroma, on a single node.
 

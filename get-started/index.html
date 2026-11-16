@@ -67,13 +67,14 @@
       <li><a href="#packages-that-depend-on-chromadb">Packages that depend on chromadb</a></li>
       <li><a href="#docker">Docker</a></li>
       <li><a href="#cli">CLI</a></li>
+      <li><a href="#npm">npm</a></li>
       <li><a href="#moving-data-out-of-chroma-cloud">Moving data out of Chroma Cloud</a></li>
       <li><a href="#telemetry">Telemetry</a></li>
     </ul>
   </aside>
   <main id="main" class="doc prose">
     <h1>Get started</h1>
-    <p class="lead-doc">Three ways to run VecturaDB: the Python package, the Docker image and the CLI.</p>
+    <p class="lead-doc">Four ways to run VecturaDB: the Python package, the Docker image, the CLI and the npm package.</p>
 
     <h2 id="python">Python</h2>
     <pre tabindex="0"><code class="language-bash">pip<span class="w"> </span>uninstall<span class="w"> </span>-y<span class="w"> </span>chromadb
@@ -84,7 +85,7 @@ pip<span class="w"> </span>install<span class="w"> </span>VecturaDB
 
 <span class="n">client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">HttpClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
 </code></pre>
-    <p>While only previews exist, <code>pip install VecturaDB</code> installs the newest preview. Once <code>1.0.0</code> is out, install a preview with its exact version, for example <code>pip install VecturaDB==1.0.0rc9</code>: <code>--pre</code> takes the previews of the dependencies too, and a preview of httpx breaks the client.</p>
+    <p>While only previews exist, <code>pip install VecturaDB</code> installs the newest preview. Once <code>1.0.0</code> is out, install a preview with its exact version, for example <code>pip install VecturaDB==1.0.0rc10.post1</code>: <code>--pre</code> takes the previews of the dependencies too, and a preview of httpx breaks the client.</p>
 
     <h3 id="packages-that-depend-on-chromadb">Packages that depend on chromadb</h3>
     <p><code>VecturaDB</code> and <code>chromadb</code> install the same modules, so they cannot be installed side by side. Packages that declare a dependency on <code>chromadb</code>, such as <code>langchain-chroma</code>, make pip install <code>chromadb</code> too, and its files replace those of VecturaDB. Install those packages first and VecturaDB last:</p>
@@ -110,6 +111,12 @@ vecturadb<span class="w"> </span>run<span class="w"> </span>--path<span class="w
     <pre tabindex="0"><code class="language-powershell"><span class="nb">iex </span><span class="p">((</span><span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">DownloadString</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/VecturaDB/VecturaDB/main/rust/cli/install/install.ps1&#39;</span><span class="p">))</span>
 </code></pre>
     <p>The scripts install the newest release, previews included. Every binary is also in the <a href="https://github.com/VecturaDB/VecturaDB/releases">releases</a>. The command is <code>vecturadb</code>; with <code>VECTURADB_CHROMA_ALIAS=1</code> in the environment of the script, it is also installed as <code>chroma</code>.</p>
+
+    <h2 id="npm">npm</h2>
+    <pre tabindex="0"><code class="language-bash">npx vecturadb run --path ./data --host 127.0.0.1 --port 8000
+</code></pre>
+    <p>The package <code>vecturadb</code> installs the CLI of the release for the platform: Linux x64 and arm64 (glibc 2.17 and later), macOS x64 and arm64, Windows x64. There is none for Alpine (musl): use the Docker image there. While only previews exist, <code>npm install vecturadb</code> installs the newest preview.</p>
+    <p>On Windows x64, on 16 November 2026, <code>npx vecturadb run</code> with 1.0.0-preview.10.post1 started the server and the Chroma clients worked with it. With the default host it listened only on <code>::1</code>, the IPv6 address of localhost: <code>--host 127.0.0.1</code> makes it answer on <code>127.0.0.1</code>.</p>
 
     <h2 id="moving-data-out-of-chroma-cloud">Moving data out of Chroma Cloud</h2>
     <p>The <code>vecturadb copy</code> command copies collections from Chroma Cloud into a running VecturaDB, sparse and BM25 indexes included: see <a href="/migrate-from-chroma-cloud/">Migrate from Chroma Cloud</a>. Guides for every destination, Chroma included: <a href="/leaving-chroma-cloud/">Leaving Chroma Cloud</a>.</p>

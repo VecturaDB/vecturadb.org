@@ -2,7 +2,7 @@ Source: https://vecturadb.org/get-started/
 
 # Get started
 
-Three ways to run VecturaDB: the Python package, the Docker image and the CLI.
+Four ways to run VecturaDB: the Python package, the Docker image, the CLI and the npm package.
 
 ## Python
     
@@ -19,7 +19,7 @@ The `VecturaDB` package keeps the import name `chromadb`, so existing code runs 
     client = chromadb.HttpClient(host="127.0.0.1", port=8000)
     
 
-While only previews exist, `pip install VecturaDB` installs the newest preview. Once `1.0.0` is out, install a preview with its exact version, for example `pip install VecturaDB==1.0.0rc9`: `--pre` takes the previews of the dependencies too, and a preview of httpx breaks the client.
+While only previews exist, `pip install VecturaDB` installs the newest preview. Once `1.0.0` is out, install a preview with its exact version, for example `pip install VecturaDB==1.0.0rc10.post1`: `--pre` takes the previews of the dependencies too, and a preview of httpx breaks the client.
 
 ### Packages that depend on chromadb
 
@@ -57,6 +57,16 @@ Windows (x64), in PowerShell:
     
 
 The scripts install the newest release, previews included. Every binary is also in the [releases](https://github.com/VecturaDB/VecturaDB/releases). The command is `vecturadb`; with `VECTURADB_CHROMA_ALIAS=1` in the environment of the script, it is also installed as `chroma`.
+
+## npm
+    
+    
+    npx vecturadb run --path ./data --host 127.0.0.1 --port 8000
+    
+
+The package `vecturadb` installs the CLI of the release for the platform: Linux x64 and arm64 (glibc 2.17 and later), macOS x64 and arm64, Windows x64. There is none for Alpine (musl): use the Docker image there. While only previews exist, `npm install vecturadb` installs the newest preview.
+
+On Windows x64, on 16 November 2026, `npx vecturadb run` with 1.0.0-preview.10.post1 started the server and the Chroma clients worked with it. With the default host it listened only on `::1`, the IPv6 address of localhost: `--host 127.0.0.1` makes it answer on `127.0.0.1`.
 
 ## Moving data out of Chroma Cloud
 
