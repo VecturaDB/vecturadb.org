@@ -67,14 +67,14 @@
 <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
 </div>
 <p>VecturaDB is a single-node server built from Chroma. It has the features of the API of distributed Chroma, the one Chroma Cloud runs on, that Chroma 1.5.9 refuses on a single node: the Search API, sparse vectors and BM25, SPANN, read levels, indexing status, resource names, collection fork, conditional transactions and attached functions. Two attached functions of Chroma Cloud stay out.</p>
-<p>VecturaDB is an independent project, not affiliated with Chroma. We read the code of distributed Chroma at commit 52ce844, the main branch of Chroma on 22 October 2026, and of Chroma 1.5.9 on a single node. This page lists each feature that the first has and the second does not, as it is in VecturaDB 1.0.0-preview.9.</p>
+<p>VecturaDB is an independent project, not affiliated with Chroma. We read the code of distributed Chroma at commit 52ce844, the main branch of Chroma on 22 October 2026, and of Chroma 1.5.9 on a single node. This page lists each feature that the first has and the second does not, as it is in VecturaDB 1.0.0-preview.10.post1.</p>
 <h2 id="at-a-glance">At a glance</h2>
 <div class="table" tabindex="0"><table>
 <thead>
 <tr>
 <th>Feature</th>
 <th>Chroma 1.5.9, single node</th>
-<th>VecturaDB 1.0.0-preview.9</th>
+<th>VecturaDB 1.0.0-preview.10.post1</th>
 </tr>
 </thead>
 <tbody>
@@ -141,7 +141,7 @@
 </tbody>
 </table></div>
 <p>The errors in the middle column are those of Chroma 1.5.9 with the Python client <code>chromadb</code> 1.5.9, on 4 November 2026.</p>
-<p>Each feature below ends with how it is tested. In our tests on 13 November 2026, every example on this page ran as it is on VecturaDB 1.0.0-preview.9, over HTTP: the Python examples with the Python client <code>chromadb</code> 1.5.9, the conditional transactions with the Python package <code>VecturaDB</code>, and the commands with <code>curl</code>. All 49 checks passed. At every release, the CI of VecturaDB also runs its tests and the Python tests of Chroma, in process: <a href="https://github.com/VecturaDB/VecturaDB/actions/runs/43460501198">the run of 1.0.0-preview.9</a>.</p>
+<p>Each feature below ends with how it is tested. In our tests on 16 November 2026, every example on this page ran as it is on VecturaDB 1.0.0-preview.10.post1, over HTTP: the Python examples with the Python client <code>chromadb</code> 1.5.9, the conditional transactions with the Python package <code>VecturaDB</code>, and the commands with <code>curl</code>. All 49 checks passed. At every release, the CI of VecturaDB also runs its tests and the Python tests of Chroma, in process: <a href="https://github.com/VecturaDB/VecturaDB/actions/runs/43460501198">the run of 1.0.0-preview.9</a>.</p>
 <h2 id="search-api-bm25-and-hybrid-search">Search API, BM25 and hybrid search</h2>
 <p>A search ranks records by a dense vector, a sparse vector or both, merged with RRF. The client computes the BM25 vectors from the documents.</p>
 <div class="hl"><pre tabindex="0"><span></span><code><span class="n">hybrid</span> <span class="o">=</span> <span class="n">Rrf</span><span class="p">(</span>
