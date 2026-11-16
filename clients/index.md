@@ -10,7 +10,7 @@ In our tests, Chroma clients work with VecturaDB as they do with Chroma 1.5.9: w
   * Partial**Partial** : the steps the client has passed; the others are not in the client.
   * Fails**Fails** : at least one step gave an error.
 
-Client| Chroma1.5.9| VecturaDB1.0.0-preview.9| Details  
+Client| Chroma1.5.9| VecturaDB1.0.0-preview.10.post1| Details  
 ---|---|---|---  
 Python `chromadb-client` 1.5.9| WorksWorks| WorksWorks| [Details →](https://vecturadb.org/clients/details/#python-chromadb-client)  
 JavaScript `chromadb` 3.5.0| WorksWorks| WorksWorks| [Details →](https://vecturadb.org/clients/details/#javascript-chromadb)  
