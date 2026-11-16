@@ -73,7 +73,7 @@
   <main id="main" class="doc prose">
 <h1 id="leaving-chroma-cloud">Leaving Chroma Cloud</h1>
 <div class="note">
-<p><strong>Disclaimer.</strong> These guides and the scripts they link are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 25 October and 2 November 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.</p>
+<p><strong>Disclaimer.</strong> These guides and the scripts they link are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 25 October, 2 November and 16 November 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.</p>
 <p>Not sure about your case? <a href="https://github.com/VecturaDB/VecturaDB/issues/new">Open an issue in the VecturaDB repository</a>, describe your data and your setup, and we will take a look on a best-effort basis.</p>
 </div>
 <p>Chroma Cloud stops accepting writes on 7 December 2026. It stops serving reads on 22 December 2026.</p>
@@ -101,7 +101,7 @@
 <th></th>
 <th>Chroma 1.5.9, single node</th>
 <th>Chroma distributed</th>
-<th>VecturaDB 1.0.0-preview.9</th>
+<th>VecturaDB 1.0.0-preview.10.post1</th>
 </tr>
 </thead>
 <tbody>
@@ -169,7 +169,7 @@
 <td>API keys</td>
 <td>None: the open-source server accepts every request</td>
 <td>None: the same server code</td>
-<td>Yes: keys per tenant and database, in the <code>x-chroma-token</code> header, as on Chroma Cloud</td>
+<td>Yes: keys per tenant and database, in the <code>x-chroma-token</code> header, as on Chroma Cloud, or in <code>Authorization: Bearer</code></td>
 </tr>
 <tr>
 <td>What you run</td>

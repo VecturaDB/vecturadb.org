@@ -2,7 +2,7 @@ Source: https://vecturadb.org/leaving-chroma-cloud/
 
 # Leaving Chroma Cloud
 
-**Disclaimer.** These guides and the scripts they link are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 25 October and 2 November 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.
+**Disclaimer.** These guides and the scripts they link are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 25 October, 2 November and 16 November 2026: your data, versions and setup may behave differently. Back up your data and test the migration on a copy first. You are responsible for your data and for every migration you run.
 
 Not sure about your case? [Open an issue in the VecturaDB repository](https://github.com/VecturaDB/VecturaDB/issues/new), describe your data and your setup, and we will take a look on a best-effort basis.
 
@@ -31,7 +31,7 @@ We ran every command and every line of code in these guides against Chroma Cloud
 
 If you use sparse vectors, BM25, the Search API or hybrid search, the single-node Chroma 1.5.9 cannot hold those collections: you need Chroma distributed or VecturaDB. Each feature that VecturaDB has, with how it is tested: [What VecturaDB has beyond Chroma 1.5.9](https://vecturadb.org/features/).
 
-| Chroma 1.5.9, single node | Chroma distributed | VecturaDB 1.0.0-preview.9  
+| Chroma 1.5.9, single node | Chroma distributed | VecturaDB 1.0.0-preview.10.post1  
 ---|---|---|---  
 Dense search | Yes | Yes | Yes  
 Metadata filters | Yes | Yes | Yes  
@@ -43,7 +43,7 @@ Hybrid search (RRF) | No | Yes | Yes
 Collection fork | No: "Collection forking is unsupported for local chroma" | Yes | Yes  
 Copy from Chroma Cloud | Dense collections, with the CLI of VecturaDB; the others with our script | Every collection, SPANN settings included | Every collection, with the CLI of VecturaDB, SPANN settings included  
 Embedding models hosted by Chroma Cloud | Stop with Chroma Cloud. The same open models run locally give the same search results in our tests | Same | Same  
-API keys | None: the open-source server accepts every request | None: the same server code | Yes: keys per tenant and database, in the `x-chroma-token` header, as on Chroma Cloud  
+API keys | None: the open-source server accepts every request | None: the same server code | Yes: keys per tenant and database, in the `x-chroma-token` header, as on Chroma Cloud, or in `Authorization: Bearer`  
 What you run | One container, or `pip install chromadb`; in .NET, also ChromaDotNet.Local | Kubernetes, several services, object storage and a SQL database | One container, the `vecturadb` CLI, or `pip install VecturaDB`  
   
 On distributed Chroma, Chroma's documentation says:
