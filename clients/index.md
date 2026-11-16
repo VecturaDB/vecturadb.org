@@ -46,7 +46,7 @@ On 15 November 2026 we tried VectorDBZ 0.0.22 on Windows with VecturaDB 1.0.0-pr
 
 **API keys:** VectorDBZ sends no API key to a server it connects to by host and port. With API keys on, VecturaDB answered its calls with `ChromaAuthError: Unauthorized`. Use it with a server without keys, on your own machine.
 
-**Disclaimer.** These results are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 13 November 2026: your client, its version and your setup may behave differently.
+**Disclaimer.** These results are provided as is, without warranty of any kind, as stated in the Apache License 2.0. They describe what we measured on 16 November 2026: your client, its version and your setup may behave differently.
 
 Not sure about your client? [Open an issue in the VecturaDB repository](https://github.com/VecturaDB/VecturaDB/issues/new), name the client and its version, and we will take a look on a best-effort basis.
 
