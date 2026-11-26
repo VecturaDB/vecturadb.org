@@ -116,7 +116,7 @@ Without a server, `chromadb.PersistentClient(path="./vecturadb-data")` runs the 
 
 ### .NET
 
-[ChromaDotNet.Client](https://www.nuget.org/packages/ChromaDotNet.Client) 2.23.0:
+[ChromaDotNet.Client](https://www.nuget.org/packages/ChromaDotNet.Client) 2.23.1:
     
     
     dotnet add package ChromaDotNet.Client
